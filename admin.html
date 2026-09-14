@@ -9,34 +9,24 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Pacifico&family=Permanent+Marker&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Permanent+Marker&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{width:100%;min-height:100dvh;background:#0a0520;color:#fff;font-family:'Inter',system-ui,sans-serif;line-height:1.5}
-body::before{
-  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:
-    radial-gradient(1px 1px at 15% 22%, #fff, transparent),
-    radial-gradient(1px 1px at 62% 15%, #a8d8ff, transparent),
-    radial-gradient(1.5px 1.5px at 82% 42%, #fff, transparent),
-    radial-gradient(1px 1px at 32% 78%, #ffb6d9, transparent),
-    radial-gradient(ellipse 80% 60% at 50% 0%, #241654 0%, #0a0520 55%, #040210 100%);
-}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(1px 1px at 15% 22%, #fff, transparent),radial-gradient(1px 1px at 62% 15%, #a8d8ff, transparent),radial-gradient(1.5px 1.5px at 82% 42%, #fff, transparent),radial-gradient(1px 1px at 32% 78%, #ffb6d9, transparent),radial-gradient(ellipse 80% 60% at 50% 0%, #241654 0%, #0a0520 55%, #040210 100%)}
 main{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:20px 16px 100px}
 #loginScreen{max-width:400px;margin:60px auto;background:linear-gradient(160deg,rgba(24,18,58,.95),rgba(12,8,32,.95));border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:32px 24px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.5)}
 #loginScreen .crown{font-size:3rem;margin-bottom:12px;filter:drop-shadow(0 0 20px rgba(255,180,220,.6))}
 #loginScreen h1{font-family:'Pacifico',cursive;font-size:1.6rem;margin-bottom:6px;background:linear-gradient(90deg,#ff2e88,#7b2ff7);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 #loginScreen p{font-size:.85rem;color:#8ba3c0;margin-bottom:22px}
-#loginScreen input{width:100%;padding:14px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.15);background:rgba(0,0,0,.4);color:#fff;font-size:16px;outline:none;margin-bottom:12px;font-family:inherit;transition:border-color .2s}
+#loginScreen input{width:100%;padding:14px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.15);background:rgba(0,0,0,.4);color:#fff;font-size:16px;outline:none;margin-bottom:12px;font-family:inherit}
 #loginScreen input:focus{border-color:#ff2e88;box-shadow:0 0 0 3px rgba(255,46,136,.15)}
-#loginScreen button{width:100%;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,#ff2e88,#7b2ff7);color:#fff;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 10px 30px rgba(255,46,136,.4);transition:transform .15s}
-#loginScreen button:active{transform:scale(.98)}
+#loginScreen button{width:100%;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,#ff2e88,#7b2ff7);color:#fff;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 10px 30px rgba(255,46,136,.4)}
 #loginScreen .err{color:#ef4444;font-size:.82rem;margin-top:10px;display:none}
 #loginScreen .err.show{display:block}
 header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px}
 header .title{font-family:'Pacifico',cursive;font-size:1.3rem;background:linear-gradient(90deg,#ff2e88,#7b2ff7);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 header .logout{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);color:#b8c8e0;padding:8px 14px;border-radius:20px;font-size:.78rem;cursor:pointer;font-family:inherit}
-header .logout:active{background:rgba(239,68,68,.2);border-color:#ef4444}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
 .stat{background:rgba(24,18,58,.6);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px 12px;text-align:center}
 .stat .num{font-family:'Permanent Marker',cursive;font-size:1.8rem;line-height:1;color:#ff2e88}
@@ -56,10 +46,14 @@ header .logout:active{background:rgba(239,68,68,.2);border-color:#ef4444}
 .cat-head .count{font-size:.72rem;color:#8ba3c0;background:rgba(255,255,255,.06);padding:3px 10px;border-radius:20px}
 .tpl-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)}
 .tpl-row:last-child{border-bottom:none}
-.tpl-row .emoji{font-size:1.4rem;flex-shrink:0}
+.tpl-row .thumbnail{width:50px;height:50px;border-radius:10px;overflow:hidden;flex-shrink:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;font-size:1.6rem;border:1px solid rgba(255,255,255,.1)}
+.tpl-row .thumbnail img{width:100%;height:100%;object-fit:cover;display:block}
 .tpl-row .info{flex:1;min-width:0}
-.tpl-row .info .n{font-weight:600;font-size:.9rem;color:#fff;display:flex;align-items:center;gap:6px}
-.tpl-row .info .n .link-badge{font-size:.6rem;background:rgba(0,212,255,.15);color:#a8d8ff;padding:2px 6px;border-radius:8px;font-weight:700}
+.tpl-row .info .n{font-weight:600;font-size:.9rem;color:#fff;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.tpl-row .info .n .tag-mini{font-size:.6rem;padding:2px 6px;border-radius:8px;font-weight:700}
+.tpl-row .info .n .tag-link{background:rgba(0,212,255,.15);color:#a8d8ff}
+.tpl-row .info .n .tag-img{background:rgba(34,197,94,.15);color:#4ade80}
+.tpl-row .info .n .tag-no{background:rgba(239,68,68,.15);color:#ef4444}
 .tpl-row .info .d{font-size:.72rem;color:#8ba3c0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tpl-row .badge{font-size:.6rem;font-weight:700;padding:3px 8px;border-radius:10px;text-transform:uppercase;letter-spacing:.5px;flex-shrink:0}
 .tpl-row .badge.free{background:rgba(34,197,94,.2);color:#4ade80}
@@ -77,8 +71,9 @@ header .logout:active{background:rgba(239,68,68,.2);border-color:#ef4444}
 #formBox .close-x{position:absolute;top:12px;right:14px;background:transparent;border:none;color:#8ba3c0;font-size:24px;cursor:pointer;line-height:1}
 #formBox .hint{font-size:.78rem;color:#8ba3c0;margin-bottom:18px}
 .fld{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
-.fld label{font-size:.68rem;font-weight:700;color:#8ba3c0;text-transform:uppercase;letter-spacing:.8px}
-.fld input,.fld select,.fld textarea{background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:11px 13px;color:#fff;font-family:inherit;font-size:16px;outline:none;width:100%;transition:border-color .2s}
+.fld label{font-size:.68rem;font-weight:700;color:#8ba3c0;text-transform:uppercase;letter-spacing:.8px;display:flex;justify-content:space-between;align-items:center}
+.fld label .tag-help{font-size:.6rem;color:#5c7391;font-weight:400;text-transform:none;letter-spacing:0}
+.fld input,.fld select,.fld textarea{background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:11px 13px;color:#fff;font-family:inherit;font-size:16px;outline:none;width:100%}
 .fld input:focus,.fld select:focus,.fld textarea:focus{border-color:#ff2e88;box-shadow:0 0 0 3px rgba(255,46,136,.12)}
 .fld textarea{min-height:80px;resize:vertical;line-height:1.4;font-family:inherit}
 .fld textarea.small{min-height:60px}
@@ -91,6 +86,11 @@ header .logout:active{background:rgba(239,68,68,.2);border-color:#ef4444}
 #formBox .btns .btn{flex:1}
 .help-box{background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.25);border-radius:10px;padding:10px 12px;font-size:.75rem;color:#a8d8ff;line-height:1.5;margin-bottom:12px}
 .help-box b{color:#fff}
+.img-preview{display:none;margin-top:8px;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.15);max-width:240px}
+.img-preview.show{display:block}
+.img-preview img{width:100%;height:auto;display:block}
+.upload-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:10px;color:#fff;font-size:.82rem;font-weight:600;cursor:pointer;margin-top:6px;font-family:inherit}
+.upload-btn:active{background:rgba(255,255,255,.12)}
 #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(120%);background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;padding:13px 22px;border-radius:12px;font-size:.9rem;font-weight:600;z-index:999;transition:transform .35s;pointer-events:none;max-width:90vw;text-align:center;box-shadow:0 12px 34px rgba(0,0,0,.5)}
 #toast.show{transform:translateX(-50%) translateY(0)}
 #toast.err{background:linear-gradient(135deg,#ef4444,#dc2626)}
@@ -131,13 +131,13 @@ header .logout:active{background:rgba(239,68,68,.2);border-color:#ef4444}
   <div class="section-title">Tus plantillas</div>
   <div id="listContainer"></div>
 
-  <div class="section-title">Cómo subirlo a GitHub</div>
+  <div class="section-title">Cómo subir a GitHub</div>
   <div class="cat-group" style="font-size:.85rem;color:#c8d8f0;line-height:1.7">
-    1. Presiona <b style="color:#ffd166">Exportar plantillas.js</b> arriba<br>
-    2. Abre tu repo <b>Peri</b> en GitHub<br>
-    3. Toca <code>plantillas.js</code> → menú <code>...</code> → <b>Delete</b><br>
-    4. <b>Add file → Upload files</b> → sube el archivo nuevo<br>
-    5. Commit changes → espera 5-10 min ✨
+    1. Presiona <b style="color:#ffd166">Exportar plantillas.js</b><br>
+    2. <b style="color:#ef4444">⚠ Verifica que el archivo se llame exactamente <code>plantillas.js</code></b><br>
+    3. Si el navegador lo renombró (ej: <code>123.js</code>), renómbralo antes de subir<br>
+    4. Abre tu repo <b>Peri</b> → reemplaza <code>plantillas.js</code><br>
+    5. Commit → espera 5-10 min ✨
   </div>
 
 </div>
@@ -148,7 +148,7 @@ header .logout:active{background:rgba(239,68,68,.2);border-color:#ef4444}
   <div id="formBox">
     <button class="close-x" id="formClose">×</button>
     <h2 id="formTitle">Nueva plantilla</h2>
-    <p class="hint">Rellena los datos. El "Link del editor" es la URL del repo donde vive el HTML de esa plantilla.</p>
+    <p class="hint">Rellena los datos. Elige una imagen de portada o usa el emoji.</p>
 
     <input type="hidden" id="fId">
 
@@ -163,7 +163,7 @@ header .logout:active{background:rgba(239,68,68,.2);border-color:#ef4444}
         <select id="fCategory"></select>
       </div>
       <div class="fld">
-        <label>Emoji</label>
+        <label>Emoji <span class="tag-help">(si no hay img)</span></label>
         <input id="fEmoji" type="text" placeholder="💫" maxlength="4">
       </div>
     </div>
@@ -174,19 +174,30 @@ header .logout:active{background:rgba(239,68,68,.2);border-color:#ef4444}
     </div>
 
     <div class="fld">
-      <label>Link del editor (GitHub Pages)</label>
+      <label>Link del editor</label>
       <input id="fEditorURL" type="text" placeholder="https://usuario.github.io/mi-plantilla/" maxlength="300">
-    </div>
-    <div class="help-box">
-      <b>¿Cómo obtener este link?</b><br>
-      1. Crea un repo nuevo en GitHub<br>
-      2. Sube tu <b>index.html</b> con el editor<br>
-      3. Settings → Pages → main / root → Save<br>
-      4. Espera 2 min y copia la URL aquí
     </div>
 
     <div class="fld">
-      <label>Título por defecto (el nombre grande)</label>
+      <label>Imagen de portada <span class="tag-help">(link o súbela aquí)</span></label>
+      <input id="fImageURL" type="text" placeholder="https://.../img/galaxia.jpg" maxlength="2000">
+      <label class="upload-btn" for="fImageFile">
+        📷 O subir imagen desde mi celular
+        <input id="fImageFile" type="file" accept="image/*" hidden>
+      </label>
+      <div class="img-preview" id="imgPreview">
+        <img id="imgPreviewSrc" alt="">
+      </div>
+    </div>
+
+    <div class="help-box">
+      <b>💡 Imagen de portada:</b><br>
+      <b>Opción 1 (recomendada):</b> sube tu imagen a la carpeta <code>/img/</code> de tu repo <code>Peri</code> y pega aquí el link (ej: <code>img/galaxia.jpg</code>)<br>
+      <b>Opción 2:</b> toca "📷 Subir imagen" y elige una foto. Se guardará dentro del catálogo.
+    </div>
+
+    <div class="fld">
+      <label>Título por defecto</label>
       <input id="fTitle" type="text" placeholder="Para ti, mi amor" maxlength="60">
     </div>
 
@@ -227,7 +238,7 @@ header .logout:active{background:rgba(239,68,68,.2);border-color:#ef4444}
 
   var ADMIN_USER = "Admin";
   var ADMIN_PASS = "Patas123";
-  var STORAGE_KEY = "peri_plantillas_v2";
+  var STORAGE_KEY = "peri_plantillas_v3";
 
   var CATEGORIAS_DEFAULT = [
     { id: "amor",       name: "Amor",              emoji: "💕", color: "#ff4f9a" },
@@ -238,103 +249,28 @@ header .logout:active{background:rgba(239,68,68,.2);border-color:#ef4444}
   ];
 
   var PLANTILLAS_SEED = [
-    {
-      id: "amor-galaxia",
-      category: "amor",
-      name: "Galaxia",
-      description: "La galaxia romántica original.",
-      emoji: "💫",
-      editorURL: "",
-      premium: false,
-      defaultTitle: "Para ti, mi amor",
-      defaultSubtitle: "Una experiencia galáctica te espera",
-      defaultMessage: "Eres mi universo entero ✨\nCada estrella me recuerda a ti.",
-      defaultPhrases: "Te amo más que ayer\nEres mi persona favorita\nContigo todo es mejor"
-    },
-    {
-      id: "amor-eterno",
-      category: "amor",
-      name: "Amor eterno",
-      description: "Un rincón del universo hecho para los dos.",
-      emoji: "💕",
-      editorURL: "",
-      premium: false,
-      defaultTitle: "Mi amor eterno",
-      defaultSubtitle: "Contigo hasta el infinito",
-      defaultMessage: "Si tuviera que elegir mil veces,\nmil veces te elegiría a ti 💕",
-      defaultPhrases: "Te quiero infinito\nMi corazón late por ti\nEres mi todo"
-    },
-    {
-      id: "14feb-sanvalentin",
-      category: "14febrero",
-      name: "San Valentín",
-      description: "Rojo, romántico y eterno.",
-      emoji: "❤️",
-      editorURL: "",
-      premium: false,
-      defaultTitle: "Feliz San Valentín",
-      defaultSubtitle: "Para el amor de mi vida",
-      defaultMessage: "En un mundo de miles de personas,\nmi corazón te eligió a ti ❤️\nFeliz 14 de febrero, mi amor.",
-      defaultPhrases: "Feliz San Valentín\nTe amo con el alma\nEres mi todo"
-    },
-    {
-      id: "mama-clasico",
-      category: "dia-madres",
-      name: "Para mamá",
-      description: "Palabras que nunca alcanzan para agradecer.",
-      emoji: "👩",
-      editorURL: "",
-      premium: false,
-      defaultTitle: "Mamá",
-      defaultSubtitle: "Gracias por todo lo que haces",
-      defaultMessage: "No existen palabras suficientes\npara agradecerte 💛\nEres mi ejemplo, mi fuerza, mi todo.",
-      defaultPhrases: "Te amo, mamá\nEres mi heroína\nGracias por tanto"
-    },
-    {
-      id: "cumple-clasico",
-      category: "cumple",
-      name: "Feliz cumpleaños",
-      description: "Un pedacito del universo para celebrarte.",
-      emoji: "🎂",
-      editorURL: "",
-      premium: false,
-      defaultTitle: "¡Feliz cumpleaños! 🎂",
-      defaultSubtitle: "Un día para celebrarte",
-      defaultMessage: "Hoy celebramos el día\nen que el universo se volvió más brillante ✨\n¡Feliz cumpleaños!",
-      defaultPhrases: "Que cumplas muchos más\nTe mereces todo\nEres increíble"
-    },
-    {
-      id: "broma-jefe",
-      category: "bromas",
-      name: "Para mi jefe",
-      description: "El clásico: 'no renuncio, pero casi'.",
-      emoji: "😂",
-      editorURL: "",
-      premium: false,
-      defaultTitle: "Querido jefe",
-      defaultSubtitle: "Con todo el respeto del mundo...",
-      defaultMessage: "No es que no quiera trabajar,\nes que el trabajo no me quiere a mí 😂",
-      defaultPhrases: "¡Es broma!\n(¿O no?)\nTe quiero, jefe"
-    }
+    { id: "amor-galaxia", category: "amor", name: "Galaxia", description: "La galaxia romántica original.", emoji: "💫", editorURL: "", imageURL: "", premium: false, defaultTitle: "Para ti, mi amor", defaultSubtitle: "Una experiencia galáctica te espera", defaultMessage: "Eres mi universo entero ✨\nCada estrella me recuerda a ti.", defaultPhrases: "Te amo más que ayer\nEres mi persona favorita\nContigo todo es mejor" },
+    { id: "amor-eterno", category: "amor", name: "Amor eterno", description: "Un rincón del universo hecho para los dos.", emoji: "💕", editorURL: "", imageURL: "", premium: false, defaultTitle: "Mi amor eterno", defaultSubtitle: "Contigo hasta el infinito", defaultMessage: "Si tuviera que elegir mil veces,\nmil veces te elegiría a ti 💕", defaultPhrases: "Te quiero infinito\nMi corazón late por ti\nEres mi todo" },
+    { id: "14feb-sanvalentin", category: "14febrero", name: "San Valentín", description: "Rojo, romántico y eterno.", emoji: "❤️", editorURL: "", imageURL: "", premium: false, defaultTitle: "Feliz San Valentín", defaultSubtitle: "Para el amor de mi vida", defaultMessage: "En un mundo de miles de personas,\nmi corazón te eligió a ti ❤️\nFeliz 14 de febrero, mi amor.", defaultPhrases: "Feliz San Valentín\nTe amo con el alma\nEres mi todo" },
+    { id: "mama-clasico", category: "dia-madres", name: "Para mamá", description: "Palabras que nunca alcanzan para agradecer.", emoji: "👩", editorURL: "", imageURL: "", premium: false, defaultTitle: "Mamá", defaultSubtitle: "Gracias por todo lo que haces", defaultMessage: "No existen palabras suficientes\npara agradecerte 💛\nEres mi ejemplo, mi fuerza, mi todo.", defaultPhrases: "Te amo, mamá\nEres mi heroína\nGracias por tanto" },
+    { id: "cumple-clasico", category: "cumple", name: "Feliz cumpleaños", description: "Un pedacito del universo para celebrarte.", emoji: "🎂", editorURL: "", imageURL: "", premium: false, defaultTitle: "¡Feliz cumpleaños! 🎂", defaultSubtitle: "Un día para celebrarte", defaultMessage: "Hoy celebramos el día\nen que el universo se volvió más brillante ✨\n¡Feliz cumpleaños!", defaultPhrases: "Que cumplas muchos más\nTe mereces todo\nEres increíble" },
+    { id: "broma-jefe", category: "bromas", name: "Para mi jefe", description: "El clásico: 'no renuncio, pero casi'.", emoji: "😂", editorURL: "", imageURL: "", premium: false, defaultTitle: "Querido jefe", defaultSubtitle: "Con todo el respeto del mundo...", defaultMessage: "No es que no quiera trabajar,\nes que el trabajo no me quiere a mí 😂", defaultPhrases: "¡Es broma!\n(¿O no?)\nTe quiero, jefe" }
   ];
 
-  var state = {
-    categorias: [],
-    plantillas: [],
-    editingId: null
-  };
-
+  var state = { categorias: [], plantillas: [], editingId: null };
   var $ = function(id){ return document.getElementById(id); };
 
   function load(){
     try {
-      var raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem("peri_plantillas_v1");
+      var raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem("peri_plantillas_v2") || localStorage.getItem("peri_plantillas_v1");
       if (raw){
         var data = JSON.parse(raw);
         state.categorias = data.categorias || CATEGORIAS_DEFAULT.slice();
         state.plantillas = data.plantillas || [];
-        // Asegurar que todas tengan editorURL
-        state.plantillas.forEach(function(p){ if (typeof p.editorURL === "undefined") p.editorURL = ""; });
+        state.plantillas.forEach(function(p){
+          if (typeof p.editorURL === "undefined") p.editorURL = "";
+          if (typeof p.imageURL === "undefined") p.imageURL = "";
+        });
       } else {
         state.categorias = CATEGORIAS_DEFAULT.slice();
         state.plantillas = PLANTILLAS_SEED.slice();
@@ -347,13 +283,9 @@ header .logout:active{background:rgba(239,68,68,.2);border-color:#ef4444}
   }
   function save(){
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({
-        categorias: state.categorias,
-        plantillas: state.plantillas
-      }));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ categorias: state.categorias, plantillas: state.plantillas }));
     } catch(e){ console.warn("No se pudo guardar", e); }
   }
-
   function toast(msg, ok){
     var t = $("toast");
     t.textContent = msg;
@@ -361,6 +293,9 @@ header .logout:active{background:rgba(239,68,68,.2);border-color:#ef4444}
     t.classList.add("show");
     clearTimeout(toast._t);
     toast._t = setTimeout(function(){ t.classList.remove("show"); }, 2400);
+  }
+  function escapeHtml(s){
+    return String(s || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
   }
 
   function tryLogin(){
@@ -373,7 +308,6 @@ header .logout:active{background:rgba(239,68,68,.2);border-color:#ef4444}
       $("loginErr").classList.add("show");
     }
   }
-
   function showApp(){
     $("loginScreen").style.display = "none";
     $("app").style.display = "block";
@@ -382,21 +316,17 @@ header .logout:active{background:rgba(239,68,68,.2);border-color:#ef4444}
     renderStats();
     renderList();
   }
-
   function logout(){
     sessionStorage.removeItem("peri_admin_ok");
     location.reload();
   }
-
   function renderStats(){
     var total = state.plantillas.length;
     var premium = state.plantillas.filter(function(p){ return p.premium; }).length;
-    var free = total - premium;
     $("statTotal").textContent = total;
-    $("statFree").textContent = free;
+    $("statFree").textContent = total - premium;
     $("statPremium").textContent = premium;
   }
-
   function renderCategoriesSelect(){
     var sel = $("fCategory");
     sel.innerHTML = "";
@@ -411,37 +341,39 @@ header .logout:active{background:rgba(239,68,68,.2);border-color:#ef4444}
   function renderList(){
     var cont = $("listContainer");
     cont.innerHTML = "";
-
     if (state.plantillas.length === 0){
-      cont.innerHTML = '<div class="empty">Aún no hay plantillas. Presiona "＋ Nueva plantilla" arriba para empezar.</div>';
+      cont.innerHTML = '<div class="empty">Aún no hay plantillas. Presiona "＋ Nueva plantilla".</div>';
       return;
     }
-
     state.categorias.forEach(function(cat){
       var items = state.plantillas.filter(function(p){ return p.category === cat.id; });
       if (items.length === 0) return;
-
       var group = document.createElement("div");
       group.className = "cat-group";
-
       var head = document.createElement("div");
       head.className = "cat-head";
-      head.innerHTML =
-        '<span class="emo">' + cat.emoji + '</span>' +
-        '<span class="name">' + cat.name + '</span>' +
-        '<span class="count">' + items.length + '</span>';
+      head.innerHTML = '<span class="emo">' + cat.emoji + '</span><span class="name">' + cat.name + '</span><span class="count">' + items.length + '</span>';
       group.appendChild(head);
 
       items.forEach(function(tpl){
         var row = document.createElement("div");
         row.className = "tpl-row";
 
+        var thumb = document.createElement("div");
+        thumb.className = "thumbnail";
+        if (tpl.imageURL && tpl.imageURL.trim()){
+          thumb.innerHTML = '<img src="' + escapeHtml(tpl.imageURL) + '" alt="">';
+        } else {
+          thumb.textContent = tpl.emoji || "✨";
+        }
+
         var info = document.createElement("div");
         info.className = "info";
         var hasLink = tpl.editorURL && tpl.editorURL.trim();
-        info.innerHTML =
-          '<div class="n">' + escapeHtml(tpl.name) + (hasLink ? ' <span class="link-badge">link ✓</span>' : ' <span class="link-badge" style="background:rgba(239,68,68,.15);color:#ef4444">sin link</span>') + '</div>' +
-          '<div class="d">' + escapeHtml(tpl.description || "") + '</div>';
+        var hasImg = tpl.imageURL && tpl.imageURL.trim();
+        var tagLink = hasLink ? '<span class="tag-mini tag-link">link ✓</span>' : '<span class="tag-mini tag-no">sin link</span>';
+        var tagImg = hasImg ? '<span class="tag-mini tag-img">img ✓</span>' : '';
+        info.innerHTML = '<div class="n">' + escapeHtml(tpl.name) + ' ' + tagLink + tagImg + '</div><div class="d">' + escapeHtml(tpl.description || "") + '</div>';
 
         var badge = document.createElement("span");
         badge.className = "badge " + (tpl.premium ? "prem" : "free");
@@ -449,170 +381,33 @@ header .logout:active{background:rgba(239,68,68,.2);border-color:#ef4444}
 
         var acts = document.createElement("div");
         acts.className = "acts";
-
         var editBtn = document.createElement("button");
         editBtn.textContent = "✏️";
         editBtn.onclick = function(){ openForm(tpl.id); };
-
         var delBtn = document.createElement("button");
         delBtn.className = "del";
         delBtn.textContent = "🗑";
         delBtn.onclick = function(){
           if (!confirm("¿Eliminar \"" + tpl.name + "\"?")) return;
           state.plantillas = state.plantillas.filter(function(p){ return p.id !== tpl.id; });
-          save();
-          renderStats();
-          renderList();
-          toast("Eliminada");
+          save(); renderStats(); renderList(); toast("Eliminada");
         };
+        acts.appendChild(editBtn); acts.appendChild(delBtn);
 
-        acts.appendChild(editBtn);
-        acts.appendChild(delBtn);
-
-        row.innerHTML = '<div class="emoji">' + (tpl.emoji || "✨") + '</div>';
+        row.appendChild(thumb);
         row.appendChild(info);
         row.appendChild(badge);
         row.appendChild(acts);
-
         group.appendChild(row);
       });
-
       cont.appendChild(group);
     });
-  }
-
-  function escapeHtml(s){
-    return String(s || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
-      .replace(/"/g,"&quot;").replace(/'/g,"&#39;");
   }
 
   function openForm(editId){
     state.editingId = editId || null;
     $("formTitle").textContent = editId ? "Editar plantilla" : "Nueva plantilla";
-
     var tpl = editId ? state.plantillas.filter(function(p){ return p.id === editId; })[0] : null;
 
     $("fId").value = editId || "";
-    $("fName").value = tpl ? tpl.name : "";
-    $("fCategory").value = tpl ? tpl.category : state.categorias[0].id;
-    $("fEmoji").value = tpl ? (tpl.emoji || "") : "";
-    $("fDesc").value = tpl ? (tpl.description || "") : "";
-    $("fEditorURL").value = tpl ? (tpl.editorURL || "") : "";
-    $("fTitle").value = tpl ? (tpl.defaultTitle || "") : "";
-    $("fSubtitle").value = tpl ? (tpl.defaultSubtitle || "") : "";
-    $("fMessage").value = tpl ? (tpl.defaultMessage || "") : "";
-    $("fPhrases").value = tpl ? (tpl.defaultPhrases || "") : "";
-    $("fPremium").checked = tpl ? !!tpl.premium : false;
-
-    $("formModal").classList.add("show");
-    document.body.style.overflow = "hidden";
-  }
-
-  function closeForm(){
-    $("formModal").classList.remove("show");
-    document.body.style.overflow = "";
-    state.editingId = null;
-  }
-
-  function saveForm(){
-    var name = $("fName").value.trim();
-    if (!name){ toast("Escribe un nombre", false); return; }
-
-    var tpl = {
-      id: state.editingId || generateId($("fCategory").value, name),
-      category: $("fCategory").value,
-      name: name,
-      description: $("fDesc").value.trim(),
-      emoji: $("fEmoji").value.trim() || "✨",
-      editorURL: $("fEditorURL").value.trim(),
-      premium: $("fPremium").checked,
-      defaultTitle: $("fTitle").value.trim(),
-      defaultSubtitle: $("fSubtitle").value.trim(),
-      defaultMessage: $("fMessage").value,
-      defaultPhrases: $("fPhrases").value
-    };
-
-    if (state.editingId){
-      for (var i = 0; i < state.plantillas.length; i++){
-        if (state.plantillas[i].id === state.editingId){
-          state.plantillas[i] = tpl;
-          break;
-        }
-      }
-      toast("Plantilla actualizada");
-    } else {
-      state.plantillas.push(tpl);
-      toast("Plantilla agregada");
-    }
-
-    save();
-    renderStats();
-    renderList();
-    closeForm();
-  }
-
-  function generateId(category, name){
-    var slug = name.toLowerCase()
-      .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
-      .replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,30);
-    var base = category + "-" + slug;
-    var finalId = base;
-    var n = 1;
-    while (state.plantillas.some(function(p){ return p.id === finalId; })){
-      finalId = base + "-" + n;
-      n++;
-    }
-    return finalId;
-  }
-
-  function exportFile(){
-    var content =
-      "/* ============================================================\n" +
-      "   PLANTILLAS — Generado desde el panel admin\n" +
-      "   Fecha: " + new Date().toLocaleString("es-MX") + "\n" +
-      "   Total: " + state.plantillas.length + " plantillas\n" +
-      "   ============================================================ */\n\n" +
-      "var PLANTILLAS = {\n" +
-      "  categorias: " + JSON.stringify(state.categorias, null, 2) + ",\n\n" +
-      "  plantillas: " + JSON.stringify(state.plantillas, null, 2) + ",\n\n" +
-      "  getCategorias: function(){ return this.categorias.slice(); },\n" +
-      "  getCategoria: function(id){ for (var i = 0; i < this.categorias.length; i++){ if (this.categorias[i].id === id) return this.categorias[i]; } return null; },\n" +
-      "  getPlantillas: function(catId){ if (!catId) return this.plantillas.slice(); return this.plantillas.filter(function(p){ return p.category === catId; }); },\n" +
-      "  getPlantilla: function(id){ for (var i = 0; i < this.plantillas.length; i++){ if (this.plantillas[i].id === id) return this.plantillas[i]; } return null; },\n" +
-      "  countByCategory: function(catId){ return this.getPlantillas(catId).length; }\n" +
-      "};\n";
-
-    var blob = new Blob([content], { type: "text/javascript;charset=utf-8" });
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement("a");
-    a.href = url;
-    a.download = "plantillas.js";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    setTimeout(function(){ URL.revokeObjectURL(url); }, 3000);
-    toast("plantillas.js descargado ⬇");
-  }
-
-  function init(){
-    if (sessionStorage.getItem("peri_admin_ok") === "1"){
-      showApp();
-    }
-    $("loginBtn").onclick = tryLogin;
-    $("loginUser").addEventListener("keydown", function(e){ if (e.key === "Enter") $("loginPass").focus(); });
-    $("loginPass").addEventListener("keydown", function(e){ if (e.key === "Enter") tryLogin(); });
-    $("logoutBtn").onclick = logout;
-    $("btnNew").onclick = function(){ openForm(null); };
-    $("btnExport").onclick = exportFile;
-    $("formClose").onclick = closeForm;
-    $("formCancel").onclick = closeForm;
-    $("formSave").onclick = saveForm;
-    $("formModal").addEventListener("click", function(e){ if (e.target === $("formModal")) closeForm(); });
-  }
-
-  document.addEventListener("DOMContentLoaded", init);
-})();
-</script>
-
-</body>
-</html>
+    $("f
