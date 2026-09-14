@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0a0520">
+<title>Desbloquear Premium · Dedicatorias Mágicas</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👑</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Pacifico&family=Permanent+Marker&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;min-height:100dvh;background:#0a0520;color:#fff;font-family:'Inter',system-ui,sans-serif;line-height:1.5}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(1px 1px at 15% 22%, #fff, transparent),radial-gradient(1px 1px at 62% 15%, #a8d8ff, transparent),radial-gradient(1.5px 1.5px at 82% 42%, #fff, transparent),radial-gradient(1px 1px at 32% 78%, #ffb6d9, transparent),radial-gradient(1px 1px at 92% 68%, #fff, transparent),radial-gradient(1px 1px at 8% 55%, #c8a8ff, transparent),radial-gradient(ellipse 80% 60% at 50% 0%, #241654 0%, #0a0520 55%, #040210 100%);animation:starsTwinkle 8s ease-in-out infinite}
+@keyframes starsTwinkle{0%,100%{opacity:1}50%{opacity:.78}}
+main{position:relative;z-index:1;max-width:560px;margin:0 auto;padding:30px 18px 60px}
+
+/* HERO */
+.hero{text-align:center;margin-bottom:26px}
+.hero .crown{font-size:4rem;margin-bottom:14px;filter:drop-shadow(0 0 30px rgba(255,209,102,.8));animation:crownFloat 3s ease-in-out infinite}
+@keyframes crownFloat{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-8px) rotate(4deg)}}
+.hero h1{font-family:'Permanent Marker',cursive;font-size:clamp(1.6rem,6vw,2.2rem);line-height:1.1;margin-bottom:10px;background:linear-gradient(135deg,#ffd166,#ff9500,#ffd166);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 3s infinite}
+@keyframes shimmer{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+.hero p{font-family:'Caveat',cursive;font-size:1.2rem;color:#d4b978;line-height:1.4}
+
+/* CARD PRINCIPAL */
+.card{background:linear-gradient(160deg,rgba(50,30,10,.7),rgba(20,12,6,.9));border:2px solid rgba(255,209,102,.45);border-radius:22px;padding:26px 22px;margin-bottom:20px;box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 60px rgba(255,209,102,.15);position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at top,rgba(255,209,102,.15),transparent 60%);pointer-events:none}
+
+/* ESTADO PREMIUM ACTIVO */
+#premiumActive{display:none;text-align:center;padding:20px 0}
+#premiumActive.show{display:block;animation:fadeUp .5s ease}
+#premiumActive .check{font-size:4rem;margin-bottom:12px;filter:drop-shadow(0 0 24px rgba(34,197,94,.8));animation:pop .6s cubic-bezier(.2,.9,.3,1.5)}
+@keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
+#premiumActive h2{font-family:'Pacifico',cursive;font-size:1.6rem;color:#4ade80;margin-bottom:8px}
+#premiumActive p{color:#a8d8ff;font-size:.95rem;margin-bottom:22px}
+
+/* FORMULARIO CÓDIGO */
+.form-codigo{display:block;position:relative}
+.form-codigo.hidden{display:none}
+.form-codigo h3{font-size:.85rem;font-weight:700;color:#d4b978;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;text-align:center;position:relative}
+.form-codigo .input-wrap{position:relative;margin-bottom:14px}
+.form-codigo input{width:100%;padding:18px 16px;border-radius:14px;border:2px solid rgba(255,209,102,.3);background:rgba(0,0,0,.5);color:#ffd166;font-size:1.1rem;font-weight:700;text-align:center;letter-spacing:3px;outline:none;font-family:'Courier New',monospace;text-transform:uppercase;transition:all .2s}
+.form-codigo input::placeholder{color:rgba(255,209,102,.3);letter-spacing:2px;font-size:1rem}
+.form-codigo input:focus{border-color:#ffd166;box-shadow:0 0 0 4px rgba(255,209,102,.15);background:rgba(0,0,0,.6)}
+.form-codigo .btn-verify{width:100%;padding:16px;border-radius:14px;border:none;background:linear-gradient(135deg,#ffd166,#ff9500);color:#1a0e00;font-weight:800;font-size:1rem;cursor:pointer;font-family:inherit;box-shadow:0 10px 30px rgba(255,180,40,.5);transition:transform .15s;position:relative}
+.form-codigo .btn-verify:active{transform:scale(.98)}
+.form-codigo .btn-verify:disabled{opacity:.5;cursor:not-allowed}
+.form-codigo .error{background:rgba(239,68,68,.15);border:1px solid rgba(239,68,68,.4);border-radius:10px;padding:10px 12px;font-size:.82rem;color:#fca5a5;text-align:center;margin-top:10px;display:none}
+.form-codigo .error.show{display:block;animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+/* INFO CÓMO COMPRAR */
+.info-block{background:linear-gradient(160deg,rgba(24,18,58,.6),rgba(12,8,32,.8));border:1px solid rgba(255,255,255,.08);border-radius:18px;padding:22px 20px;margin-bottom:18px}
+.info-block h3{font-size:.9rem;font-weight:700;color:#fff;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.info-block h3 .ico{font-size:1.2rem}
+.info-block p{font-size:.85rem;color:#a8b8d8;line-height:1.6;margin-bottom:12px}
+.info-block p:last-child{margin-bottom:0}
+
+/* DATOS DE TRANSFERENCIA */
+.datos-pago{background:rgba(0,0,0,.4);border:1px solid rgba(255,209,102,.3);border-radius:12px;padding:14px 16px;margin:14px 0;font-size:.85rem}
+.datos-pago .row{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);align-items:center}
+.datos-pago .row:last-child{border-bottom:none}
+.datos-pago .row .lbl{color:#8ba3c0;font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+.datos-pago .row .val{color:#ffd166;font-weight:700;font-size:.9rem;word-break:break-all;text-align:right}
+.copy-btn{background:rgba(255,209,102,.1);border:1px solid rgba(255,209,102,.3);color:#ffd166;padding:4px 8px;border-radius:6px;font-size:.7rem;cursor:pointer;font-family:inherit;font-weight:600;margin-left:8px}
+.copy-btn:active{background:rgba(255,209,102,.25)}
+
+/* BOTÓN WHATSAPP */
+.btn-wa{display:flex;align-items:center;justify-content:center;gap:10px;padding:15px 20px;border-radius:14px;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;text-decoration:none;font-weight:700;font-size:.95rem;box-shadow:0 10px 30px rgba(37,211,102,.4);transition:transform .2s;width:100%;border:none;cursor:pointer;font-family:inherit;margin-top:6px}
+.btn-wa:active{transform:scale(.98)}
+.btn-wa svg{width:22px;height:22px;fill:#fff}
+
+/* BOTÓN VOLVER */
+.btn-back{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);color:#b8c8e0;text-decoration:none;font-weight:600;font-size:.85rem;margin-top:12px;transition:all .2s;width:100%}
+.btn-back:hover{background:rgba(255,255,255,.12);color:#fff}
+
+/* TOAST */
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(120%);background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;padding:13px 22px;border-radius:12px;font-size:.9rem;font-weight:600;z-index:999;transition:transform .35s;pointer-events:none;max-width:90vw;text-align:center;box-shadow:0 12px 34px rgba(0,0,0,.5)}
+#toast.show{transform:translateX(-50%) translateY(0)}
+#toast.err{background:linear-gradient(135deg,#ef4444,#dc2626)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<main>
+
+  <div class="hero">
+    <div class="crown">👑</div>
+    <h1>Premium</h1>
+    <p>Desbloquea todo el potencial de tus dedicatorias</p>
+  </div>
+
+  <!-- CARD CON ESTADO -->
+  <div class="card">
+
+    <!-- ESTADO: YA ES PREMIUM -->
+    <div id="premiumActive">
+      <div class="check">✅</div>
+      <h2>¡Ya eres Premium!</h2>
+      <p>Tienes acceso a todas las plantillas exclusivas, fotos ilimitadas y efectos especiales.</p>
+      <a href="index.html" class="btn-wa" style="background:linear-gradient(135deg,#ffd166,#ff9500);color:#1a0e00;text-decoration:none">
+        ✨ Ver plantillas Premium
+      </a>
+    </div>
+
+    <!-- ESTADO: NO ES PREMIUM - FORMULARIO -->
+    <div id="premiumForm" class="form-codigo">
+      <h3>🔑 Ingresa tu código</h3>
+      <div class="input-wrap">
+        <input id="codigoInput" type="text" placeholder="PREMIUM-XXXXXXXX" maxlength="30" autocomplete="off" autocapitalize="characters">
+      </div>
+      <button id="btnVerify" class="btn-verify">Desbloquear Premium</button>
+      <div class="error" id="errorMsg"></div>
+    </div>
+
+  </div>
+
+  <!-- INFO: CÓMO OBTENER UN CÓDIGO -->
+  <div class="info-block" id="infoBlock">
+    <h3><span class="ico">💳</span> ¿Cómo obtener tu código?</h3>
+    <p><b>1.</b> Realiza una transferencia de <b style="color:#ffd166">$79 MXN</b> a:</p>
+
+    <div class="datos-pago">
+      <div class="row">
+        <span class="lbl">Beneficiario</span>
+        <span class="val">Lorena Díaz</span>
+      </div>
+      <div class="row">
+        <span class="lbl">Banco</span>
+        <span class="val">Banco Azteca</span>
+      </div>
+      <div class="row">
+        <span class="lbl">CLABE</span>
+        <span class="val" id="clabeVal">127180016223825626
+          <button class="copy-btn" data-copy="127180016223825626">📋</button>
+        </span>
+      </div>
+      <div class="row">
+        <span class="lbl">Cuenta</span>
+        <span class="val" id="cuentaVal">95461622382562
+          <button class="copy-btn" data-copy="95461622382562">📋</button>
+        </span>
+      </div>
+      <div class="row">
+        <span class="lbl">Monto</span>
+        <span class="val">$79 MXN</span>
+      </div>
+    </div>
+
+    <p><b>2.</b> Envíame el comprobante por WhatsApp.</p>
+    <p><b>3.</b> Te mandaré tu código único al instante.</p>
+    <p><b>4.</b> Pégalo aquí arriba y listo ✨</p>
+
+    <a id="waContact" class="btn-wa" href="#" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      Enviar comprobante por WhatsApp
+    </a>
+  </div>
+
+  <a href="index.html" class="btn-back">← Volver a las plantillas</a>
+
+</main>
+
+<div id="toast"></div>
+
+<script src="codigos.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  var WHATSAPP_NUM = "5213121052587";
+  var STORAGE_KEY = "peri_premium_activated";
+
+  var $ = function(id){ return document.getElementById(id); };
+
+  function toast(msg, ok){
+    var t = $("toast");
+    t.textContent = msg;
+    t.classList.toggle("err", ok === false);
+    t.classList.add("show");
+    clearTimeout(toast._t);
+    toast._t = setTimeout(function(){ t.classList.remove("show"); }, 2600);
+  }
+
+  function isPremiumActivated(){
+    try { return localStorage.getItem(STORAGE_KEY) === "1"; }
+    catch(e){ return false; }
+  }
+
+  function activatePremium(){
+    try { localStorage.setItem(STORAGE_KEY, "1"); }
+    catch(e){ console.warn("No se pudo guardar"); }
+  }
+
+  function showPremiumState(){
+    $("premiumActive").classList.add("show");
+    $("premiumForm").classList.add("hidden");
+    $("infoBlock").style.display = "none";
+  }
+
+  function showFormState(){
+    $("premiumActive").classList.remove("show");
+    $("premiumForm").classList.remove("hidden");
+    $("infoBlock").style.display = "block";
+  }
+
+  function verifyCode(){
+    var input = $("codigoInput").value.trim().toUpperCase();
+    var errorEl = $("errorMsg");
+
+    errorEl.classList.remove("show");
+
+    if (!input){
+      errorEl.textContent = "Por favor escribe tu código";
+      errorEl.classList.add("show");
+      return;
+    }
+
+    if (typeof CODIGOS_VALIDOS === "undefined"){
+      errorEl.textContent = "Error cargando la lista de códigos";
+      errorEl.classList.add("show");
+      return;
+    }
+
+    var esValido = CODIGOS_VALIDOS.some(function(c){
+      return c.trim().toUpperCase() === input;
+    });
+
+    if (esValido){
+      activatePremium();
+      toast("¡Premium activado! 🎉");
+      showPremiumState();
+      setTimeout(function(){
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 300);
+    } else {
+      errorEl.textContent = "Código incorrecto o ya usado. Verifica con quien te lo dio.";
+      errorEl.classList.add("show");
+      $("codigoInput").value = "";
+      $("codigoInput").focus();
+    }
+  }
+
+  function init(){
+    // Si ya es premium, mostramos ese estado
+    if (isPremiumActivated()){
+      showPremiumState();
+    } else {
+      showFormState();
+    }
+
+    // Botón verificar
+    $("btnVerify").addEventListener("click", verifyCode);
+
+    // Enter en el input
+    $("codigoInput").addEventListener("keydown", function(e){
+      if (e.key === "Enter") verifyCode();
+    });
+
+    // Auto-formato mientras escribe (solo mayúsculas)
+    $("codigoInput").addEventListener("input", function(e){
+      e.target.value = e.target.value.toUpperCase();
+    });
+
+    // Verificar si viene código por URL: premium.html?codigo=XXXX
+    var params = new URLSearchParams(location.search);
+    var codigoURL = params.get("codigo");
+    if (codigoURL && !isPremiumActivated()){
+      $("codigoInput").value = codigoURL.trim().toUpperCase();
+      setTimeout(verifyCode, 300);
+    }
+
+    // WhatsApp con mensaje pre-escrito
+    var waMsg = encodeURIComponent(
+      "Hola! Quiero comprar el Premium de Dedicatorias Mágicas 💫\n" +
+      "Ya hice la transferencia de $79 MXN. Les mando el comprobante:"
+    );
+    var waURL = "https://wa.me/" + WHATSAPP_NUM + "?text=" + waMsg;
+    $("waContact").href = waURL;
+
+    // Botones copiar CLABE/cuenta
+    document.querySelectorAll(".copy-btn").forEach(function(btn){
+      btn.addEventListener("click", function(e){
+        e.preventDefault();
+        var text = btn.getAttribute("data-copy");
+        if (navigator.clipboard){
+          navigator.clipboard.writeText(text).then(function(){
+            toast("Copiado: " + text);
+          }).catch(function(){
+            fallbackCopy(text);
+          });
+        } else {
+          fallbackCopy(text);
+        }
+      });
+    });
+
+    function fallbackCopy(text){
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy"); toast("Copiado: " + text); }
+      catch(e){ toast("No se pudo copiar", false); }
+      ta.remove();
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", init);
+})();
+</script>
+
+</body>
+</html>
