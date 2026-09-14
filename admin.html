@@ -86,11 +86,12 @@ header .logout{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,25
 #formBox .btns .btn{flex:1}
 .help-box{background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.25);border-radius:10px;padding:10px 12px;font-size:.75rem;color:#a8d8ff;line-height:1.5;margin-bottom:12px}
 .help-box b{color:#fff}
-.img-preview{display:none;margin-top:8px;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.15);max-width:240px}
+.img-preview{display:none;margin-top:8px;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.15);max-width:220px;position:relative}
 .img-preview.show{display:block}
 .img-preview img{width:100%;height:auto;display:block}
-.upload-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);border-radius:10px;color:#fff;font-size:.82rem;font-weight:600;cursor:pointer;margin-top:6px;font-family:inherit}
-.upload-btn:active{background:rgba(255,255,255,.12)}
+.img-preview .del-img{position:absolute;top:6px;right:6px;background:rgba(0,0,0,.7);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
+.upload-btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:linear-gradient(135deg,#00d4ff,#7b2ff7);border:none;border-radius:10px;color:#fff;font-size:.85rem;font-weight:700;cursor:pointer;margin-top:6px;font-family:inherit;box-shadow:0 6px 20px rgba(0,212,255,.3)}
+.upload-btn:active{transform:scale(.98)}
 #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(120%);background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;padding:13px 22px;border-radius:12px;font-size:.9rem;font-weight:600;z-index:999;transition:transform .35s;pointer-events:none;max-width:90vw;text-align:center;box-shadow:0 12px 34px rgba(0,0,0,.5)}
 #toast.show{transform:translateX(-50%) translateY(0)}
 #toast.err{background:linear-gradient(135deg,#ef4444,#dc2626)}
@@ -111,7 +112,6 @@ header .logout{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,25
 </div>
 
 <div id="app" style="display:none">
-
   <header>
     <div class="title">Panel · Dedicatorias</div>
     <button class="logout" id="logoutBtn">Salir</button>
@@ -139,7 +139,6 @@ header .logout{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,25
     4. Abre tu repo <b>Peri</b> → reemplaza <code>plantillas.js</code><br>
     5. Commit → espera 5-10 min ✨
   </div>
-
 </div>
 
 </main>
@@ -148,7 +147,7 @@ header .logout{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,25
   <div id="formBox">
     <button class="close-x" id="formClose">×</button>
     <h2 id="formTitle">Nueva plantilla</h2>
-    <p class="hint">Rellena los datos. Elige una imagen de portada o usa el emoji.</p>
+    <p class="hint">Rellena los datos. Puedes subir una imagen o usar un emoji.</p>
 
     <input type="hidden" id="fId">
 
@@ -179,21 +178,15 @@ header .logout{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,25
     </div>
 
     <div class="fld">
-      <label>Imagen de portada <span class="tag-help">(link o súbela aquí)</span></label>
-      <input id="fImageURL" type="text" placeholder="https://.../img/galaxia.jpg" maxlength="2000">
+      <label>Imagen de portada <span class="tag-help">(opcional)</span></label>
       <label class="upload-btn" for="fImageFile">
-        📷 O subir imagen desde mi celular
+        📷 Subir imagen desde mi celular
         <input id="fImageFile" type="file" accept="image/*" hidden>
       </label>
       <div class="img-preview" id="imgPreview">
         <img id="imgPreviewSrc" alt="">
+        <button type="button" class="del-img" id="delImg">×</button>
       </div>
-    </div>
-
-    <div class="help-box">
-      <b>💡 Imagen de portada:</b><br>
-      <b>Opción 1 (recomendada):</b> sube tu imagen a la carpeta <code>/img/</code> de tu repo <code>Peri</code> y pega aquí el link (ej: <code>img/galaxia.jpg</code>)<br>
-      <b>Opción 2:</b> toca "📷 Subir imagen" y elige una foto. Se guardará dentro del catálogo.
     </div>
 
     <div class="fld">
@@ -257,7 +250,7 @@ header .logout{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,25
     { id: "broma-jefe", category: "bromas", name: "Para mi jefe", description: "El clásico: 'no renuncio, pero casi'.", emoji: "😂", editorURL: "", imageURL: "", premium: false, defaultTitle: "Querido jefe", defaultSubtitle: "Con todo el respeto del mundo...", defaultMessage: "No es que no quiera trabajar,\nes que el trabajo no me quiere a mí 😂", defaultPhrases: "¡Es broma!\n(¿O no?)\nTe quiero, jefe" }
   ];
 
-  var state = { categorias: [], plantillas: [], editingId: null };
+  var state = { categorias: [], plantillas: [], editingId: null, currentImageData: "" };
   var $ = function(id){ return document.getElementById(id); };
 
   function load(){
@@ -362,7 +355,7 @@ header .logout{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,25
         var thumb = document.createElement("div");
         thumb.className = "thumbnail";
         if (tpl.imageURL && tpl.imageURL.trim()){
-          thumb.innerHTML = '<img src="' + escapeHtml(tpl.imageURL) + '" alt="">';
+          thumb.innerHTML = '<img src="' + tpl.imageURL + '" alt="">';
         } else {
           thumb.textContent = tpl.emoji || "✨";
         }
@@ -406,8 +399,171 @@ header .logout{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,25
 
   function openForm(editId){
     state.editingId = editId || null;
+    state.currentImageData = "";
     $("formTitle").textContent = editId ? "Editar plantilla" : "Nueva plantilla";
     var tpl = editId ? state.plantillas.filter(function(p){ return p.id === editId; })[0] : null;
 
     $("fId").value = editId || "";
-    $("f
+    $("fName").value = tpl ? tpl.name : "";
+    $("fCategory").value = tpl ? tpl.category : state.categorias[0].id;
+    $("fEmoji").value = tpl ? (tpl.emoji || "") : "";
+    $("fDesc").value = tpl ? (tpl.description || "") : "";
+    $("fEditorURL").value = tpl ? (tpl.editorURL || "") : "";
+    $("fTitle").value = tpl ? (tpl.defaultTitle || "") : "";
+    $("fSubtitle").value = tpl ? (tpl.defaultSubtitle || "") : "";
+    $("fMessage").value = tpl ? (tpl.defaultMessage || "") : "";
+    $("fPhrases").value = tpl ? (tpl.defaultPhrases || "") : "";
+    $("fPremium").checked = tpl ? !!tpl.premium : false;
+
+    if (tpl && tpl.imageURL && tpl.imageURL.trim()){
+      state.currentImageData = tpl.imageURL;
+      $("imgPreviewSrc").src = tpl.imageURL;
+      $("imgPreview").classList.add("show");
+    } else {
+      $("imgPreview").classList.remove("show");
+      $("imgPreviewSrc").src = "";
+    }
+
+    $("formModal").classList.add("show");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeForm(){
+    $("formModal").classList.remove("show");
+    document.body.style.overflow = "";
+    state.editingId = null;
+    state.currentImageData = "";
+    $("fImageFile").value = "";
+  }
+
+  function handleImageUpload(file){
+    if (!file) return;
+    if (!file.type.startsWith("image/")){ toast("Solo imágenes", false); return; }
+    var reader = new FileReader();
+    reader.onload = function(ev){
+      var img = new Image();
+      img.onload = function(){
+        // Redimensionar siempre a 600px max
+        var maxW = 600;
+        var s = Math.min(1, maxW / img.width);
+        var w = Math.round(img.width * s), h = Math.round(img.height * s);
+        var cv = document.createElement("canvas"); cv.width = w; cv.height = h;
+        cv.getContext("2d").drawImage(img, 0, 0, w, h);
+        var dataURL = cv.toDataURL("image/jpeg", 0.75);
+        state.currentImageData = dataURL;
+        $("imgPreviewSrc").src = dataURL;
+        $("imgPreview").classList.add("show");
+        var sizeKB = Math.round(dataURL.length * 0.75 / 1024);
+        toast("Imagen lista (" + sizeKB + " KB)");
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function saveForm(){
+    var name = $("fName").value.trim();
+    if (!name){ toast("Escribe un nombre", false); return; }
+
+    var tpl = {
+      id: state.editingId || generateId($("fCategory").value, name),
+      category: $("fCategory").value,
+      name: name,
+      description: $("fDesc").value.trim(),
+      emoji: $("fEmoji").value.trim() || "✨",
+      editorURL: $("fEditorURL").value.trim(),
+      imageURL: state.currentImageData || "",
+      premium: $("fPremium").checked,
+      defaultTitle: $("fTitle").value.trim(),
+      defaultSubtitle: $("fSubtitle").value.trim(),
+      defaultMessage: $("fMessage").value,
+      defaultPhrases: $("fPhrases").value
+    };
+
+    if (state.editingId){
+      for (var i = 0; i < state.plantillas.length; i++){
+        if (state.plantillas[i].id === state.editingId){
+          state.plantillas[i] = tpl;
+          break;
+        }
+      }
+      toast("Plantilla actualizada");
+    } else {
+      state.plantillas.push(tpl);
+      toast("Plantilla agregada");
+    }
+
+    save();
+    renderStats();
+    renderList();
+    closeForm();
+  }
+
+  function generateId(category, name){
+    var slug = name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,30);
+    var base = category + "-" + slug;
+    var finalId = base;
+    var n = 1;
+    while (state.plantillas.some(function(p){ return p.id === finalId; })){ finalId = base + "-" + n; n++; }
+    return finalId;
+  }
+
+  function exportFile(){
+    var content =
+      "/* ============================================================\n" +
+      "   PLANTILLAS — Generado desde el panel admin\n" +
+      "   Fecha: " + new Date().toLocaleString("es-MX") + "\n" +
+      "   Total: " + state.plantillas.length + " plantillas\n" +
+      "   ============================================================ */\n\n" +
+      "var PLANTILLAS = {\n" +
+      "  categorias: " + JSON.stringify(state.categorias, null, 2) + ",\n\n" +
+      "  plantillas: " + JSON.stringify(state.plantillas, null, 2) + ",\n\n" +
+      "  getCategorias: function(){ return this.categorias.slice(); },\n" +
+      "  getCategoria: function(id){ for (var i = 0; i < this.categorias.length; i++){ if (this.categorias[i].id === id) return this.categorias[i]; } return null; },\n" +
+      "  getPlantillas: function(catId){ if (!catId) return this.plantillas.slice(); return this.plantillas.filter(function(p){ return p.category === catId; }); },\n" +
+      "  getPlantilla: function(id){ for (var i = 0; i < this.plantillas.length; i++){ if (this.plantillas[i].id === id) return this.plantillas[i]; } return null; },\n" +
+      "  countByCategory: function(catId){ return this.getPlantillas(catId).length; }\n" +
+      "};\n";
+
+    var blob = new Blob([content], { type: "application/octet-stream" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = "plantillas.js";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 3000);
+    toast("plantillas.js descargado ⬇");
+  }
+
+  function init(){
+    if (sessionStorage.getItem("peri_admin_ok") === "1"){ showApp(); }
+    $("loginBtn").onclick = tryLogin;
+    $("loginUser").addEventListener("keydown", function(e){ if (e.key === "Enter") $("loginPass").focus(); });
+    $("loginPass").addEventListener("keydown", function(e){ if (e.key === "Enter") tryLogin(); });
+    $("logoutBtn").onclick = logout;
+    $("btnNew").onclick = function(){ openForm(null); };
+    $("btnExport").onclick = exportFile;
+    $("formClose").onclick = closeForm;
+    $("formCancel").onclick = closeForm;
+    $("formSave").onclick = saveForm;
+    $("formModal").addEventListener("click", function(e){ if (e.target === $("formModal")) closeForm(); });
+    $("fImageFile").addEventListener("change", function(e){
+      if (e.target.files && e.target.files[0]) handleImageUpload(e.target.files[0]);
+      e.target.value = "";
+    });
+    $("delImg").addEventListener("click", function(){
+      state.currentImageData = "";
+      $("imgPreview").classList.remove("show");
+      $("imgPreviewSrc").src = "";
+      toast("Imagen quitada");
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", init);
+})();
+</script>
+
+</body>
+</html>
