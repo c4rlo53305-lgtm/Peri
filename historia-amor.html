@@ -4,510 +4,100 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#1a0a1e">
-<title>Nuestra Historia de Amor</title>
+<title>Nuestra Historia de Amor · Editor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Pacifico&family=Permanent+Marker&family=Dancing+Script:wght@600;700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth}
-body{
-  width:100%;min-height:100dvh;
-  background:#0a0510;color:#fff;
-  font-family:'Inter',system-ui,sans-serif;
-  overflow-x:hidden;line-height:1.5;
-}
-img{max-width:100%;display:block}
-button{font-family:inherit}
-
-/* Fondo estrellado global */
-body::before{
-  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:
-    radial-gradient(1px 1px at 12% 18%, #fff, transparent),
-    radial-gradient(1px 1px at 68% 12%, #ffd8f0, transparent),
-    radial-gradient(1.5px 1.5px at 88% 48%, #fff, transparent),
-    radial-gradient(1px 1px at 28% 72%, #ffb6d9, transparent),
-    radial-gradient(1px 1px at 92% 78%, #fff, transparent),
-    radial-gradient(ellipse 100% 80% at 50% 0%, #2a1030 0%, #0a0510 60%, #050208 100%);
-  animation:twinkleBg 8s ease-in-out infinite;
-}
+html,body{width:100%;min-height:100dvh;background:radial-gradient(ellipse at top,#2a1030 0%,#0a0510 60%,#050208 100%);font-family:'Inter',system-ui,sans-serif;color:#fff;overflow-x:hidden;line-height:1.5}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(1px 1px at 15% 22%, #fff, transparent),radial-gradient(1px 1px at 62% 15%, #ffd8f0, transparent),radial-gradient(1.5px 1.5px at 82% 42%, #fff, transparent),radial-gradient(1px 1px at 32% 78%, #ffb6d9, transparent),radial-gradient(1px 1px at 92% 68%, #fff, transparent);animation:twinkleBg 8s ease-in-out infinite}
 @keyframes twinkleBg{0%,100%{opacity:1}50%{opacity:.75}}
-
-/* Canvas de pétalos flotantes */
-#petals-canvas{
-  position:fixed;inset:0;z-index:1;pointer-events:none;
-  opacity:.85;
-}
-
 main{position:relative;z-index:2}
-
-/* ====== BOTÓN VOLVER ====== */
-.back-float{
-  position:fixed;
-  top:max(14px,env(safe-area-inset-top,14px));
-  left:14px;
-  z-index:940;
-  background:rgba(20,10,30,.85);
-  backdrop-filter:blur(10px);
-  border:1px solid rgba(255,107,163,.4);
-  color:#ffb6d9;
-  padding:9px 14px;
-  border-radius:30px;
-  font-size:.78rem;
-  font-weight:600;
-  text-decoration:none;
-  display:flex;
-  align-items:center;
-  gap:5px;
-  cursor:pointer;
-  transition:all .2s;
-  white-space:nowrap;
-}
+.back-float{position:fixed;top:max(14px,env(safe-area-inset-top,14px));left:14px;z-index:940;background:rgba(20,10,30,.85);backdrop-filter:blur(10px);border:1px solid rgba(255,107,163,.4);color:#ffb6d9;padding:9px 14px;border-radius:30px;font-size:.78rem;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:5px;cursor:pointer;transition:all .2s;white-space:nowrap}
 .back-float:hover{background:rgba(255,107,163,.15);color:#fff;border-color:rgba(255,107,163,.7)}
 .back-float svg{width:14px;height:14px;fill:currentColor}
-
-/* ====== PORTADA ====== */
-#portada{
-  min-height:100dvh;
-  display:flex;flex-direction:column;justify-content:center;align-items:center;
-  padding:80px 24px 40px;
-  text-align:center;position:relative;z-index:2;
-}
-.portada-tag{
-  display:inline-block;
-  font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
-  color:#ffb6d9;background:rgba(255,107,163,.12);
-  border:1px solid rgba(255,107,163,.4);
-  padding:7px 16px;border-radius:30px;margin-bottom:26px;
-  animation:fadeUp 1s ease;
-}
-.portada-titulo{
-  font-family:'Great Vibes',cursive;
-  font-size:clamp(3rem,12vw,6rem);
-  line-height:1;
-  background:linear-gradient(90deg,#ffb6d9,#ff6b9d,#f107a3,#ff6b9d,#ffb6d9);
-  background-size:300% 300%;
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-  animation:flowGradient 6s ease infinite,fadeUp 1s .2s ease backwards;
-  filter:drop-shadow(0 8px 30px rgba(255,107,163,.4));
-  margin-bottom:14px;
-}
-.portada-nombres{
-  font-family:'Dancing Script',cursive;
-  font-size:clamp(1.2rem,4vw,1.8rem);
-  color:#ffd8a8;
-  margin-bottom:36px;
-  animation:fadeUp 1s .4s ease backwards;
-  text-shadow:0 0 20px rgba(255,200,140,.5);
-}
-.portada-frase{
-  font-family:'Caveat',cursive;
-  font-size:clamp(1.1rem,3.5vw,1.5rem);
-  color:#c8d8f0;max-width:520px;
-  margin-bottom:44px;line-height:1.5;
-  animation:fadeUp 1s .5s ease backwards;
-}
-.scroll-hint{
-  display:flex;flex-direction:column;align-items:center;gap:8px;
-  color:#8ba3c0;font-size:.78rem;
-  animation:fadeUp 1s .8s ease backwards;
-}
-.scroll-hint .arrow{
-  font-size:1.6rem;
-  animation:bounce 1.6s ease-in-out infinite;
-}
-@keyframes bounce{
-  0%,100%{transform:translateY(0);opacity:.6}
-  50%{transform:translateY(8px);opacity:1}
-}
-@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+#editor-inicial{position:relative;z-index:10;display:flex;flex-direction:column;min-height:100dvh;padding:20px 18px 180px}
+.editor-head{max-width:520px;margin:40px auto 20px;text-align:center;width:100%}
+.editor-head h1{font-family:'Great Vibes',cursive;font-size:clamp(2rem,7vw,3rem);background:linear-gradient(90deg,#ffb6d9,#ff6b9d,#ffb6d9);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;animation:flowGradient 4s ease infinite}
 @keyframes flowGradient{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-
-/* ====== CAPÍTULOS ====== */
-.capitulo{
-  min-height:100dvh;
-  padding:80px 24px 80px;
-  display:flex;flex-direction:column;justify-content:center;align-items:center;
-  position:relative;z-index:2;
-}
-.cap-numero{
-  font-family:'Dancing Script',cursive;
-  font-size:clamp(2rem,6vw,3rem);
-  color:rgba(255,182,217,.4);
-  margin-bottom:6px;
-  letter-spacing:2px;
-}
-.cap-titulo{
-  font-family:'Great Vibes',cursive;
-  font-size:clamp(2rem,7vw,3.5rem);
-  line-height:1.1;
-  background:linear-gradient(90deg,#ffb6d9,#ff6b9d,#ffb6d9);
-  background-size:200% 100%;
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-  text-align:center;
-  margin-bottom:32px;
-  filter:drop-shadow(0 4px 20px rgba(255,107,163,.4));
-}
-.cap-foto-wrap{
-  position:relative;
-  max-width:420px;
-  width:100%;
-  aspect-ratio:3/4;
-  border-radius:20px;
-  overflow:hidden;
-  margin-bottom:26px;
-  box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 60px rgba(255,107,163,.2);
-  transition:transform .5s cubic-bezier(.2,.9,.3,1.2);
-}
-.cap-foto-wrap:hover{transform:scale(1.02) rotate(1deg)}
-.cap-foto-wrap img{
-  width:100%;height:100%;object-fit:cover;display:block;
-}
-.cap-foto-marco{
-  position:absolute;inset:0;border-radius:20px;
-  border:2px solid rgba(255,182,217,.4);
-  pointer-events:none;
-}
-.premium-frame .cap-foto-marco{
-  border:3px solid rgba(255,209,102,.7);
-  box-shadow:inset 0 0 40px rgba(255,209,102,.2),0 0 40px rgba(255,209,102,.5);
-  animation:premiumFrameGlow 3s ease-in-out infinite;
-}
-@keyframes premiumFrameGlow{
-  0%,100%{box-shadow:inset 0 0 40px rgba(255,209,102,.2),0 0 30px rgba(255,209,102,.4)}
-  50%{box-shadow:inset 0 0 60px rgba(255,209,102,.4),0 0 50px rgba(255,209,102,.8)}
-}
-.cap-texto{
-  font-family:'Caveat',cursive;
-  font-size:clamp(1.2rem,4vw,1.6rem);
-  color:#e8d8f0;
-  max-width:480px;
-  text-align:center;
-  line-height:1.6;
-  padding:0 10px;
-}
-.cap-deco{
-  font-size:2rem;margin-top:26px;
-  filter:drop-shadow(0 0 16px rgba(255,107,163,.6));
-  animation:heartbeat 1.6s ease-in-out infinite;
-}
-@keyframes heartbeat{
-  0%,100%{transform:scale(1)}
-  15%{transform:scale(1.2)}
-  30%{transform:scale(1)}
-  45%{transform:scale(1.15)}
-  60%{transform:scale(1)}
-}
-
-/* Reveal al hacer scroll */
-.reveal{
-  opacity:0;transform:translateY(50px);
-  transition:opacity 1s ease,transform 1s ease;
-}
-.reveal.visible{opacity:1;transform:translateY(0)}
-
-/* ====== CAPÍTULO BLOQUEADO ====== */
-.cap-bloqueado{
-  background:linear-gradient(160deg,rgba(30,15,40,.95),rgba(15,8,25,.95));
-  border:2px dashed rgba(255,209,102,.4);
-  border-radius:24px;
-  padding:50px 30px;
-  text-align:center;
-  max-width:440px;
-  position:relative;
-  overflow:hidden;
-}
-.cap-bloqueado::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(circle at 50% 0%,rgba(255,209,102,.15),transparent 60%);
-  pointer-events:none;
-}
-.cap-bloqueado .candado{
-  font-size:4rem;margin-bottom:16px;
-  filter:drop-shadow(0 0 24px rgba(255,209,102,.8));
-  animation:lockPulse 2s ease-in-out infinite;
-}
-@keyframes lockPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1) rotate(-3deg)}}
-.cap-bloqueado h3{
-  font-family:'Great Vibes',cursive;
-  font-size:2rem;color:#ffd166;
-  margin-bottom:14px;
-}
-.cap-bloqueado p{
-  color:#d4b978;font-size:.95rem;
-  margin-bottom:24px;line-height:1.5;
-}
-.btn-unlock{
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  background:linear-gradient(135deg,#ffd166,#ff9500);
-  color:#1a0e00;padding:14px 30px;
-  border-radius:50px;border:none;
-  font-weight:800;font-size:.95rem;
-  text-decoration:none;cursor:pointer;
-  box-shadow:0 12px 40px rgba(255,180,40,.5);
-  transition:transform .2s;font-family:inherit;
-}
-.btn-unlock:hover{transform:scale(1.05)}
-.btn-unlock:active{transform:scale(.97)}
-
-/* ====== EPÍLOGO ====== */
-#epilogo{
-  min-height:100dvh;
-  padding:100px 24px 60px;
-  display:flex;flex-direction:column;justify-content:center;align-items:center;
-  text-align:center;position:relative;z-index:2;
-  background:radial-gradient(circle at 50% 50%,rgba(255,107,163,.15),transparent 70%);
-}
-.epi-titulo{
-  font-family:'Great Vibes',cursive;
-  font-size:clamp(2.5rem,9vw,4.5rem);
-  line-height:1.05;
-  background:linear-gradient(90deg,#ffb6d9,#ff6b9d,#f107a3,#ff6b9d,#ffb6d9);
-  background-size:300% 300%;
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-  animation:flowGradient 5s ease infinite;
-  filter:drop-shadow(0 6px 30px rgba(255,107,163,.5));
-  margin-bottom:24px;
-}
-.epi-mensaje{
-  font-family:'Caveat',cursive;
-  font-size:clamp(1.3rem,4.5vw,2rem);
-  color:#ffd8a8;
-  max-width:560px;
-  line-height:1.5;
-  margin-bottom:40px;
-  text-shadow:0 0 24px rgba(255,200,140,.4);
-}
-.corazon-particulas{
-  width:180px;height:180px;
-  margin:0 auto 34px;
-  position:relative;
-}
-.corazon-particulas canvas{
-  width:100%;height:100%;
-}
-.epi-firma{
-  font-family:'Dancing Script',cursive;
-  font-size:1.2rem;color:#a8b8d8;
-  margin-bottom:36px;
-}
-.acciones-finales{
-  display:flex;flex-direction:column;gap:12px;
-  width:100%;max-width:320px;
-}
-.btn-accion{
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  padding:14px 20px;border-radius:14px;border:none;
-  font-weight:700;font-size:.95rem;
-  text-decoration:none;cursor:pointer;
-  transition:transform .2s;font-family:inherit;width:100%;
-}
-.btn-accion.primary{
-  background:linear-gradient(135deg,#ff2e88,#7b2ff7);
-  color:#fff;box-shadow:0 12px 40px rgba(255,46,136,.5);
-}
-.btn-accion.secondary{
-  background:rgba(255,255,255,.08);color:#ffb6d9;
-  border:1px solid rgba(255,107,163,.4);
-}
-.btn-accion:hover{transform:translateY(-2px)}
-
-/* ====== MARCA DE AGUA ====== */
-.marca-agua{
-  position:fixed;bottom:14px;right:14px;
-  z-index:20;
-  background:rgba(10,5,16,.75);
-  backdrop-filter:blur(8px);
-  border:1px solid rgba(255,107,163,.3);
-  color:#ffb6d9;
-  padding:6px 12px;border-radius:20px;
-  font-size:.68rem;font-weight:600;
-  text-decoration:none;
-  display:flex;align-items:center;gap:5px;
-  transition:all .2s;
-}
-.marca-agua:hover{background:rgba(255,107,163,.2);color:#fff}
-.marca-agua.premium{display:none}
-
-/* ====== EDITOR OVERLAY (PRIMERA CARGA) ====== */
-#editor-inicial{
-  position:fixed;inset:0;z-index:200;
-  background:linear-gradient(160deg,#1a0a1e,#0a0510);
-  display:none;flex-direction:column;
-  padding:20px;overflow-y:auto;
-}
-#editor-inicial.show{display:flex;animation:fadeIn .4s}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.editor-head{
-  max-width:520px;margin:20px auto 20px;text-align:center;width:100%;
-}
-.editor-head h1{
-  font-family:'Great Vibes',cursive;
-  font-size:clamp(2rem,7vw,2.8rem);
-  background:linear-gradient(90deg,#ffb6d9,#ff6b9d,#ffb6d9);
-  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
-  margin-bottom:8px;
-}
-.editor-head p{color:#8ba3c0;font-size:.88rem}
-.progreso{
-  max-width:520px;margin:0 auto 24px;width:100%;
-  display:flex;gap:6px;
-}
-.progreso .dot{
-  flex:1;height:4px;border-radius:4px;
-  background:rgba(255,255,255,.1);
-  transition:background .3s;
-}
+.editor-head p{color:#a8b8d8;font-size:.9rem;line-height:1.4}
+.premium-activo{display:none;max-width:520px;margin:0 auto 16px;background:linear-gradient(135deg,rgba(34,197,94,.15),rgba(74,222,128,.08));border:1.5px solid rgba(74,222,128,.4);border-radius:10px;padding:8px 14px;font-size:.75rem;color:#86efac;text-align:center;font-weight:600}
+.premium-activo.show{display:block}
+.progreso{max-width:520px;margin:0 auto 22px;width:100%;display:flex;gap:6px}
+.progreso .dot{flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,.1);transition:background .3s}
 .progreso .dot.done{background:linear-gradient(90deg,#ff6b9d,#a855f7)}
 .progreso .dot.current{background:linear-gradient(90deg,#ff6b9d,#a855f7);animation:pulseDot 1.5s infinite}
 @keyframes pulseDot{0%,100%{opacity:1}50%{opacity:.5}}
-
-.editor-card{
-  max-width:520px;margin:0 auto;width:100%;
-  background:linear-gradient(160deg,rgba(30,15,40,.9),rgba(15,8,25,.9));
-  border:1px solid rgba(255,107,163,.25);
-  border-radius:20px;
-  padding:26px 22px;
-}
-.editor-paso h2{
-  font-family:'Dancing Script',cursive;
-  font-size:1.7rem;color:#ffb6d9;
-  margin-bottom:6px;text-align:center;
-}
-.editor-paso .sub{
-  font-size:.82rem;color:#8ba3c0;text-align:center;
-  margin-bottom:22px;line-height:1.4;
-}
-.campo{
-  display:flex;flex-direction:column;gap:6px;margin-bottom:16px;
-}
-.campo label{
-  font-size:.7rem;font-weight:700;color:#a8b8d8;
-  text-transform:uppercase;letter-spacing:.8px;
-}
-.campo input,.campo textarea{
-  background:rgba(0,0,0,.4);
-  border:1px solid rgba(255,107,163,.25);
-  border-radius:10px;padding:12px 14px;
-  color:#fff;font-family:inherit;font-size:16px;
-  outline:none;width:100%;
-  transition:border-color .2s,box-shadow .2s;
-}
-.campo input:focus,.campo textarea:focus{
-  border-color:#ff6b9d;
-  box-shadow:0 0 0 3px rgba(255,107,163,.15);
-}
-.campo textarea{
-  min-height:90px;resize:vertical;
-  font-family:'Caveat',cursive;font-size:1.2rem;
-}
-.file-btn{
-  display:flex;align-items:center;justify-content:center;gap:10px;
-  padding:22px;border:2px dashed rgba(255,107,163,.4);
-  border-radius:12px;cursor:pointer;
-  transition:all .25s;background:rgba(255,107,163,.04);
-  color:#a8b8d8;font-size:.88rem;text-align:center;
-  font-family:inherit;
-}
+.editor-card{max-width:520px;margin:0 auto;width:100%;background:linear-gradient(160deg,rgba(30,15,40,.9),rgba(15,8,25,.9));border:1px solid rgba(255,107,163,.25);border-radius:20px;padding:24px 20px;box-shadow:0 20px 60px rgba(0,0,0,.5);backdrop-filter:blur(12px)}
+.editor-paso h2{font-family:'Dancing Script',cursive;font-size:1.7rem;color:#ffb6d9;margin-bottom:6px;text-align:center}
+.editor-paso .sub{font-size:.82rem;color:#8ba3c0;text-align:center;margin-bottom:22px;line-height:1.4}
+.campo{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.campo label{font-size:.7rem;font-weight:700;color:#a8b8d8;text-transform:uppercase;letter-spacing:.8px;display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap}
+.campo label .premium-tag{font-size:.6rem;font-weight:700;color:#ffd166;background:rgba(255,209,102,.12);border:1px solid rgba(255,209,102,.4);padding:2px 7px;border-radius:20px;letter-spacing:.4px;text-transform:none}
+.campo label .premium-tag.unlocked{color:#4ade80;background:rgba(34,197,94,.12);border-color:rgba(74,222,128,.4)}
+.campo input,.campo textarea{background:rgba(0,0,0,.4);border:1px solid rgba(255,107,163,.25);border-radius:10px;padding:12px 14px;color:#fff;font-family:inherit;font-size:16px;outline:none;width:100%;transition:border-color .2s,box-shadow .2s}
+.campo input:focus,.campo textarea:focus{border-color:#ff6b9d;box-shadow:0 0 0 3px rgba(255,107,163,.15)}
+.campo textarea{min-height:90px;resize:vertical;font-family:'Caveat',cursive;font-size:1.2rem;line-height:1.4}
+.file-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:20px;border:2px dashed rgba(255,107,163,.4);border-radius:12px;cursor:pointer;transition:all .25s;background:rgba(255,107,163,.04);color:#a8b8d8;font-size:.88rem;text-align:center;font-family:inherit;position:relative}
 .file-btn:hover{border-color:#ff6b9d;background:rgba(255,107,163,.1)}
-.file-btn.has-file{
-  border-style:solid;border-color:#4ade80;
-  background:rgba(74,222,128,.1);color:#86efac;
-}
-.preview-mini{
-  width:100%;aspect-ratio:3/4;
-  border-radius:12px;overflow:hidden;
-  margin-top:10px;display:none;
-  box-shadow:0 12px 30px rgba(0,0,0,.5);
-  border:2px solid rgba(255,107,163,.3);
-}
-.preview-mini.show{display:block}
-.preview-mini img{width:100%;height:100%;object-fit:cover}
-
-.editor-acciones{
-  display:flex;gap:10px;margin-top:22px;
-}
-.editor-acciones button{
-  flex:1;padding:14px;border-radius:12px;border:none;
-  font-weight:700;font-size:.92rem;cursor:pointer;
-  transition:transform .15s;font-family:inherit;
-}
+.file-btn.has-file{border-style:solid;border-color:#4ade80;background:rgba(74,222,128,.1);color:#86efac}
+.file-btn.premium{border-color:rgba(255,209,102,.5);background:rgba(255,209,102,.06);color:#ffd166}
+.file-btn.premium::after{content:'👑';position:absolute;top:8px;right:12px;font-size:14px}
+.file-btn.premium.unlocked{border-color:rgba(34,197,94,.5);background:rgba(34,197,94,.06);color:#86efac}
+.file-btn.premium.unlocked::after{content:'✓';color:#4ade80}
+.contador-fotos{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:.72rem;color:#8ba3c0;margin-top:8px;padding:8px 12px;background:rgba(0,0,0,.3);border-radius:10px}
+.contador-fotos b{color:#ffb6d9}
+.contador-fotos.premium{color:#ffd166}
+.contador-fotos.premium b{color:#ffd166}
+.contador-fotos .barra{flex:1;height:6px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;margin:0 8px}
+.contador-fotos .barra-inner{height:100%;background:linear-gradient(90deg,#ff6b9d,#a855f7);border-radius:3px;transition:width .3s}
+.contador-fotos.premium .barra-inner{background:linear-gradient(90deg,#ffd166,#ff9500)}
+.fotos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.fotos-grid .mini-foto{position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#000;border:1px solid rgba(255,107,163,.3);animation:miniFotoIn .4s ease}
+@keyframes miniFotoIn{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
+.fotos-grid .mini-foto img{width:100%;height:100%;object-fit:cover}
+.fotos-grid .mini-foto .del{position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.75);color:#fff;border:none;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.paletas-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px}
+.paleta-btn{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;background:rgba(0,0,0,.35);border:1.5px solid rgba(255,107,163,.2);cursor:pointer;color:#c8d8f0;font-size:.78rem;font-weight:500;font-family:inherit;transition:all .2s;text-align:left}
+.paleta-btn.active{border-color:#ff6b9d;background:rgba(255,107,163,.15);color:#fff}
+.paleta-colores{display:flex;gap:3px;flex-shrink:0}
+.paleta-color{width:12px;height:12px;border-radius:50%;border:1px solid rgba(255,255,255,.2)}
+.editor-acciones{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+.editor-acciones button{flex:1;padding:13px;border-radius:12px;border:none;font-weight:700;font-size:.9rem;cursor:pointer;transition:transform .15s;font-family:inherit;min-width:120px}
 .editor-acciones button:active{transform:scale(.97)}
-.btn-prev{
-  background:rgba(255,255,255,.08);color:#ffb6d9;
-  border:1px solid rgba(255,107,163,.3);
-}
-.btn-next{
-  background:linear-gradient(135deg,#ff6b9d,#a855f7);
-  color:#fff;box-shadow:0 8px 24px rgba(255,107,163,.4);
-}
-.btn-next:disabled{
-  opacity:.4;cursor:not-allowed;
-  box-shadow:none;
-}
-.btn-skip{
-  background:transparent;color:#8ba3c0;
-  font-size:.82rem;padding:8px !important;
-  grid-column:1/-1;
-}
-
-/* Aviso Premium */
-.premium-aviso{
-  background:linear-gradient(135deg,rgba(255,209,102,.12),rgba(255,149,0,.06));
-  border:1px solid rgba(255,209,102,.4);
-  border-radius:12px;
-  padding:14px 16px;
-  margin-top:20px;
-  display:none;
-  font-size:.82rem;color:#ffe8b3;
-  text-align:center;line-height:1.4;
-}
-.premium-aviso.show{display:block}
-.premium-aviso b{color:#ffd166;display:block;margin-bottom:4px}
-.premium-aviso a{
-  display:inline-block;margin-top:8px;
-  color:#ffd166;font-weight:700;text-decoration:underline;
-  font-size:.82rem;
-}
-
-/* Banner premium activo */
-.premium-activo{
-  display:none;
-  background:linear-gradient(135deg,rgba(34,197,94,.15),rgba(74,222,128,.08));
-  border:1.5px solid rgba(74,222,128,.4);
-  border-radius:10px;
-  padding:8px 14px;
-  margin-bottom:16px;
-  font-size:.75rem;
-  color:#86efac;
-  text-align:center;
-  font-weight:600;
-}
-.premium-activo.show{display:block}
-
-/* ====== MÚSICA BTN ====== */
-#music-toggle{
-  position:fixed;
-  top:max(14px,env(safe-area-inset-top,14px));
-  right:14px;
-  z-index:940;
-  width:44px;height:44px;border-radius:50%;
-  border:1px solid rgba(255,107,163,.4);
-  background:rgba(20,10,30,.85);
-  backdrop-filter:blur(10px);
-  color:#ffb6d9;font-size:18px;
-  cursor:pointer;
-  display:none;align-items:center;justify-content:center;
-  transition:all .25s;
-}
-#music-toggle.show{display:flex}
-#music-toggle.playing{
-  background:linear-gradient(135deg,#ff6b9d,#a855f7);
-  color:#fff;border-color:transparent;
-  animation:musicPulse 2s infinite;
-}
-@keyframes musicPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,107,163,.6)}50%{box-shadow:0 0 0 12px rgba(255,107,163,0)}}
+.btn-prev{background:rgba(255,255,255,.08);color:#ffb6d9;border:1px solid rgba(255,107,163,.3)}
+.btn-next{background:linear-gradient(135deg,#ff6b9d,#a855f7);color:#fff;box-shadow:0 8px 24px rgba(255,107,163,.4)}
+.btn-barra{position:fixed;bottom:0;left:0;right:0;z-index:900;padding:12px 18px calc(12px + env(safe-area-inset-bottom,0));background:linear-gradient(180deg,rgba(10,5,16,0),rgba(10,5,16,.96) 30%);display:flex;gap:10px;max-width:560px;margin:0 auto;pointer-events:none}
+.btn-barra .btn-accion{margin:0;flex:1;pointer-events:auto;padding:14px 16px;border-radius:12px;border:none;font-weight:700;font-size:.92rem;cursor:pointer;transition:transform .15s;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px}
+.btn-barra .btn-accion:active{transform:scale(.97)}
+.btn-barra .btn-vista{background:linear-gradient(135deg,#00d4ff,#7b2ff7);color:#fff;box-shadow:0 10px 30px rgba(0,212,255,.4)}
+.btn-barra .btn-descarga{background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;box-shadow:0 10px 30px rgba(34,197,94,.4)}
+#status{position:fixed;bottom:calc(90px + env(safe-area-inset-bottom,0));left:50%;transform:translateX(-50%) translateY(120%);background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;padding:13px 22px;border-radius:12px;font-size:.9rem;font-weight:600;z-index:1000;transition:transform .35s;pointer-events:none;max-width:90vw;text-align:center;box-shadow:0 12px 34px rgba(0,0,0,.5)}
+#status.show{transform:translateX(-50%) translateY(0)}
+#status.err{background:linear-gradient(135deg,#ef4444,#dc2626)}
+#loading{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:900;flex-direction:column;gap:14px;color:#ffb6d9}
+#loading.show{display:flex}
+.spinner{width:44px;height:44px;border:4px solid rgba(255,107,163,.2);border-top-color:#ff6b9d;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#premium-modal{position:fixed;inset:0;z-index:1200;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:20px}
+#premium-modal.show{display:flex;animation:fadeIn .3s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+#premium-box{width:100%;max-width:400px;background:linear-gradient(160deg,#1a1207,#0a0a15);border:2px solid rgba(255,209,102,.5);border-radius:22px;padding:28px 24px;text-align:center;animation:pop .4s cubic-bezier(.2,.9,.3,1.2);box-shadow:0 0 80px rgba(255,180,40,.35);position:relative;overflow:hidden}
+@keyframes pop{from{transform:scale(.85) translateY(40px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+#premium-box::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at top,rgba(255,209,102,.2),transparent 60%);pointer-events:none}
+#premium-box .crown{font-size:52px;margin-bottom:10px;filter:drop-shadow(0 0 20px rgba(255,209,102,.7));animation:crownFloat 2s ease-in-out infinite;position:relative}
+@keyframes crownFloat{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-6px) rotate(4deg)}}
+#premium-box h2{font-family:'Pacifico',cursive;font-size:1.6rem;background:linear-gradient(90deg,#ffd166,#ffa000,#ffd166);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 3s infinite;margin-bottom:8px;position:relative}
+@keyframes shimmer{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+#premium-box .subtitle{font-size:.85rem;color:#c9a76a;margin-bottom:20px;position:relative}
+#premium-box .feature{background:rgba(255,209,102,.1);border:1px solid rgba(255,209,102,.3);border-radius:12px;padding:12px 16px;font-size:.88rem;color:#ffe8b3;margin-bottom:18px;text-align:left;position:relative}
+#premium-box .feature b{color:#ffd166}
+#premium-box .price{font-family:'Permanent Marker',cursive;font-size:2rem;color:#ffd166;margin-bottom:6px;text-shadow:0 0 20px rgba(255,209,102,.5);position:relative}
+#premium-box .price-note{font-size:.72rem;color:#8a7a5a;margin-bottom:20px;position:relative}
+#premium-box .btn-upgrade{background:linear-gradient(135deg,#ffd166,#ffa000);color:#1a0e00;font-weight:800;padding:14px;border-radius:12px;border:none;width:100%;cursor:pointer;font-family:inherit;font-size:1rem;box-shadow:0 10px 30px rgba(255,180,40,.5);margin-bottom:10px;position:relative;transition:transform .2s}
+#premium-box .btn-later{background:transparent;border:1px solid rgba(255,209,102,.3);color:#c9a76a;padding:12px;border-radius:12px;width:100%;cursor:pointer;font-family:inherit;font-size:.85rem;position:relative}
+#premium-box .close-x{position:absolute;top:14px;right:16px;background:transparent;border:none;color:#c9a76a;font-size:24px;cursor:pointer;line-height:1;z-index:2}
 </style>
 </head>
 <body>
@@ -517,290 +107,111 @@ main{position:relative;z-index:2}
   Volver
 </a>
 
-<button id="music-toggle" aria-label="Música">🎵</button>
-
-<canvas id="petals-canvas"></canvas>
-
-<a href="premium.html" class="marca-agua" id="marcaAgua">
-  <span>💫</span> Hecho con Dedicatorias Mágicas
-</a>
-
-<main id="main-content" style="display:none">
-
-  <!-- PORTADA -->
-  <section id="portada">
-    <span class="portada-tag">💕 Nuestra historia</span>
-    <h1 class="portada-titulo" id="portada-titulo">Nuestra Historia</h1>
-    <div class="portada-nombres" id="portada-nombres">—</div>
-    <p class="portada-frase" id="portada-frase">Una historia hecha de momentos que nunca quiero olvidar.</p>
-    <div class="scroll-hint">
-      <span>Desliza para comenzar</span>
-      <span class="arrow">↓</span>
+<main>
+  <div id="editor-inicial">
+    <div class="editor-head">
+      <h1>Cuéntame tu historia</h1>
+      <p>Vamos a crear algo único para esa persona especial ✨</p>
     </div>
-  </section>
 
-  <!-- CAPÍTULOS (se generan dinámicamente) -->
-  <div id="capitulos-container"></div>
-
-  <!-- EPÍLOGO -->
-  <section id="epilogo" style="display:none">
-    <h2 class="epi-titulo">Y esto es solo el comienzo…</h2>
-    <div class="corazon-particulas">
-      <canvas id="corazon-canvas" width="300" height="300"></canvas>
+    <div class="premium-activo" id="premium-activo">
+      👑 Eres Premium · Todas las opciones desbloqueadas
     </div>
-    <p class="epi-mensaje" id="epi-mensaje">Gracias por cada momento. Por cada risa. Por cada abrazo. Eres mi persona favorita.</p>
-    <div class="epi-firma" id="epi-firma">— Con todo mi amor —</div>
-    <div class="acciones-finales">
-      <button class="btn-accion secondary" id="btn-reiniciar">↑ Volver al inicio</button>
-      <a class="btn-accion secondary" href="premium.html" id="btn-premium-final" style="display:none">
-        👑 Desbloquear Premium
-      </a>
-    </div>
-  </section>
 
+    <div class="progreso" id="progreso"></div>
+
+    <div class="editor-card">
+      <div id="editor-contenido"></div>
+      <div class="editor-acciones" id="editor-acciones"></div>
+    </div>
+  </div>
 </main>
 
-<!-- ====== EDITOR INICIAL ====== -->
-<div id="editor-inicial">
-  <div class="editor-head">
-    <h1>Cuéntame tu historia</h1>
-    <p>Vamos a crear algo único para esa persona especial ✨</p>
-  </div>
+<div class="btn-barra">
+  <button class="btn-accion btn-vista" id="btn-vista">👁️ Vista previa</button>
+  <button class="btn-accion btn-descarga" id="btn-descarga">💾 Descargar</button>
+</div>
 
-  <div class="progreso" id="progreso"></div>
-
-  <div class="editor-card">
-    <div id="editor-contenido"></div>
-    <div class="editor-acciones" id="editor-acciones"></div>
-    <div class="premium-aviso" id="premium-aviso">
-      <b>👑 Función Premium</b>
-      Los usuarios Premium pueden agregar más capítulos y personalizar todo al máximo.
-      <br>
-      <a href="premium.html">Hazte Premium por $79 →</a>
-    </div>
+<div id="premium-modal">
+  <div id="premium-box">
+    <button class="close-x" id="premium-close">×</button>
+    <div class="crown">👑</div>
+    <h2>Función Premium</h2>
+    <div class="subtitle">Desbloquea todo el potencial</div>
+    <div class="feature" id="premium-feature-text"><b>Esta función</b> te permite llevar tu historia al siguiente nivel.</div>
+    <div class="price">$79 MXN</div>
+    <div class="price-note">Pago único · Acceso de por vida</div>
+    <button class="btn-upgrade" id="premium-upgrade">✨ Desbloquear Premium</button>
+    <button class="btn-later" id="premium-later">Quizás después</button>
   </div>
 </div>
 
+<div id="status"></div>
+<div id="loading"><div class="spinner"></div><div id="loading-text">Preparando tu historia...</div></div>
+
 <script>
 /* ============================================================
-   DETECCIÓN DE PREMIUM
+   CONFIGURACIÓN
    ============================================================ */
 var isPremium = (localStorage.getItem("peri_premium_activated") === "1");
-var CAPITULOS_GRATIS = 3;
-var CAPITULOS_PREMIUM = 5;
+var CAPITULOS_TOTAL = 5;
+var FOTOS_GRATIS = 1;
+var FOTOS_PREMIUM = 10;
 
-/* ============================================================
-   DATOS POR DEFECTO
-   ============================================================ */
+var PALETAS = {
+  rosa:    { nombre: "Rosa romance",  colores: ["#ff6b9d","#ffb6d9","#2a1030"] },
+  purpura: { nombre: "Violeta",        colores: ["#a855f7","#d68eff","#1a0a30"] },
+  dorado:  { nombre: "Dorado",         colores: ["#ffd166","#ffe8a3","#1a1207"] },
+  azul:    { nombre: "Azul noche",     colores: ["#3a6bff","#a8d8ff","#0a0a2a"] },
+  rojo:    { nombre: "Rojo pasión",    colores: ["#e63946","#ff9ec4","#2a0505"] },
+  verde:   { nombre: "Verde esmeralda",colores: ["#4ade80","#a8ffd4","#0a2a15"] },
+  negro:   { nombre: "Negro elegante", colores: ["#ffffff","#c8d8f0","#000000"] }
+};
+
 var data = {
   nombres: "Tú y yo",
   frase: "Una historia hecha de momentos que nunca quiero olvidar.",
   mensajeFinal: "Gracias por cada momento. Por cada risa. Por cada abrazo. Eres mi persona favorita.",
   firma: "Con todo mi amor",
+  paleta: "rosa",
   capitulos: [
-    { titulo: "Cómo nos conocimos", texto: "El día que te vi, todo cambió. No lo sabía entonces, pero ahí empezó todo.", foto: null },
-    { titulo: "Nuestra primera cita", texto: "Los nervios, las risas, las horas que pasaron sin darnos cuenta. Supe que quería más.", foto: null },
-    { titulo: "El momento en que supe que te amaba", texto: "No fue una fecha, ni un lugar. Fue un instante en el que entendí que no quería estar sin ti.", foto: null },
-    { titulo: "Nuestro mejor recuerdo", texto: "Si tuviera que elegir un momento, elegiría cada segundo contigo. Pero si tengo que escoger uno...", foto: null },
-    { titulo: "Mi promesa para ti", texto: "Prometo seguir eligiéndote cada día. Prometo amarte en las buenas y en las difíciles.", foto: null }
+    { titulo: "Cómo nos conocimos", fecha: "", texto: "", fotos: [] },
+    { titulo: "Nuestra primera cita", fecha: "", texto: "", fotos: [] },
+    { titulo: "El momento en que supe que te amaba", fecha: "", texto: "", fotos: [] },
+    { titulo: "Nuestro mejor recuerdo", fecha: "", texto: "", fotos: [] },
+    { titulo: "Mi promesa para ti", fecha: "", texto: "", fotos: [] }
   ],
   cancion: null
 };
 
 var pasoActual = 0;
-var totalPasos = 4;
+var PASO_PORTADA = 0;
+var PASO_CAP_MIN = 1;
+var PASO_CAP_MAX = 5;
+var PASO_FINAL = 6;
+var TOTAL_PASOS = 7;
 
-/* ============================================================
-   EDITOR
-   ============================================================ */
 var $ = function(id){ return document.getElementById(id); };
 
-function renderProgreso(){
-  var cont = $("progreso");
-  cont.innerHTML = "";
-  for (var i = 0; i < totalPasos; i++){
-    var d = document.createElement("div");
-    d.className = "dot" + (i < pasoActual ? " done" : "") + (i === pasoActual ? " current" : "");
-    cont.appendChild(d);
-  }
+/* ============================================================
+   UTILIDADES
+   ============================================================ */
+function showStatus(msg, ok){
+  var s = $("status");
+  s.textContent = msg;
+  s.classList.toggle("err", ok === false);
+  s.classList.add("show");
+  clearTimeout(showStatus._t);
+  showStatus._t = setTimeout(function(){ s.classList.remove("show"); }, 3000);
 }
-
-function renderEditor(){
-  renderProgreso();
-  var cont = $("editor-contenido");
-  var acciones = $("editor-acciones");
-  cont.innerHTML = "";
-  acciones.innerHTML = "";
-
-  if (pasoActual === 0){
-    cont.innerHTML =
-      '<div class="editor-paso">' +
-        '<h2>¿Para quién es?</h2>' +
-        '<p class="sub">Cuéntame los nombres de ustedes dos o para quién es este regalo</p>' +
-        '<div class="campo">' +
-          '<label>Nombres (ej: María & Juan)</label>' +
-          '<input id="in-nombres" type="text" maxlength="40" value="' + escapeHtml(data.nombres) + '" placeholder="María & Juan">' +
-        '</div>' +
-        '<div class="campo">' +
-          '<label>Frase de portada (opcional)</label>' +
-          '<textarea id="in-frase" maxlength="140" placeholder="Una historia hecha de momentos...">' + escapeHtml(data.frase) + '</textarea>' +
-        '</div>' +
-      '</div>';
-  }
-  else if (pasoActual >= 1 && pasoActual <= CAPITULOS_PREMIUM){
-    var idx = pasoActual - 1;
-    var cap = data.capitulos[idx];
-    if (!cap) cap = { titulo:"", texto:"", foto:null };
-
-    var premiumBlocked = (idx >= CAPITULOS_GRATIS) && !isPremium;
-
-    if (premiumBlocked){
-      cont.innerHTML =
-        '<div class="editor-paso" style="text-align:center">' +
-          '<div style="font-size:3rem;margin-bottom:12px">👑</div>' +
-          '<h2 style="color:#ffd166">Capítulo Premium</h2>' +
-          '<p class="sub">Este capítulo es exclusivo de usuarios Premium. Desbloquéalo para seguir contando tu historia completa.</p>' +
-          '<a href="premium.html" class="btn-unlock" style="margin-top:16px">✨ Desbloquear por $79</a>' +
-        '</div>';
-      // Ajustar botones
-      acciones.innerHTML =
-        '<button class="btn-prev" id="btn-prev">← Atrás</button>' +
-        '<button class="btn-next" id="btn-next">Saltar →</button>';
-    } else {
-      cont.innerHTML =
-        '<div class="editor-paso">' +
-          '<h2>Capítulo ' + (idx+1) + '</h2>' +
-          '<p class="sub">Cuéntame este momento especial</p>' +
-          '<div class="campo">' +
-            '<label>Título del capítulo</label>' +
-            '<input id="in-titulo" type="text" maxlength="60" value="' + escapeHtml(cap.titulo) + '" placeholder="Ej: Cómo nos conocimos">' +
-          '</div>' +
-          '<div class="campo">' +
-            '<label>Tu historia</label>' +
-            '<textarea id="in-texto" maxlength="400" placeholder="Cuéntame qué pasó ese día...">' + escapeHtml(cap.texto) + '</textarea>' +
-          '</div>' +
-          '<div class="campo">' +
-            '<label>Foto (opcional)</label>' +
-            '<label class="file-btn" for="in-foto">' +
-              '<span id="foto-label">📷 Añadir foto</span>' +
-              '<input id="in-foto" type="file" accept="image/*" hidden>' +
-            '</label>' +
-            '<div class="preview-mini" id="preview-mini"><img id="preview-img" alt=""></div>' +
-          '</div>' +
-        '</div>';
-      // Botones
-      var esUltimo = idx === CAPITULOS_PREMIUM - 1;
-      acciones.innerHTML =
-        '<button class="btn-prev" id="btn-prev">← Atrás</button>' +
-        '<button class="btn-next" id="btn-next">' + (esUltimo ? 'Terminar ✨' : 'Siguiente →') + '</button>';
-    }
-  }
-  else if (pasoActual === CAPITULOS_PREMIUM + 1){
-    // Paso final: mensaje final
-    cont.innerHTML =
-      '<div class="editor-paso">' +
-        '<h2>Mensaje final 💫</h2>' +
-        '<p class="sub">El cierre perfecto para tu historia</p>' +
-        '<div class="campo">' +
-          '<label>Mensaje del epílogo</label>' +
-          '<textarea id="in-mensaje" maxlength="300">' + escapeHtml(data.mensajeFinal) + '</textarea>' +
-        '</div>' +
-        '<div class="campo">' +
-          '<label>Firma (tu nombre o frase)</label>' +
-          '<input id="in-firma" type="text" maxlength="60" value="' + escapeHtml(data.firma) + '" placeholder="Con todo mi amor">' +
-        '</div>' +
-        '<div class="premium-aviso ' + (isPremium ? 'show' : '') + '">' +
-          (isPremium
-            ? '<b>✓ Premium activo</b>Puedes subir tu propia canción para esta historia.<br><label class="file-btn" for="in-cancion" style="margin-top:10px;padding:12px">' +
-              '<span id="cancion-label">🎵 ' + (data.cancion ? 'Canción cargada ✓' : 'Subir mi canción') + '</span>' +
-              '<input id="in-cancion" type="file" accept="audio/*" hidden>' +
-              '</label>'
-            : '<b>👑 Función Premium</b>Sube tu propia canción y personaliza tu historia al máximo.<br><a href="premium.html">Desbloquear por $79 →</a>')
-        + '</div>' +
-      '</div>';
-    acciones.innerHTML =
-      '<button class="btn-prev" id="btn-prev">← Atrás</button>' +
-      '<button class="btn-next" id="btn-next">✨ Ver mi historia</button>';
-  }
-
-  bindEditorEvents();
+function showLoading(v, txt){
+  $("loading").classList.toggle("show", !!v);
+  if (txt) $("loading-text").textContent = txt;
 }
-
-function bindEditorEvents(){
-  var btnPrev = $("btn-prev");
-  var btnNext = $("btn-next");
-
-  if (btnPrev) btnPrev.onclick = function(){
-    if (pasoActual > 0){ guardarPaso(); pasoActual--; renderEditor(); }
-  };
-
-  if (btnNext) btnNext.onclick = function(){
-    guardarPaso();
-    if (pasoActual === CAPITULOS_PREMIUM + 1){
-      // Terminar
-      mostrarHistoria();
-    } else {
-      pasoActual++;
-      renderEditor();
-    }
-  };
-
-  // Inputs dinámicos
-  var inFoto = $("in-foto");
-  if (inFoto){
-    inFoto.addEventListener("change", async function(e){
-      var f = e.target.files[0];
-      if (!f) return;
-      var url = await readAndResize(f, 800, 0.8);
-      data.capitulos[pasoActual - 1].foto = url;
-      $("preview-img").src = url;
-      $("preview-mini").classList.add("show");
-      $("foto-label").textContent = "✓ Foto cargada";
-      document.querySelector(".file-btn").classList.add("has-file");
-    });
-  }
-
-  var inCancion = $("in-cancion");
-  if (inCancion){
-    inCancion.addEventListener("change", async function(e){
-      var f = e.target.files[0];
-      if (!f) return;
-      if (!f.type.startsWith("audio/")){ alert("Solo archivos de audio"); return; }
-      if (f.size > 5 * 1024 * 1024){ alert("Máximo 5 MB de audio"); return; }
-      var rd = new FileReader();
-      rd.onload = function(ev){
-        data.cancion = ev.target.result;
-        $("cancion-label").textContent = "✓ " + f.name;
-      };
-      rd.readAsDataURL(f);
-    });
-  }
-
-  // Rellenar preview si ya había foto
-  var cap = data.capitulos[pasoActual - 1];
-  if (cap && cap.foto && $("preview-img")){
-    $("preview-img").src = cap.foto;
-    $("preview-mini").classList.add("show");
-    $("foto-label").textContent = "✓ Foto cargada";
-    var fb = document.querySelector(".file-btn");
-    if (fb) fb.classList.add("has-file");
-  }
+function escapeHtml(s){
+  return String(s || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;").replace(/'/g,"&#39;");
 }
-
-function guardarPaso(){
-  if (pasoActual === 0){
-    var n = $("in-nombres"); if (n) data.nombres = n.value.trim() || "Tú y yo";
-    var f = $("in-frase"); if (f) data.frase = f.value.trim() || data.frase;
-  } else if (pasoActual >= 1 && pasoActual <= CAPITULOS_PREMIUM){
-    var idx = pasoActual - 1;
-    var t = $("in-titulo"); if (t) data.capitulos[idx].titulo = t.value.trim();
-    var tx = $("in-texto"); if (tx) data.capitulos[idx].texto = tx.value.trim();
-  } else if (pasoActual === CAPITULOS_PREMIUM + 1){
-    var m = $("in-mensaje"); if (m) data.mensajeFinal = m.value.trim() || data.mensajeFinal;
-    var fi = $("in-firma"); if (fi) data.firma = fi.value.trim() || data.firma;
-  }
-}
-
 function readAndResize(file, maxW, quality){
   return new Promise(function(resolve){
     var rd = new FileReader();
@@ -821,335 +232,640 @@ function readAndResize(file, maxW, quality){
   });
 }
 
-function escapeHtml(s){
-  return String(s || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+/* ============================================================
+   PREMIUM MODAL
+   ============================================================ */
+function showPremium(feature){
+  var msgs = {
+    cancion: "<b>Música personalizada:</b> Sube tu propia canción para que suene mientras tu pareja recorre la historia.",
+    fotos: "<b>Más fotos por capítulo:</b> Los usuarios Premium pueden subir hasta 10 fotos por cada capítulo.",
+    fecha: "<b>Fechas personalizadas:</b> Añade la fecha exacta de cada momento especial.",
+    paleta: "<b>Colores personalizables:</b> Elige entre 7 paletas de colores para tu historia.",
+    marca: "<b>Sin marca de agua:</b> Elimina el sello de Dedicatorias Mágicas de tu historia."
+  };
+  $("premium-feature-text").innerHTML = msgs[feature] || "Desbloquea funciones exclusivas.";
+  $("premium-modal").classList.add("show");
+}
+function initPremiumModal(){
+  $("premium-close").onclick = function(){ $("premium-modal").classList.remove("show"); };
+  $("premium-later").onclick = function(){ $("premium-modal").classList.remove("show"); };
+  $("premium-modal").onclick = function(e){ if (e.target === $("premium-modal")) $("premium-modal").classList.remove("show"); };
+  $("premium-upgrade").onclick = function(){ window.location.href = "premium.html"; };
 }
 
 /* ============================================================
-   MOSTRAR HISTORIA
+   PROGRESO
    ============================================================ */
-function mostrarHistoria(){
-  $("editor-inicial").classList.remove("show");
-  $("main-content").style.display = "block";
+function renderProgreso(){
+  var cont = $("progreso");
+  cont.innerHTML = "";
+  for (var i = 0; i < TOTAL_PASOS; i++){
+    var d = document.createElement("div");
+    d.className = "dot" + (i < pasoActual ? " done" : "") + (i === pasoActual ? " current" : "");
+    cont.appendChild(d);
+  }
+}
 
-  // Ocultar marca de agua si premium
-  if (isPremium){
-    document.getElementById("marcaAgua").style.display = "none";
+/* ============================================================
+   RENDER EDITOR
+   ============================================================ */
+function renderEditor(){
+  renderProgreso();
+  var cont = $("editor-contenido");
+  var acciones = $("editor-acciones");
+  cont.innerHTML = "";
+  acciones.innerHTML = "";
+
+  /* PASO 0: PORTADA */
+  if (pasoActual === PASO_PORTADA){
+    cont.innerHTML =
+      '<div class="editor-paso">' +
+        '<h2>¿Para quién es?</h2>' +
+        '<p class="sub">Cuéntame los nombres o para quién es este regalo</p>' +
+        '<div class="campo">' +
+          '<label>Nombres</label>' +
+          '<input id="in-nombres" type="text" maxlength="40" value="' + escapeHtml(data.nombres) + '" placeholder="Ej: María & Juan">' +
+        '</div>' +
+        '<div class="campo">' +
+          '<label>Frase de portada (opcional)</label>' +
+          '<textarea id="in-frase" maxlength="140" placeholder="Una historia hecha de momentos...">' + escapeHtml(data.frase) + '</textarea>' +
+        '</div>' +
+      '</div>';
+    acciones.innerHTML = '<button class="btn-next" id="btn-next">Siguiente →</button>';
   }
 
-  // Portada
-  $("portada-nombres").textContent = data.nombres;
-  $("portada-frase").textContent = data.frase;
+  /* PASOS 1-5: CAPÍTULOS */
+  else if (pasoActual >= PASO_CAP_MIN && pasoActual <= PASO_CAP_MAX){
+    var idx = pasoActual - 1;
+    var cap = data.capitulos[idx];
+    var fechaLabel = '<label>Fecha (opcional) <span class="premium-tag ' + (isPremium ? 'unlocked' : '') + '">' + (isPremium ? '✓ DESBLOQUEADO' : '👑 PREMIUM') + '</span></label>';
+    var fechaInput = isPremium
+      ? '<input id="in-fecha" type="date" value="' + escapeHtml(cap.fecha) + '">'
+      : '<button class="file-btn premium" id="btn-fecha-premium" type="button" style="cursor:pointer;font-family:inherit;width:100%">📅 Añadir fecha</button>';
 
-  // Generar capítulos
-  var cont = $("capitulos-container");
-  cont.innerHTML = "";
+    var maxFotos = isPremium ? FOTOS_PREMIUM : FOTOS_GRATIS;
+    var cantFotos = (cap.fotos || []).length;
+    var pct = (cantFotos / maxFotos) * 100;
 
-  var totalMostrar = isPremium ? CAPITULOS_PREMIUM : Math.min(CAPITULOS_GRATIS, CAPITULOS_PREMIUM);
+    var fotosLabel = '<label>Fotos <span class="premium-tag ' + (isPremium ? 'unlocked' : '') + '">' + (isPremium ? '✓ Hasta 10' : '👑 1 en gratis · 10 en premium') + '</span></label>';
 
-  for (var i = 0; i < CAPITULOS_PREMIUM; i++){
-    var cap = data.capitulos[i];
-    if (!cap) continue;
+    var contadorHTML =
+      '<div class="contador-fotos ' + (isPremium ? 'premium' : '') + '">' +
+        '<span>' + (isPremium ? '👑' : '📷') + ' <b>' + cantFotos + ' / ' + maxFotos + '</b></span>' +
+        '<span class="barra"><span class="barra-inner" style="width:' + pct + '%"></span></span>' +
+        '<span>' + (isPremium ? 'Premium' : 'Gratis') + '</span>' +
+      '</div>';
 
-    var sec = document.createElement("section");
-    sec.className = "capitulo reveal";
+    var fotosHTML =
+      '<div id="fotos-grid" class="fotos-grid"></div>' +
+      '<label class="file-btn ' + (isPremium ? 'premium unlocked' : 'premium') + '" for="in-fotos" style="margin-top:10px;padding:14px">' +
+        '<span id="fotos-label">📷 Añadir fotos</span>' +
+        '<input id="in-fotos" type="file" accept="image/*" multiple hidden>' +
+      '</label>' +
+      contadorHTML;
 
-    if (i < totalMostrar){
-      // Capítulo visible
-      var fotoHTML = cap.foto
-        ? '<div class="cap-foto-wrap ' + (isPremium ? 'premium-frame' : '') + '"><img src="' + cap.foto + '" alt=""><div class="cap-foto-marco"></div></div>'
-        : '<div class="cap-foto-wrap ' + (isPremium ? 'premium-frame' : '') + '" style="background:linear-gradient(135deg,rgba(255,107,163,.2),rgba(168,85,247,.2));display:flex;align-items:center;justify-content:center"><span style="font-size:4rem">💕</span><div class="cap-foto-marco"></div></div>';
+    cont.innerHTML =
+      '<div class="editor-paso">' +
+        '<h2>Capítulo ' + (idx+1) + '</h2>' +
+        '<p class="sub">Cuéntame este momento especial</p>' +
+        '<div class="campo">' +
+          '<label>Título del capítulo</label>' +
+          '<input id="in-titulo" type="text" maxlength="60" value="' + escapeHtml(cap.titulo) + '" placeholder="Ej: Cómo nos conocimos">' +
+        '</div>' +
+        '<div class="campo">' + fechaLabel + fechaInput + '</div>' +
+        '<div class="campo">' +
+          '<label>Tu historia</label>' +
+          '<textarea id="in-texto" maxlength="400" placeholder="Cuéntame qué pasó ese día...">' + escapeHtml(cap.texto) + '</textarea>' +
+        '</div>' +
+        '<div class="campo">' + fotosLabel + fotosHTML + '</div>' +
+      '</div>';
 
-      sec.innerHTML =
-        '<div class="cap-numero">Capítulo ' + (i+1) + '</div>' +
-        '<h2 class="cap-titulo">' + escapeHtml(cap.titulo || 'Momento especial') + '</h2>' +
-        fotoHTML +
-        '<p class="cap-texto">' + escapeHtml(cap.texto || '') + '</p>' +
-        '<div class="cap-deco">💕</div>';
+    acciones.innerHTML =
+      '<button class="btn-prev" id="btn-prev">← Atrás</button>' +
+      '<button class="btn-next" id="btn-next">Siguiente →</button>';
+  }
+
+  /* PASO 6: FINAL */
+  else if (pasoActual === PASO_FINAL){
+    var cancionHTML = '';
+    if (isPremium){
+      cancionHTML =
+        '<div class="campo">' +
+          '<label>Tu canción <span class="premium-tag unlocked">✓ DESBLOQUEADO</span></label>' +
+          '<label class="file-btn premium unlocked" id="cancion-btn" for="in-cancion">' +
+            '<span id="cancion-label">🎵 ' + (data.cancion ? 'Canción cargada ✓' : 'Subir mi canción') + '</span>' +
+            '<input id="in-cancion" type="file" accept="audio/*" hidden>' +
+          '</label>' +
+        '</div>';
     } else {
-      // Capítulo bloqueado
-      sec.innerHTML =
-        '<div class="cap-bloqueado">' +
-          '<div class="candado">🔒</div>' +
-          '<h3>Capítulo Premium</h3>' +
-          '<p>Este capítulo es exclusivo de usuarios Premium. Desbloquéalo para seguir contando tu historia completa.</p>' +
-          '<a href="premium.html" class="btn-unlock">✨ Desbloquear por $79</a>' +
+      cancionHTML =
+        '<div class="campo">' +
+          '<label>Tu canción <span class="premium-tag">👑 PREMIUM</span></label>' +
+          '<button class="file-btn premium" id="cancion-premium-btn" type="button" style="cursor:pointer;font-family:inherit;width:100%">' +
+            '🎵 Subir mi canción' +
+          '</button>' +
         '</div>';
     }
-    cont.appendChild(sec);
-  }
 
-  // Epílogo
-  var epi = $("epilogo");
-  epi.style.display = "flex";
-  $("epi-mensaje").textContent = data.mensajeFinal;
-  $("epi-firma").textContent = "— " + data.firma + " —";
-
-  if (!isPremium){
-    $("btn-premium-final").style.display = "flex";
-  }
-
-  // Botón volver arriba
-  $("btn-reiniciar").onclick = function(){
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
-  // Configurar música
-  configurarMusica();
-
-  // Inicializar animaciones
-  initReveal();
-  initPetals();
-  initCorazonParticulas();
-
-  // Empezar música al primer scroll
-  var musicaIniciada = false;
-  window.addEventListener("scroll", function(){
-    if (!musicaIniciada && window.scrollY > 200){
-      musicaIniciada = true;
-      iniciarMusica();
-    }
-  }, { once: false });
-}
-
-/* ============================================================
-   MÚSICA
-   ============================================================ */
-var audioCtx = null;
-var musicaPlaying = false;
-var musicaTimer = null;
-var musicaStep = 0;
-var customAudioEl = null;
-
-var MELODY = [
-  587.33, 440.00, 493.88, 440.00, 392.00, 440.00, 493.88, 587.33,
-  659.25, 587.33, 493.88, 440.00, 493.88, 587.33, 659.25, 783.99,
-  880.00, 783.99, 659.25, 587.33, 659.25, 783.99, 880.00, 987.77,
-  880.00, 659.25, 587.33, 493.88, 587.33, 440.00, 493.88, 587.33
-];
-var BASS = [
-  146.83, 220.00, 246.94, 185.00, 196.00, 146.83, 196.00, 220.00,
-  146.83, 220.00, 246.94, 185.00, 196.00, 146.83, 196.00, 220.00
-];
-
-function initAudio(){
-  if (audioCtx) return;
-  try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){}
-}
-
-function playNote(freq, time, duration, vol){
-  if (!audioCtx) return;
-  var osc = audioCtx.createOscillator();
-  var gain = audioCtx.createGain();
-  osc.type = 'sine';
-  osc.frequency.value = freq;
-  gain.gain.setValueAtTime(0, time);
-  gain.gain.linearRampToValueAtTime(vol, time + 0.05);
-  gain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
-  osc.connect(gain); gain.connect(audioCtx.destination);
-  osc.start(time); osc.stop(time + duration + 0.1);
-}
-
-function scheduleNextBar(){
-  if (!musicaPlaying || !audioCtx) return;
-  var now = audioCtx.currentTime;
-  var beat = 0.55;
-  var totalNotes = 32;
-  var startStep = musicaStep % totalNotes;
-  var bassStep = Math.floor(musicaStep / 4) % BASS.length;
-  playNote(BASS[bassStep], now, beat * 3.5, 0.05);
-  playNote(BASS[(bassStep+1)%BASS.length], now + beat * 4, beat * 3.5, 0.05);
-  for (var i=0; i<8; i++){
-    var freq = MELODY[(startStep + i) % totalNotes];
-    playNote(freq, now + i * beat, beat * 1.6, 0.09 + Math.random()*0.02);
-  }
-  musicaStep += 8;
-  musicaTimer = setTimeout(scheduleNextBar, beat * 8 * 1000);
-}
-
-function iniciarMusica(){
-  if (data.cancion){
-    if (!customAudioEl){
-      customAudioEl = new Audio(data.cancion);
-      customAudioEl.loop = true;
-      customAudioEl.volume = 0.6;
-    }
-    customAudioEl.play().catch(function(){});
-    musicaPlaying = true;
-    actualizarBtnMusica();
-    return;
-  }
-  initAudio();
-  if (!audioCtx) return;
-  if (audioCtx.state === 'suspended') audioCtx.resume();
-  musicaPlaying = true;
-  scheduleNextBar();
-  actualizarBtnMusica();
-}
-
-function detenerMusica(){
-  musicaPlaying = false;
-  if (musicaTimer){ clearTimeout(musicaTimer); musicaTimer = null; }
-  if (customAudioEl) customAudioEl.pause();
-  actualizarBtnMusica();
-}
-
-function actualizarBtnMusica(){
-  var btn = $("music-toggle");
-  btn.classList.add("show");
-  if (musicaPlaying) btn.classList.add("playing");
-  else btn.classList.remove("playing");
-}
-
-function configurarMusica(){
-  $("music-toggle").onclick = function(){
-    if (musicaPlaying) detenerMusica();
-    else iniciarMusica();
-  };
-}
-
-/* ============================================================
-   ANIMACIONES
-   ============================================================ */
-function initReveal(){
-  var els = document.querySelectorAll(".reveal");
-  if ("IntersectionObserver" in window){
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if (entry.isIntersecting){
-          entry.target.classList.add("visible");
-          io.unobserve(entry.target);
-        }
+    var paletaHTML = '';
+    if (isPremium){
+      paletaHTML = '<div class="campo">' +
+        '<label>Color de la historia <span class="premium-tag unlocked">✓ DESBLOQUEADO</span></label>' +
+        '<div class="paletas-grid" id="paletas-grid">';
+      Object.keys(PALETAS).forEach(function(k){
+        var p = PALETAS[k];
+        paletaHTML += '<button type="button" class="paleta-btn ' + (data.paleta === k ? 'active' : '') + '" data-paleta="' + k + '">' +
+          '<span class="paleta-colores">' +
+            p.colores.map(function(c){ return '<span class="paleta-color" style="background:' + c + '"></span>'; }).join('') +
+          '</span>' +
+          '<span style="flex:1">' + p.nombre + '</span>' +
+        '</button>';
       });
-    }, { threshold: 0.15 });
-    els.forEach(function(el){ io.observe(el); });
-  } else {
-    els.forEach(function(el){ el.classList.add("visible"); });
+      paletaHTML += '</div></div>';
+    } else {
+      paletaHTML = '<div class="campo">' +
+        '<label>Color de la historia <span class="premium-tag">👑 PREMIUM</span></label>' +
+        '<button class="file-btn premium" id="paleta-premium-btn" type="button" style="cursor:pointer;font-family:inherit;width:100%">' +
+          '🎨 Elegir color de fondo' +
+        '</button>' +
+      '</div>';
+    }
+
+    cont.innerHTML =
+      '<div class="editor-paso">' +
+        '<h2>Mensaje final 💫</h2>' +
+        '<p class="sub">El cierre perfecto para tu historia</p>' +
+        '<div class="campo">' +
+          '<label>Mensaje del epílogo</label>' +
+          '<textarea id="in-mensaje" maxlength="300">' + escapeHtml(data.mensajeFinal) + '</textarea>' +
+        '</div>' +
+        '<div class="campo">' +
+          '<label>Firma</label>' +
+          '<input id="in-firma" type="text" maxlength="60" value="' + escapeHtml(data.firma) + '" placeholder="Con todo mi amor">' +
+        '</div>' +
+        cancionHTML +
+        paletaHTML +
+      '</div>';
+    acciones.innerHTML =
+      '<button class="btn-prev" id="btn-prev">← Atrás</button>' +
+      '<button class="btn-next" id="btn-next">✨ Ver historia</button>';
   }
+
+  bindEditorEvents();
 }
 
-/* Pétalos flotantes */
-function initPetals(){
-  var canvas = document.getElementById("petals-canvas");
-  var ctx = canvas.getContext("2d");
-  var W = canvas.width = window.innerWidth;
-  var H = canvas.height = window.innerHeight;
-
-  var petals = [];
-  var N = window.innerWidth < 720 ? 18 : 30;
-
-  for (var i=0; i<N; i++){
-    petals.push({
-      x: Math.random() * W,
-      y: Math.random() * H,
-      size: 8 + Math.random() * 12,
-      speedY: 0.3 + Math.random() * 0.6,
-      speedX: -0.4 + Math.random() * 0.8,
-      rot: Math.random() * Math.PI * 2,
-      rotSpeed: -0.02 + Math.random() * 0.04,
-      color: Math.random() < 0.6 ? "#ff6b9d" : "#ffb6d9",
-      opacity: 0.4 + Math.random() * 0.5
-    });
-  }
-
-  function dibujar(){
-    ctx.clearRect(0, 0, W, H);
-    for (var i=0; i<petals.length; i++){
-      var p = petals[i];
-      ctx.save();
-      ctx.translate(p.x, p.y);
-      ctx.rotate(p.rot);
-      ctx.globalAlpha = p.opacity;
-      ctx.fillStyle = p.color;
-      // Pétalo: forma de corazón simple
-      ctx.beginPath();
-      ctx.moveTo(0, 0);
-      ctx.bezierCurveTo(-p.size*0.5, -p.size*0.5, -p.size, p.size*0.2, 0, p.size);
-      ctx.bezierCurveTo(p.size, p.size*0.2, p.size*0.5, -p.size*0.5, 0, 0);
-      ctx.fill();
-      ctx.restore();
-      // Actualizar
-      p.y += p.speedY;
-      p.x += p.speedX + Math.sin(p.y * 0.01) * 0.3;
-      p.rot += p.rotSpeed;
-      if (p.y > H + 20){
-        p.y = -20;
-        p.x = Math.random() * W;
-      }
-    }
-    requestAnimationFrame(dibujar);
-  }
-  dibujar();
-
-  window.addEventListener("resize", function(){
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
+function renderFotosGrid(idx){
+  var grid = $("fotos-grid");
+  if (!grid) return;
+  grid.innerHTML = "";
+  var cap = data.capitulos[idx];
+  if (!cap.fotos) cap.fotos = [];
+  cap.fotos.forEach(function(url, i){
+    var d = document.createElement("div");
+    d.className = "mini-foto";
+    d.innerHTML = '<img src="' + url + '" alt=""><button class="del" data-i="' + i + '">×</button>';
+    grid.appendChild(d);
   });
+  grid.querySelectorAll(".del").forEach(function(btn){
+    btn.onclick = function(){
+      var i = parseInt(btn.dataset.i);
+      data.capitulos[idx].fotos.splice(i, 1);
+      renderFotosGrid(idx);
+      actualizarContadorFotos(idx);
+    };
+  });
+  actualizarContadorFotos(idx);
 }
 
-/* Corazón de partículas final */
-function initCorazonParticulas(){
-  var canvas = document.getElementById("corazon-canvas");
-  if (!canvas) return;
-  var ctx = canvas.getContext("2d");
-  var W = canvas.width = 300;
-  var H = canvas.height = 300;
+function actualizarContadorFotos(idx){
+  var cap = data.capitulos[idx];
+  if (!cap) return;
+  var cantFotos = (cap.fotos || []).length;
+  var maxFotos = isPremium ? FOTOS_PREMIUM : FOTOS_GRATIS;
+  var pct = Math.min((cantFotos / maxFotos) * 100, 100);
+  var cont = document.querySelector(".contador-fotos");
+  if (cont){
+    cont.querySelector("b").textContent = cantFotos + " / " + maxFotos;
+    var barra = cont.querySelector(".barra-inner");
+    if (barra) barra.style.width = pct + "%";
+  }
+  var lbl = $("fotos-label");
+  if (lbl){
+    if (cantFotos === 0){
+      lbl.textContent = "📷 Añadir fotos";
+    } else if (cantFotos >= maxFotos){
+      lbl.textContent = isPremium ? "✓ Máximo alcanzado (10)" : "✓ 1 foto subida · Premium = hasta 10";
+    } else {
+      lbl.textContent = "✓ " + cantFotos + " foto" + (cantFotos > 1 ? "s" : "") + " · añadir más";
+    }
+  }
+}
 
-  var particulas = [];
-  var N = 120;
+function bindEditorEvents(){
+  var btnPrev = $("btn-prev");
+  var btnNext = $("btn-next");
 
-  for (var i=0; i<N; i++){
-    var angulo = (i / N) * Math.PI * 2;
-    // Fórmula de corazón
-    var x = 16 * Math.pow(Math.sin(angulo), 3);
-    var y = -(13 * Math.cos(angulo) - 5 * Math.cos(2*angulo) - 2*Math.cos(3*angulo) - Math.cos(4*angulo));
-    particulas.push({
-      tx: W/2 + x * 8,
-      ty: H/2 + y * 8,
-      x: Math.random() * W,
-      y: Math.random() * H,
-      vx: 0, vy: 0,
-      color: Math.random() < 0.5 ? "#ff6b9d" : (Math.random() < 0.5 ? "#a855f7" : "#ffd166"),
-      size: 1.5 + Math.random() * 2
+  if (btnPrev) btnPrev.onclick = function(){
+    if (pasoActual > 0){ guardarPaso(); pasoActual--; renderEditor(); }
+  };
+  if (btnNext) btnNext.onclick = function(){
+    guardarPaso();
+    if (pasoActual === PASO_FINAL){ vistaPrevia(); return; }
+    pasoActual++;
+    renderEditor();
+  };
+
+  var inFotos = $("in-fotos");
+  if (inFotos){
+    var idx = pasoActual - 1;
+    renderFotosGrid(idx);
+
+    inFotos.addEventListener("change", async function(e){
+      var files = Array.from(e.target.files || []);
+      if (!files.length) return;
+      var cap = data.capitulos[idx];
+      if (!cap.fotos) cap.fotos = [];
+      var maxFotos = isPremium ? FOTOS_PREMIUM : FOTOS_GRATIS;
+      var slots = maxFotos - cap.fotos.length;
+      if (slots <= 0){
+        showPremium("fotos");
+        e.target.value = "";
+        return;
+      }
+      if (!isPremium && files.length > slots){
+        showPremium("fotos");
+      }
+      files = files.slice(0, slots);
+      for (var i = 0; i < files.length; i++){
+        var url = await readAndResize(files[i], 800, 0.8);
+        cap.fotos.push(url);
+      }
+      renderFotosGrid(idx);
+      e.target.value = "";
     });
   }
 
-  function animar(){
-    ctx.clearRect(0, 0, W, H);
-    for (var i=0; i<particulas.length; i++){
-      var p = particulas[i];
-      var dx = p.tx - p.x;
-      var dy = p.ty - p.y;
-      p.vx += dx * 0.008;
-      p.vy += dy * 0.008;
-      p.vx *= 0.92;
-      p.vy *= 0.92;
-      p.x += p.vx;
-      p.y += p.vy;
-      ctx.fillStyle = p.color;
-      ctx.shadowColor = p.color;
-      ctx.shadowBlur = 8;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    requestAnimationFrame(animar);
+  var btnFechaPrem = $("btn-fecha-premium");
+  if (btnFechaPrem) btnFechaPrem.onclick = function(){ showPremium("fecha"); };
+
+  var cancionPremBtn = $("cancion-premium-btn");
+  if (cancionPremBtn) cancionPremBtn.onclick = function(){ showPremium("cancion"); };
+
+  var paletaPremBtn = $("paleta-premium-btn");
+  if (paletaPremBtn) paletaPremBtn.onclick = function(){ showPremium("paleta"); };
+
+  var inCancion = $("in-cancion");
+  if (inCancion){
+    inCancion.addEventListener("change", function(e){
+      var f = e.target.files[0];
+      if (!f) return;
+      if (!f.type.startsWith("audio/")){ showStatus("Solo archivos de audio", false); return; }
+      if (f.size > 5 * 1024 * 1024){ showStatus("Máximo 5 MB de audio", false); return; }
+      var rd = new FileReader();
+      rd.onload = function(ev){
+        data.cancion = ev.target.result;
+        $("cancion-label").textContent = "✓ " + f.name;
+      };
+      rd.readAsDataURL(f);
+    });
   }
-  animar();
+
+  var paletasGrid = $("paletas-grid");
+  if (paletasGrid){
+    paletasGrid.querySelectorAll(".paleta-btn").forEach(function(btn){
+      btn.onclick = function(){
+        data.paleta = btn.dataset.paleta;
+        paletasGrid.querySelectorAll(".paleta-btn").forEach(function(b){ b.classList.remove("active"); });
+        btn.classList.add("active");
+      };
+    });
+  }
+}
+
+function guardarPaso(){
+  if (pasoActual === PASO_PORTADA){
+    var n = $("in-nombres"); if (n) data.nombres = n.value.trim() || "Tú y yo";
+    var f = $("in-frase"); if (f) data.frase = f.value.trim() || data.frase;
+  }
+  else if (pasoActual >= PASO_CAP_MIN && pasoActual <= PASO_CAP_MAX){
+    var idx = pasoActual - 1;
+    var t = $("in-titulo"); if (t) data.capitulos[idx].titulo = t.value.trim();
+    var tx = $("in-texto"); if (tx) data.capitulos[idx].texto = tx.value.trim();
+    var fch = $("in-fecha"); if (fch) data.capitulos[idx].fecha = fch.value;
+  }
+  else if (pasoActual === PASO_FINAL){
+    var m = $("in-mensaje"); if (m) data.mensajeFinal = m.value.trim() || data.mensajeFinal;
+    var fi = $("in-firma"); if (fi) data.firma = fi.value.trim() || data.firma;
+  }
 }
 
 /* ============================================================
-   INICIALIZAR
+   CONSTRUIR HTML DE LA HISTORIA CON EFECTOS
+   ============================================================ */
+function buildHistoriaHTML(){
+  var cancionJSON = JSON.stringify(data.cancion || null);
+  var paleta = PALETAS[data.paleta] || PALETAS.rosa;
+
+  var capHtml = "";
+  for (var i = 0; i < CAPITULOS_TOTAL; i++){
+    var cap = data.capitulos[i] || { titulo:"", texto:"", fotos:[] };
+    var fotos = cap.fotos || [];
+    var fotoPrincipal = fotos[0];
+    var fotosExtras = fotos.slice(1);
+
+    var fotoHTML;
+    if (fotoPrincipal){
+      fotoHTML = '<div class="cap-foto-wrap' + (isPremium ? ' premium-frame' : '') + '" data-parallax="0.05"><img src="' + fotoPrincipal + '" alt=""><div class="cap-foto-marco"></div><div class="cap-foto-glow"></div></div>';
+    } else {
+      fotoHTML = '<div class="cap-foto-wrap' + (isPremium ? ' premium-frame' : '') + ' cap-foto-empty" style="background:linear-gradient(135deg,' + paleta.colores[0] + '40,' + paleta.colores[1] + '40)" data-parallax="0.05"><span style="font-size:4rem">💕</span><div class="cap-foto-marco"></div></div>';
+    }
+
+    var extrasHTML = "";
+    if (fotosExtras.length){
+      extrasHTML = '<div class="fotos-extras">';
+      fotosExtras.forEach(function(url){
+        extrasHTML += '<img src="' + url + '" alt="">';
+      });
+      extrasHTML += '</div>';
+    }
+
+    var fechaHTML = cap.fecha ? '<div class="cap-fecha">📅 ' + formatFecha(cap.fecha) + '</div>' : '';
+
+    var numRom = ["I","II","III","IV","V"][i] || (i+1);
+
+    capHtml +=
+      '<section class="capitulo reveal" data-cap="' + i + '">' +
+        '<div class="cap-deco-linea top"></div>' +
+        '<div class="cap-numero"><span class="romano">' + numRom + '</span></div>' +
+        fechaHTML +
+        '<h2 class="cap-titulo">' + escapeHtml(cap.titulo || "Momento especial") + '</h2>' +
+        fotoHTML +
+        extrasHTML +
+        '<p class="cap-texto">' + escapeHtml(cap.texto || "") + '</p>' +
+        '<div class="cap-deco">💕</div>' +
+        '<div class="cap-deco-linea bottom"></div>' +
+      '</section>';
+  }
+
+  var marcaAguaHTML = isPremium ? '' : '<a href="index.html" class="marca-agua"><span>💫</span> Hecho con Dedicatorias Mágicas</a>';
+  var btnVerMas = '      <a class="btn-accion premium" href="index.html">👑 Ver más plantillas</a>\n';
+
+  return '<!DOCTYPE html>\n' +
+'<html lang="es">\n' +
+'<head>\n' +
+'<meta charset="UTF-8">\n' +
+'<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">\n' +
+'<meta name="theme-color" content="' + paleta.colores[2] + '">\n' +
+'<title>' + escapeHtml(data.nombres) + ' · Nuestra Historia</title>\n' +
+'<meta property="og:title" content="' + escapeHtml(data.nombres) + ' · Nuestra Historia">\n' +
+'<meta property="og:description" content="' + escapeHtml(data.frase) + '">\n' +
+'<meta property="og:type" content="website">\n' +
+'<link rel="preconnect" href="https://fonts.googleapis.com">\n' +
+'<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
+'<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Pacifico&family=Permanent+Marker&family=Dancing+Script:wght@600;700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">\n' +
+'<style>\n' +
+'*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}\n' +
+'html{scroll-behavior:smooth}\n' +
+'body{width:100%;min-height:100dvh;background:' + paleta.colores[2] + ';color:#fff;font-family:"Inter",system-ui,sans-serif;overflow-x:hidden;line-height:1.5}\n' +
+'/* Estrellas */\n' +
+'body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(1px 1px at 12% 18%, #fff, transparent),radial-gradient(1px 1px at 68% 12%, ' + paleta.colores[1] + ', transparent),radial-gradient(1.5px 1.5px at 88% 48%, #fff, transparent),radial-gradient(1px 1px at 28% 72%, ' + paleta.colores[0] + ', transparent),radial-gradient(1px 1px at 92% 78%, #fff, transparent);animation:twinkleBg 8s ease-in-out infinite}\n' +
+'@keyframes twinkleBg{0%,100%{opacity:1}50%{opacity:.75}}\n' +
+'/* Brillo radial que se mueve */\n' +
+'body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(circle 600px at 50% 50%,' + paleta.colores[0] + '18,transparent 70%);animation:breathGlow 12s ease-in-out infinite}\n' +
+'@keyframes breathGlow{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:.85;transform:scale(1.15)}}\n' +
+'#petals-canvas{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.85}\n' +
+'main{position:relative;z-index:2}\n' +
+'.back-float{position:fixed;top:max(14px,env(safe-area-inset-top,14px));left:14px;z-index:940;background:rgba(20,10,30,.85);backdrop-filter:blur(10px);border:1px solid ' + paleta.colores[0] + '80;color:' + paleta.colores[1] + ';padding:9px 14px;border-radius:30px;font-size:.78rem;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:5px;cursor:pointer;transition:all .2s;white-space:nowrap}\n' +
+'.back-float:hover{background:' + paleta.colores[0] + '26;color:#fff}\n' +
+'.back-float svg{width:14px;height:14px;fill:currentColor}\n' +
+'/* PORTADA */\n' +
+'#portada{min-height:100dvh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:80px 24px 40px;text-align:center;position:relative;z-index:2;overflow:hidden}\n' +
+'#portada::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 30%,' + paleta.colores[0] + '26,transparent 60%);pointer-events:none;animation:breathGlow 8s ease-in-out infinite}\n' +
+'.portada-tag{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:' + paleta.colores[1] + ';background:' + paleta.colores[0] + '1f;border:1px solid ' + paleta.colores[0] + '66;padding:7px 16px;border-radius:30px;margin-bottom:26px;opacity:0;animation:fadeUp 1s .2s ease forwards}\n' +
+'.portada-titulo{font-family:"Great Vibes",cursive;font-size:clamp(3rem,12vw,6rem);line-height:1;background:linear-gradient(90deg,' + paleta.colores[1] + ',' + paleta.colores[0] + ',' + paleta.colores[1] + ');background-size:300% 300%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:flowGradient 6s ease infinite,fadeUp 1.2s .3s ease forwards;filter:drop-shadow(0 8px 30px ' + paleta.colores[0] + '66);margin-bottom:14px;opacity:0}\n' +
+'@keyframes flowGradient{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}\n' +
+'@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}\n' +
+'.portada-nombres{font-family:"Dancing Script",cursive;font-size:clamp(1.2rem,4vw,1.8rem);color:' + paleta.colores[1] + ';margin-bottom:36px;text-shadow:0 0 20px ' + paleta.colores[0] + '80;opacity:0;animation:fadeUp 1.2s .5s ease forwards}\n' +
+'.portada-frase{font-family:"Caveat",cursive;font-size:clamp(1.1rem,3.5vw,1.5rem);color:#c8d8f0;max-width:520px;margin-bottom:44px;line-height:1.5;opacity:0;animation:fadeUp 1.2s .7s ease forwards}\n' +
+'.scroll-hint{display:flex;flex-direction:column;align-items:center;gap:8px;color:#8ba3c0;font-size:.78rem;opacity:0;animation:fadeUp 1.2s 1s ease forwards}\n' +
+'.scroll-hint .arrow{font-size:1.6rem;animation:bounce 1.6s ease-in-out infinite}\n' +
+'@keyframes bounce{0%,100%{transform:translateY(0);opacity:.6}50%{transform:translateY(8px);opacity:1}}\n' +
+'/* CAPITULOS */\n' +
+'.capitulo{min-height:100dvh;padding:80px 24px;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;z-index:2;opacity:0;transform:translateY(60px);transition:opacity 1.2s cubic-bezier(.2,.8,.3,1),transform 1.2s cubic-bezier(.2,.8,.3,1)}\n' +
+'.capitulo.visible{opacity:1;transform:translateY(0)}\n' +
+'.capitulo .cap-numero,.capitulo .cap-titulo,.capitulo .cap-foto-wrap,.capitulo .fotos-extras,.capitulo .cap-texto,.capitulo .cap-deco,.capitulo .cap-fecha,.capitulo .cap-deco-linea{opacity:0;transform:translateY(30px);transition:opacity 1s ease,transform 1s ease}\n' +
+'.capitulo.visible .cap-numero{opacity:1;transform:translateY(0);transition-delay:.15s}\n' +
+'.capitulo.visible .cap-fecha{opacity:1;transform:translateY(0);transition-delay:.25s}\n' +
+'.capitulo.visible .cap-titulo{opacity:1;transform:translateY(0);transition-delay:.3s}\n' +
+'.capitulo.visible .cap-foto-wrap{opacity:1;transform:translateY(0);transition-delay:.45s}\n' +
+'.capitulo.visible .fotos-extras{opacity:1;transform:translateY(0);transition-delay:.55s}\n' +
+'.capitulo.visible .cap-texto{opacity:1;transform:translateY(0);transition-delay:.7s}\n' +
+'.capitulo.visible .cap-deco{opacity:1;transform:translateY(0);transition-delay:.9s}\n' +
+'.capitulo.visible .cap-deco-linea{opacity:1;transform:translateY(0);transition-delay:.2s}\n' +
+'.cap-deco-linea{width:1px;background:linear-gradient(' + paleta.colores[0] + '00,' + paleta.colores[0] + ',' + paleta.colores[0] + '00);height:60px;margin:14px 0}\n' +
+'.cap-deco-linea.top{position:absolute;top:40px}\n' +
+'.cap-deco-linea.bottom{position:absolute;bottom:40px}\n' +
+'.cap-numero{font-family:"Dancing Script",cursive;font-size:clamp(2rem,6vw,3rem);color:' + paleta.colores[0] + '88;margin-bottom:6px;letter-spacing:4px}\n' +
+'.cap-numero .romano{display:inline-block;padding:6px 16px;border:1px solid ' + paleta.colores[0] + '66;border-radius:20px;font-size:.8em;letter-spacing:2px}\n' +
+'.cap-fecha{font-family:"Dancing Script",cursive;font-size:1.1rem;color:' + paleta.colores[1] + ';margin-bottom:14px;letter-spacing:1px}\n' +
+'.cap-titulo{font-family:"Great Vibes",cursive;font-size:clamp(2rem,7vw,3.5rem);line-height:1.1;background:linear-gradient(90deg,' + paleta.colores[1] + ',' + paleta.colores[0] + ',' + paleta.colores[1] + ');background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-align:center;margin-bottom:32px;filter:drop-shadow(0 4px 20px ' + paleta.colores[0] + '66)}\n' +
+'.cap-foto-wrap{position:relative;max-width:420px;width:100%;aspect-ratio:3/4;border-radius:20px;overflow:hidden;margin-bottom:26px;box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 60px ' + paleta.colores[0] + '33;transition:transform .5s cubic-bezier(.2,.9,.3,1.2)}\n' +
+'.cap-foto-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.5s ease}\n' +
+'.capitulo.visible .cap-foto-wrap img{transform:scale(1)}\n' +
+'.cap-foto-wrap img{transform:scale(1.08)}\n' +
+'.cap-foto-marco{position:absolute;inset:0;border-radius:20px;border:2px solid ' + paleta.colores[1] + '66;pointer-events:none}\n' +
+'.cap-foto-glow{position:absolute;inset:0;border-radius:20px;pointer-events:none;box-shadow:inset 0 0 60px ' + paleta.colores[0] + '33}\n' +
+'.premium-frame .cap-foto-marco{border:3px solid rgba(255,209,102,.7);box-shadow:inset 0 0 40px rgba(255,209,102,.2),0 0 40px rgba(255,209,102,.5);animation:premiumFrameGlow 3s ease-in-out infinite}\n' +
+'@keyframes premiumFrameGlow{0%,100%{box-shadow:inset 0 0 40px rgba(255,209,102,.2),0 0 30px rgba(255,209,102,.4)}50%{box-shadow:inset 0 0 60px rgba(255,209,102,.4),0 0 50px rgba(255,209,102,.8)}}\n' +
+'.cap-foto-empty{display:flex;align-items:center;justify-content:center}\n' +
+'.fotos-extras{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:420px;width:100%;margin-bottom:26px}\n' +
+'.fotos-extras img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;border:1px solid ' + paleta.colores[0] + '66;box-shadow:0 8px 24px rgba(0,0,0,.4);transition:transform .4s ease}\n' +
+'.fotos-extras img:hover{transform:scale(1.05)}\n' +
+'.cap-texto{font-family:"Caveat",cursive;font-size:clamp(1.2rem,4vw,1.6rem);color:#e8d8f0;max-width:480px;text-align:center;line-height:1.6;padding:0 10px}\n' +
+'.cap-deco{font-size:2rem;margin-top:26px;filter:drop-shadow(0 0 16px ' + paleta.colores[0] + '99);animation:heartbeat 1.6s ease-in-out infinite}\n' +
+'@keyframes heartbeat{0%,100%{transform:scale(1)}15%{transform:scale(1.2)}30%{transform:scale(1)}45%{transform:scale(1.15)}60%{transform:scale(1)}}\n' +
+'/* EPILOGO */\n' +
+'#epilogo{min-height:100dvh;padding:100px 24px 60px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative;z-index:2;background:radial-gradient(circle at 50% 50%,' + paleta.colores[0] + '26,transparent 70%);opacity:0;transform:translateY(40px);transition:opacity 1.2s ease,transform 1.2s ease}\n' +
+'#epilogo.visible{opacity:1;transform:translateY(0)}\n' +
+'.epi-titulo{font-family:"Great Vibes",cursive;font-size:clamp(2.5rem,9vw,4.5rem);line-height:1.05;background:linear-gradient(90deg,' + paleta.colores[1] + ',' + paleta.colores[0] + ',' + paleta.colores[1] + ');background-size:300% 300%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:flowGradient 5s ease infinite;filter:drop-shadow(0 6px 30px ' + paleta.colores[0] + '80);margin-bottom:24px}\n' +
+'.epi-mensaje{font-family:"Caveat",cursive;font-size:clamp(1.3rem,4.5vw,2rem);color:' + paleta.colores[1] + ';max-width:560px;line-height:1.5;margin-bottom:40px;text-shadow:0 0 24px ' + paleta.colores[0] + '66}\n' +
+'.corazon-particulas{width:180px;height:180px;margin:0 auto 34px;position:relative}\n' +
+'.corazon-particulas canvas{width:100%;height:100%}\n' +
+'.epi-firma{font-family:"Dancing Script",cursive;font-size:1.2rem;color:#a8b8d8;margin-bottom:36px}\n' +
+'.acciones-finales{display:flex;flex-direction:column;gap:12px;width:100%;max-width:320px}\n' +
+'.btn-accion{display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 20px;border-radius:14px;border:none;font-weight:700;font-size:.95rem;text-decoration:none;cursor:pointer;transition:transform .2s;font-family:inherit;width:100%}\n' +
+'.btn-accion.secondary{background:rgba(255,255,255,.08);color:' + paleta.colores[1] + ';border:1px solid ' + paleta.colores[0] + '66}\n' +
+'.btn-accion.premium{background:linear-gradient(135deg,#ffd166,#ff9500);color:#1a0e00;box-shadow:0 10px 30px rgba(255,180,40,.5)}\n' +
+'.btn-accion:hover{transform:translateY(-2px)}\n' +
+'.marca-agua{position:fixed;bottom:14px;right:14px;z-index:20;background:rgba(10,5,16,.75);backdrop-filter:blur(8px);border:1px solid ' + paleta.colores[0] + '4d;color:' + paleta.colores[1] + ';padding:6px 12px;border-radius:20px;font-size:.68rem;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:5px;transition:all .2s}\n' +
+'.marca-agua:hover{background:' + paleta.colores[0] + '33;color:#fff}\n' +
+'#music-toggle{position:fixed;top:max(14px,env(safe-area-inset-top,14px));right:14px;z-index:940;width:44px;height:44px;border-radius:50%;border:1px solid ' + paleta.colores[0] + '66;background:rgba(20,10,30,.85);backdrop-filter:blur(10px);color:' + paleta.colores[1] + ';font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .25s}\n' +
+'#music-toggle.playing{background:linear-gradient(135deg,' + paleta.colores[0] + ',' + paleta.colores[1] + ');color:#fff;border-color:transparent;animation:musicPulse 2s infinite}\n' +
+'@keyframes musicPulse{0%,100%{box-shadow:0 0 0 0 ' + paleta.colores[0] + '99}50%{box-shadow:0 0 0 12px ' + paleta.colores[0] + '00}}\n' +
+'</style>\n' +
+'</head>\n' +
+'<body>\n' +
+'<a href="index.html" class="back-float"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>Volver</a>\n' +
+'<button id="music-toggle">🎵</button>\n' +
+'<canvas id="petals-canvas"></canvas>\n' +
+marcaAguaHTML + '\n' +
+'<main>\n' +
+'  <section id="portada">\n' +
+'    <span class="portada-tag">💕 Nuestra historia</span>\n' +
+'    <h1 class="portada-titulo">Nuestra Historia</h1>\n' +
+'    <div class="portada-nombres">' + escapeHtml(data.nombres) + '</div>\n' +
+'    <p class="portada-frase">' + escapeHtml(data.frase) + '</p>\n' +
+'    <div class="scroll-hint"><span>Desliza para comenzar</span><span class="arrow">↓</span></div>\n' +
+'  </section>\n' +
+'  ' + capHtml + '\n' +
+'  <section id="epilogo">\n' +
+'    <h2 class="epi-titulo">Y esto es solo el comienzo…</h2>\n' +
+'    <div class="corazon-particulas"><canvas id="corazon-canvas" width="300" height="300"></canvas></div>\n' +
+'    <p class="epi-mensaje">' + escapeHtml(data.mensajeFinal) + '</p>\n' +
+'    <div class="epi-firma">— ' + escapeHtml(data.firma) + ' —</div>\n' +
+'    <div class="acciones-finales">\n' +
+'      <button class="btn-accion secondary" onclick="window.scrollTo({top:0,behavior:\'smooth\'})">↑ Volver al inicio</button>\n' +
+btnVerMas +
+'    </div>\n' +
+'  </section>\n' +
+'</main>\n' +
+'<script>\n' +
+'var CUSTOM_MUSIC = ' + cancionJSON + ';\n' +
+'(function(){\n' +
+'"use strict";\n' +
+'var audioCtx = null;\n' +
+'var musicaPlaying = false;\n' +
+'var musicaTimer = null;\n' +
+'var musicaStep = 0;\n' +
+'var customAudioEl = null;\n' +
+'var MELODY = [587.33, 440.00, 493.88, 440.00, 392.00, 440.00, 493.88, 587.33, 659.25, 587.33, 493.88, 440.00, 493.88, 587.33, 659.25, 783.99, 880.00, 783.99, 659.25, 587.33, 659.25, 783.99, 880.00, 987.77, 880.00, 659.25, 587.33, 493.88, 587.33, 440.00, 493.88, 587.33];\n' +
+'var BASS = [146.83, 220.00, 246.94, 185.00, 196.00, 146.83, 196.00, 220.00, 146.83, 220.00, 246.94, 185.00, 196.00, 146.83, 196.00, 220.00];\n' +
+'function initAudio(){ if (audioCtx) return; try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){} }\n' +
+'function playNote(freq, time, duration, vol){ if (!audioCtx) return; var osc = audioCtx.createOscillator(); var gain = audioCtx.createGain(); osc.type = "sine"; osc.frequency.value = freq; gain.gain.setValueAtTime(0, time); gain.gain.linearRampToValueAtTime(vol, time + 0.05); gain.gain.exponentialRampToValueAtTime(0.0001, time + duration); osc.connect(gain); gain.connect(audioCtx.destination); osc.start(time); osc.stop(time + duration + 0.1); }\n' +
+'function scheduleNextBar(){ if (!musicaPlaying || !audioCtx) return; var now = audioCtx.currentTime; var beat = 0.55; var totalNotes = 32; var startStep = musicaStep % totalNotes; var bassStep = Math.floor(musicaStep / 4) % BASS.length; playNote(BASS[bassStep], now, beat * 3.5, 0.05); playNote(BASS[(bassStep+1)%BASS.length], now + beat * 4, beat * 3.5, 0.05); for (var i=0; i<8; i++){ var freq = MELODY[(startStep + i) % totalNotes]; playNote(freq, now + i * beat, beat * 1.6, 0.09 + Math.random()*0.02); } musicaStep += 8; musicaTimer = setTimeout(scheduleNextBar, beat * 8 * 1000); }\n' +
+'function iniciarMusica(){ if (CUSTOM_MUSIC){ if (!customAudioEl){ customAudioEl = new Audio(CUSTOM_MUSIC); customAudioEl.loop = true; customAudioEl.volume = 0.6; } customAudioEl.play().catch(function(){}); musicaPlaying = true; actualizarBtn(); return; } initAudio(); if (!audioCtx) return; if (audioCtx.state === "suspended") audioCtx.resume(); musicaPlaying = true; scheduleNextBar(); actualizarBtn(); }\n' +
+'function detenerMusica(){ musicaPlaying = false; if (musicaTimer){ clearTimeout(musicaTimer); musicaTimer = null; } if (customAudioEl) customAudioEl.pause(); actualizarBtn(); }\n' +
+'function actualizarBtn(){ var btn = document.getElementById("music-toggle"); if (musicaPlaying) btn.classList.add("playing"); else btn.classList.remove("playing"); }\n' +
+'document.getElementById("music-toggle").onclick = function(){ if (musicaPlaying) detenerMusica(); else iniciarMusica(); };\n' +
+'var musicaIniciada = false;\n' +
+'window.addEventListener("scroll", function(){ if (!musicaIniciada && window.scrollY > 200){ musicaIniciada = true; iniciarMusica(); } }, { once: false });\n' +
+'/* REVEAL con IntersectionObserver */\n' +
+'var els = document.querySelectorAll(".reveal, #epilogo");\n' +
+'if ("IntersectionObserver" in window){\n' +
+'  var io = new IntersectionObserver(function(entries){\n' +
+'    entries.forEach(function(entry){\n' +
+'      if (entry.isIntersecting){\n' +
+'        entry.target.classList.add("visible");\n' +
+'        io.unobserve(entry.target);\n' +
+'      }\n' +
+'    });\n' +
+'  }, { threshold: 0.15 });\n' +
+'  els.forEach(function(el){ io.observe(el); });\n' +
+'} else {\n' +
+'  els.forEach(function(el){ el.classList.add("visible"); });\n' +
+'}\n' +
+'/* PARALLAX sutil en fotos */\n' +
+'window.addEventListener("scroll", function(){\n' +
+'  var y = window.scrollY;\n' +
+'  document.querySelectorAll("[data-parallax]").forEach(function(el){\n' +
+'    var speed = parseFloat(el.dataset.parallax);\n' +
+'    var rect = el.getBoundingClientRect();\n' +
+'    var offset = (rect.top + rect.height/2 - window.innerHeight/2) * speed;\n' +
+'    el.style.transform = "translateY(" + offset + "px)";\n' +
+'  });\n' +
+'}, { passive: true });\n' +
+'/* PÉTALOS */\n' +
+'var canvas = document.getElementById("petals-canvas"); var ctx = canvas.getContext("2d"); var W = canvas.width = window.innerWidth; var H = canvas.height = window.innerHeight;\n' +
+'var petals = []; var N = window.innerWidth < 720 ? 22 : 38;\n' +
+'for (var i=0; i<N; i++){ petals.push({ x: Math.random()*W, y: Math.random()*H, size: 8+Math.random()*14, speedY: 0.3+Math.random()*0.7, speedX: -0.5+Math.random()*1, rot: Math.random()*Math.PI*2, rotSpeed: -0.03+Math.random()*0.06, color: Math.random()<0.6?"' + paleta.colores[0] + '":"' + paleta.colores[1] + '", opacity: 0.4+Math.random()*0.5 }); }\n' +
+'function dibujar(){ ctx.clearRect(0,0,W,H); for (var i=0; i<petals.length; i++){ var p = petals[i]; ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.globalAlpha = p.opacity; ctx.fillStyle = p.color; ctx.shadowColor = p.color; ctx.shadowBlur = 8; ctx.beginPath(); ctx.moveTo(0,0); ctx.bezierCurveTo(-p.size*0.5, -p.size*0.5, -p.size, p.size*0.2, 0, p.size); ctx.bezierCurveTo(p.size, p.size*0.2, p.size*0.5, -p.size*0.5, 0, 0); ctx.fill(); ctx.restore(); p.y += p.speedY; p.x += p.speedX + Math.sin(p.y*0.01)*0.3; p.rot += p.rotSpeed; if (p.y > H+20){ p.y = -20; p.x = Math.random()*W; } } requestAnimationFrame(dibujar); }\n' +
+'dibujar();\n' +
+'window.addEventListener("resize", function(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; });\n' +
+'/* CORAZON de partículas del epílogo */\n' +
+'var cc = document.getElementById("corazon-canvas"); if (cc){ var cctx = cc.getContext("2d"); var CW = cc.width = 300; var CH = cc.height = 300; var part = []; var NN = 140;\n' +
+'for (var i=0; i<NN; i++){ var ang = (i/NN)*Math.PI*2; var x = 16*Math.pow(Math.sin(ang), 3); var y = -(13*Math.cos(ang) - 5*Math.cos(2*ang) - 2*Math.cos(3*ang) - Math.cos(4*ang)); part.push({ tx: CW/2 + x*8, ty: CH/2 + y*8, x: Math.random()*CW, y: Math.random()*CH, vx: 0, vy: 0, color: Math.random()<0.5?"' + paleta.colores[0] + '":(Math.random()<0.5?"' + paleta.colores[1] + '":"#ffd166"), size: 1.5+Math.random()*2.2, phase: Math.random()*Math.PI*2 }); }\n' +
+'function animar(){ cctx.clearRect(0,0,CW,CH); var t = Date.now()*0.001; for (var i=0; i<part.length; i++){ var p = part[i]; var dx = p.tx - p.x; var dy = p.ty - p.y; p.vx += dx*0.008; p.vy += dy*0.008; p.vx *= 0.92; p.vy *= 0.92; p.x += p.vx; p.y += p.vy; var pulse = 1 + Math.sin(t*2 + p.phase)*0.4; cctx.fillStyle = p.color; cctx.shadowColor = p.color; cctx.shadowBlur = 10; cctx.beginPath(); cctx.arc(p.x, p.y, p.size*pulse, 0, Math.PI*2); cctx.fill(); } requestAnimationFrame(animar); } animar(); }\n' +
+'})();\n' +
+'<\/script>\n' +
+'</body>\n' +
+'</html>';
+}
+
+function formatFecha(fecha){
+  if (!fecha) return "";
+  try {
+    var d = new Date(fecha + "T00:00:00");
+    var meses = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+    return d.getDate() + " de " + meses[d.getMonth()] + ", " + d.getFullYear();
+  } catch(e){ return fecha; }
+}
+
+/* ============================================================
+   VISTA PREVIA Y DESCARGA
+   ============================================================ */
+function vistaPrevia(){
+  guardarPaso();
+  showLoading(true, "Preparando vista previa...");
+  setTimeout(function(){
+    try {
+      var html = buildHistoriaHTML();
+      var blob = new Blob([html], { type: "text/html;charset=utf-8" });
+      var url = URL.createObjectURL(blob);
+      var w = window.open(url, "_blank");
+      if (!w) showStatus("Permite ventanas emergentes para vista previa", false);
+      else showStatus("¡Vista previa abierta! ✓");
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 60000);
+    } catch(err){
+      console.error(err);
+      showStatus("Error al generar: " + err.message, false);
+    } finally {
+      showLoading(false);
+    }
+  }, 100);
+}
+
+function descargar(){
+  guardarPaso();
+  showLoading(true, "Empaquetando tu historia...");
+  setTimeout(function(){
+    try {
+      var html = buildHistoriaHTML();
+      var sizeKB = (html.length / 1024).toFixed(1);
+      var blob = new Blob([html], { type: "text/html;charset=utf-8" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      var fname = "nuestra-historia-" + (data.nombres || "amor").replace(/[^a-z0-9]+/gi, "-").toLowerCase() + ".html";
+      a.href = url;
+      a.download = fname;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 5000);
+      showStatus("¡Descargado! (" + sizeKB + " KB) 📥");
+    } catch(err){
+      console.error(err);
+      showStatus("Error: " + err.message, false);
+    } finally {
+      showLoading(false);
+    }
+  }, 100);
+}
+
+/* ============================================================
+   INIT
    ============================================================ */
 function init(){
-  // Mostrar editor inicial
-  $("editor-inicial").classList.add("show");
+  if (isPremium) $("premium-activo").classList.add("show");
+  initPremiumModal();
   pasoActual = 0;
   renderEditor();
+  $("btn-vista").addEventListener("click", vistaPrevia);
+  $("btn-descarga").addEventListener("click", descarga);
 }
 
-init();
+function descarga(){ descargar(); }
+
+document.addEventListener("DOMContentLoaded", init);
 </script>
 
 </body>
