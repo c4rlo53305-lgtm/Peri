@@ -2,15 +2,13 @@
    PLANTILLAS — Catálogo completo
    
    CÓMO AGREGAR UNA NUEVA:
-   1. Copia cualquier bloque { ... } de plantillas
-   2. Pégalo al final de su categoría (antes del ] )
-   3. Cambia: id, name, description, emoji, color, effect, palette, premium
+   1. Copia cualquier bloque { ... } de abajo
+   2. Pégalo al final de la categoría correspondiente
+   3. Cambia: id, name, description, emoji, color, premium
    4. Guarda (Commit). En 1 minuto aparece en la landing.
    
-   ID: único, sin espacios, minúsculas (ej: "amor-clasico")
-   CATEGORY: debe coincidir con un id de categorías
-   EFFECT: galaxy | hearts | confetti | fireworks | snow
-   PALETTE: cosmic | ice | rose | gold | aurora | neon | stardust
+   ID: único, sin espacios, minúsculas (ej: "amor-galaxia")
+   CATEGORY: debe coincidir con un id de las categorías
    PREMIUM: true o false
    ============================================================ */
 
@@ -33,79 +31,69 @@ var PLANTILLAS = {
 
     /* ---------- 💕 AMOR ---------- */
     {
-      id: "amor-clasico",
+      id: "amor-galaxia",
       category: "amor",
-      name: "Clásico eterno",
+      name: "Galaxia",
       description: "La galaxia romántica original. Pura y atemporal.",
-      emoji: "💕",
+      emoji: "💫",
       color: "#ff4f9a",
       premium: false,
-      effect: "galaxy",
-      palette: "rose",
       defaultTitle: "Para ti, mi amor",
       defaultSubtitle: "Una experiencia galáctica te espera",
       defaultMessage: "Eres mi universo entero ✨\nCada estrella me recuerda a ti.",
       defaultPhrases: "Te amo más que ayer\nEres mi persona favorita\nContigo todo es mejor"
     },
     {
-      id: "amor-corazones",
+      id: "amor-eterno",
       category: "amor",
-      name: "Lluvia de corazones",
-      description: "Corazones flotando entre las estrellas.",
-      emoji: "❤️",
+      name: "Amor eterno",
+      description: "Un rincón del universo hecho solo para los dos.",
+      emoji: "💕",
       color: "#ff6b9d",
       premium: false,
-      effect: "hearts",
-      palette: "rose",
-      defaultTitle: "Mi corazón es tuyo",
-      defaultSubtitle: "Rodeado de todo mi amor",
-      defaultMessage: "Cada latido de mi corazón te pertenece ❤️\nEres el sueño que nunca quiero despertar.",
+      defaultTitle: "Mi amor eterno",
+      defaultSubtitle: "Contigo hasta el infinito",
+      defaultMessage: "Si tuviera que elegir mil veces,\nmil veces te elegiría a ti 💕",
       defaultPhrases: "Te quiero infinito\nMi corazón late por ti\nEres mi todo"
     },
 
     /* ---------- ❤️ 14 DE FEBRERO ---------- */
     {
-      id: "14feb-clasico",
+      id: "14feb-sanvalentin",
       category: "14febrero",
-      name: "San Valentín clásico",
+      name: "San Valentín",
       description: "Rojo, romántico y eterno. El clásico del 14.",
       emoji: "❤️",
       color: "#e63946",
       premium: false,
-      effect: "hearts",
-      palette: "rose",
       defaultTitle: "Feliz San Valentín",
       defaultSubtitle: "Para el amor de mi vida",
       defaultMessage: "En un mundo de miles de personas,\nmi corazón te eligió a ti ❤️\nFeliz 14 de febrero, mi amor.",
       defaultPhrases: "Feliz San Valentín\nTe amo con el alma\nEres mi todo"
     },
     {
-      id: "14feb-fuegos",
+      id: "14feb-para-ti",
       category: "14febrero",
-      name: "Fuegos del amor 🔥",
-      description: "Fuegos artificiales estallando en el cielo por ti.",
-      emoji: "🎆",
+      name: "Solo para ti",
+      description: "Un detalle especial para el 14 de febrero.",
+      emoji: "🌹",
       color: "#e63946",
       premium: true,
-      effect: "fireworks",
-      palette: "neon",
-      defaultTitle: "14 de Febrero",
-      defaultSubtitle: "Un día, mil formas de amarte",
-      defaultMessage: "Cada fuego artificial en el cielo\nes un latido de mi corazón por ti 🎆\nFeliz San Valentín.",
-      defaultPhrases: "Nuestro primer San Valentín\nY los que faltan\nTe amo infinito"
+      defaultTitle: "Solo para ti",
+      defaultSubtitle: "Este 14 de febrero es tuyo",
+      defaultMessage: "No necesito un día especial\npara recordarte que te amo 🌹\nPero este día es perfecto.",
+      defaultPhrases: "Eres mi persona\nTe amo siempre\nFeliz 14"
     },
 
     /* ---------- 🌼 FLORES AMARILLAS ---------- */
     {
-      id: "flores-clasico",
+      id: "flores-amarillas-clasico",
       category: "flores-amarillas",
       name: "Flores amarillas",
       description: "El detalle del 21 de marzo que todas esperan.",
       emoji: "🌼",
       color: "#ffd166",
       premium: false,
-      effect: "confetti",
-      palette: "gold",
       defaultTitle: "Flores amarillas para ti",
       defaultSubtitle: "Porque te mereces todo",
       defaultMessage: "Dicen que las flores amarillas\nsolo se regalan a quien de verdad amas 🌼\nAquí tienes las mías.",
@@ -114,13 +102,11 @@ var PLANTILLAS = {
     {
       id: "flores-primavera",
       category: "flores-amarillas",
-      name: "Primavera eterna",
-      description: "Nieve de flores cayendo suavemente por ti.",
+      name: "Primavera",
+      description: "Un campo entero de flores para esa persona.",
       emoji: "🌻",
       color: "#ffd166",
       premium: true,
-      effect: "snow",
-      palette: "gold",
       defaultTitle: "Primavera para ti",
       defaultSubtitle: "Cada flor es un te quiero",
       defaultMessage: "Si pudiera, te regalaría\nun campo entero de flores amarillas 🌻\nMientras tanto, este pedacito de cielo.",
@@ -131,28 +117,24 @@ var PLANTILLAS = {
     {
       id: "mama-clasico",
       category: "dia-madres",
-      name: "Para mamá ❤️",
+      name: "Para mamá",
       description: "Palabras que nunca alcanzan para agradecer.",
       emoji: "👩",
       color: "#ff9ec4",
       premium: false,
-      effect: "hearts",
-      palette: "rose",
       defaultTitle: "Mamá",
       defaultSubtitle: "Gracias por todo lo que haces",
       defaultMessage: "No existen palabras suficientes\npara agradecerte 💛\nEres mi ejemplo, mi fuerza, mi todo.",
       defaultPhrases: "Te amo, mamá\nEres mi heroína\nGracias por tanto"
     },
     {
-      id: "mama-galaxia",
+      id: "mama-universo",
       category: "dia-madres",
-      name: "Mi universo eres tú",
+      name: "Mi universo",
       description: "Porque mamá merece su propia galaxia.",
       emoji: "🌌",
       color: "#ff9ec4",
       premium: true,
-      effect: "galaxy",
-      palette: "aurora",
       defaultTitle: "Mi universo, mamá",
       defaultSubtitle: "Eres mi persona favorita en el mundo",
       defaultMessage: "Antes de saber qué era el amor,\nya te amaba a ti, mamá 🌌\nGracias por darme la vida y tanto más.",
@@ -161,33 +143,29 @@ var PLANTILLAS = {
 
     /* ---------- 🎂 CUMPLEAÑOS ---------- */
     {
-      id: "cumple-estelar",
+      id: "cumple-clasico",
       category: "cumple",
       name: "Feliz cumpleaños",
-      description: "Fuegos artificiales cósmicos para celebrarte.",
+      description: "Un pedacito del universo para celebrarte.",
       emoji: "🎂",
       color: "#a855f7",
       premium: false,
-      effect: "fireworks",
-      palette: "cosmic",
       defaultTitle: "¡Feliz cumpleaños! 🎂",
       defaultSubtitle: "Un día para celebrarte",
       defaultMessage: "Hoy celebramos el día\nen que el universo se volvió más brillante ✨\n¡Feliz cumpleaños!",
       defaultPhrases: "Que cumplas muchos más\nTe mereces todo\nEres increíble"
     },
     {
-      id: "cumple-corazones",
+      id: "cumple-sorpresa",
       category: "cumple",
-      name: "Cumple con amor",
-      description: "Corazones cayendo para celebrar su día.",
+      name: "Fiesta sorpresa",
+      description: "Para celebrar con todo el estilo.",
       emoji: "🎈",
       color: "#a855f7",
-      premium: false,
-      effect: "hearts",
-      palette: "neon",
-      defaultTitle: "¡Feliz cumpleaños! 🎉",
-      defaultSubtitle: "Un año más de ti en el mundo",
-      defaultMessage: "Que este año nuevo de vida\nesté lleno de todo lo que deseas 🎈\nTe quiero mucho.",
+      premium: true,
+      defaultTitle: "¡Felicidades! 🎉",
+      defaultSubtitle: "Hoy es tu día",
+      defaultMessage: "Un año más de aventuras,\nrisas y momentos increíbles 🎈\nQue cumplas muchos más.",
       defaultPhrases: "Feliz cumple\nMuchas felicidades\nTe deseo lo mejor"
     },
 
@@ -195,95 +173,96 @@ var PLANTILLAS = {
     {
       id: "broma-jefe",
       category: "bromas",
-      name: "Para mi jefe 😅",
+      name: "Para mi jefe",
       description: "El clásico: 'no renuncio, pero casi'.",
       emoji: "😂",
       color: "#ffd166",
       premium: false,
-      effect: "confetti",
-      palette: "gold",
       defaultTitle: "Querido jefe",
       defaultSubtitle: "Con todo el respeto del mundo...",
       defaultMessage: "No es que no quiera trabajar,\nes que el trabajo no me quiere a mí 😂",
       defaultPhrases: "¡Es broma!\n(¿O no?)\nTe quiero, jefe"
     },
     {
-      id: "broma-pareja",
+      id: "broma-telefonica",
       category: "bromas",
-      name: "Broma para mi pareja",
+      name: "Broma telefónica",
       description: "Se ve romántico... hasta que lees bien.",
-      emoji: "😜",
+      emoji: "📞",
       color: "#ffd166",
       premium: false,
-      effect: "fireworks",
-      palette: "neon",
-      defaultTitle: "Mi amor ❤️",
-      defaultSubtitle: "Algo importante que decirte",
-      defaultMessage: "Eres la persona más importante de mi vida...\n¡Y también la que más me hace gastar en comida! 😂",
+      defaultTitle: "Llamada importante 📞",
+      defaultSubtitle: "Algo urgente que decirte",
+      defaultMessage: "Te llamaba para decirte algo muy importante...\n¡Que me debes una comida! 😂",
       defaultPhrases: "Te amo\nPero invítame algo\n(Aunque sea un chicle)"
+    },
+    {
+      id: "broma-mejor-amigo",
+      category: "bromas",
+      name: "Para mi mejor amigo",
+      description: "El clásico: 'te quiero, pero no tanto'.",
+      emoji: "😜",
+      color: "#ffd166",
+      premium: true,
+      defaultTitle: "Amigo mío",
+      defaultSubtitle: "Con cariño (y un poquito de burla)",
+      defaultMessage: "Eres mi mejor amigo en el mundo mundial...\nPero también el más tacaño 😂\n¡Te quiero igual!",
+      defaultPhrases: "Te quiero mucho\nAunque seas tacaño\nY feo"
     },
 
     /* ---------- 🤝 AMISTAD ---------- */
     {
       id: "amistad-clasico",
       category: "amistad",
-      name: "Amigo/a del alma",
+      name: "Amistad eterna",
       description: "Para ese amigo que es más que familia.",
       emoji: "🤝",
       color: "#4ade80",
       premium: false,
-      effect: "galaxy",
-      palette: "aurora",
       defaultTitle: "Amigo mío",
       defaultSubtitle: "Gracias por estar siempre",
       defaultMessage: "Encontrar un amigo como tú\nes como ganar la lotería 💚\nGracias por cada momento.",
       defaultPhrases: "Eres mi persona\nGracias por tanto\nTe quiero, amigo"
     },
     {
-      id: "amistad-fiesta",
+      id: "amistad-hermano",
       category: "amistad",
-      name: "Fiesta de confetti",
-      description: "Celebra esa amistad única con confetti.",
-      emoji: "🎉",
+      name: "Más que hermanos",
+      description: "Para el amigo que se volvió familia.",
+      emoji: "💚",
       color: "#4ade80",
       premium: true,
-      effect: "confetti",
-      palette: "gold",
-      defaultTitle: "¡Amigos por siempre!",
-      defaultSubtitle: "Por muchos años más de risas",
-      defaultMessage: "No sé qué hice para merecerte,\npero gracias al universo por ponerlos en mi camino 🎉",
-      defaultPhrases: "Amigos para siempre\nPor mil aventuras más\nLos quiero"
+      defaultTitle: "Mi hermano del alma",
+      defaultSubtitle: "Gracias por tanto",
+      defaultMessage: "La familia no siempre es de sangre,\ny tú eres la prueba 💚\nTe quiero, hermano.",
+      defaultPhrases: "Eres mi familia\nElegida por mí\nY por siempre"
     },
 
     /* ---------- 🥺 RECONCILIACIÓN ---------- */
     {
-      id: "perdon-clasico",
+      id: "perdon-lo-siento",
       category: "reconciliacion",
-      name: "Lo siento de verdad",
+      name: "Lo siento",
       description: "Para pedir perdón con el corazón.",
       emoji: "🥺",
       color: "#60a5fa",
       premium: false,
-      effect: "snow",
-      palette: "ice",
       defaultTitle: "Lo siento mucho",
       defaultSubtitle: "Necesito decirte algo",
       defaultMessage: "Sé que me equivoqué y lo siento de verdad 🥺\nNo quiero perderte por un error.\n¿Me das otra oportunidad?",
       defaultPhrases: "Perdóname\nTe necesito\nNo quiero perderte"
     },
     {
-      id: "perdon-corazon",
+      id: "perdon-vuelve",
       category: "reconciliacion",
-      name: "Vuelve conmigo ❤️‍🩹",
-      description: "Corazones para pedir otra oportunidad.",
+      name: "Vuelve",
+      description: "Para pedir otra oportunidad.",
       emoji: "💔",
       color: "#60a5fa",
       premium: true,
-      effect: "hearts",
-      palette: "ice",
       defaultTitle: "Vuelve, por favor",
       defaultSubtitle: "Sin ti todo es distinto",
-      defaultMessage: "He pensado en todo lo que pasó\ny solo quiero decirte que te amo ❤️‍🩹\nDame otra oportunidad, por favor.",
+      defaultMessage: "He pensado en todo lo que pasó\ny solo quiero decirte que te amo 💔\nDame otra oportunidad, por favor.",
       defaultPhrases: "Te extraño\nVuelve\nTe amo aún"
     }
 
