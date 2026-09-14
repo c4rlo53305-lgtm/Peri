@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#1a1408">
+<title>Lluvia de Flores Amarillas · Editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Pacifico&family=Permanent+Marker&family=Dancing+Script:wght@600;700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;min-height:100dvh;background:radial-gradient(ellipse at top,#3a2a10 0%,#1a1408 60%,#0a0805 100%);font-family:'Inter',system-ui,sans-serif;color:#fff;overflow-x:hidden;line-height:1.5}
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(1px 1px at 15% 22%, #fff, transparent),radial-gradient(1px 1px at 62% 15%, #ffe8a3, transparent),radial-gradient(1.5px 1.5px at 82% 42%, #fff, transparent),radial-gradient(1px 1px at 32% 78%, #ffd166, transparent),radial-gradient(1px 1px at 92% 68%, #fff, transparent);animation:twinkleBg 8s ease-in-out infinite}
+@keyframes twinkleBg{0%,100%{opacity:1}50%{opacity:.75}}
+main{position:relative;z-index:2}
+.back-float{position:fixed;top:max(14px,env(safe-area-inset-top,14px));left:14px;z-index:940;background:rgba(30,25,10,.9);backdrop-filter:blur(10px);border:1px solid rgba(255,209,102,.5);color:#ffd166;padding:9px 14px;border-radius:30px;font-size:.78rem;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:5px;cursor:pointer;transition:all .2s;white-space:nowrap}
+.back-float:hover{background:rgba(255,209,102,.15);color:#fff}
+.back-float svg{width:14px;height:14px;fill:currentColor}
+#editor-inicial{position:relative;z-index:10;display:flex;flex-direction:column;min-height:100dvh;padding:20px 18px 200px}
+.editor-head{max-width:520px;margin:40px auto 20px;text-align:center;width:100%}
+.editor-head h1{font-family:'Great Vibes',cursive;font-size:clamp(2rem,7vw,3rem);background:linear-gradient(90deg,#ffe8a3,#ffd166,#ffb84d);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;animation:flowGradient 4s ease infinite}
+@keyframes flowGradient{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.editor-head p{color:#c8b888;font-size:.9rem;line-height:1.4}
+.premium-activo{display:none;max-width:520px;margin:0 auto 16px;background:linear-gradient(135deg,rgba(34,197,94,.15),rgba(74,222,128,.08));border:1.5px solid rgba(74,222,128,.4);border-radius:10px;padding:8px 14px;font-size:.75rem;color:#86efac;text-align:center;font-weight:600}
+.premium-activo.show{display:block}
+.progreso{max-width:520px;margin:0 auto 22px;width:100%;display:flex;gap:6px}
+.progreso .dot{flex:1;height:4px;border-radius:4px;background:rgba(255,255,255,.1);transition:background .3s}
+.progreso .dot.done{background:linear-gradient(90deg,#ffd166,#ffb84d)}
+.progreso .dot.current{background:linear-gradient(90deg,#ffd166,#ffb84d);animation:pulseDot 1.5s infinite}
+@keyframes pulseDot{0%,100%{opacity:1}50%{opacity:.5}}
+.editor-card{max-width:520px;margin:0 auto;width:100%;background:linear-gradient(160deg,rgba(40,30,10,.9),rgba(20,15,8,.9));border:1px solid rgba(255,209,102,.3);border-radius:20px;padding:24px 20px;box-shadow:0 20px 60px rgba(0,0,0,.5);backdrop-filter:blur(12px)}
+.editor-paso h2{font-family:'Dancing Script',cursive;font-size:1.7rem;color:#ffd166;margin-bottom:6px;text-align:center}
+.editor-paso .sub{font-size:.82rem;color:#c8b888;text-align:center;margin-bottom:22px;line-height:1.4}
+.campo{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.campo label{font-size:.7rem;font-weight:700;color:#c8b888;text-transform:uppercase;letter-spacing:.8px;display:flex;justify-content:space-between;align-items:center;gap:6px;flex-wrap:wrap}
+.campo label .premium-tag{font-size:.6rem;font-weight:700;color:#ffd166;background:rgba(255,209,102,.12);border:1px solid rgba(255,209,102,.4);padding:2px 7px;border-radius:20px;letter-spacing:.4px;text-transform:none}
+.campo label .premium-tag.unlocked{color:#4ade80;background:rgba(34,197,94,.12);border-color:rgba(74,222,128,.4)}
+.campo input,.campo textarea{background:rgba(0,0,0,.4);border:1px solid rgba(255,209,102,.3);border-radius:10px;padding:12px 14px;color:#fff;font-family:inherit;font-size:16px;outline:none;width:100%;transition:border-color .2s,box-shadow .2s}
+.campo input:focus,.campo textarea:focus{border-color:#ffd166;box-shadow:0 0 0 3px rgba(255,209,102,.15)}
+.campo textarea{min-height:90px;resize:vertical;font-family:'Caveat',cursive;font-size:1.2rem;line-height:1.4}
+.file-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:20px;border:2px dashed rgba(255,209,102,.4);border-radius:12px;cursor:pointer;transition:all .25s;background:rgba(255,209,102,.04);color:#c8b888;font-size:.88rem;text-align:center;font-family:inherit;position:relative}
+.file-btn:hover{border-color:#ffd166;background:rgba(255,209,102,.1)}
+.file-btn.has-file{border-style:solid;border-color:#4ade80;background:rgba(74,222,128,.1);color:#86efac}
+.file-btn.premium{border-color:rgba(255,209,102,.5);background:rgba(255,209,102,.06);color:#ffd166}
+.file-btn.premium::after{content:'👑';position:absolute;top:8px;right:12px;font-size:14px}
+.file-btn.premium.unlocked{border-color:rgba(34,197,94,.5);background:rgba(34,197,94,.06);color:#86efac}
+.file-btn.premium.unlocked::after{content:'✓';color:#4ade80}
+.contador-fotos{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:.72rem;color:#c8b888;margin-top:8px;padding:8px 12px;background:rgba(0,0,0,.3);border-radius:10px}
+.contador-fotos b{color:#ffd166}
+.contador-fotos .barra{flex:1;height:6px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;margin:0 8px}
+.contador-fotos .barra-inner{height:100%;background:linear-gradient(90deg,#ffd166,#ffb84d);border-radius:3px;transition:width .3s}
+.fotos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.fotos-grid .mini-foto{position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#000;border:1px solid rgba(255,209,102,.3);animation:miniFotoIn .4s ease}
+@keyframes miniFotoIn{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
+.fotos-grid .mini-foto img{width:100%;height:100%;object-fit:cover}
+.fotos-grid .mini-foto .del{position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.75);color:#fff;border:none;font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.opciones-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.opt-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 8px;border-radius:10px;background:rgba(0,0,0,.35);border:1.5px solid rgba(255,209,102,.2);cursor:pointer;color:#e8d8a8;font-size:.7rem;font-weight:600;font-family:inherit;transition:all .2s}
+.opt-btn.active{border-color:#ffd166;background:rgba(255,209,102,.15);color:#fff}
+.opt-btn .emoji{font-size:1.6rem}
+.paletas-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px}
+.paleta-btn{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;background:rgba(0,0,0,.35);border:1.5px solid rgba(255,209,102,.2);cursor:pointer;color:#e8d8a8;font-size:.78rem;font-weight:500;font-family:inherit;transition:all .2s;text-align:left}
+.paleta-btn.active{border-color:#ffd166;background:rgba(255,209,102,.15);color:#fff}
+.paleta-btn.locked{opacity:.5;cursor:not-allowed}
+.paleta-colores{display:flex;gap:3px;flex-shrink:0}
+.paleta-color{width:12px;height:12px;border-radius:50%;border:1px solid rgba(255,255,255,.2)}
+.editor-acciones{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+.editor-acciones button{flex:1;padding:13px;border-radius:12px;border:none;font-weight:700;font-size:.9rem;cursor:pointer;transition:transform .15s;font-family:inherit;min-width:120px}
+.editor-acciones button:active{transform:scale(.97)}
+.btn-prev{background:rgba(255,255,255,.08);color:#ffd166;border:1px solid rgba(255,209,102,.3)}
+.btn-next{background:linear-gradient(135deg,#ffd166,#ffb84d);color:#1a1408;box-shadow:0 8px 24px rgba(255,209,102,.4)}
+.btn-barra{position:fixed;bottom:0;left:0;right:0;z-index:900;padding:12px 14px calc(12px + env(safe-area-inset-bottom,0));background:linear-gradient(180deg,rgba(20,15,8,0),rgba(20,15,8,.96) 30%);display:flex;gap:8px;max-width:600px;margin:0 auto;pointer-events:none}
+.btn-barra .btn-accion{margin:0;flex:1;pointer-events:auto;padding:13px 8px;border-radius:12px;border:none;font-weight:700;font-size:.8rem;cursor:pointer;transition:transform .15s;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;min-width:0}
+.btn-barra .btn-accion:active{transform:scale(.97)}
+.btn-barra .btn-vista{background:linear-gradient(135deg,#00d4ff,#7b2ff7);color:#fff;box-shadow:0 8px 20px rgba(0,212,255,.35)}
+.btn-barra .btn-descarga{background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;box-shadow:0 8px 20px rgba(34,197,94,.35)}
+.btn-barra .btn-wa{background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;box-shadow:0 8px 20px rgba(37,211,102,.35)}
+.btn-barra .btn-wa svg{width:16px;height:16px;fill:#fff}
+#status{position:fixed;bottom:calc(90px + env(safe-area-inset-bottom,0));left:50%;transform:translateX(-50%) translateY(120%);background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;padding:13px 22px;border-radius:12px;font-size:.9rem;font-weight:600;z-index:1000;transition:transform .35s;pointer-events:none;max-width:90vw;text-align:center;box-shadow:0 12px 34px rgba(0,0,0,.5)}
+#status.show{transform:translateX(-50%) translateY(0)}
+#status.err{background:linear-gradient(135deg,#ef4444,#dc2626)}
+#loading{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:900;flex-direction:column;gap:14px;color:#ffd166}
+#loading.show{display:flex}
+.spinner{width:44px;height:44px;border:4px solid rgba(255,209,102,.2);border-top-color:#ffd166;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#premium-modal{position:fixed;inset:0;z-index:1200;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:20px}
+#premium-modal.show{display:flex;animation:fadeIn .3s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+#premium-box{width:100%;max-width:400px;background:linear-gradient(160deg,#1a1207,#0a0a15);border:2px solid rgba(255,209,102,.5);border-radius:22px;padding:28px 24px;text-align:center;animation:pop .4s cubic-bezier(.2,.9,.3,1.2);box-shadow:0 0 80px rgba(255,180,40,.35);position:relative;overflow:hidden}
+@keyframes pop{from{transform:scale(.85) translateY(40px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+#premium-box::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at top,rgba(255,209,102,.2),transparent 60%);pointer-events:none}
+#premium-box .crown{font-size:52px;margin-bottom:10px;filter:drop-shadow(0 0 20px rgba(255,209,102,.7));animation:crownFloat 2s ease-in-out infinite;position:relative}
+@keyframes crownFloat{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-6px) rotate(4deg)}}
+#premium-box h2{font-family:'Pacifico',cursive;font-size:1.6rem;background:linear-gradient(90deg,#ffd166,#ffa000,#ffd166);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 3s infinite;margin-bottom:8px;position:relative}
+@keyframes shimmer{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+#premium-box .subtitle{font-size:.85rem;color:#c9a76a;margin-bottom:20px;position:relative}
+#premium-box .feature{background:rgba(255,209,102,.1);border:1px solid rgba(255,209,102,.3);border-radius:12px;padding:12px 16px;font-size:.88rem;color:#ffe8b3;margin-bottom:18px;text-align:left;position:relative}
+#premium-box .feature b{color:#ffd166}
+#premium-box .price{font-family:'Permanent Marker',cursive;font-size:2rem;color:#ffd166;margin-bottom:6px;text-shadow:0 0 20px rgba(255,209,102,.5);position:relative}
+#premium-box .price-note{font-size:.72rem;color:#8a7a5a;margin-bottom:20px;position:relative}
+#premium-box .btn-upgrade{background:linear-gradient(135deg,#ffd166,#ffa000);color:#1a0e00;font-weight:800;padding:14px;border-radius:12px;border:none;width:100%;cursor:pointer;font-family:inherit;font-size:1rem;box-shadow:0 10px 30px rgba(255,180,40,.5);margin-bottom:10px;position:relative;transition:transform .2s}
+#premium-box .btn-later{background:transparent;border:1px solid rgba(255,209,102,.3);color:#c9a76a;padding:12px;border-radius:12px;width:100%;cursor:pointer;font-family:inherit;font-size:.85rem;position:relative}
+#premium-box .close-x{position:absolute;top:14px;right:16px;background:transparent;border:none;color:#c9a76a;font-size:24px;cursor:pointer;line-height:1;z-index:2}
+</style>
+</head>
+<body>
+
+<a href="https://c4rlo53305-lgtm.github.io/Peri/" class="back-float" target="_blank">
+  <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+  Volver
+</a>
+
+<main>
+  <div id="editor-inicial">
+    <div class="editor-head">
+      <h1>Flores amarillas para ti</h1>
+      <p>Crea un regalo único lleno de flores 🌼</p>
+    </div>
+    <div class="premium-activo" id="premium-activo">👑 Eres Premium · Todas las opciones desbloqueadas</div>
+    <div class="progreso" id="progreso"></div>
+    <div class="editor-card">
+      <div id="editor-contenido"></div>
+      <div class="editor-acciones" id="editor-acciones"></div>
+    </div>
+  </div>
+</main>
+
+<div class="btn-barra">
+  <button class="btn-accion btn-vista" id="btn-vista">👁️ Vista previa</button>
+  <button class="btn-accion btn-descarga" id="btn-descarga">💾 Descargar</button>
+  <button class="btn-accion btn-wa" id="btn-wa">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    Compartir
+  </button>
+</div>
+
+<div id="premium-modal">
+  <div id="premium-box">
+    <button class="close-x" id="premium-close">×</button>
+    <div class="crown">👑</div>
+    <h2>Función Premium</h2>
+    <div class="subtitle">Desbloquea todo el potencial</div>
+    <div class="feature" id="premium-feature-text"><b>Esta función</b> te permite llevar tu regalo al siguiente nivel.</div>
+    <div class="price">$79 MXN</div>
+    <div class="price-note">Pago único · Acceso de por vida</div>
+    <button class="btn-upgrade" id="premium-upgrade">✨ Desbloquear Premium</button>
+    <button class="btn-later" id="premium-later">Quizás después</button>
+  </div>
+</div>
+
+<div id="status"></div>
+<div id="loading"><div class="spinner"></div><div id="loading-text">Preparando tus flores...</div></div>
+
+<script>
+var isPremium = (localStorage.getItem("peri_premium_activated") === "1");
+var PERI_URL = "https://c4rlo53305-lgtm.github.io/Peri/";
+var FOTOS_GRATIS = 3;
+var FOTOS_PREMIUM = 10;
+
+var TIPOS_FLOR = {
+  margarita: { emoji: "🌼", nombre: "Margaritas" },
+  girasol:   { emoji: "🌻", nombre: "Girasoles" },
+  cerezo:    { emoji: "🌸", nombre: "Cerezos" },
+  hibisco:   { emoji: "🌺", nombre: "Hibiscos" }
+};
+
+var INTENSIDADES = {
+  suave:    { nombre: "Suave",    cantidad: 30 },
+  media:    { nombre: "Media",    cantidad: 60 },
+  intensa:  { nombre: "Intensa",  cantidad: 100 }
+};
+
+var PALETAS = {
+  dorado:  { nombre: "Dorado",       colores: ["#ffd166","#ffe8a3","#1a1408"] },
+  atardecer:{ nombre: "Atardecer",   colores: ["#ffb84d","#ff8c5a","#2a0a05"] },
+  primavera:{ nombre: "Primavera",   colores: ["#ffe8a3","#a8ffd4","#0a2a15"] },
+  rosa:    { nombre: "Rosa pastel",  colores: ["#ffb6d9","#ffd8ec","#2a0a1e"] },
+  cielo:   { nombre: "Cielo azul",   colores: ["#a8d8ff","#e8f0ff","#0a1530"] },
+  lavanda: { nombre: "Lavanda",      colores: ["#d68eff","#c8a8ff","#1a0a30"] },
+  crema:   { nombre: "Crema",        colores: ["#fff8e0","#ffe8a3","#1a1207"] }
+};
+
+/* Paletas gratis: solo dorado */
+var PALETA_GRATIS = "dorado";
+/* Flores gratis: solo margarita */
+var FLOR_GRATIS = "margarita";
+/* Intensidad gratis: solo media */
+var INTENSIDAD_GRATIS = "media";
+
+var data = {
+  para: "Mi persona favorita",
+  de: "Con amor",
+  mensaje: "Dicen que las flores amarillas solo se regalan a quien de verdad amas 🌼\nAquí tienes las mías, para ti.",
+  firma: "Siempre tuyo",
+  tipoFlor: isPremium ? "margarita" : FLOR_GRATIS,
+  intensidad: isPremium ? "media" : INTENSIDAD_GRATIS,
+  paleta: isPremium ? "dorado" : PALETA_GRATIS,
+  fotos: [],
+  cancion: null
+};
+
+var pasoActual = 0;
+var TOTAL_PASOS = 4;
+var $ = function(id){ return document.getElementById(id); };
+
+function showStatus(msg, ok){
+  var s = $("status");
+  s.textContent = msg;
+  s.classList.toggle("err", ok === false);
+  s.classList.add("show");
+  clearTimeout(showStatus._t);
+  showStatus._t = setTimeout(function(){ s.classList.remove("show"); }, 3000);
+}
+function showLoading(v, txt){
+  $("loading").classList.toggle("show", !!v);
+  if (txt) $("loading-text").textContent = txt;
+}
+function escapeHtml(s){
+  return String(s || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+}
+function readAndResize(file, maxW, quality){
+  return new Promise(function(resolve){
+    var rd = new FileReader();
+    rd.onload = function(ev){
+      var img = new Image();
+      img.onload = function(){
+        var s = Math.min(1, maxW / img.width);
+        var w = Math.round(img.width * s);
+        var h = Math.round(img.height * s);
+        var cv = document.createElement("canvas");
+        cv.width = w; cv.height = h;
+        cv.getContext("2d").drawImage(img, 0, 0, w, h);
+        resolve(cv.toDataURL("image/jpeg", quality));
+      };
+      img.src = ev.target.result;
+    };
+    rd.readAsDataURL(file);
+  });
+}
+
+function showPremium(feature){
+  var msgs = {
+    fotos: "<b>Más fotos:</b> Los usuarios Premium pueden subir hasta 10 fotos para mostrarlas en la revelación final.",
+    tipo: "<b>Elige el tipo de flor:</b> Margaritas 🌼, girasoles 🌻, cerezos 🌸 o hibiscos 🌺.",
+    intensidad: "<b>Cantidad de flores:</b> Elige entre suave, media o intensa.",
+    paleta: "<b>Paletas de color:</b> 7 paletas para el cielo de tu regalo.",
+    cancion: "<b>Música personalizada:</b> Sube tu propia canción.",
+    marca: "<b>Sin marca de agua:</b> Elimina el sello de Dedicatorias Mágicas."
+  };
+  $("premium-feature-text").innerHTML = msgs[feature] || "Desbloquea funciones exclusivas.";
+  $("premium-modal").classList.add("show");
+}
+function initPremiumModal(){
+  $("premium-close").onclick = function(){ $("premium-modal").classList.remove("show"); };
+  $("premium-later").onclick = function(){ $("premium-modal").classList.remove("show"); };
+  $("premium-modal").onclick = function(e){ if (e.target === $("premium-modal")) $("premium-modal").classList.remove("show"); };
+  $("premium-upgrade").onclick = function(){ window.location.href = "premium.html"; };
+}
+
+function renderProgreso(){
+  var cont = $("progreso");
+  cont.innerHTML = "";
+  for (var i = 0; i < TOTAL_PASOS; i++){
+    var d = document.createElement("div");
+    d.className = "dot" + (i < pasoActual ? " done" : "") + (i === pasoActual ? " current" : "");
+    cont.appendChild(d);
+  }
+}
+
+function renderEditor(){
+  renderProgreso();
+  var cont = $("editor-contenido");
+  var acciones = $("editor-acciones");
+  cont.innerHTML = "";
+  acciones.innerHTML = "";
+
+  /* PASO 0: DESTINATARIO Y MENSAJE */
+  if (pasoActual === 0){
+    cont.innerHTML =
+      '<div class="editor-paso">' +
+        '<h2>¿Para quién son las flores?</h2>' +
+        '<p class="sub">Le mandaremos flores amarillas virtuales</p>' +
+        '<div class="campo">' +
+          '<label>Para quién es</label>' +
+          '<input id="in-para" type="text" maxlength="40" value="' + escapeHtml(data.para) + '" placeholder="Ej: María">' +
+        '</div>' +
+        '<div class="campo">' +
+          '<label>Mensaje</label>' +
+          '<textarea id="in-mensaje" maxlength="400" placeholder="Escribe aquí tu dedicatoria...">' + escapeHtml(data.mensaje) + '</textarea>' +
+        '</div>' +
+        '<div class="campo">' +
+          '<label>Firma</label>' +
+          '<input id="in-firma" type="text" maxlength="40" value="' + escapeHtml(data.firma) + '" placeholder="Ej: Tu amor, Juan">' +
+        '</div>' +
+      '</div>';
+    acciones.innerHTML = '<button class="btn-next" id="btn-next">Siguiente →</button>';
+  }
+
+  /* PASO 1: FOTO */
+  else if (pasoActual === 1){
+    var maxFotos = isPremium ? FOTOS_PREMIUM : FOTOS_GRATIS;
+    var cantFotos = data.fotos.length;
+    var pct = (cantFotos / maxFotos) * 100;
+    cont.innerHTML =
+      '<div class="editor-paso">' +
+        '<h2>Fotos</h2>' +
+        '<p class="sub">Aparecerán ocultas y se revelarán al tocar un botón</p>' +
+        '<div class="campo">' +
+          '<label>Fotos <span class="premium-tag ' + (isPremium ? 'unlocked' : '') + '">' + (isPremium ? '✓ Hasta 10' : '👑 3 gratis · 10 premium') + '</span></label>' +
+          '<div id="fotos-grid" class="fotos-grid"></div>' +
+          '<label class="file-btn ' + (isPremium ? 'premium unlocked' : 'premium') + '" for="in-fotos" style="margin-top:10px;padding:14px">' +
+            '<span id="fotos-label">📷 Añadir fotos</span>' +
+            '<input id="in-fotos" type="file" accept="image/*" multiple hidden>' +
+          '</label>' +
+          '<div class="contador-fotos"><span>📷 <b>' + cantFotos + ' / ' + maxFotos + '</b></span><span class="barra"><span class="barra-inner" style="width:' + pct + '%"></span></span><span>' + (isPremium ? 'Premium' : 'Gratis') + '</span></div>' +
+        '</div>' +
+      '</div>';
+    acciones.innerHTML =
+      '<button class="btn-prev" id="btn-prev">← Atrás</button>' +
+      '<button class="btn-next" id="btn-next">Siguiente →</button>';
+  }
+
+  /* PASO 2: ESTILO */
+  else if (pasoActual === 2){
+    /* Tipo de flor */
+    var tipoHTML = '<div class="opciones-grid" id="tipo-grid">';
+    Object.keys(TIPOS_FLOR).forEach(function(k){
+      var t = TIPOS_FLOR[k];
+      var bloqueado = (!isPremium && k !== FLOR_GRATIS);
+      tipoHTML += '<button type="button" class="opt-btn ' + (data.tipoFlor === k ? 'active' : '') + (bloqueado ? ' locked' : '') + '" data-tipo="' + k + '"' + (bloqueado ? ' style="opacity:.5"' : '') + '>' +
+        '<span class="emoji">' + t.emoji + '</span>' +
+        '<span>' + t.nombre + (bloqueado ? ' 👑' : '') + '</span>' +
+      '</button>';
+    });
+    tipoHTML += '</div>';
+
+    /* Intensidad */
+    var intensHTML = '<div class="opciones-grid" id="intens-grid">';
+    Object.keys(INTENSIDADES).forEach(function(k){
+      var it = INTENSIDADES[k];
+      var bloqueado = (!isPremium && k !== INTENSIDAD_GRATIS);
+      intensHTML += '<button type="button" class="opt-btn ' + (data.intensidad === k ? 'active' : '') + (bloqueado ? ' locked' : '') + '" data-intens="' + k + '"' + (bloqueado ? ' style="opacity:.5"' : '') + '>' +
+        '<span class="emoji">' + (k === 'suave' ? '🍃' : k === 'media' ? '🌿' : '🌳') + '</span>' +
+        '<span>' + it.nombre + (bloqueado ? ' 👑' : '') + '</span>' +
+      '</button>';
+    });
+    intensHTML += '</div>';
+
+    /* Paletas */
+    var paletaHTML = '<div class="paletas-grid" id="paletas-grid">';
+    Object.keys(PALETAS).forEach(function(k){
+      var p = PALETAS[k];
+      var bloqueado = (!isPremium && k !== PALETA_GRATIS);
+      paletaHTML += '<button type="button" class="paleta-btn ' + (data.paleta === k ? 'active' : '') + (bloqueado ? ' locked' : '') + '" data-paleta="' + k + '"' + (bloqueado ? ' style="opacity:.5"' : '') + '>' +
+        '<span class="paleta-colores">' +
+          p.colores.map(function(c){ return '<span class="paleta-color" style="background:' + c + '"></span>'; }).join('') +
+        '</span>' +
+        '<span style="flex:1">' + p.nombre + (bloqueado ? ' 👑' : '') + '</span>' +
+      '</button>';
+    });
+    paletaHTML += '</div>';
+
+    cont.innerHTML =
+      '<div class="editor-paso">' +
+        '<h2>Estilo del regalo</h2>' +
+        '<p class="sub">Personaliza cómo se verán las flores</p>' +
+        '<div class="campo">' +
+          '<label>Tipo de flor <span class="premium-tag ' + (isPremium ? 'unlocked' : '') + '">' + (isPremium ? '✓ Todas' : '👑 Todas premium') + '</span></label>' +
+          tipoHTML +
+        '</div>' +
+        '<div class="campo">' +
+          '<label>Cantidad de flores <span class="premium-tag ' + (isPremium ? 'unlocked' : '') + '">' + (isPremium ? '✓ Todas' : '👑 Todas premium') + '</span></label>' +
+          intensHTML +
+        '</div>' +
+        '<div class="campo">' +
+          '<label>Paleta de colores <span class="premium-tag ' + (isPremium ? 'unlocked' : '') + '">' + (isPremium ? '✓ Todas' : '👑 Todas premium') + '</span></label>' +
+          paletaHTML +
+        '</div>' +
+      '</div>';
+    acciones.innerHTML =
+      '<button class="btn-prev" id="btn-prev">← Atrás</button>' +
+      '<button class="btn-next" id="btn-next">Siguiente →</button>';
+  }
+
+  /* PASO 3: MÚSICA */
+  else if (pasoActual === 3){
+    var cancionHTML = '';
+    if (isPremium){
+      cancionHTML =
+        '<div class="campo">' +
+          '<label>Tu canción <span class="premium-tag unlocked">✓ DESBLOQUEADO</span></label>' +
+          '<label class="file-btn premium unlocked" for="in-cancion">' +
+            '<span id="cancion-label">🎵 ' + (data.cancion ? 'Canción cargada ✓' : 'Subir mi canción') + '</span>' +
+            '<input id="in-cancion" type="file" accept="audio/*" hidden>' +
+          '</label>' +
+        '</div>';
+    } else {
+      cancionHTML =
+        '<div class="campo">' +
+          '<label>Tu canción <span class="premium-tag">👑 PREMIUM</span></label>' +
+          '<button class="file-btn premium" id="cancion-premium-btn" type="button" style="cursor:pointer;font-family:inherit;width:100%">' +
+            '🎵 Subir mi canción' +
+          '</button>' +
+        '</div>';
+    }
+    cont.innerHTML =
+      '<div class="editor-paso">' +
+        '<h2>Últimos detalles 💫</h2>' +
+        '<p class="sub">Tu regalo está casi listo</p>' +
+        '<div class="campo">' +
+          '<label>De parte de</label>' +
+          '<input id="in-de" type="text" maxlength="40" value="' + escapeHtml(data.de) + '" placeholder="Ej: Juan">' +
+        '</div>' +
+        cancionHTML +
+      '</div>';
+    acciones.innerHTML =
+      '<button class="btn-prev" id="btn-prev">← Atrás</button>' +
+      '<button class="btn-next" id="btn-next">✨ Ver regalo</button>';
+  }
+
+  bindEditorEvents();
+}
+
+function renderFotosGrid(){
+  var grid = $("fotos-grid");
+  if (!grid) return;
+  grid.innerHTML = "";
+  data.fotos.forEach(function(url, i){
+    var d = document.createElement("div");
+    d.className = "mini-foto";
+    d.innerHTML = '<img src="' + url + '" alt=""><button class="del" data-i="' + i + '">×</button>';
+    grid.appendChild(d);
+  });
+  grid.querySelectorAll(".del").forEach(function(btn){
+    btn.onclick = function(){
+      var i = parseInt(btn.dataset.i);
+      data.fotos.splice(i, 1);
+      renderFotosGrid();
+      updateContador();
+    };
+  });
+  updateContador();
+}
+
+function updateContador(){
+  var maxFotos = isPremium ? FOTOS_PREMIUM : FOTOS_GRATIS;
+  var cantFotos = data.fotos.length;
+  var pct = Math.min((cantFotos / maxFotos) * 100, 100);
+  var cont = document.querySelector(".contador-fotos");
+  if (cont){
+    cont.querySelector("b").textContent = cantFotos + " / " + maxFotos;
+    var b = cont.querySelector(".barra-inner");
+    if (b) b.style.width = pct + "%";
+  }
+  var lbl = $("fotos-label");
+  if (lbl){
+    if (cantFotos === 0) lbl.textContent = "📷 Añadir fotos";
+    else if (cantFotos >= maxFotos) lbl.textContent = isPremium ? "✓ Máximo alcanzado (10)" : "✓ 3 fotos subidas · Premium = hasta 10";
+    else lbl.textContent = "✓ " + cantFotos + " foto" + (cantFotos > 1 ? "s" : "") + " · añadir más";
+  }
+}
+
+function bindEditorEvents(){
+  var btnPrev = $("btn-prev");
+  var btnNext = $("btn-next");
+
+  if (btnPrev) btnPrev.onclick = function(){
+    if (pasoActual > 0){ guardarPaso(); pasoActual--; renderEditor(); }
+  };
+  if (btnNext) btnNext.onclick = function(){
+    guardarPaso();
+    if (pasoActual === TOTAL_PASOS - 1){ vistaPrevia(); return; }
+    pasoActual++;
+    renderEditor();
+  };
+
+  var inFotos = $("in-fotos");
+  if (inFotos){
+    renderFotosGrid();
+    inFotos.addEventListener("change", async function(e){
+      var files = Array.from(e.target.files || []);
+      if (!files.length) return;
+      var maxFotos = isPremium ? FOTOS_PREMIUM : FOTOS_GRATIS;
+      var slots = maxFotos - data.fotos.length;
+      if (slots <= 0){ showPremium("fotos"); e.target.value = ""; return; }
+      if (!isPremium && files.length > slots) showPremium("fotos");
+      files = files.slice(0, slots);
+      for (var i = 0; i < files.length; i++){
+        var url = await readAndResize(files[i], 900, 0.82);
+        data.fotos.push(url);
+      }
+      renderFotosGrid();
+      e.target.value = "";
+    });
+  }
+
+  var tipoGrid = $("tipo-grid");
+  if (tipoGrid){
+    tipoGrid.querySelectorAll(".opt-btn").forEach(function(btn){
+      btn.onclick = function(){
+        var k = btn.dataset.tipo;
+        if (!isPremium && k !== FLOR_GRATIS){ showPremium("tipo"); return; }
+        data.tipoFlor = k;
+        tipoGrid.querySelectorAll(".opt-btn").forEach(function(b){ b.classList.remove("active"); });
+        btn.classList.add("active");
+      };
+    });
+  }
+  var intensGrid = $("intens-grid");
+  if (intensGrid){
+    intensGrid.querySelectorAll(".opt-btn").forEach(function(btn){
+      btn.onclick = function(){
+        var k = btn.dataset.intens;
+        if (!isPremium && k !== INTENSIDAD_GRATIS){ showPremium("intensidad"); return; }
+        data.intensidad = k;
+        intensGrid.querySelectorAll(".opt-btn").forEach(function(b){ b.classList.remove("active"); });
+        btn.classList.add("active");
+      };
+    });
+  }
+  var paletasGrid = $("paletas-grid");
+  if (paletasGrid){
+    paletasGrid.querySelectorAll(".paleta-btn").forEach(function(btn){
+      btn.onclick = function(){
+        var k = btn.dataset.paleta;
+        if (!isPremium && k !== PALETA_GRATIS){ showPremium("paleta"); return; }
+        data.paleta = k;
+        paletasGrid.querySelectorAll(".paleta-btn").forEach(function(b){ b.classList.remove("active"); });
+        btn.classList.add("active");
+      };
+    });
+  }
+
+  var cancionPremBtn = $("cancion-premium-btn"); if (cancionPremBtn) cancionPremBtn.onclick = function(){ showPremium("cancion"); };
+
+  var inCancion = $("in-cancion");
+  if (inCancion){
+    inCancion.addEventListener("change", function(e){
+      var f = e.target.files[0];
+      if (!f) return;
+      if (!f.type.startsWith("audio/")){ showStatus("Solo archivos de audio", false); return; }
+      if (f.size > 5 * 1024 * 1024){ showStatus("Máximo 5 MB de audio", false); return; }
+      var rd = new FileReader();
+      rd.onload = function(ev){
+        data.cancion = ev.target.result;
+        $("cancion-label").textContent = "✓ " + f.name;
+      };
+      rd.readAsDataURL(f);
+    });
+  }
+}
+
+function guardarPaso(){
+  if (pasoActual === 0){
+    var p = $("in-para"); if (p) data.para = p.value.trim() || "Mi persona favorita";
+    var m = $("in-mensaje"); if (m) data.mensaje = m.value.trim() || data.mensaje;
+    var f = $("in-firma"); if (f) data.firma = f.value.trim() || data.firma;
+  }
+  else if (pasoActual === 3){
+    var d = $("in-de"); if (d) data.de = d.value.trim() || "Con amor";
+  }
+}
+
+/* ============================================================
+   CONSTRUIR HTML DEL REGALO
+   ============================================================ */
+function buildRegaloHTML(){
+  var tipo = TIPOS_FLOR[data.tipoFlor] || TIPOS_FLOR.margarita;
+  var intens = INTENSIDADES[data.intensidad] || INTENSIDADES.media;
+  var paleta = PALETAS[data.paleta] || PALETAS.dorado;
+  var emojiFlor = tipo.emoji;
+  var cantidadFlores = intens.cantidad;
+  var cancionJSON = JSON.stringify(data.cancion || null);
+
+  /* Fotos ocultas que se revelan */
+  var fotosHTML = "";
+  if (data.fotos.length){
+    fotosHTML = '<div class="fotos-revelacion" id="fotos-revelacion">';
+    data.fotos.forEach(function(url, i){
+      fotosHTML += '<div class="foto-revelada" data-delay="' + (i * 0.15) + '"><img src="' + url + '" alt=""></div>';
+    });
+    fotosHTML += '</div>';
+  }
+
+  var marcaAguaHTML = isPremium ? '' : '<a href="' + PERI_URL + '" class="marca-agua" target="_blank"><span>💫</span> Hecho con Dedicatorias Mágicas</a>';
+  var btnVerMas = '      <a class="btn-accion premium" href="' + PERI_URL + '" target="_blank">👑 Ver más plantillas</a>\n';
+  var botonRevelar = data.fotos.length ? '<button class="btn-revelar" id="btn-revelar">🎁 Revelar mis recuerdos</button>' : '';
+
+  return '<!DOCTYPE html>\n' +
+'<html lang="es">\n' +
+'<head>\n' +
+'<meta charset="UTF-8">\n' +
+'<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">\n' +
+'<meta name="theme-color" content="' + paleta.colores[2] + '">\n' +
+'<title>Flores amarillas para ' + escapeHtml(data.para) + '</title>\n' +
+'<meta property="og:title" content="Flores amarillas para ' + escapeHtml(data.para) + '">\n' +
+'<meta property="og:description" content="' + escapeHtml(data.mensaje.split("\\n")[0]) + '">\n' +
+'<meta property="og:type" content="website">\n' +
+'<link rel="preconnect" href="https://fonts.googleapis.com">\n' +
+'<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
+'<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Pacifico&family=Permanent+Marker&family=Dancing+Script:wght@600;700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">\n' +
+'<style>\n' +
+'*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}\n' +
+'html{scroll-behavior:smooth}\n' +
+'body{width:100%;min-height:100dvh;background:' + paleta.colores[2] + ';color:#fff;font-family:"Inter",system-ui,sans-serif;overflow-x:hidden;line-height:1.5}\n' +
+'body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(1px 1px at 12% 18%, #fff, transparent),radial-gradient(1px 1px at 68% 12%, ' + paleta.colores[1] + ', transparent),radial-gradient(1.5px 1.5px at 88% 48%, #fff, transparent),radial-gradient(1px 1px at 28% 72%, ' + paleta.colores[0] + ', transparent),radial-gradient(1px 1px at 92% 78%, #fff, transparent);animation:twinkleBg 8s ease-in-out infinite}\n' +
+'@keyframes twinkleBg{0%,100%{opacity:1}50%{opacity:.75}}\n' +
+'#flowers-canvas{position:fixed;inset:0;z-index:1;pointer-events:none}\n' +
+'#fx-canvas{position:fixed;inset:0;z-index:2;pointer-events:none}\n' +
+'main{position:relative;z-index:3;min-height:100dvh}\n' +
+'.back-float{position:fixed;top:max(14px,env(safe-area-inset-top,14px));left:14px;z-index:940;background:rgba(30,25,10,.85);backdrop-filter:blur(10px);border:1px solid ' + paleta.colores[0] + '80;color:' + paleta.colores[0] + ';padding:9px 14px;border-radius:30px;font-size:.78rem;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:5px;cursor:pointer;transition:all .2s;white-space:nowrap}\n' +
+'.back-float:hover{background:' + paleta.colores[0] + '26;color:#fff}\n' +
+'.back-float svg{width:14px;height:14px;fill:currentColor}\n' +
+'.share-float{position:fixed;top:max(14px,env(safe-area-inset-top,14px));right:14px;z-index:940;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;padding:9px 14px;border-radius:30px;font-size:.78rem;font-weight:700;text-decoration:none;display:flex;align-items:center;gap:6px;cursor:pointer;transition:all .2s;box-shadow:0 8px 24px rgba(37,211,102,.5);border:none;font-family:inherit}\n' +
+'.share-float:hover{transform:scale(1.05)}\n' +
+'.share-float svg{width:16px;height:16px;fill:#fff}\n' +
+'#music-toggle{position:fixed;top:max(66px,calc(env(safe-area-inset-top,0px) + 66px));right:14px;z-index:940;width:44px;height:44px;border-radius:50%;border:1px solid ' + paleta.colores[0] + '66;background:rgba(30,25,10,.85);backdrop-filter:blur(10px);color:' + paleta.colores[0] + ';font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .25s}\n' +
+'#music-toggle.playing{background:linear-gradient(135deg,' + paleta.colores[0] + ',' + paleta.colores[1] + ');color:#1a1408;border-color:transparent;animation:musicPulse 2s infinite}\n' +
+'@keyframes musicPulse{0%,100%{box-shadow:0 0 0 0 ' + paleta.colores[0] + '99}50%{box-shadow:0 0 0 12px ' + paleta.colores[0] + '00}}\n' +
+'.hero{min-height:100dvh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:90px 26px 60px;text-align:center;position:relative;z-index:3}\n' +
+'.hero-tag{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:' + paleta.colores[1] + ';background:' + paleta.colores[0] + '1f;border:1px solid ' + paleta.colores[0] + '66;padding:7px 16px;border-radius:30px;margin-bottom:26px;opacity:0;animation:fadeUp 1s .3s ease forwards}\n' +
+'.hero h1{font-family:"Great Vibes",cursive;font-size:clamp(2.5rem,10vw,5rem);line-height:1.05;background:linear-gradient(90deg,' + paleta.colores[1] + ',' + paleta.colores[0] + ',' + paleta.colores[1] + ');background-size:300% 300%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:flowGradient 6s ease infinite,fadeUp 1.2s .5s ease forwards;filter:drop-shadow(0 8px 30px ' + paleta.colores[0] + '80);margin-bottom:20px;opacity:0;max-width:92vw}\n' +
+'@keyframes flowGradient{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}\n' +
+'@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}\n' +
+'.hero-para{font-family:"Dancing Script",cursive;font-size:clamp(1.2rem,4vw,1.6rem);color:' + paleta.colores[1] + ';margin-bottom:34px;opacity:0;animation:fadeUp 1.2s .7s ease forwards}\n' +
+'.mensaje-card{max-width:560px;background:rgba(0,0,0,.4);backdrop-filter:blur(10px);border:1px solid ' + paleta.colores[0] + '4d;border-radius:20px;padding:28px 24px;margin-bottom:26px;opacity:0;animation:fadeUp 1.2s .9s ease forwards;box-shadow:0 20px 60px rgba(0,0,0,.4),0 0 60px ' + paleta.colores[0] + '1a}\n' +
+'.mensaje-texto{font-family:"Caveat",cursive;font-size:clamp(1.2rem,4vw,1.6rem);color:#f0e8d0;line-height:1.6;white-space:pre-wrap;word-wrap:break-word}\n' +
+'.firma{margin-top:22px;font-family:"Dancing Script",cursive;font-size:1.15rem;color:' + paleta.colores[1] + ';text-align:right}\n' +
+'.firma strong{font-weight:700;color:' + paleta.colores[0] + '}\n' +
+'.emoji-grande{font-size:4rem;margin:24px 0;filter:drop-shadow(0 0 30px ' + paleta.colores[0] + '99);animation:heartbeat 2s ease-in-out infinite}\n' +
+'@keyframes heartbeat{0%,100%{transform:scale(1)}15%{transform:scale(1.15)}30%{transform:scale(1)}45%{transform:scale(1.1)}60%{transform:scale(1)}}\n' +
+'/* BOTÓN REVELAR */\n' +
+'.btn-revelar{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 32px;margin:20px 0;border-radius:50px;border:2px solid ' + paleta.colores[0] + ';background:linear-gradient(135deg,' + paleta.colores[0] + '33,' + paleta.colores[0] + '1a);color:' + paleta.colores[0] + ';font-weight:800;font-size:1rem;cursor:pointer;font-family:inherit;transition:all .3s;box-shadow:0 10px 30px ' + paleta.colores[0] + '4d;animation:pulseBtn 2.5s ease-in-out infinite}\n' +
+'.btn-revelar:hover{transform:scale(1.05);background:' + paleta.colores[0] + '33}\n' +
+'@keyframes pulseBtn{0%,100%{box-shadow:0 10px 30px ' + paleta.colores[0] + '4d,0 0 0 0 ' + paleta.colores[0] + '66}50%{box-shadow:0 10px 30px ' + paleta.colores[0] + '66,0 0 0 20px ' + paleta.colores[0] + '00}}\n' +
+'/* FOTOS REVELADAS */\n' +
+'.fotos-revelacion{display:none;grid-template-columns:repeat(3,1fr);gap:12px;max-width:520px;width:100%;margin:24px auto 0;padding:0 4px}\n' +
+'.fotos-revelacion.show{display:grid;animation:fadeIn .5s ease}\n' +
+'@keyframes fadeIn{from{opacity:0}to{opacity:1}}\n' +
+'.foto-revelada{position:relative;aspect-ratio:1;border-radius:16px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.6),0 0 30px ' + paleta.colores[0] + '4d;border:3px solid ' + paleta.colores[0] + '99;transform:scale(0) rotate(-180deg);opacity:0;transition:all .8s cubic-bezier(.2,.9,.3,1.4);transition-delay:calc(var(--d,0) * 1s)}\n' +
+'.foto-revelada.show{transform:scale(1) rotate(0);opacity:1}\n' +
+'.foto-revelada img{width:100%;height:100%;object-fit:cover;display:block}\n' +
+'@media(max-width:520px){.fotos-revelacion{grid-template-columns:repeat(2,1fr);gap:10px}.foto-revelada{border-width:2px}}\n' +
+'.marca-agua{position:fixed;bottom:14px;right:14px;z-index:20;background:rgba(20,15,8,.75);backdrop-filter:blur(8px);border:1px solid ' + paleta.colores[0] + '4d;color:' + paleta.colores[0] + ';padding:6px 12px;border-radius:20px;font-size:.68rem;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:5px;transition:all .2s}\n' +
+'.marca-agua:hover{background:' + paleta.colores[0] + '33;color:#fff}\n' +
+'.acciones-finales{display:flex;flex-direction:column;gap:12px;width:100%;max-width:320px;margin-top:20px}\n' +
+'.btn-accion{display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 20px;border-radius:14px;border:none;font-weight:700;font-size:.95rem;text-decoration:none;cursor:pointer;transition:transform .2s;font-family:inherit;width:100%}\n' +
+'.btn-accion.secondary{background:rgba(255,255,255,.08);color:' + paleta.colores[1] + ';border:1px solid ' + paleta.colores[0] + '66}\n' +
+'.btn-accion.premium{background:linear-gradient(135deg,#ffd166,#ff9500);color:#1a0e00;box-shadow:0 10px 30px rgba(255,180,40,.5)}\n' +
+'.btn-accion:hover{transform:translateY(-2px)}\n' +
+'</style>\n' +
+'</head>\n' +
+'<body>\n' +
+'<a href="' + PERI_URL + '" class="back-float" target="_blank"><svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>Volver</a>\n' +
+'<button class="share-float" id="btn-compartir"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>Compartir</button>\n' +
+'<button id="music-toggle">🎵</button>\n' +
+'<canvas id="flowers-canvas"></canvas>\n' +
+'<canvas id="fx-canvas"></canvas>\n' +
+marcaAguaHTML + '\n' +
+'<main>\n' +
+'  <section class="hero">\n' +
+'    <span class="hero-tag">' + emojiFlor + ' Flores amarillas para ti ' + emojiFlor + '</span>\n' +
+'    <h1>Para ' + escapeHtml(data.para) + '</h1>\n' +
+'    <div class="hero-para">De parte de ' + escapeHtml(data.de) + '</div>\n' +
+'    <div class="emoji-grande">' + emojiFlor + '</div>\n' +
+'    <div class="mensaje-card">\n' +
+'      <div class="mensaje-texto">' + escapeHtml(data.mensaje) + '</div>\n' +
+'      <div class="firma">— <strong>' + escapeHtml(data.firma) + '</strong></div>\n' +
+'    </div>\n' +
+botonRevelar +
+fotosHTML + '\n' +
+'    <div class="acciones-finales">\n' +
+'      <button class="btn-accion secondary" id="btn-confeti">🎊 Celebrar</button>\n' +
+btnVerMas +
+'    </div>\n' +
+'  </section>\n' +
+'</main>\n' +
+'<script>\n' +
+'var CUSTOM_MUSIC = ' + cancionJSON + ';\n' +
+'var PALETA = ' + JSON.stringify(paleta.colores) + ';\n' +
+'var EMOJI_FLOR = "' + emojiFlor + '";\n' +
+'var CANTIDAD_FLORES = ' + cantidadFlores + ';\n' +
+'var NOMBRE_PARA = ' + JSON.stringify(data.para) + ';\n' +
+'(function(){\n' +
+'"use strict";\n' +
+'var audioCtx = null;\n' +
+'var musicaPlaying = false;\n' +
+'var musicaTimer = null;\n' +
+'var musicaStep = 0;\n' +
+'var customAudioEl = null;\n' +
+'var MELODY = [659.25, 587.33, 523.25, 587.33, 659.25, 659.25, 659.25, 587.33, 587.33, 587.33, 659.25, 783.99, 783.99, 659.25, 587.33, 523.25, 659.25, 587.33, 523.25, 587.33, 659.25, 659.25, 659.25, 523.25, 587.33, 587.33, 659.25, 587.33, 523.25];\n' +
+'var BASS = [261.63, 196.00, 220.00, 174.61, 261.63, 196.00, 220.00, 174.61];\n' +
+'function initAudio(){ if (audioCtx) return; try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){} }\n' +
+'function playNote(freq, time, duration, vol){ if (!audioCtx) return; var osc = audioCtx.createOscillator(); var gain = audioCtx.createGain(); osc.type = "triangle"; osc.frequency.value = freq; gain.gain.setValueAtTime(0, time); gain.gain.linearRampToValueAtTime(vol, time + 0.05); gain.gain.exponentialRampToValueAtTime(0.0001, time + duration); osc.connect(gain); gain.connect(audioCtx.destination); osc.start(time); osc.stop(time + duration + 0.1); }\n' +
+'function scheduleNextBar(){ if (!musicaPlaying || !audioCtx) return; var now = audioCtx.currentTime; var beat = 0.6; var totalNotes = MELODY.length; var startStep = musicaStep % totalNotes; var bassStep = Math.floor(musicaStep / 4) % BASS.length; playNote(BASS[bassStep], now, beat * 3.5, 0.06); for (var i=0; i<4; i++){ var freq = MELODY[(startStep + i) % totalNotes]; playNote(freq, now + i * beat, beat * 1.5, 0.08 + Math.random()*0.02); } musicaStep += 4; musicaTimer = setTimeout(scheduleNextBar, beat * 4 * 1000); }\n' +
+'function iniciarMusica(){ if (CUSTOM_MUSIC){ if (!customAudioEl){ customAudioEl = new Audio(CUSTOM_MUSIC); customAudioEl.loop = true; customAudioEl.volume = 0.6; } customAudioEl.play().catch(function(){}); musicaPlaying = true; actualizarBtn(); return; } initAudio(); if (!audioCtx) return; if (audioCtx.state === "suspended") audioCtx.resume(); musicaPlaying = true; scheduleNextBar(); actualizarBtn(); }\n' +
+'function detenerMusica(){ musicaPlaying = false; if (musicaTimer){ clearTimeout(musicaTimer); musicaTimer = null; } if (customAudioEl) customAudioEl.pause(); actualizarBtn(); }\n' +
+'function actualizarBtn(){ var btn = document.getElementById("music-toggle"); if (musicaPlaying) btn.classList.add("playing"); else btn.classList.remove("playing"); }\n' +
+'document.getElementById("music-toggle").onclick = function(){ if (musicaPlaying) detenerMusica(); else iniciarMusica(); };\n' +
+'var musicaIniciada = false;\n' +
+'var iniciarAuto = function(){ if (!musicaIniciada){ musicaIniciada = true; iniciarMusica(); } };\n' +
+'window.addEventListener("scroll", iniciarAuto, { once: true });\n' +
+'setTimeout(iniciarAuto, 3000);\n' +
+'/* FLORES */\n' +
+'var canvas = document.getElementById("flowers-canvas");\n' +
+'var ctx = canvas.getContext("2d");\n' +
+'var W = canvas.width = window.innerWidth;\n' +
+'var H = canvas.height = window.innerHeight;\n' +
+'var flores = [];\n' +
+'var NF = CANTIDAD_FLORES;\n' +
+'for (var i=0; i<NF; i++){\n' +
+'  flores.push({\n' +
+'    x: Math.random() * W,\n' +
+'    y: Math.random() * H - H,\n' +
+'    size: 18 + Math.random() * 22,\n' +
+'    speedY: 0.5 + Math.random() * 1.2,\n' +
+'    speedX: -0.5 + Math.random() * 1,\n' +
+'    rot: Math.random() * Math.PI * 2,\n' +
+'    rotSpeed: -0.02 + Math.random() * 0.04,\n' +
+'    swing: Math.random() * Math.PI * 2,\n' +
+'    swingSpeed: 0.01 + Math.random() * 0.02,\n' +
+'    opacity: 0.6 + Math.random() * 0.4\n' +
+'  });\n' +
+'}\n' +
+'function dibujar(){ \n' +
+'  ctx.clearRect(0, 0, W, H);\n' +
+'  for (var i = 0; i < flores.length; i++){\n' +
+'    var f = flores[i];\n' +
+'    f.y += f.speedY;\n' +
+'    f.swing += f.swingSpeed;\n' +
+'    f.x += f.speedX + Math.sin(f.swing) * 0.6;\n' +
+'    f.rot += f.rotSpeed;\n' +
+'    if (f.y > H + 40){ f.y = -40; f.x = Math.random() * W; }\n' +
+'    ctx.save();\n' +
+'    ctx.globalAlpha = f.opacity;\n' +
+'    ctx.translate(f.x, f.y);\n' +
+'    ctx.rotate(f.rot);\n' +
+'    ctx.font = f.size + "px Arial";\n' +
+'    ctx.textAlign = "center";\n' +
+'    ctx.textBaseline = "middle";\n' +
+'    ctx.shadowColor = PALETA[0];\n' +
+'    ctx.shadowBlur = 12;\n' +
+'    ctx.fillText(EMOJI_FLOR, 0, 0);\n' +
+'    ctx.restore();\n' +
+'  }\n' +
+'  requestAnimationFrame(dibujar);\n' +
+'}\n' +
+'dibujar();\n' +
+'window.addEventListener("resize", function(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; });\n' +
+'/* EFECTOS */\n' +
+'var fx = document.getElementById("fx-canvas");\n' +
+'var fxctx = fx.getContext("2d");\n' +
+'var FW = fx.width = window.innerWidth;\n' +
+'var FH = fx.height = window.innerHeight;\n' +
+'var fxItems = [];\n' +
+'function addFx(item){ fxItems.push(item); }\n' +
+'function renderFx(){ fxctx.clearRect(0, 0, FW, FH); for (var i = fxItems.length - 1; i >= 0; i--){ var it = fxItems[i]; it.x += it.vx; it.y += it.vy; it.vy += it.g || 0; it.life--; if (it.life <= 0){ fxItems.splice(i, 1); continue; } var alpha = Math.min(it.life / 60, 1); fxctx.save(); fxctx.globalAlpha = alpha; fxctx.translate(it.x, it.y); fxctx.rotate(it.rot || 0); if (it.rot) it.rot += it.rotSpeed || 0; fxctx.fillStyle = it.color; fxctx.shadowColor = it.color; fxctx.shadowBlur = 12; if (it.type === "flower"){ fxctx.font = it.size + "px Arial"; fxctx.textAlign = "center"; fxctx.textBaseline = "middle"; fxctx.fillText(EMOJI_FLOR, 0, 0); } else if (it.type === "star"){ fxctx.beginPath(); for (var s = 0; s < 5; s++){ var ang = (s * 4 * Math.PI / 5) - Math.PI / 2; var xx = Math.cos(ang) * it.size; var yy = Math.sin(ang) * it.size; if (s === 0) fxctx.moveTo(xx, yy); else fxctx.lineTo(xx, yy); } fxctx.closePath(); fxctx.fill(); } else if (it.type === "confetti"){ fxctx.fillRect(-it.size/2, -it.size/4, it.size, it.size/2); } else { fxctx.beginPath(); fxctx.arc(0, 0, it.size, 0, Math.PI * 2); fxctx.fill(); } fxctx.restore(); } requestAnimationFrame(renderFx); }\n' +
+'renderFx();\n' +
+'function estallidoFlores(x, y){ for (var i = 0; i < 10; i++){ var ang = (i/10) * Math.PI * 2 + Math.random() * 0.5; addFx({ type: "flower", x: x, y: y, vx: Math.cos(ang) * 4, vy: Math.sin(ang) * 4 - 2, g: 0.18, size: 20 + Math.random() * 14, color: PALETA[0], life: 90 }); } for (var k = 0; k < 15; k++){ var a2 = Math.random() * Math.PI * 2; addFx({ type: "star", x: x, y: y, vx: Math.cos(a2) * (2 + Math.random() * 4), vy: Math.sin(a2) * (2 + Math.random() * 4) - 1, g: 0.12, size: 4 + Math.random() * 5, color: "#ffd166", life: 70 }); } }\n' +
+'function lanzarConfeti(){ for (var i = 0; i < 100; i++){ addFx({ type: "confetti", x: Math.random() * FW, y: -20 - Math.random() * 100, vx: -1 + Math.random() * 2, vy: 2 + Math.random() * 4, rot: Math.random() * Math.PI * 2, rotSpeed: -0.2 + Math.random() * 0.4, size: 8 + Math.random() * 10, color: ["#ffd166","#ffb84d","#ffe8a3","#ff8c5a","#a8ffd4"][Math.floor(Math.random()*5)], life: 220 }); } }\n' +
+'document.addEventListener("click", function(e){\n' +
+'  var el = e.target;\n' +
+'  if (el.closest && (el.closest(".btn-revelar") || el.closest(".btn-accion") || el.closest(".back-float") || el.closest(".share-float") || el.closest("#music-toggle"))) return;\n' +
+'  estallidoFlores(e.clientX, e.clientY);\n' +
+'});\n' +
+'var btnConfeti = document.getElementById("btn-confeti");\n' +
+'if (btnConfeti) btnConfeti.onclick = function(){ lanzarConfeti(); };\n' +
+'var btnCompartir = document.getElementById("btn-compartir");\n' +
+'if (btnCompartir) btnCompartir.onclick = function(){\n' +
+'  var texto = "🌼 Te regalé flores amarillas virtuales 💛\\n" +\n' +
+'    "Son para " + NOMBRE_PARA + "\\n\\n" +\n' +
+'    "Ábrelas aquí:";\n' +
+'  window.open("https://wa.me/?text=" + encodeURIComponent(texto + " " + window.location.href), "_blank");\n' +
+'};\n' +
+'window.addEventListener("resize", function(){ FW = fx.width = window.innerWidth; FH = fx.height = window.innerHeight; });\n' +
+'setTimeout(function(){ lanzarConfeti(); }, 1500);\n' +
+'/* REVELAR FOTOS */\n' +
+'var btnRevelar = document.getElementById("btn-revelar");\n' +
+'var fotosRev = document.getElementById("fotos-revelacion");\n' +
+'if (btnRevelar && fotosRev){\n' +
+'  btnRevelar.onclick = function(){\n' +
+'    fotosRev.classList.add("show");\n' +
+'    btnRevelar.style.display = "none";\n' +
+'    var fotos = fotosRev.querySelectorAll(".foto-revelada");\n' +
+'    fotos.forEach(function(f, idx){\n' +
+'      setTimeout(function(){\n' +
+'        f.classList.add("show");\n' +
+'        lanzarConfeti();\n' +
+'      }, idx * 150 + 50);\n' +
+'    });\n' +
+'  };\n' +
+'}\n' +
+'})();\n' +
+'<\/script>\n' +
+'</body>\n' +
+'</html>';
+}
+
+function vistaPrevia(){
+  guardarPaso();
+  showLoading(true, "Preparando vista previa...");
+  setTimeout(function(){
+    try {
+      var html = buildRegaloHTML();
+      var blob = new Blob([html], { type: "text/html;charset=utf-8" });
+      var url = URL.createObjectURL(blob);
+      var w = window.open(url, "_blank");
+      if (!w) showStatus("Permite ventanas emergentes", false);
+      else showStatus("¡Vista previa abierta! ✓");
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 60000);
+    } catch(err){
+      console.error(err);
+      showStatus("Error: " + err.message, false);
+    } finally { showLoading(false); }
+  }, 100);
+}
+
+function descargar(){
+  guardarPaso();
+  showLoading(true, "Empaquetando tu regalo...");
+  setTimeout(function(){
+    try {
+      var html = buildRegaloHTML();
+      var sizeKB = (html.length / 1024).toFixed(1);
+      var blob = new Blob([html], { type: "text/html;charset=utf-8" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      var fname = "flores-para-" + (data.para || "ti").replace(/[^a-z0-9]+/gi, "-").toLowerCase() + ".html";
+      a.href = url;
+      a.download = fname;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 5000);
+      showStatus("¡Descargado! (" + sizeKB + " KB) 📥");
+    } catch(err){
+      console.error(err);
+      showStatus("Error: " + err.message, false);
+    } finally { showLoading(false); }
+  }, 100);
+}
+
+function compartirWhatsApp(){
+  guardarPaso();
+  var texto = "🌼 Te regalé flores amarillas virtuales 💛\n" +
+              "Son solo para ti: " + data.para + "\n\n" +
+              "Te las mando por aquí:";
+  window.open("https://wa.me/?text=" + encodeURIComponent(texto), "_blank");
+}
+
+function init(){
+  if (isPremium) $("premium-activo").classList.add("show");
+  initPremiumModal();
+  pasoActual = 0;
+  renderEditor();
+  $("btn-vista").addEventListener("click", vistaPrevia);
+  $("btn-descarga").addEventListener("click", descargar);
+  $("btn-wa").addEventListener("click", compartirWhatsApp);
+}
+
+document.addEventListener("DOMContentLoaded", init);
+</script>
+
+</body>
+</html>
