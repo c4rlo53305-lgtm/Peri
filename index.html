@@ -65,8 +65,9 @@ main,header,footer,nav{position:relative;z-index:1}
 .tpl-card{background:linear-gradient(160deg,rgba(24,18,58,.85),rgba(12,8,32,.9));border:1px solid rgba(255,255,255,.08);border-radius:18px;overflow:hidden;transition:transform .3s cubic-bezier(.2,.9,.3,1.2),box-shadow .3s,border-color .3s;position:relative;display:flex;flex-direction:column}
 .tpl-card:hover{transform:translateY(-6px);border-color:var(--c);box-shadow:0 20px 50px rgba(0,0,0,.5),0 0 40px var(--c-glow)}
 .tpl-preview{position:relative;aspect-ratio:16/11;overflow:hidden;background:radial-gradient(circle at 50% 45%, var(--c-soft) 0%, #0a0520 70%);display:flex;align-items:center;justify-content:center}
-.tpl-preview::before{content:'';position:absolute;inset:0;background:radial-gradient(1px 1px at 20% 30%, #fff, transparent),radial-gradient(1px 1px at 70% 60%, #fff, transparent),radial-gradient(1.5px 1.5px at 40% 80%, #fff, transparent),radial-gradient(1px 1px at 85% 25%, #fff, transparent);opacity:.6;animation:previewTwinkle 3s ease-in-out infinite}
+.tpl-preview::before{content:'';position:absolute;inset:0;background:radial-gradient(1px 1px at 20% 30%, #fff, transparent),radial-gradient(1px 1px at 70% 60%, #fff, transparent),radial-gradient(1.5px 1.5px at 40% 80%, #fff, transparent),radial-gradient(1px 1px at 85% 25%, #fff, transparent);opacity:.6;animation:previewTwinkle 3s ease-in-out infinite;z-index:0}
 @keyframes previewTwinkle{0%,100%{opacity:.5}50%{opacity:.9}}
+.tpl-preview img.tpl-cover{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
 .tpl-emoji{position:relative;z-index:2;font-size:3.5rem;filter:drop-shadow(0 0 24px var(--c));animation:tplEmojiFloat 3s ease-in-out infinite}
 @media(max-width:520px){.tpl-emoji{font-size:2.6rem}}
 @keyframes tplEmojiFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-6px) scale(1.05)}}
@@ -90,7 +91,7 @@ main,header,footer,nav{position:relative;z-index:1}
 .premium-banner p{color:#d4b978;max-width:520px;margin:0 auto 24px;font-size:.95rem;position:relative}
 .premium-banner .price{font-family:'Permanent Marker',cursive;font-size:3rem;color:#ffd166;text-shadow:0 0 30px rgba(255,209,102,.5);margin-bottom:6px;position:relative}
 .premium-banner .price-note{font-size:.8rem;color:#8a7a5a;margin-bottom:24px;position:relative}
-.premium-banner .btn-premium{background:linear-gradient(135deg,#ffd166,#ff9500);color:#1a0e00;padding:16px 40px;font-size:1rem;box-shadow:0 12px 40px rgba(255,180,40,.5);position:relative}
+.premium-banner .btn-premium{background:linear-gradient(135deg,#ffd166,#ff9500);color:#1a0e00;padding:16px 40px;font-size:1rem;box-shadow:0 12px 40px rgba(255,180,40,.5);position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:50px;font-weight:700;text-decoration:none;cursor:pointer;border:none;font-family:inherit}
 .cta-final{text-align:center;padding:80px 20px;background:radial-gradient(ellipse at center,rgba(255,46,136,.15),transparent 70%)}
 .cta-final h2{font-family:'Permanent Marker',cursive;font-size:clamp(1.8rem,5.5vw,3rem);margin-bottom:14px;background:linear-gradient(90deg,#ff2e88,#a855f7,#00d4ff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .cta-final p{font-family:'Caveat',cursive;font-size:1.3rem;color:#a8b8d8;margin-bottom:32px;max-width:520px;margin-left:auto;margin-right:auto}
@@ -149,9 +150,9 @@ footer .flinks a:hover{color:#fff}
     <div class="crown">👑</div>
     <h2>Desbloquea todo Premium</h2>
     <p>Acceso a todas las plantillas premium, fotos ilimitadas y efectos exclusivos.</p>
-    <div class="price">$199</div>
+    <div class="price">$79</div>
     <div class="price-note">Pago único · de por vida</div>
-    <a id="btn-premium" class="btn btn-premium" href="#">✨ Desbloquear Premium</a>
+    <a id="btn-premium" class="btn-premium" href="#">✨ Desbloquear Premium</a>
   </div>
 </section>
 
@@ -177,7 +178,7 @@ footer .flinks a:hover{color:#fff}
 </a>
 
 <script>
-var WHATSAPP_NUM = "5213121051587";
+var WHATSAPP_NUM = "5213121052587";
 
 (function(){
   "use strict";
@@ -203,7 +204,6 @@ var WHATSAPP_NUM = "5213121051587";
     else nav.classList.remove("scrolled");
   }, { passive: true });
 
-  // Cargar plantillas.js
   var script = document.createElement("script");
   script.src = "plantillas.js";
   script.onload = initLanding;
@@ -232,7 +232,6 @@ var WHATSAPP_NUM = "5213121051587";
     chipAll.innerHTML = '<span class="emo">✨</span> Todas';
     chipAll.onclick = function(){ filterByCat("all"); };
     cont.appendChild(chipAll);
-
     cats.forEach(function(cat){
       var chip = document.createElement("button");
       chip.className = "chip";
@@ -248,11 +247,8 @@ var WHATSAPP_NUM = "5213121051587";
       c.classList.toggle("active", c.dataset.id === catId);
     });
     document.querySelectorAll(".categoria-section").forEach(function(sec){
-      if (catId === "all" || sec.dataset.cat === catId){
-        sec.style.display = "";
-      } else {
-        sec.style.display = "none";
-      }
+      if (catId === "all" || sec.dataset.cat === catId) sec.style.display = "";
+      else sec.style.display = "none";
     });
     if (catId === "all"){
       window.scrollTo({ top: document.getElementById("catBar").offsetTop - 10, behavior: "smooth" });
@@ -265,39 +261,28 @@ var WHATSAPP_NUM = "5213121051587";
   function renderSections(){
     var main = document.getElementById("sectionsMain");
     var cats = PLANTILLAS.getCategorias();
-
     cats.forEach(function(cat){
       var list = PLANTILLAS.getPlantillas(cat.id);
       if (!list.length) return;
-
       var sec = document.createElement("section");
       sec.className = "categoria-section reveal";
       sec.dataset.cat = cat.id;
       sec.id = "cat-" + cat.id;
       sec.style.setProperty("--c", cat.color);
-
       var header = document.createElement("div");
       header.className = "cat-header";
-      header.innerHTML =
-        '<div class="ico">' + cat.emoji + '</div>' +
-        '<h2>' + cat.name + '</h2>' +
-        '<div class="count-badge">' + list.length + ' plantilla' + (list.length !== 1 ? 's' : '') + '</div>';
+      header.innerHTML = '<div class="ico">' + cat.emoji + '</div><h2>' + cat.name + '</h2><div class="count-badge">' + list.length + ' plantilla' + (list.length !== 1 ? 's' : '') + '</div>';
       sec.appendChild(header);
-
       if (cat.tagline){
         var tag = document.createElement("p");
         tag.className = "cat-tagline";
         tag.textContent = cat.tagline;
         sec.appendChild(tag);
       }
-
       var grid = document.createElement("div");
       grid.className = "tpl-grid";
-      list.forEach(function(tpl){
-        grid.appendChild(buildCard(tpl, cat));
-      });
+      list.forEach(function(tpl){ grid.appendChild(buildCard(tpl, cat)); });
       sec.appendChild(grid);
-
       main.appendChild(sec);
     });
   }
@@ -312,14 +297,27 @@ var WHATSAPP_NUM = "5213121051587";
 
     var preview = document.createElement("div");
     preview.className = "tpl-preview";
+
+    // Si tiene imagen, la mostramos
+    if (tpl.imageURL && tpl.imageURL.trim()){
+      var img = document.createElement("img");
+      img.className = "tpl-cover";
+      img.src = tpl.imageURL;
+      img.alt = tpl.name;
+      img.loading = "lazy";
+      preview.appendChild(img);
+    } else {
+      // Si no, mostramos el emoji
+      var emo = document.createElement("div");
+      emo.className = "tpl-emoji";
+      emo.textContent = tpl.emoji || "✨";
+      preview.appendChild(emo);
+    }
+
     var badge = document.createElement("div");
     badge.className = "tpl-badge " + (tpl.premium ? "premium" : "free");
     badge.textContent = tpl.premium ? "Premium" : "Gratis";
     preview.appendChild(badge);
-    var emo = document.createElement("div");
-    emo.className = "tpl-emoji";
-    emo.textContent = tpl.emoji || "✨";
-    preview.appendChild(emo);
     card.appendChild(preview);
 
     var content = document.createElement("div");
@@ -347,7 +345,6 @@ var WHATSAPP_NUM = "5213121051587";
     }
     content.appendChild(btn);
     card.appendChild(content);
-
     return card;
   }
 
@@ -356,10 +353,7 @@ var WHATSAPP_NUM = "5213121051587";
     if ("IntersectionObserver" in window){
       var io = new IntersectionObserver(function(entries){
         entries.forEach(function(entry){
-          if (entry.isIntersecting){
-            entry.target.classList.add("visible");
-            io.unobserve(entry.target);
-          }
+          if (entry.isIntersecting){ entry.target.classList.add("visible"); io.unobserve(entry.target); }
         });
       }, { threshold: 0.05 });
       els.forEach(function(el){ io.observe(el); });
