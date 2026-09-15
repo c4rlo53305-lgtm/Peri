@@ -123,7 +123,7 @@ main,header,footer,nav,section{position:relative;z-index:1}
 .count-badge{margin-left:auto;flex-shrink:0;font-size:.7rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#a8b8d8;background:rgba(255,255,255,.06);padding:5px 12px;border-radius:20px}
 .tpl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
 @media(max-width:520px){.tpl-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}}
-.tpl-card{background:linear-gradient(160deg,rgba(24,18,58,.85),rgba(12,8,32,.9));border:1px solid rgba(255,255,255,.08);border-radius:18px;overflow:hidden;transition:transform .3s cubic-bezier(.2,.9,.3,1.2),box-shadow .3s,border-color .3s;position:relative;display:flex;flex-direction:column}
+.tpl-card{background:linear-gradient(160deg,rgba(24,18,58,.85),rgba(12,8,32,.9));border:1px solid rgba(255,255,255,.08);border-radius:18px;overflow:hidden;transition:transform .3s cubic-bezier(.2,.9,.3,1.2),box-shadow .3s,border-color .3s;position:relative;display:flex;flex-direction:column;cursor:pointer}
 .tpl-card:hover{transform:translateY(-6px);border-color:var(--c);box-shadow:0 20px 50px rgba(0,0,0,.5),0 0 40px var(--c-glow)}
 .tpl-card.locked-premium:hover{border-color:#ffd166;box-shadow:0 20px 50px rgba(0,0,0,.5),0 0 40px rgba(255,209,102,.4)}
 .tpl-preview{position:relative;aspect-ratio:16/11;overflow:hidden;background:radial-gradient(circle at 50% 45%, var(--c-soft) 0%, #0a0520 70%);display:flex;align-items:center;justify-content:center}
@@ -382,6 +382,7 @@ footer .flinks a:hover{color:#fff}
     <a id="footer-wa" href="#" target="_blank" rel="noopener">Contacto</a>
   </div>
   <div>Hecho con 💫 · © <span id="year"></span> Dedicatorias Mágicas</div>
+  <div style="font-size: 0.75rem; color: #8ba3c0; margin-top: 6px;">Tenemos los derechos de todas las plantillas. Todos los derechos reservados.</div>
 </footer>
 
 <a class="wa-float" id="wa-float" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">
@@ -587,6 +588,20 @@ var PREMIUM_KEY = "peri_premium_activated";
       btn.textContent = "Próximamente";
     }
     content.appendChild(btn);
+
+    // Texto de aviso que aparece al hacer click en el recuadro
+    var hintMsg = document.createElement("div");
+    hintMsg.className = "card-hint-msg";
+    hintMsg.style.cssText = "font-size:0.75rem; color:#ffb6d9; margin-top:8px; display:none; text-align:center; font-weight:600;";
+    hintMsg.textContent = "Por favor, haga click sobre el botón PERZONALIZAR";
+    content.appendChild(hintMsg);
+
+    // Evento al hacer click en la plantilla (recuadro)
+    card.onclick = function(e){
+      if(e.target.tagName === 'A' || e.target.closest('a')) return;
+      hintMsg.style.display = hintMsg.style.display === "block" ? "none" : "block";
+    };
+
     card.appendChild(content);
     return card;
   }
