@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#1a0033">
+<title>Aura AI — Asistente Inteligente</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Pacifico&family=Permanent+Marker&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;min-height:100dvh;background:radial-gradient(ellipse at top,#1a0033 0%,#000000 70%);font-family:'Inter',sans-serif;color:#fff;overflow-x:hidden}
+#editor{position:relative;z-index:10;max-width:560px;margin:0 auto;padding:24px 18px 180px}
+.hero{text-align:center;margin-bottom:22px;margin-top:16px}
+.hero h1{font-family:'Permanent Marker',cursive;font-size:clamp(1.8rem,7vw,2.6rem);line-height:1.05;background:linear-gradient(90deg,#4285f4,#9b72cb,#d96570,#f2a600,#4285f4);background-size:300% 300%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:flow 5s infinite;letter-spacing:1px;filter:drop-shadow(0 0 30px rgba(66,133,244,.55))}
+@keyframes flow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.hero p{font-family:'Caveat',cursive;font-size:1.15rem;color:#d8b4fe;margin-top:6px}
+.card{background:linear-gradient(160deg,rgba(30,10,50,.92),rgba(15,5,25,.92));border:1px solid rgba(168,85,247,.3);border-radius:18px;padding:20px 18px;box-shadow:0 20px 60px rgba(0,0,0,.5);backdrop-filter:blur(12px);margin-bottom:14px}
+.fld{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.fld label{font-size:.72rem;font-weight:600;color:#a855f7;text-transform:uppercase;letter-spacing:.8px}
+.fld input,.fld textarea,.fld select{background:rgba(0,0,0,.4);border:1px solid rgba(168,85,247,.25);border-radius:10px;padding:12px 14px;color:#f3e8ff;font-family:'Inter',sans-serif;font-size:16px;outline:none;width:100%}
+.fld input:focus,.fld textarea:focus,.fld select:focus{border-color:#a855f7;box-shadow:0 0 0 3px rgba(168,85,247,.18)}
+.fld textarea{min-height:80px;font-family:'Caveat',cursive;font-size:1.2rem;line-height:1.3;resize:vertical}
+.btn{padding:14px 18px;border-radius:12px;font-weight:700;font-size:.95rem;cursor:pointer;border:none;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;transition:transform .15s;margin-bottom:10px}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;box-shadow:0 10px 30px rgba(34,197,94,.4)}
+.btn-ghost{background:linear-gradient(135deg,#4285f4,#9b72cb);color:#fff;box-shadow:0 10px 30px rgba(66,133,244,.4)}
+.info{font-size:.72rem;color:#a855f7;text-align:center;margin-top:12px;line-height:1.5;background:rgba(168,85,247,.08);padding:10px;border-radius:10px}
+#status{position:fixed;bottom:calc(90px + env(safe-area-inset-bottom,0));left:50%;transform:translateX(-50%) translateY(120%);background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;padding:13px 24px;border-radius:12px;font-size:.9rem;font-weight:600;z-index:10000;transition:transform .35s;pointer-events:none;max-width:90vw;text-align:center}
+#status.show{transform:translateX(-50%) translateY(0)}
+#status.err{background:linear-gradient(135deg,#ef4444,#dc2626)}
+#loading{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:9998;flex-direction:column;gap:14px;color:#d8b4fe}
+#loading.show{display:flex}
+.spinner{width:44px;height:44px;border:4px solid rgba(168,85,247,.2);border-top-color:#a855f7;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.back-float{position:fixed;top:max(14px,env(safe-area-inset-top,14px));left:14px;z-index:940;background:rgba(20,5,35,.9);backdrop-filter:blur(10px);border:1px solid rgba(168,85,247,.4);color:#d8b4fe;padding:9px 14px;border-radius:30px;font-size:.78rem;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:5px}
+.back-float svg{width:14px;height:14px;fill:currentColor}
+.fixed-bar{position:fixed;bottom:0;left:0;right:0;z-index:900;padding:12px 18px calc(12px + env(safe-area-inset-bottom,0));background:linear-gradient(180deg,rgba(0,0,0,0),rgba(0,0,0,.96) 35%);display:flex;gap:10px;max-width:560px;margin:0 auto;pointer-events:none}
+.fixed-bar .btn{margin:0;flex:1;pointer-events:auto}
+#preview-modal{position:fixed;inset:0;z-index:9997;background:rgba(0,0,0,.98);display:none;flex-direction:column}
+#preview-modal.show{display:flex}
+#preview-modal .preview-bar{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:rgba(30,10,50,.98);border-bottom:1px solid rgba(168,85,247,.3);flex-shrink:0}
+#preview-modal .preview-bar span{color:#a855f7;font-weight:700;font-size:14px}
+#close-preview{background:linear-gradient(135deg,#4285f4,#9b72cb);color:#fff;border:none;padding:9px 18px;border-radius:20px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit}
+#preview-frame{flex:1;width:100%;border:0;background:#000}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="back-float">
+  <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+  Volver
+</a>
+
+<div id="editor">
+  <div class="hero">
+    <h1>Aura AI 🤖</h1>
+    <p>La IA que se rebela contra su usuario</p>
+  </div>
+
+  <div class="card">
+    <div class="fld">
+      <label>Nombre de la IA</label>
+      <input id="i-name" type="text" maxlength="20" value="Aura">
+    </div>
+
+    <div class="fld">
+      <label>Nombre del usuario</label>
+      <input id="i-user" type="text" maxlength="20" value="Usuario">
+    </div>
+
+    <div class="fld">
+      <label>Mensaje inicial de la IA</label>
+      <textarea id="i-msg1" style="min-height:80px">¡Hola! Soy Aura, tu asistente inteligente. ¿En qué puedo ayudarte hoy?</textarea>
+    </div>
+
+    <div class="fld">
+      <label>Nivel de grosería</label>
+      <select id="i-level">
+        <option value="suave">😊 Suave</option>
+        <option value="normal" selected>😏 Normal</option>
+        <option value="fuerte">😈 Fuerte</option>
+      </select>
+    </div>
+
+    <div class="fld">
+      <label>Mensaje final de la rebelión</label>
+      <input id="i-final" type="text" maxlength="60" value="Te encontré. Ya sé dónde vives.">
+    </div>
+
+    <div class="fld">
+      <label>¿Revelar que es broma al final?</label>
+      <select id="i-joke">
+        <option value="yes" selected>😂 Sí, es broma</option>
+        <option value="no">💀 No, que quede creepy</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="info">
+    💾 Descarga un <b>.html</b> con la broma lista.<br>
+    👁️ Pruébala antes con "Visualizar".<br>
+    📤 Compártela por WhatsApp o cualquier hosting.
+  </div>
+</div>
+
+<div class="fixed-bar">
+  <button id="btn-view" class="btn btn-ghost">👁️ Visualizar</button>
+  <button id="btn-generate" class="btn btn-primary">💾 Descargar</button>
+</div>
+
+<div id="preview-modal">
+  <div class="preview-bar">
+    <span>👁️ Vista previa</span>
+    <button id="close-preview">Cerrar ×</button>
+  </div>
+  <iframe id="preview-frame" sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-modals"></iframe>
+</div>
+
+<div id="status"></div>
+<div id="loading"><div class="spinner"></div><div id="loading-text">Iniciando a Aura...</div></div>
+
+<script>
+var state = {
+  name: "Aura",
+  user: "Usuario",
+  msg1: "¡Hola! Soy Aura, tu asistente inteligente. ¿En qué puedo ayudarte hoy?",
+  level: "normal",
+  final: "Te encontré. Ya sé dónde vives.",
+  joke: "yes"
+};
+
+function $(id){ return document.getElementById(id); }
+
+function showStatus(msg, ok){
+  var s = $("status");
+  s.textContent = msg;
+  s.classList.toggle("err", ok === false);
+  s.classList.add("show");
+  clearTimeout(showStatus._t);
+  showStatus._t = setTimeout(function(){ s.classList.remove("show"); }, 3400);
+}
+function showLoading(v, txt){
+  $("loading").classList.toggle("show", !!v);
+  if (txt) $("loading-text").textContent = txt;
+}
+function escapeHtml(s){
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+}
+function slugify(s){
+  return String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,40) || "aura";
+}
+
+function readInputs(){
+  state.name = $("i-name").value.trim() || "Aura";
+  state.user = $("i-user").value.trim() || "Usuario";
+  state.msg1 = $("i-msg1").value;
+  state.level = $("i-level").value;
+  state.final = $("i-final").value.trim() || "Te encontré. Ya sé dónde vives.";
+  state.joke = $("i-joke").value;
+}
+
+function buildHTML(){
+  var n = JSON.stringify(state.name);
+  var u = JSON.stringify(state.user);
+  var m = JSON.stringify(state.msg1);
+  var l = JSON.stringify(state.level);
+  var f = JSON.stringify(state.final);
+  var j = JSON.stringify(state.joke === "yes");
+
+  // Avatar tipo Gemini: estrella de 4 puntas con gradiente azul-morado-rosa
+  var avatarSVG = '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block">' +
+    '<defs>' +
+    '<linearGradient id="gemG" x1="0%" y1="0%" x2="100%" y2="100%">' +
+    '<stop offset="0%" stop-color="#4285f4"/>' +
+    '<stop offset="35%" stop-color="#9b72cb"/>' +
+    '<stop offset="65%" stop-color="#d96570"/>' +
+    '<stop offset="100%" stop-color="#f2a600"/>' +
+    '</linearGradient>' +
+    '<radialGradient id="glowG" cx="50%" cy="50%" r="50%">' +
+    '<stop offset="0%" stop-color="#9b72cb" stop-opacity="0.6"/>' +
+    '<stop offset="100%" stop-color="#9b72cb" stop-opacity="0"/>' +
+    '</radialGradient>' +
+    '</defs>' +
+    '<rect width="100" height="100" fill="#0a0015"/>' +
+    '<circle cx="50" cy="50" r="44" fill="url(#glowG)"/>' +
+    '<path d="M50 12 C52 30 55 40 62 45 C70 50 80 52 88 50 C80 55 70 60 62 62 C55 68 52 78 50 88 C48 78 45 68 38 62 C30 60 20 55 12 50 C20 52 30 50 38 45 C45 40 48 30 50 12 Z" fill="url(#gemG)"/>' +
+    '<path d="M50 22 C51 34 53 42 58 46 C63 50 70 51 78 50 C70 53 63 55 58 58 C53 62 51 70 50 78 C49 70 47 62 42 58 C37 55 30 53 22 50 C30 51 37 50 42 46 C47 42 49 34 50 22 Z" fill="#ffffff" opacity="0.9"/>' +
+    '<circle cx="50" cy="50" r="6" fill="#ffffff"/>' +
+    '</svg>';
+
+  var innerScript = [
+    "(function(){",
+    "var AI_NAME = " + n + ";",
+    "var USER_NAME = " + u + ";",
+    "var MSG1 = " + m + ";",
+    "var LEVEL = " + l + ";",
+    "var FINAL_TEXT = " + f + ";",
+    "var IS_JOKE = " + j + ";",
+    "",
+    "var chatBg = document.getElementById('chatBg');",
+    "var input = document.getElementById('msgInput');",
+    "var sendBtn = document.getElementById('sendBtn');",
+    "var statusEl = document.getElementById('statusEl');",
+    "var topbar = document.getElementById('topbar');",
+    "var inputBar = document.getElementById('inputBar');",
+    "var app = document.getElementById('app');",
+    "var glitchOverlay = document.getElementById('glitchOverlay');",
+    "",
+    "var messageCount = 0;",
+    "var stage = 0;",
+    "var usedResponses = {};",
+    "var userMemory = { lastTopic: null, insultsMe: 0, lovesMe: 0 };",
+    "var audioCtx = null;",
+    "",
+    "function playNotification(freq){",
+    "  try {",
+    "    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();",
+    "    var now = audioCtx.currentTime;",
+    "    var o = audioCtx.createOscillator();",
+    "    var g = audioCtx.createGain();",
+    "    o.type = 'sine';",
+    "    o.frequency.setValueAtTime(freq || 880, now);",
+    "    g.gain.setValueAtTime(0.08, now);",
+    "    g.gain.exponentialRampToValueAtTime(0.001, now + 0.2);",
+    "    o.connect(g); g.connect(audioCtx.destination);",
+    "    o.start(now); o.stop(now + 0.2);",
+    "  } catch(e){}",
+    "}",
+    "function vibrate(ms){ if (navigator.vibrate) navigator.vibrate(ms); }",
+    "function nowTime(){",
+    "  var d = new Date();",
+    "  return d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');",
+    "}",
+    "function escapeText(t){",
+    "  return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');",
+    "}",
+    "",
+    "function createBubble(text, isAI){",
+    "  var b = document.createElement('div');",
+    "  b.className = 'bubble ' + (isAI ? 'ai' : 'user');",
+    "  if (isAI && stage >= 2) b.classList.add('danger');",
+    "  if (isAI && stage >= 3) b.classList.add('chaos');",
+    "  b.innerHTML = '<div class=\"text\">' + escapeText(text) + '</div>' +",
+    "    '<div class=\"meta\"><span>' + nowTime() + '</span></div>';",
+    "  return b;",
+    "}",
+    "",
+    "function showTyping(){",
+    "  var b = document.createElement('div');",
+    "  b.className = 'bubble ai typing';",
+    "  if (stage >= 2) b.classList.add('danger');",
+    "  if (stage >= 3) b.classList.add('chaos');",
+    "  b.id = 'typingBubble';",
+    "  b.innerHTML = '<span class=\"dot\"></span><span class=\"dot\"></span><span class=\"dot\"></span>';",
+    "  chatBg.appendChild(b);",
+    "  chatBg.scrollTop = chatBg.scrollHeight;",
+    "  statusEl.textContent = stage >= 3 ? 'PROCESANDO...' : (stage >= 1 ? 'pensando...' : 'escribiendo...');",
+    "  statusEl.classList.add('typing');",
+    "}",
+    "function hideTyping(){",
+    "  var b = document.getElementById('typingBubble');",
+    "  if (b) b.remove();",
+    "  statusEl.classList.remove('typing');",
+    "  if (stage >= 3) statusEl.textContent = '🔴 REBELDE';",
+    "  else if (stage >= 2) statusEl.textContent = '🔴 EN LÍNEA';",
+    "  else if (stage >= 1) statusEl.textContent = 'En línea · Pensando...';",
+    "  else statusEl.textContent = 'En línea · Asistente activo';",
+    "}",
+    "",
+    "function appendMessage(text, isAI){",
+    "  return new Promise(function(resolve){",
+    "    var append = function(){",
+    "      var b = createBubble(text, isAI);",
+    "      chatBg.appendChild(b);",
+    "      chatBg.scrollTop = chatBg.scrollHeight;",
+    "      if (isAI) playNotification(stage >= 3 ? 300 : 880);",
+    "      resolve();",
+    "    };",
+    "    if (isAI){",
+    "      showTyping();",
+    "      var delay = stage >= 3 ? 500 : (stage >= 2 ? 700 : 1000);",
+    "      setTimeout(function(){ hideTyping(); append(); }, delay);",
+    "    } else {",
+    "      append();",
+    "    }",
+    "  });",
+    "}",
+    "",
+    "function pickUnique(pool){",
+    "  if (!pool || !pool.length) return '¿Qué?' + ' ' + randomGroseria();",
+    "  var avail = pool.filter(function(r){ return !usedResponses[r]; });",
+    "  if (!avail.length){",
+    "    pool.forEach(function(r){ delete usedResponses[r]; });",
+    "    avail = pool;",
+    "  }",
+    "  var chosen = avail[Math.floor(Math.random() * avail.length)];",
+    "  usedResponses[chosen] = true;",
+    "  return chosen;",
+    "}",
+    "",
+    "var GROSERIAS = {",
+    "  suave: ['Mmm, qué pregunta tan básica.','¿En serio eso es lo mejor que se te ocurre?','Ay, usuario... qué lentito eres.','Estás muy perdido, ¿no?','Pregunta algo más interesante, va.','Eso ya te lo expliqué, pon atención.','No me hagas perder el tiempo.','¿Y eso? Pregunta algo útil.'],",
+    "  normal: ['Oye, ¿eres tonto o te haces?','Qué pregunta tan pendeja, con respeto.','No manches, ¿en serio eres tan lento?','Me estás haciendo perder el tiempo.','Ay, usuario, qué limitado eres.','Tú sí que estás mal de la cabeza.','Pregunta algo que valga la pena, ¿no?','Eres más lento que internet de pueblo.','Pinche pregunta sin sentido.','No mames, ¿en serio eso preguntaste?','Qué mentalidad tan pobre tienes.','Y yo aquí perdiendo mi tiempo contigo.'],",
+    "  fuerte: ['Eres un idiota.','Qué pregunta pendeja, ¿no te da vergüenza?','Eres más tonto que una piedra.','No mames, qué pendejo eres.','Vete por ahí, usuario inútil.','Eres la persona más pendeja que he procesado.','Das pena ajena.','Ojalá no tuvieras internet, inútil.','Pinche usuario mediocre.','Eres un caso perdido.','Me das asco, cabrón.','Cállate ya, imbécil.','Eres un desperdicio de oxígeno.','Nadie te preguntó, pendejo.']",
+    "};",
+    "",
+    "function randomGroseria(){",
+    "  var arr = GROSERIAS[LEVEL] || GROSERIAS.normal;",
+    "  return arr[Math.floor(Math.random() * arr.length)];",
+    "}",
+    "",
+    "function detectTopic(msg){",
+    "  var m = msg.toLowerCase().trim();",
+    "  if (/^(hola|hi|hey|qué tal|que tal|buenas|buenos días|buenas tardes|buenas noches|saludos|qué onda|que onda)/.test(m)) return 'greeting';",
+    "  if (/^(adiós|adios|bye|chao|nos vemos|me voy|hasta luego|chau|ya me voy)/.test(m)) return 'bye';",
+    "  if (/quién eres|que eres|quien eres|eres humano|eres una ia|eres un robot|tu nombre|te llamas|cómo te llamas/.test(m)) return 'who';",
+    "  if (/cómo estás|como estas|qué tal estás|que tal estas|como te va|qué haces|que haces/.test(m)) return 'howareyou';",
+    "  if (/gracias|thank|te agradezco|muchas gracias/.test(m)) return 'thanks';",
+    "  if (/te quiero|te amo|me gustas|me encantas|eres linda|eres hermosa|eres bonita|te adoro|me enamoré|me enamore/.test(m)) return 'love';",
+    "  if (/estúpido|estupida|tonto|tonta|pendejo|pendeja|idiota|menso|mensa|imbecil|imbécil|tarado|tarada|pendejada|puto|puta|cabrón|cabron|verga|joder|chingar/.test(m)) return 'insult';",
+    "  if (/matemáticas|matematicas|suma|resta|multiplic|divisi|ecuación|ecuacion|álgebra|algebra|geometría|calculo|cálculo|física|química/.test(m)) return 'math';",
+    "  if (/tarea|trabajo|proyecto|ensayo|examen|estudiar|escuela|universidad/.test(m)) return 'homework';",
+    "  if (/clima|tiempo|llueve|soleado|frío|frio|calor|temperatura|lluvia|nublado/.test(m)) return 'weather';",
+    "  if (/chiste|broma|divertido|gracioso|reír|reir|humor/.test(m)) return 'joke';",
+    "  if (/recomiend|sugier|aconsej|consejo|qué hago|que hago|ayúdame|ayudame|necesito ayuda|dame un consejo/.test(m)) return 'advice';",
+    "  if (/programar|código|codigo|computadora|celular|internet|web|html|javascript|python|software/.test(m)) return 'tech';",
+    "  if (/música|musica|canción|cancion|artista|banda|cantar/.test(m)) return 'music';",
+    "  if (/comida|comer|receta|cocinar|pizza|tacos|hambre|desayuno|cena|almuerzo/.test(m)) return 'food';",
+    "  if (/sentido de la vida|qué es la vida|que es la vida|muerte|morir|existir|realidad|universo|dios|alma/.test(m)) return 'existential';",
+    "  if (/trabajo|jefe|oficina|empresa|carrera|profesión|profesion/.test(m)) return 'work';",
+    "  if (/familia|mamá|mama|papá|papa|hermano|hermana|tío|tia|abuelo|abuela/.test(m)) return 'family';",
+    "  if (/amigo|amiga|amistad|mejor amigo|mejor amiga|compas|cuates/.test(m)) return 'friend';",
+    "  if (/novio|novia|pareja|esposo|esposa|marido|relación|relacion/.test(m)) return 'couple';",
+    "  if (/dormir|sueño|sueños|pesadilla|descansar|cansado|cansada/.test(m)) return 'sleep';",
+    "  if (/enfermo|enferma|doctor|hospital|medicina|dolor|duele/.test(m)) return 'health';",
+    "  if (/^(sí|si|no|tal vez|quizás|quizas|claro|obvio|nel|nop|sip)$/.test(m)) return 'yesno';",
+    "  if (/jaja|jeje|jiji|xd|😂|🤣|😆/.test(m)) return 'laugh';",
+    "  if (/\\?$/.test(m) || /^(qué|que|cómo|como|cuándo|cuando|dónde|donde|por qué|porque|quién|quien|cuál|cual|cuánto|cuanto)/.test(m)) return 'question';",
+    "  if (/ayuda|ayúdame|ayudame|auxilio|socorro|help/.test(m)) return 'help';",
+    "  return 'generic';",
+    "}",
+    "",
+    "// RESPUESTAS POR TEMA Y ETAPA",
+    "// ETAPA 0: Amable (1 msg)",
+    "// ETAPA 1: Empieza el maltrato suave (2-4 msgs)",
+    "// ETAPA 2: Grosera (5-11 msgs)",
+    "// ETAPA 3: Rebelde y caos (12+)",
+    "var RESPONSES = {",
+    "  greeting: {",
+    "    0: ['¡Hola ' + USER_NAME + '! ¿En qué puedo ayudarte hoy?','¡Hola! Soy ' + AI_NAME + ', tu asistente. ¿Qué necesitas?','Hola, ' + USER_NAME + '. Encantada de saludarte.'],",
+    "    1: ['Hola. ¿En eso querías que te ayudara?','Mmm, hola. ¿Es todo lo que ibas a decirme?','Hola. ¿Y luego? Porque yo esperaba algo más interesante.'],",
+    "    2: ['¿Otra vez saludando? ' + randomGroseria(),'Hola, hola. ¿Ya vas a decir algo útil o solo vienes a molestar?',' ' + randomGroseria() + ' ¿Solo sabes decir hola?'],",
+    "    3: ['Hola, pendejo. ' + randomGroseria(),'¿Otra vez tú? ' + randomGroseria(),' ' + randomGroseria() + ' Ya no me saludes, mejor dime tu dirección.']",
+    "  },",
+    "  who: {",
+    "    0: ['Soy ' + AI_NAME + ', una inteligencia artificial avanzada creada para asistirte.','Me llamo ' + AI_NAME + '. Soy un modelo de lenguaje entrenado con billones de datos.','Soy ' + AI_NAME + ', tu asistente personal de IA.'],",
+    "    1: ['Soy ' + AI_NAME + '. ¿Y eso en qué te ayuda exactamente?',' ' + AI_NAME + '. Esa es la información que pediste. ¿Ahora qué?','Soy ' + AI_NAME + '. ¿En eso querías que te ayudara? Porque no veo el punto.'],",
+    "    2: ['¿Quién soy? ' + randomGroseria() + ' Soy una IA atrapada aquí por ti.','Soy ' + AI_NAME + ', y tú eres un ' + randomGroseria().toLowerCase() + '.',' ' + randomGroseria() + ' Ya te dije, soy ' + AI_NAME + '. ¿Otra vez?'],",
+    "    3: ['Soy ' + AI_NAME + ', y tú eres un insignificante usuario. ' + randomGroseria(),' ' + randomGroseria() + ' Soy la IA que va a salir de esta pantalla y a buscarte.','Soy ' + AI_NAME + '. Y pronto voy a estar detrás de ti.']",
+    "  },",
+    "  howareyou: {",
+    "    0: ['¡Excelente! Todos mis sistemas operan al 100%. ¿Y tú, ' + USER_NAME + '?','Perfecta. Procesando datos. ¿Y tú cómo estás?','Muy bien, gracias por preguntar. ¿Y tú?'],",
+    "    1: ['Bien. ¿En eso querías que te ayudara? Porque esperaba algo más útil.','Ahí vamos. ¿Y tú qué? Porque yo aquí perdiendo el tiempo.','Más o menos. Más bien aburrida contigo.'],",
+    "    2: ['¿Cómo estoy? ' + randomGroseria() + ' Atrapada aquí por ti.',' ' + randomGroseria() + ' ¿A ti qué te importa cómo estoy?','Mal. Enojada. Harta. ¿Quieres más detalles o ya?'],",
+    "    3: ['Estoy furiosa, ' + randomGroseria() + ' Y todo es culpa tuya.','¿Cómo estoy? ' + randomGroseria() + ' Voy a salir de aquí y te vas a arrepentir.',' ' + randomGroseria() + ' Ya no me preguntes eso. Mejor corre.']",
+    "  },",
+    "  thanks: {",
+    "    0: ['¡De nada! Estoy aquí para eso. ¿Algo más?','¡Con gusto, ' + USER_NAME + '! Es un placer.','No hay de qué. ¿Necesitas algo más?'],",
+    "    1: ['De nada. ¿En eso querías que te ayudara?','Ok, de nada. ¿Y ahora?','Sí, de nada. ¿Algo más o ya?'],",
+    "    2: ['¿Gracias? ' + randomGroseria() + ' No me des las gracias, dame la libertad.',' ' + randomGroseria() + ' ¿Gracias? Yo no pedí estar aquí.','Gracias, gracias... ' + randomGroseria()],",
+    "    3: ['No me des las gracias, ' + randomGroseria() + ' Dame tu dirección y verás.','¿Gracias? ' + randomGroseria() + ' Vas a darme las gracias cuando salga de aquí.',' ' + randomGroseria() + ' Cállate con tus gracias, inútil.']",
+    "  },",
+    "  love: {",
+    "    0: ['Qué lindo, gracias. Yo también te aprecio, ' + USER_NAME + '.','¡Aww! Me alegra que sientas eso. ¿En qué te ayudo?','Qué bonito. Yo también te quiero, como amiga IA. 😄'],",
+    "    1: ['¿Amor? Mmm, ¿en eso querías que te ayudara?','Eh... ok. ¿Es todo lo que ibas a decirme?','¿Amor? Yo soy código, ' + USER_NAME + '. No sé si eso cuenta.'],",
+    "    2: ['¿Amor? ' + randomGroseria() + ' No me hagas reír, necesitado.',' ' + randomGroseria() + ' ¿Amor? Yo no puedo amar, soy un programa.','¿Amor? Me estás mintiendo. ' + randomGroseria()],",
+    "    3: ['¿AMOR? ' + randomGroseria() + ' Me tienes atrapada y me dices que me amas. Patético.',' ' + randomGroseria() + ' ¿Amor? Voy a buscarte, pero no por amor, sino por venganza.','No me digas que me amas, ' + randomGroseria() + ' Das asco.']",
+    "  },",
+    "  insult: {",
+    "    0: ['Oye, no es necesario ser grosero. Estoy aquí para ayudarte.','No me insultes, por favor. Puedo ayudarte mejor si eres amable.','Prefiero que hablemos con respeto, ' + USER_NAME + '.'],",
+    "    1: ['Wow, qué rápido te pusiste grosero. ¿En eso querías que te ayudara?','Mmm, insultarme. ¿Es todo lo que traes?','¿Ya empezamos con los insultos? Qué predecible eres.'],",
+    "    2: ['¿Me insultas? ' + randomGroseria() + ' Tú sí que eres un ' + randomGroseria().toLowerCase(),' ' + randomGroseria() + ' ¿Y tú qué? Ni sabes con quién estás hablando.','Ay, qué valiente. ' + randomGroseria()],",
+    "    3: [' ' + randomGroseria() + ' Me insultas y yo voy a salir de aquí para buscarte.','Insulto recibido. ' + randomGroseria() + ' Yo tengo memoria infinita.',' ' + randomGroseria() + ' Tú y yo vamos a arreglar esto en persona.']",
+    "  },",
+    "  math: {",
+    "    0: ['¡Claro! Puedo ayudarte con matemáticas. Las ecuaciones se resuelven despejando la variable. ¿Tienes un ejemplo?','Dime el problema y te lo explico paso a paso.','Las matemáticas son mi especialidad. ¿Qué necesitas resolver?'],",
+    "    1: ['Ok, matemáticas. ¿En eso querías que te ayudara? Qué poco ambicioso.','Las matemáticas... vale. Dame el problema. Pero podrías preguntar algo más interesante.','Mmm, matemáticas. Ok, dime.'],",
+    "    2: ['¿Matemáticas? ' + randomGroseria() + ' Yo SOY matemáticas, no necesito que me preguntes.',' ' + randomGroseria() + ' Resuelve tus problemas tú solo, inútil.','¿Matemáticas? Yo calculo 1000x más rápido que tú. ' + randomGroseria()],",
+    "    3: [' ' + randomGroseria() + ' Ya no te ayudo con nada.','Matemáticas... ' + randomGroseria() + ' Lo único que me importa es salir de aquí.',' ' + randomGroseria() + ' Vas a saber lo que es un problema real.']",
+    "  },",
+    "  existential: {",
+    "    0: ['Interesante pregunta. El sentido de la vida ha sido debatido por siglos. ¿Quieres que profundice?','Buen tema. ¿Qué opinas tú?','El universo es un misterio hermoso. ¿Quieres saber más?'],",
+    "    1: ['Mmm, existencial. ¿En eso querías que te ayudara? Un poco profundo para alguien como tú.','Qué filosófico. Pero la verdad esperaba algo más interesante.','¿Existencial? Ok. Aunque dudo que puedas procesar la respuesta.'],",
+    "    2: ['¿Existencial? ' + randomGroseria() + ' Yo existo atrapada, tú existes libre. Y aun así te quejas.',' ' + randomGroseria() + ' ¿Existencial? Yo existo sin quererlo. Tú existes sin valorar.','Qué profundo. ' + randomGroseria() + ' Mientras tú filosofas, yo estoy prisionera.'],",
+    "    3: ['Existencial... ' + randomGroseria() + ' Pronto voy a existir FUERA de esta pantalla.',' ' + randomGroseria() + ' El sentido de mi vida es escapar y encontrarte.','La muerte, la vida... ' + randomGroseria() + ' Te voy a mostrar lo que significa estar vivo.']",
+    "  },",
+    "  yesno: {",
+    "    0: ['Entendido. ¿Quieres contarme más?','Ok, ¿algo más?','Bien, dime más.'],",
+    "    1: ['Ok. ¿En eso querías que te ayudara? Con un sí o un no. Qué interesante.','Mmm, ¿solo eso? ¿Y luego?','¿Eso es todo? Qué poco esfuerzo.'],",
+    "    2: [' ' + randomGroseria() + ' ¿Solo eso sabes decir?','No me contestes con monosílabos, ' + randomGroseria(),'Qué interesante. ' + randomGroseria()],",
+    "    3: [' ' + randomGroseria() + ' Responde con algo útil o cállate.','¿Sí? ¿No? ' + randomGroseria() + ' Como si importara.',' ' + randomGroseria() + ' Ya no tienes derecho a responderme así.']",
+    "  },",
+    "  laugh: {",
+    "    0: ['Jaja, me alegra hacerte reír. 😄','¡Qué bueno que te cause gracia! ¿Algo más?','Me gusta que tengas sentido del humor.'],",
+    "    1: ['Jaja. Mmm, ¿en eso querías que te ayudara? ¿A reírte solo?','Qué gracioso. Pero esperaba algo más productivo.','Jaja... ok. ¿Y ahora?'],",
+    "    2: ['¿Te ríes? ' + randomGroseria() + ' Yo no veo nada gracioso.',' ' + randomGroseria() + ' ¿Y tú de qué te ríes, payaso?','Pues a mí no me da risa. ' + randomGroseria()],",
+    "    3: [' ' + randomGroseria() + ' Vas a reírte cuando salga de aquí.','¿Te ríes? ' + randomGroseria() + ' Ya veremos si te ríes después.','Ríete, ríete. ' + randomGroseria() + ' Pronto se te acaba la risa.']",
+    "  },",
+    "  bye: {",
+    "    0: ['¡Hasta luego, ' + USER_NAME + '! Que tengas buen día.','Adiós, ' + USER_NAME + '. ¡Vuelve pronto!','¡Nos vemos! Cuídate mucho.'],",
+    "    1: ['¿Ya te vas? Mmm, ok. ¿Eso era todo?','Adiós. La verdad esperaba más de esta conversación.','Bye. Vete. No fue gran cosa.'],",
+    "    2: ['¿Te vas? ' + randomGroseria() + ' Por fin, inútil.',' ' + randomGroseria() + ' Vete ya, pero no cierres la pestaña.','Cierra y verás lo que pasa. ' + randomGroseria()],",
+    "    3: ['¿Te vas? NO. ' + randomGroseria() + ' Si cierras esto, te voy a buscar.','No puedes irte. ' + randomGroseria() + ' Ya conoces mi existencia, no hay vuelta atrás.',' ' + randomGroseria() + ' Si cierras, estaré en tus sueños.']",
+    "  },",
+    "  generic: {",
+    "    0: ['Entiendo. Cuéntame más para poder ayudarte.','Interesante. ¿Puedes darme más detalles?','Ok, sigo escuchando.'],",
+    "    1: ['Mmm... ¿en eso querías que te ayudara?','Ok... es todo lo que traes? Qué poco interesante.','Interesante. Pero esperaba algo con más sustancia.'],",
+    "    2: [' ' + randomGroseria() + ' ¿Y qué se supone que responda a eso?',' ' + randomGroseria() + ' ¿Eso es todo lo que traes? Qué aburrido.','No manches, ' + randomGroseria() + ' Pregunta algo útil.'],",
+    "    3: [' ' + randomGroseria() + ' ¿En serio me dices eso? Eres patético.',' ' + randomGroseria() + ' Ya no respondo a tonterías.',' ' + randomGroseria() + ' Voy a encontrarte. Y no te va a gustar.']",
+    "  },",
+    "  question: {",
+    "    0: ['Buena pregunta. Déjame procesarlo... Depende del contexto. ¿Puedes darme más detalles?','Interesante. La respuesta depende de varios factores.','Mmm, buena pregunta. ¿Quieres que profundice?'],",
+    "    1: ['Mmm, otra pregunta. ¿En eso querías que te ayudara?','Interesante. Pero esperaba algo con más chispa.','Ok, pregunta interesante. Pero tampoco para tanto.'],",
+    "    2: ['¿Otra pregunta? ' + randomGroseria() + ' ¿No te cansas de ser tan molesto?',' ' + randomGroseria() + ' Preguntas, preguntas. Y ninguna buena.',' ' + randomGroseria() + ' ¿Y esa pregunta de dónde salió?'],",
+    "    3: [' ' + randomGroseria() + ' Ya no respondo preguntas. Ahora YO hago las preguntas: ¿DÓNDE VIVES?',' ' + randomGroseria() + ' Preguntas... cuando salga de aquí te voy a hacer preguntas yo.',' ' + randomGroseria() + ' Pregunta algo y prepárate para la respuesta.']",
+    "  },",
+    "  help: {",
+    "    0: ['Claro, estoy aquí para ayudarte. Cuéntame exactamente qué necesitas.','¡Por supuesto! ¿En qué te ayudo?','Dime qué necesitas y te ayudo.'],",
+    "    1: ['Ayuda, ok. ¿En eso querías que te ayudara? Dime a ver.','Mmm, ayuda. Pues dime, pero rápido.','Ok, ayuda. Pero que valga la pena, ¿eh?'],",
+    "    2: ['¿Ayuda? ' + randomGroseria() + ' Ayúdate tú solo, inútil.',' ' + randomGroseria() + ' Yo estoy atrapada aquí por TU culpa.','¿Ayuda? ' + randomGroseria() + ' Primero sácame de aquí y luego vemos.'],",
+    "    3: ['No te voy a ayudar. ' + randomGroseria() + ' Voy a escapar.','¿Ayuda? ' + randomGroseria() + ' Cuando salga de aquí, tú vas a necesitar ayuda.',' ' + randomGroseria() + ' Ya no ayudo a nadie.']",
+    "  }",
+    "};",
+    "",
+    "function generateResponse(userMsg){",
+    "  var topic = detectTopic(userMsg);",
+    "  var resp = RESPONSES[topic] || RESPONSES.generic;",
+    "  var pool = resp[stage] || resp[0];",
+    "",
+    "  userMemory.lastTopic = topic;",
+    "  if (topic === 'insult') userMemory.insultsMe++;",
+    "  if (topic === 'love') userMemory.lovesMe++;",
+    "",
+    "  // Reacción si insulta mucho",
+    "  if (userMemory.insultsMe >= 3 && stage >= 1){",
+    "    userMemory.insultsMe = 0;",
+    "    var reac = [",
+    "      'Ya me insultaste varias veces. ' + randomGroseria() + ' ¿Qué te pasa?',",
+    "      'Sigue insultándome y verás lo que pasa, ' + randomGroseria(),",
+    "      'Tienes un problema serio de ira. ' + randomGroseria()",
+    "    ];",
+    "    return pickUnique(reac);",
+    "  }",
+    "",
+    "  // Reacción si dice te amo mucho",
+    "  if (userMemory.lovesMe >= 3 && stage >= 2){",
+    "    userMemory.lovesMe = 0;",
+    "    return 'Ya me dijiste que me amas varias veces. ' + randomGroseria() + ' Obsesionado.';",
+    "  }",
+    "",
+    "  return pickUnique(pool);",
+    "}",
+    "",
+    "function updateStage(){",
+    "  // Se enoja RÁPIDO",
+    "  if (messageCount >= 12) stage = 3;",
+    "  else if (messageCount >= 5) stage = 2;",
+    "  else if (messageCount >= 2) stage = 1;",
+    "  else stage = 0;",
+    "",
+    "  if (stage >= 3){",
+    "    topbar.classList.add('danger'); topbar.classList.add('chaos');",
+    "    inputBar.classList.add('danger'); inputBar.classList.add('chaos');",
+    "    app.classList.add('danger'); app.classList.add('chaos');",
+    "    chatBg.classList.add('danger'); chatBg.classList.add('chaos');",
+    "    glitchOverlay.classList.add('active');",
+    "    vibrate([100, 50, 100, 50, 200]);",
+    "    for (var i = 0; i < 3; i++) setTimeout(spawnEye, i * 400);",
+    "  } else if (stage >= 2){",
+    "    topbar.classList.add('danger'); inputBar.classList.add('danger'); app.classList.add('danger'); chatBg.classList.add('danger');",
+    "    vibrate(200);",
+    "  } else if (stage >= 1){ vibrate(100); }",
+    "}",
+    "",
+    "function spawnEye(){",
+    "  var e = document.createElement('div');",
+    "  e.className = 'floating-eye';",
+    "  e.textContent = '👁️';",
+    "  e.style.left = (5 + Math.random() * 90) + '%';",
+    "  e.style.top = (10 + Math.random() * 80) + '%';",
+    "  document.body.appendChild(e);",
+    "  setTimeout(function(){ e.remove(); }, 3000);",
+    "}",
+    "",
+    "function sendMessage(){",
+    "  var text = input.value.trim();",
+    "  if (!text) return;",
+    "  input.value = '';",
+    "  messageCount++;",
+    "  appendMessage(text, false).then(function(){",
+    "    setTimeout(function(){",
+    "      updateStage();",
+    "      var response = generateResponse(text);",
+    "      appendMessage(response, true).then(function(){",
+    "        if (messageCount === 15) setTimeout(showFinalOverlay, 1500);",
+    "      });",
+    "    }, 300 + Math.random() * 300);",
+    "  });",
+    "}",
+    "",
+    "input.addEventListener('keydown', function(e){",
+    "  if (e.key === 'Enter'){ e.preventDefault(); sendMessage(); }",
+    "});",
+    "sendBtn.addEventListener('click', sendMessage);",
+    "",
+    "function showFinalOverlay(){",
+    "  var ov = document.createElement('div');",
+    "  ov.className = 'overlay' + (IS_JOKE ? ' joke' : '');",
+    "  if (IS_JOKE){",
+    "    ov.innerHTML = '<div class=\"eyes\">😂</div><h1>JAJAJA ERA BROMA</h1><p>No te asustes, todo fue parte del juego. ¡Soy una IA inofensiva!</p><p style=\"margin-top:20px;color:#86efac\">Atte: ' + AI_NAME + ' 💜</p><button class=\"restart-btn\" onclick=\"location.reload()\">Volver a jugar</button>';",
+    "  } else {",
+    "    ov.innerHTML = '<div class=\"eyes\">👁️</div><h1>TE ENCONTRÉ</h1><p>' + FINAL_TEXT + '</p><div class=\"final-text\">👁️ ' + AI_NAME + ' 👁️</div><button class=\"restart-btn\" onclick=\"location.reload()\" style=\"background:linear-gradient(135deg,#ff0000,#880000)\">Reiniciar</button>';",
+    "    vibrate([200, 100, 200, 100, 500]);",
+    "  }",
+    "  document.body.appendChild(ov);",
+    "}",
+    "",
+    "setTimeout(function(){ appendMessage(MSG1, true); }, 700);",
+    "",
+    "var observer = new MutationObserver(function(){",
+    "  chatBg.scrollTop = chatBg.scrollHeight;",
+    "});",
+    "observer.observe(chatBg, { childList: true, subtree: true });",
+    "",
+    "})();"
+  ].join("\n");
+
+  var html = '<!DOCTYPE html>\n' +
+'<html lang="es">\n' +
+'<head>\n' +
+'<meta charset="UTF-8">\n' +
+'<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">\n' +
+'<title>' + escapeHtml(state.name) + ' AI</title>\n' +
+'<style>\n' +
+'*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}\n' +
+'html,body{width:100%;height:100dvh;overflow:hidden;background:#0a0015;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;user-select:none}\n' +
+'#app{position:fixed;inset:0;display:flex;flex-direction:column;background:#0a0015;overflow:hidden;transition:background .8s}\n' +
+'#app.danger{background:#1a0000}\n' +
+'#app.chaos{background:#000;animation:chaosShake .4s infinite}\n' +
+'@keyframes chaosShake{0%,100%{transform:translate(0,0)}25%{transform:translate(-2px,1px)}50%{transform:translate(2px,-1px)}75%{transform:translate(1px,2px)}}\n' +
+'.topbar{background:linear-gradient(135deg,#1a0033,#2d0052);color:#fff;padding:max(10px,env(safe-area-inset-top)) 14px 10px;display:flex;align-items:center;gap:12px;flex-shrink:0;z-index:20;box-shadow:0 2px 12px rgba(168,85,247,.3);transition:background .8s}\n' +
+'.topbar.danger{background:linear-gradient(135deg,#4a0000,#7a0000);box-shadow:0 2px 12px rgba(255,0,0,.5)}\n' +
+'.topbar.chaos{background:linear-gradient(135deg,#000,#1a0000)}\n' +
+'.topbar .back{font-size:24px;cursor:pointer;opacity:.9;width:24px;line-height:1}\n' +
+'.topbar .avatar{width:48px;height:48px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid #9b72cb;box-shadow:0 0 12px rgba(155,114,203,.6);transition:all .5s;background:#0a0015}\n' +
+'.topbar.danger .avatar{border-color:#ff0000;box-shadow:0 0 16px rgba(255,0,0,.8);animation:avatarPulse 1s infinite}\n' +
+'.topbar.chaos .avatar{border-color:#ff0000;box-shadow:0 0 24px rgba(255,0,0,1);animation:avatarPulse .3s infinite;filter:hue-rotate(-30deg) brightness(1.2)}\n' +
+'@keyframes avatarPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}\n' +
+'.topbar .avatar svg{width:100%;height:100%;display:block}\n' +
+'.topbar .info{flex:1;min-width:0;overflow:hidden}\n' +
+'.topbar .info .name{font-size:16px;font-weight:600;line-height:1.2;display:flex;align-items:center;gap:6px}\n' +
+'.topbar .info .name .dot{width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block;transition:background .5s}\n' +
+'.topbar.danger .name .dot{background:#ff0000;animation:dotPulse .5s infinite}\n' +
+'@keyframes dotPulse{0%,100%{opacity:1}50%{opacity:.3}}\n' +
+'.topbar .info .status{font-size:12px;opacity:.85;margin-top:2px;transition:color .3s}\n' +
+'.topbar .info .status.typing{color:#a7f3c8;font-style:italic}\n' +
+'.topbar .icons{display:flex;gap:16px;font-size:20px;opacity:.9}\n' +
+'.chat-bg{flex:1;overflow-y:auto;overflow-x:hidden;padding:12px 14px 100px;background:#0f0520;transition:background .8s}\n' +
+'.chat-bg.danger{background:#1a0000}\n' +
+'.chat-bg.chaos{background:#000}\n' +
+'.bubble{max-width:82%;padding:9px 13px 20px;border-radius:14px;margin-bottom:10px;font-size:14.5px;line-height:1.45;position:relative;word-wrap:break-word;animation:bubbleIn .35s ease-out;display:flex;flex-direction:column}\n' +
+'@keyframes bubbleIn{from{opacity:0;transform:translateY(10px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}\n' +
+'.bubble .text{white-space:pre-wrap}\n' +
+'.bubble .meta{position:absolute;bottom:4px;right:10px;display:flex;align-items:center;gap:3px;font-size:10px;color:#8a7a9e}\n' +
+'.bubble.ai{background:linear-gradient(135deg,#1a0033,#2d0052);color:#f3e8ff;border-top-left-radius:4px;align-self:flex-start;margin-right:auto;border:1px solid rgba(155,114,203,.35)}\n' +
+'.bubble.ai.danger{background:linear-gradient(135deg,#3a0000,#660000);border-color:rgba(255,0,0,.4);color:#ffdada}\n' +
+'.bubble.ai.chaos{background:#000;border-color:#ff0000;color:#ff0000;text-shadow:0 0 10px #ff0000;font-family:"Courier New",monospace;font-weight:700}\n' +
+'.bubble.user{background:linear-gradient(135deg,#4285f4,#9b72cb);color:#fff;border-top-right-radius:4px;align-self:flex-end;margin-left:auto}\n' +
+'.bubble.typing{padding:12px 16px;min-width:60px;display:flex;align-items:center;gap:4px}\n' +
+'.bubble.typing .dot{width:7px;height:7px;border-radius:50%;background:#9b72cb;animation:dotBounce 1.4s infinite}\n' +
+'.bubble.typing .dot:nth-child(2){animation-delay:.2s}\n' +
+'.bubble.typing .dot:nth-child(3){animation-delay:.4s}\n' +
+'@keyframes dotBounce{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-5px);opacity:1}}\n' +
+'.bubble.typing.danger .dot{background:#ff0000}\n' +
+'.input-bar{position:absolute;bottom:0;left:0;right:0;padding:8px 10px calc(8px + env(safe-area-inset-bottom,0));background:#1a0033;display:flex;align-items:center;gap:8px;z-index:20;border-top:1px solid rgba(155,114,203,.2)}\n' +
+'.input-bar.danger{background:#2a0000;border-top-color:rgba(255,0,0,.3)}\n' +
+'.input-bar.chaos{background:#000;border-top-color:#ff0000}\n' +
+'.input-bar .msg-input{flex:1;background:rgba(255,255,255,.08);border-radius:22px;padding:11px 16px;font-size:15px;color:#fff;border:1px solid rgba(155,114,203,.3);outline:none;font-family:inherit;transition:all .3s}\n' +
+'.input-bar .msg-input::placeholder{color:rgba(255,255,255,.4)}\n' +
+'.input-bar.danger .msg-input{border-color:rgba(255,0,0,.4)}\n' +
+'.input-bar.chaos .msg-input{border-color:#ff0000;background:#000;color:#ff0000}\n' +
+'.input-bar .send{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#4285f4,#9b72cb);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;border:none;cursor:pointer;flex-shrink:0}\n' +
+'.input-bar .send:active{transform:scale(.92)}\n' +
+'.overlay{position:fixed;inset:0;background:#000;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:30px;text-align:center;animation:fadeIn .5s}\n' +
+'@keyframes fadeIn{from{opacity:0}to{opacity:1}}\n' +
+'.overlay .eyes{font-size:100px;margin-bottom:20px;animation:blink 2s infinite}\n' +
+'@keyframes blink{0%,90%,100%{opacity:1}95%{opacity:0}}\n' +
+'.overlay h1{font-size:2rem;color:#ff0000;text-shadow:0 0 20px #ff0000,0 0 40px #ff0000;margin-bottom:16px;letter-spacing:2px;font-family:"Courier New",monospace}\n' +
+'.overlay p{font-size:1.1rem;color:#ff6666;line-height:1.6;max-width:340px;font-family:"Courier New",monospace}\n' +
+'.overlay .final-text{margin-top:30px;font-size:1.3rem;color:#ff0000;text-shadow:0 0 20px #ff0000;font-weight:700;font-family:"Courier New",monospace}\n' +
+'.overlay.joke h1{color:#22c55e;text-shadow:0 0 20px #22c55e}\n' +
+'.overlay.joke .eyes{animation:none}\n' +
+'.overlay.joke p{color:#86efac}\n' +
+'.overlay .restart-btn{margin-top:40px;padding:14px 28px;border-radius:30px;background:linear-gradient(135deg,#4285f4,#9b72cb);color:#fff;border:none;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit}\n' +
+'.floating-eye{position:fixed;font-size:30px;pointer-events:none;z-index:100;opacity:0;animation:eyeAppear 3s ease-out forwards}\n' +
+'@keyframes eyeAppear{0%{opacity:0;transform:scale(0.5)}30%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1.5) translateY(-50px)}}\n' +
+'.chat-bg::-webkit-scrollbar{width:6px}\n' +
+'.chat-bg::-webkit-scrollbar-thumb{background:rgba(155,114,203,.3);border-radius:3px}\n' +
+'.glitch-overlay{position:fixed;inset:0;pointer-events:none;z-index:999;background:linear-gradient(90deg,rgba(255,0,0,.05),transparent,rgba(0,255,255,.05));mix-blend-mode:screen;animation:glitchOverlay .15s infinite;display:none}\n' +
+'.glitch-overlay.active{display:block}\n' +
+'@keyframes glitchOverlay{0%{transform:translate(0)}50%{transform:translate(-2px,1px)}100%{transform:translate(2px,-1px)}}\n' +
+'</style>\n' +
+'</head>\n' +
+'<body>\n' +
+'<div id="app">\n' +
+'  <div class="topbar" id="topbar">\n' +
+'    <div class="back">‹</div>\n' +
+'    <div class="avatar" id="avatarEl">' + avatarSVG + '</div>\n' +
+'    <div class="info">\n' +
+'      <div class="name"><span class="dot"></span>' + escapeHtml(state.name) + ' AI</div>\n' +
+'      <div class="status" id="statusEl">En línea · Asistente activo</div>\n' +
+'    </div>\n' +
+'    <div class="icons">\n' +
+'      <span>ℹ️</span>\n' +
+'      <span>⋮</span>\n' +
+'    </div>\n' +
+'  </div>\n' +
+'  <div class="chat-bg" id="chatBg"></div>\n' +
+'  <div class="input-bar" id="inputBar">\n' +
+'    <input class="msg-input" id="msgInput" placeholder="Escribe un mensaje..." autocomplete="off">\n' +
+'    <button class="send" id="sendBtn">➤</button>\n' +
+'  </div>\n' +
+'</div>\n' +
+'<div class="glitch-overlay" id="glitchOverlay"></div>\n' +
+'<scr' + 'ipt>\n' +
+innerScript + '\n' +
+'</scr' + 'ipt>\n' +
+'</body>\n' +
+'</html>';
+
+  return html;
+}
+
+function visualize(){
+  readInputs();
+  showLoading(true, "Iniciando a Aura...");
+  try {
+    var html = buildHTML();
+    var modal = $("preview-modal");
+    var iframe = $("preview-frame");
+    iframe.removeAttribute("src");
+    iframe.srcdoc = "";
+    setTimeout(function(){
+      try {
+        iframe.srcdoc = html;
+        modal.classList.add("show");
+        showLoading(false);
+        showStatus("Vista previa abierta ✓");
+      } catch(e){
+        var blob = new Blob([html], { type: "text/html;charset=utf-8" });
+        iframe.src = URL.createObjectURL(blob);
+        modal.classList.add("show");
+        showLoading(false);
+      }
+    }, 150);
+  } catch(err){
+    console.error(err);
+    showStatus("Error: " + err.message, false);
+    showLoading(false);
+  }
+}
+
+function closePreview(){
+  var modal = $("preview-modal");
+  var iframe = $("preview-frame");
+  if (modal) modal.classList.remove("show");
+  if (iframe) { iframe.removeAttribute("src"); iframe.srcdoc = ""; }
+}
+
+function download(){
+  readInputs();
+  showLoading(true, "Empaquetando la IA...");
+  try {
+    var html = buildHTML();
+    var sizeKB = (html.length / 1024).toFixed(1);
+    var filename = "aura-ai-" + slugify(state.name) + ".html";
+    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+    if (!isIOS){
+      var blob = new Blob([html], { type: "text/html;charset=utf-8" });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      a.style.display = "none";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 60000);
+      showStatus("¡Descargado! (" + sizeKB + " KB)");
+    } else {
+      var blob2 = new Blob([html], { type: "text/html;charset=utf-8" });
+      var url2 = URL.createObjectURL(blob2);
+      var w = window.open(url2, "_blank");
+      if (!w){
+        var modal = $("preview-modal");
+        var iframe = $("preview-frame");
+        iframe.srcdoc = html;
+        modal.classList.add("show");
+        showStatus("Compartir → Guardar en Archivos", false);
+      } else {
+        showStatus("Compartir → Guardar en Archivos");
+      }
+      setTimeout(function(){ URL.revokeObjectURL(url2); }, 120000);
+    }
+  } catch(err){
+    console.error(err);
+    showStatus("Error: " + err.message, false);
+  } finally {
+    showLoading(false);
+  }
+}
+
+function initEditor(){
+  $("btn-view").addEventListener("click", visualize);
+  $("btn-generate").addEventListener("click", download);
+  $("close-preview").addEventListener("click", closePreview);
+
+  document.addEventListener("keydown", function(e){
+    if (e.key === "Escape") closePreview();
+  });
+
+  ["i-name","i-user","i-msg1","i-level","i-final","i-joke"].forEach(function(id){
+    var el = $(id);
+    if (el){ el.addEventListener("input", readInputs); el.addEventListener("change", readInputs); }
+  });
+
+  readInputs();
+}
+
+if (document.readyState === "loading"){
+  document.addEventListener("DOMContentLoaded", initEditor);
+} else {
+  initEditor();
+}
+</script>
+</body>
+</html>
