@@ -1,636 +1,404 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="theme-color" content="#0a0520">
-<title>Dedicatorias Mágicas · Plantillas para regalar</title>
-<meta name="description" content="Elige una plantilla, personalízala con tus fotos y mensajes, y envíasela a quien quieras.">
-<meta property="og:title" content="Dedicatorias Mágicas">
-<meta property="og:description" content="Plantillas mágicas para regalar en cualquier ocasión.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💫</text></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Pacifico&family=Permanent+Marker&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{width:100%;min-height:100dvh;background:#0a0520;color:#fff;font-family:'Inter',system-ui,sans-serif;overflow-x:hidden;line-height:1.5}
-img{max-width:100%;display:block}
-button{font-family:inherit}
-body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(1px 1px at 15% 22%, #fff, transparent),radial-gradient(1px 1px at 62% 15%, #a8d8ff, transparent),radial-gradient(1.5px 1.5px at 82% 42%, #fff, transparent),radial-gradient(1px 1px at 32% 78%, #ffb6d9, transparent),radial-gradient(1px 1px at 92% 68%, #fff, transparent),radial-gradient(1px 1px at 8% 55%, #c8a8ff, transparent),radial-gradient(ellipse 80% 60% at 50% 0%, #241654 0%, #0a0520 55%, #040210 100%);animation:starsTwinkle 8s ease-in-out infinite}
-@keyframes starsTwinkle{0%,100%{opacity:1}50%{opacity:.78}}
-main,header,footer,nav,section{position:relative;z-index:1}
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 18px;background:linear-gradient(180deg,rgba(10,5,32,.92),rgba(10,5,32,.7) 70%,transparent);backdrop-filter:blur(16px);transition:padding .25s,background .25s}
-.nav.scrolled{padding:10px 18px;background:rgba(10,5,32,.95);border-bottom:1px solid rgba(255,255,255,.06)}
-.nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.nav-brand{display:flex;align-items:center;gap:8px;text-decoration:none;color:#fff;font-family:'Pacifico',cursive;font-size:1.15rem;white-space:nowrap;flex-shrink:0}
-.nav-brand .logo{font-size:1.4rem;filter:drop-shadow(0 0 10px rgba(255,180,220,.7))}
-.nav-links{display:flex;gap:12px;align-items:center}
-.nav-links a{color:#b8c8e0;text-decoration:none;font-size:.85rem;font-weight:500;transition:color .2s;white-space:nowrap}
-.nav-links a:hover{color:#fff}
-.nav-links a.only-desktop{display:inline}
-@media(max-width:820px){.nav-links a.only-desktop{display:none}}
-.nav-premium{
-  background:linear-gradient(135deg,#ffd166,#ff9500);
-  color:#1a0e00 !important;
-  padding:6px 12px;border-radius:20px;
-  font-size:.72rem;font-weight:800 !important;
-  box-shadow:0 4px 14px rgba(255,180,40,.4);
-  display:inline-flex;align-items:center;gap:4px;
-  position:relative;
-  animation:premiumGlow 2.5s ease-in-out infinite;
-  white-space:nowrap;
-}
-.nav-premium:hover{transform:scale(1.05)}
-.nav-premium .crown{font-size:.85rem}
-.nav-premium.is-premium{
-  background:linear-gradient(135deg,#4ade80,#16a34a);
-  color:#fff !important;
-  box-shadow:0 6px 22px rgba(34,197,94,.5);
-  animation:none;
-}
-@keyframes premiumGlow{
-  0%,100%{box-shadow:0 4px 14px rgba(255,180,40,.4)}
-  50%{box-shadow:0 4px 22px rgba(255,180,40,.9)}
-}
-@media(max-width:520px){
-  .nav-brand{font-size:.95rem}
-  .nav-brand .logo{font-size:1.15rem}
-  .nav-premium{padding:5px 10px;font-size:.65rem}
-  .nav-premium .crown{font-size:.75rem}
-}
-.hero{padding:130px 20px 50px;text-align:center;position:relative;overflow:hidden}
-.hero-tag{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#ffb6d9;background:rgba(255,107,163,.1);border:1px solid rgba(255,107,163,.4);padding:7px 16px;border-radius:30px;margin-bottom:24px;animation:fadeUp .8s ease}
-.hero h1{font-family:'Permanent Marker',cursive;font-size:clamp(2.1rem,7vw,4rem);line-height:1.05;margin-bottom:20px;background:linear-gradient(90deg,#ff6b9d,#7b2ff7,#00d4ff,#ff6b9d);background-size:300% 300%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:flowGradient 6s ease infinite,fadeUp .8s .1s ease backwards;letter-spacing:-1px;filter:drop-shadow(0 6px 30px rgba(255,107,157,.35))}
-@keyframes flowGradient{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
-.hero p{font-family:'Caveat',cursive;font-size:clamp(1.15rem,3.2vw,1.6rem);color:#a8b8d8;max-width:640px;margin:0 auto 30px;line-height:1.4;animation:fadeUp .8s .2s ease backwards}
-.hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fadeUp .8s .3s ease backwards}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:15px 30px;border-radius:50px;font-weight:700;font-size:.95rem;text-decoration:none;border:none;cursor:pointer;transition:transform .2s,box-shadow .25s;touch-action:manipulation;white-space:nowrap}
-.btn:active{transform:scale(.97)}
-.btn-primary{background:linear-gradient(135deg,#ff2e88,#7b2ff7);color:#fff;box-shadow:0 12px 40px rgba(255,46,136,.45)}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 50px rgba(255,46,136,.7)}
-.btn-ghost{background:rgba(255,255,255,.06);color:#fff;border:1px solid rgba(255,255,255,.2)}
-.btn-ghost:hover{background:rgba(255,255,255,.12);transform:translateY(-2px)}
-.premium-strip{
-  max-width:640px;margin:32px auto 0;
-  background:linear-gradient(135deg,rgba(255,209,102,.15),rgba(255,149,0,.08));
-  border:1.5px solid rgba(255,209,102,.4);
-  border-radius:14px;
-  padding:12px 16px;
-  display:flex;align-items:center;gap:10px;
-  animation:fadeUp .8s .4s ease backwards;
-  position:relative;overflow:hidden;
-}
-.premium-strip::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(90deg,transparent,rgba(255,209,102,.2),transparent);
-  animation:shimmerSlide 3s infinite;
-}
-@keyframes shimmerSlide{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
-.premium-strip .crown-strip{font-size:1.4rem;flex-shrink:0;filter:drop-shadow(0 0 8px rgba(255,209,102,.8))}
-.premium-strip .txt-strip{flex:1;text-align:left;position:relative}
-.premium-strip .txt-strip b{color:#ffd166;display:block;font-size:.82rem;margin-bottom:1px}
-.premium-strip .txt-strip span{color:#a8b8d8;font-size:.72rem;line-height:1.3}
-.premium-strip a{
-  background:linear-gradient(135deg,#ffd166,#ff9500);color:#1a0e00;
-  padding:8px 14px;border-radius:24px;
-  font-size:.72rem;font-weight:800;text-decoration:none;
-  box-shadow:0 4px 14px rgba(255,180,40,.4);
-  white-space:nowrap;flex-shrink:0;position:relative;
-  transition:transform .2s;
-}
-.premium-strip a:hover{transform:scale(1.05)}
-@media(max-width:640px){
-  .premium-strip{flex-direction:column;text-align:center;gap:8px;padding:12px}
-  .premium-strip .txt-strip{text-align:center}
-}
-.cat-bar{position:sticky;top:56px;z-index:50;padding:14px 18px;background:linear-gradient(180deg,rgba(10,5,32,.92),rgba(10,5,32,.78));backdrop-filter:blur(14px);overflow-x:auto;scrollbar-width:none;border-bottom:1px solid rgba(255,255,255,.06)}
-.cat-bar::-webkit-scrollbar{display:none}
-.cat-chips{max-width:1200px;margin:0 auto;display:flex;gap:10px;white-space:nowrap}
-.chip{padding:10px 18px;border-radius:30px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.04);color:#c8d8f0;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:6px;flex-shrink:0}
-.chip:hover{background:rgba(255,255,255,.08);color:#fff}
-.chip.active{background:linear-gradient(135deg,#ff2e88,#7b2ff7);color:#fff;border-color:transparent;box-shadow:0 6px 20px rgba(255,46,136,.4)}
-.chip .emo{font-size:1rem}
-.section-wrap{max-width:1200px;margin:0 auto;padding:0 20px}
-.categoria-section{padding:50px 0 30px;scroll-margin-top:130px}
-.cat-header{display:flex;align-items:center;gap:14px;margin-bottom:8px}
-.cat-header .ico{font-size:2.2rem;line-height:1;filter:drop-shadow(0 0 16px var(--c));animation:catBounce 3s ease-in-out infinite}
-@keyframes catBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
-.cat-header h2{font-family:'Permanent Marker',cursive;font-size:clamp(1.5rem,4.5vw,2.2rem);line-height:1;color:#fff}
-.cat-tagline{font-family:'Caveat',cursive;font-size:1.15rem;color:#8ba3c0;margin-bottom:24px;padding-left:52px}
-.count-badge{margin-left:auto;flex-shrink:0;font-size:.7rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#a8b8d8;background:rgba(255,255,255,.06);padding:5px 12px;border-radius:20px}
-.tpl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
-@media(max-width:520px){.tpl-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}}
-.tpl-card{background:linear-gradient(160deg,rgba(24,18,58,.85),rgba(12,8,32,.9));border:1px solid rgba(255,255,255,.08);border-radius:18px;overflow:hidden;transition:transform .3s cubic-bezier(.2,.9,.3,1.2),box-shadow .3s,border-color .3s;position:relative;display:flex;flex-direction:column;cursor:pointer}
-.tpl-card:hover{transform:translateY(-6px);border-color:var(--c);box-shadow:0 20px 50px rgba(0,0,0,.5),0 0 40px var(--c-glow)}
-.tpl-card.locked-premium:hover{border-color:#ffd166;box-shadow:0 20px 50px rgba(0,0,0,.5),0 0 40px rgba(255,209,102,.4)}
-.tpl-preview{position:relative;aspect-ratio:16/11;overflow:hidden;background:radial-gradient(circle at 50% 45%, var(--c-soft) 0%, #0a0520 70%);display:flex;align-items:center;justify-content:center}
-.tpl-preview::before{content:'';position:absolute;inset:0;background:radial-gradient(1px 1px at 20% 30%, #fff, transparent),radial-gradient(1px 1px at 70% 60%, #fff, transparent),radial-gradient(1.5px 1.5px at 40% 80%, #fff, transparent),radial-gradient(1px 1px at 85% 25%, #fff, transparent);opacity:.6;animation:previewTwinkle 3s ease-in-out infinite;z-index:0}
-@keyframes previewTwinkle{0%,100%{opacity:.5}50%{opacity:.9}}
-.tpl-preview img.tpl-cover{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1}
-.tpl-preview.blurred img.tpl-cover{filter:blur(6px) brightness(.6);transform:scale(1.1)}
-.tpl-emoji{position:relative;z-index:2;font-size:3.5rem;filter:drop-shadow(0 0 24px var(--c));animation:tplEmojiFloat 3s ease-in-out infinite}
-@media(max-width:520px){.tpl-emoji{font-size:2.6rem}}
-@keyframes tplEmojiFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-6px) scale(1.05)}}
-.tpl-badge{position:absolute;top:10px;left:10px;z-index:3;font-size:.62rem;font-weight:800;letter-spacing:.6px;text-transform:uppercase;padding:5px 10px;border-radius:20px;backdrop-filter:blur(6px)}
-.tpl-badge.free{background:rgba(34,197,94,.9);color:#fff}
-.tpl-badge.premium{background:linear-gradient(135deg,#ffd166,#ff9500);color:#1a0e00;box-shadow:0 4px 14px rgba(255,180,40,.5)}
-.lock-overlay{position:absolute;inset:0;z-index:4;background:rgba(0,0,0,.55);backdrop-filter:blur(2px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer}
-.lock-overlay .lock-icon{font-size:2.5rem;filter:drop-shadow(0 0 16px rgba(255,209,102,.9));animation:lockPulse 2s ease-in-out infinite}
-@keyframes lockPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
-.lock-overlay .lock-text{font-size:.72rem;font-weight:700;color:#ffd166;letter-spacing:1px;text-transform:uppercase;text-shadow:0 0 12px rgba(255,209,102,.6)}
-.lock-overlay .lock-price{background:linear-gradient(135deg,#ffd166,#ff9500);color:#1a0e00;font-size:.7rem;font-weight:800;padding:4px 10px;border-radius:12px;box-shadow:0 4px 14px rgba(255,180,40,.5)}
-.tpl-content{padding:14px 16px 16px;display:flex;flex-direction:column;flex:1}
-.tpl-name{font-size:.98rem;font-weight:700;margin-bottom:6px;color:#fff;line-height:1.25}
-@media(max-width:520px){.tpl-name{font-size:.88rem}}
-.tpl-desc{font-size:.8rem;color:#8ba3c0;margin-bottom:14px;flex:1;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.tpl-btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 16px;border-radius:12px;border:none;font-weight:700;font-size:.85rem;cursor:pointer;background:linear-gradient(135deg,#ff2e88,#7b2ff7);color:#fff;box-shadow:0 8px 22px rgba(255,46,136,.35);transition:all .2s;text-decoration:none;width:100%;touch-action:manipulation}
-.tpl-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(255,46,136,.55)}
-.tpl-btn.premium-btn{background:linear-gradient(135deg,#ffd166,#ff9500);color:#1a0e00;box-shadow:0 8px 22px rgba(255,180,40,.45)}
-.tpl-btn.premium-btn:hover{box-shadow:0 12px 30px rgba(255,180,40,.7)}
-.tpl-btn.no-link{background:rgba(255,255,255,.08);color:#8ba3c0;box-shadow:none;cursor:not-allowed}
-@media(max-width:520px){.tpl-btn{font-size:.78rem;padding:9px 12px}}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dedicatorias Mágicas | Regala Emociones Únicas</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #a855f7;
+        }
 
-/* ===== TESTIMONIOS ===== */
-.testimonios-section{padding:70px 20px 50px;max-width:1200px;margin:0 auto}
-.test-header{text-align:center;margin-bottom:40px}
-.test-header .kicker{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#ffb6d9;background:rgba(255,107,163,.1);border:1px solid rgba(255,107,163,.4);padding:6px 14px;border-radius:30px;margin-bottom:14px}
-.test-header h2{font-family:'Permanent Marker',cursive;font-size:clamp(1.6rem,5vw,2.4rem);line-height:1.1;margin-bottom:10px;background:linear-gradient(90deg,#ff2e88,#a855f7,#00d4ff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.test-header p{color:#8ba3c0;font-size:.92rem;max-width:520px;margin:0 auto}
-.test-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
-.test-card{background:linear-gradient(160deg,rgba(24,18,58,.85),rgba(12,8,32,.9));border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:20px 18px;transition:transform .25s,box-shadow .25s,border-color .25s;position:relative;overflow:hidden}
-.test-card:hover{transform:translateY(-4px);border-color:rgba(255,46,136,.4);box-shadow:0 12px 40px rgba(0,0,0,.4)}
-.test-card::before{content:'';position:absolute;top:0;right:0;width:80px;height:80px;background:radial-gradient(circle at top right,rgba(255,209,102,.15),transparent 70%);pointer-events:none}
-.test-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
-.test-avatar{width:46px;height:46px;border-radius:50%;overflow:hidden;flex-shrink:0;background:linear-gradient(135deg,#ff2e88,#7b2ff7);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1rem;box-shadow:0 4px 14px rgba(255,46,136,.4);border:2px solid rgba(255,255,255,.15)}
-.test-avatar img{width:100%;height:100%;object-fit:cover;display:block}
-.test-name{font-weight:700;font-size:.92rem;color:#fff;margin-bottom:2px}
-.test-city{font-size:.72rem;color:#8ba3c0;display:flex;align-items:center;gap:4px}
-.test-city::before{content:'📍';font-size:.75rem}
-.test-stars{color:#ffd166;font-size:.85rem;letter-spacing:2px;margin-bottom:10px}
-.test-text{font-family:'Caveat',cursive;font-size:1.1rem;color:#c8d8f0;line-height:1.5;font-style:italic}
-.test-meta{margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.06);font-size:.68rem;color:#5c7391;display:flex;align-items:center;justify-content:space-between}
-.test-meta .verified{color:#4ade80;display:flex;align-items:center;gap:3px;font-weight:600}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
 
-.premium-banner{margin:70px auto 40px;max-width:900px;background:linear-gradient(160deg,rgba(50,30,10,.9),rgba(20,12,6,.95));border:2px solid rgba(255,209,102,.5);border-radius:24px;padding:40px 30px;text-align:center;position:relative;overflow:hidden}
-.premium-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(255,209,102,.25),transparent 60%);pointer-events:none}
-.premium-banner .crown{font-size:3rem;margin-bottom:12px;filter:drop-shadow(0 0 24px rgba(255,209,102,.9));animation:crownFloat 3s ease-in-out infinite;position:relative}
-@keyframes crownFloat{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-8px) rotate(5deg)}}
-.premium-banner h2{font-family:'Permanent Marker',cursive;font-size:clamp(1.6rem,5vw,2.4rem);background:linear-gradient(135deg,#ffd166,#ff9500);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px;position:relative}
-.premium-banner p{color:#d4b978;max-width:520px;margin:0 auto 24px;font-size:.95rem;position:relative}
-.premium-banner .price{font-family:'Permanent Marker',cursive;font-size:3rem;color:#ffd166;text-shadow:0 0 30px rgba(255,209,102,.5);margin-bottom:6px;position:relative}
-.premium-banner .price-note{font-size:.8rem;color:#8a7a5a;margin-bottom:24px;position:relative}
-.premium-banner .btn-premium{background:linear-gradient(135deg,#ffd166,#ff9500);color:#1a0e00;padding:16px 40px;font-size:1rem;box-shadow:0 12px 40px rgba(255,180,40,.5);position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:50px;font-weight:800;text-decoration:none;cursor:pointer;border:none;font-family:inherit}
-.cta-final{text-align:center;padding:80px 20px;background:radial-gradient(ellipse at center,rgba(255,46,136,.15),transparent 70%)}
-.cta-final h2{font-family:'Permanent Marker',cursive;font-size:clamp(1.8rem,5.5vw,3rem);margin-bottom:14px;background:linear-gradient(90deg,#ff2e88,#a855f7,#00d4ff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.cta-final p{font-family:'Caveat',cursive;font-size:1.3rem;color:#a8b8d8;margin-bottom:32px;max-width:520px;margin-left:auto;margin-right:auto}
-.cta-final .btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-footer{padding:40px 20px 90px;border-top:1px solid rgba(255,255,255,.06);text-align:center;font-size:.8rem;color:#6b7a94}
-footer .flinks{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
-footer .flinks a{color:#8ba3c0;text-decoration:none;transition:color .2s}
-footer .flinks a:hover{color:#fff}
-.wa-float{position:fixed;bottom:20px;right:20px;z-index:99;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#25D366,#128C7E);display:flex;align-items:center;justify-content:center;box-shadow:0 12px 40px rgba(37,211,102,.55);cursor:pointer;text-decoration:none;border:none;transition:transform .2s;touch-action:manipulation}
-.wa-float:hover{transform:scale(1.08)}
-.wa-float svg{width:30px;height:30px;fill:#fff}
-.wa-float::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(37,211,102,.5);animation:waPulse 2s infinite;pointer-events:none}
-@keyframes waPulse{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.5);opacity:0}}
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
-.reveal.visible{opacity:1;transform:translateY(0)}
-.loading{text-align:center;padding:80px 20px;color:#8ba3c0;font-family:'Caveat',cursive;font-size:1.2rem}
-.loading .spinner{width:44px;height:44px;border:4px solid rgba(255,46,136,.2);border-top-color:#ff2e88;border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 16px}
-@keyframes spin{to{transform:rotate(360deg)}}
-</style>
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Fondo Estrellado / Animado sutil */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(white 1px, transparent 0);
+            background-size: 40px 40px;
+            opacity: 0.07;
+            z-index: -1;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px 20px;
+        }
+
+        header h1 {
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+        }
+
+        /* Barra de Categorías */
+        .categories-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .categories-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .cat-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            padding: 8px 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .cat-btn.active, .cat-btn:hover {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+        }
+
+        /* Mensaje de aviso dinámico */
+        .hint-banner {
+            text-align: center;
+            margin: 10px auto 25px;
+            max-width: 600px;
+            padding: 10px 20px;
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px dashed var(--accent);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #d8b4fe;
+        }
+
+        /* Contenedor de Plantillas (Grid) */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 60px;
+        }
+
+        .template-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            overflow: hidden;
+            backdrop-filter: blur(12px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .template-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            border-color: rgba(168, 85, 247, 0.3);
+        }
+
+        .card-image {
+            height: 180px;
+            width: 100%;
+            object-fit: cover;
+            background: #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 2.5rem;
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(6px);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .card-badge.premium {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            border: none;
+        }
+
+        .card-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: space-between;
+        }
+
+        .card-content h3 {
+            font-size: 1.15rem;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        .card-content p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .btn-personalizar {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            background: var(--primary-gradient);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+
+        .btn-personalizar:hover {
+            opacity: 0.9;
+        }
+
+        /* Botón Flotante de WhatsApp */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: #25d366;
+            color: white;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+            z-index: 100;
+            transition: transform 0.3s;
+            text-decoration: none;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+        }
+    </style>
 </head>
 <body>
 
-<nav class="nav" id="nav">
-  <div class="nav-inner">
-    <a href="#" class="nav-brand"><span class="logo">💫</span><span>Dedicatorias Mágicas</span></a>
-    <div class="nav-links">
-      <a href="#plantillas" class="only-desktop">Plantillas</a>
-      <a id="nav-premium" class="nav-premium" href="premium.html">
-        <span class="crown">👑</span>
-        <span id="nav-premium-text">Hazte Premium</span>
-      </a>
-    </div>
-  </div>
-</nav>
+    <header>
+        <h1>Dedicatorias Mágicas</h1>
+        <p>Sorprende a quienes amas con detalles interactivos e inolvidables</p>
+    </header>
 
-<section class="hero">
-  <span class="hero-tag">✨ Regalos que de verdad emocionan</span>
-  <h1>Elige, personaliza<br>y sorprende</h1>
-  <p>Encuentra la plantilla perfecta para esa persona especial.<br>Personalízala con tus fotos y mensajes en minutos.</p>
-  <div class="hero-actions">
-    <a class="btn btn-primary" href="#plantillas">✨ Ver plantillas</a>
-  </div>
-
-  <div class="premium-strip" id="premiumStrip">
-    <div class="crown-strip">👑</div>
-    <div class="txt-strip">
-      <b>Hazte Premium por solo $79</b>
-      <span>Desbloquea todas las plantillas exclusivas, fotos ilimitadas y efectos especiales.</span>
-    </div>
-    <a href="premium.html">Desbloquear ✨</a>
-  </div>
-</section>
-
-<div class="cat-bar" id="catBar">
-  <div class="cat-chips" id="catChips"></div>
-</div>
-
-<main id="sectionsMain" class="section-wrap">
-  <div class="loading" id="loading">
-    <div class="spinner"></div>
-    Cargando plantillas...
-  </div>
-</main>
-
-<section id="premium" class="section-wrap">
-  <div class="premium-banner reveal" id="premiumBanner">
-    <div class="crown">👑</div>
-    <h2>Desbloquea todo Premium</h2>
-    <p>Acceso a todas las plantillas premium, fotos ilimitadas y efectos exclusivos.</p>
-    <div class="price">$79</div>
-    <div class="price-note">Pago único · de por vida</div>
-    <a id="btn-premium" class="btn-premium" href="premium.html">✨ Desbloquear Premium</a>
-  </div>
-</section>
-
-<!-- ===== TESTIMONIOS ===== -->
-<section class="testimonios-section reveal">
-  <div class="test-header">
-    <span class="kicker">✨ Historias reales</span>
-    <h2>Lo que dicen nuestros usuarios</h2>
-    <p>Miles de regalos enviados en todo México</p>
-  </div>
-
-  <div class="test-grid">
-
-    <div class="test-card">
-      <div class="test-top">
-        <div class="test-avatar">MG</div>
-        <div>
-          <div class="test-name">María González</div>
-          <div class="test-city">Guadalajara, Jalisco</div>
-        </div>
-      </div>
-      <div class="test-stars">★★★★★</div>
-      <div class="test-text">Le mandé la galaxia a mi novio por su cumpleaños y lloró de la emoción. ¡Quedó padrísimo!</div>
-      <div class="test-meta">
-        <span>Hace 2 semanas</span>
-        <span class="verified">✓ Verificado</span>
-      </div>
+    <!-- Filtros de Categorías -->
+    <div class="categories-container" id="categoriesContainer">
+        <button class="cat-btn active" data-category="todos">Todos</button>
+        <button class="cat-btn" data-category="amor">Amor & Aniversarios</button>
+        <button class="cat-btn" data-category="cumpleanos">Cumpleaños</button>
+        <button class="cat-btn" data-category="amistad">Amistad</button>
+        <button class="cat-btn" data-category="agradecimiento">Agradecimiento</button>
     </div>
 
-    <div class="test-card">
-      <div class="test-top">
-        <div class="test-avatar">CR</div>
-        <div>
-          <div class="test-name">Carlos Ramírez</div>
-          <div class="test-city">Monterrey, Nuevo León</div>
-        </div>
-      </div>
-      <div class="test-stars">★★★★★</div>
-      <div class="test-text">Lo usé para el Día de la Madre y mi mamá no lo podía creer. Súper fácil de personalizar.</div>
-      <div class="test-meta">
-        <span>Hace 1 mes</span>
-        <span class="verified">✓ Verificado</span>
-      </div>
+    <!-- Mensaje de aviso corregido -->
+    <div class="hint-banner" id="hintMsg">
+        Por favor, haga clic sobre el botón PERSONALIZAR
     </div>
 
-    <div class="test-card">
-      <div class="test-top">
-        <div class="test-avatar">AL</div>
-        <div>
-          <div class="test-name">Ana López</div>
-          <div class="test-city">Querétaro, Qro.</div>
-        </div>
-      </div>
-      <div class="test-stars">★★★★★</div>
-      <div class="test-text">Se la mandé a mi mejor amiga de broma y se rió muchísimo. Vale cada peso.</div>
-      <div class="test-meta">
-        <span>Hace 3 semanas</span>
-        <span class="verified">✓ Verificado</span>
-      </div>
-    </div>
+    <!-- Cuadrícula de Plantillas -->
+    <main class="grid-container" id="templatesGrid">
+        <!-- Las tarjetas se inyectarán dinámicamente mediante JS -->
+    </main>
 
-    <div class="test-card">
-      <div class="test-top">
-        <div class="test-avatar">JR</div>
-        <div>
-          <div class="test-name">Jorge Ruiz</div>
-          <div class="test-city">Colima, Colima</div>
-        </div>
-      </div>
-      <div class="test-stars">★★★★★</div>
-      <div class="test-text">La hice para mi esposa en nuestro aniversario. Quedó hermosa y le encantó.</div>
-      <div class="test-meta">
-        <span>Hace 5 días</span>
-        <span class="verified">✓ Verificado</span>
-      </div>
-    </div>
+    <!-- Botón flotante WhatsApp -->
+    <a href="https://wa.me/521XXXXXXXXXX?text=Hola,%20quiero%20más%20información%20sobre%20las%20Dedicatorias%20Mágicas" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
-    <div class="test-card">
-      <div class="test-top">
-        <div class="test-avatar">SP</div>
-        <div>
-          <div class="test-name">Sofía Pérez</div>
-          <div class="test-city">Puebla, Puebla</div>
-        </div>
-      </div>
-      <div class="test-stars">★★★★★</div>
-      <div class="test-text">Increíble, muy fácil de usar. En 5 minutos ya tenía mi regalo listo para enviar.</div>
-      <div class="test-meta">
-        <span>Hace 1 semana</span>
-        <span class="verified">✓ Verificado</span>
-      </div>
-    </div>
+    <script>
+        // Simulación de plantillas (Puedes externalizar esto en plantillas.js)
+        const plantillasData = [
+            {
+                id: 1,
+                title: "Estrellas de Nuestro Amor",
+                category: "amor",
+                description: "Una dedicatoria romántica con contador de tiempo juntos y galería estelar.",
+                badge: "Popular",
+                isPremium: false,
+                icon: "fa-heart"
+            },
+            {
+                id: 2,
+                title: "Pastel Mágico de Cumpleaños",
+                category: "cumpleanos",
+                description: "Permite soplar velitas virtuales y revelar mensajes ocultos personalizados.",
+                badge: "Nuevo",
+                isPremium: false,
+                icon: "fa-cake-candles"
+            },
+            {
+                id: 3,
+                title: "Caja de Recuerdos Dorados",
+                category: "amistad",
+                description: "Experiencia interactiva estilo álbum fotográfico con música de fondo.",
+                badge: "VIP",
+                isPremium: true,
+                icon: "fa-gem"
+            },
+            {
+                id: 4,
+                title: "Carta de Agradecimiento Expresa",
+                category: "agradecimiento",
+                description: "Mensaje emotivo con diseño minimalista y efectos de confeti al abrir.",
+                badge: "Gratis",
+                isPremium: false,
+                icon: "fa-envelope-open-text"
+            },
+            {
+                id: 5,
+                title: "Galaxia de Aniversario",
+                category: "amor",
+                description: "Diseño avanzado con constelaciones interactivas dedicadas.",
+                badge: "VIP",
+                isPremium: true,
+                icon: "fa-star"
+            },
+            {
+                id: 6,
+                title: "Sorpresa de 15 Años / Fiesta",
+                category: "cumpleanos",
+                description: "Invitación interactiva moderna con cuenta regresiva y confirmación.",
+                badge: "Destacado",
+                isPremium: false,
+                icon: "fa-gift"
+            }
+        ];
 
-    <div class="test-card">
-      <div class="test-top">
-        <div class="test-avatar">DM</div>
-        <div>
-          <div class="test-name">Diego Morales</div>
-          <div class="test-city">Mérida, Yucatán</div>
-        </div>
-      </div>
-      <div class="test-stars">★★★★★</div>
-      <div class="test-text">Regalé una dedicatoria a mi novia en San Valentín y quedó espectacular. 100% recomendado.</div>
-      <div class="test-meta">
-        <span>Hace 4 días</span>
-        <span class="verified">✓ Verificado</span>
-      </div>
-    </div>
+        const grid = document.getElementById('templatesGrid');
+        const categoriesContainer = document.getElementById('categoriesContainer');
+        const hintMsg = document.getElementById('hintMsg');
 
-  </div>
-</section>
+        // Función para renderizar plantillas
+        function renderPlantillas(filter = 'todos') {
+            grid.innerHTML = '';
+            
+            const filtered = filter === 'todos' 
+                ? plantillasData 
+                : plantillasData.filter(item => item.category === filter);
 
-<section class="cta-final reveal">
-  <h2>Haz sonreír a alguien hoy</h2>
-  <p>Toma 1 minuto. Dura toda la vida en su memoria.</p>
-  <div class="btns">
-    <a id="cta-wa" class="btn btn-ghost" href="#" target="_blank" rel="noopener">💬 Preguntar por WhatsApp</a>
-  </div>
-</section>
+            if (filtered.length === 0) {
+                grid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; color: var(--text-muted);">No hay plantillas en esta categoría por el momento.</p>`;
+                return;
+            }
 
-<footer>
-  <div class="flinks">
-    <a href="#plantillas">Plantillas</a>
-    <a href="premium.html">Premium</a>
-    <a id="footer-wa" href="#" target="_blank" rel="noopener">Contacto</a>
-  </div>
-  <div>Hecho con 💫 · © <span id="year"></span> Dedicatorias Mágicas</div>
-  <div style="font-size: 0.75rem; color: #8ba3c0; margin-top: 6px;">Tenemos los derechos de todas las plantillas. Todos los derechos reservados.</div>
-</footer>
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'template-card';
+                
+                // Validar estado premium en localStorage (ejemplo: 'isUserPremium' = 'true')
+                const userIsPremium = localStorage.getItem('isUserPremium') === 'true';
+                let badgeHTML = `<div class="card-badge">${item.badge}</div>`;
+                
+                if (item.isPremium && !userIsPremium) {
+                    badgeHTML = `<div class="card-badge premium"><i class="fa-solid fa-lock"></i> VIP</div>`;
+                }
 
-<a class="wa-float" id="wa-float" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">
-  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-</a>
+                card.innerHTML = `
+                    <div class="card-image">
+                        <i class="fa-solid ${item.icon}"></i>
+                        ${badgeHTML}
+                    </div>
+                    <div class="card-content">
+                        <div>
+                            <h3>${item.title}</h3>
+                            <p>${item.description}</p>
+                        </div>
+                        <button class="btn-personalizar" onclick="seleccionarPlantilla(${item.id})">
+                            PERSONALIZAR
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
 
-<script>
-var WHATSAPP_NUM = "5213121052587";
-var PREMIUM_KEY = "peri_premium_activated";
-
-(function(){
-  "use strict";
-
-  document.getElementById("year").textContent = new Date().getFullYear();
-
-  var isPremium = false;
-  try { isPremium = localStorage.getItem(PREMIUM_KEY) === "1"; } catch(e){}
-
-  if (isPremium){
-    var navPrem = document.getElementById("nav-premium");
-    var navText = document.getElementById("nav-premium-text");
-    if (navPrem) navPrem.classList.add("is-premium");
-    if (navText) navText.textContent = "Premium ✓";
-    var strip = document.getElementById("premiumStrip");
-    if (strip) strip.style.display = "none";
-    var banner = document.getElementById("premiumBanner");
-    if (banner) banner.style.display = "none";
-  }
-
-  var waGreeting = encodeURIComponent("Hola! Vi su página de Dedicatorias Mágicas y quiero saber más 💫");
-  var waURL = "https://wa.me/" + WHATSAPP_NUM + "?text=" + waGreeting;
-  ["cta-wa","footer-wa","wa-float"].forEach(function(id){
-    var el = document.getElementById(id);
-    if (el) el.href = waURL;
-  });
-
-  var premiumBtn = document.getElementById("btn-premium");
-  if (premiumBtn && !isPremium){
-    premiumBtn.href = "premium.html";
-  }
-
-  var nav = document.getElementById("nav");
-  window.addEventListener("scroll", function(){
-    if (window.scrollY > 30) nav.classList.add("scrolled");
-    else nav.classList.remove("scrolled");
-  }, { passive: true });
-
-  var script = document.createElement("script");
-  script.src = "plantillas.js";
-  script.onload = initLanding;
-  script.onerror = function(){
-    document.getElementById("loading").innerHTML = '<p style="color:#ef4444">No se pudo cargar plantillas.js</p>';
-  };
-  document.head.appendChild(script);
-
-  function initLanding(){
-    if (typeof PLANTILLAS === "undefined"){
-      document.getElementById("loading").innerHTML = '<p style="color:#ef4444">plantillas.js vacío</p>';
-      return;
-    }
-    document.getElementById("loading").style.display = "none";
-    renderChips();
-    renderSections();
-    initReveal();
-  }
-
-  function renderChips(){
-    var cont = document.getElementById("catChips");
-    var cats = PLANTILLAS.getCategorias();
-    var chipAll = document.createElement("button");
-    chipAll.className = "chip active";
-    chipAll.dataset.id = "all";
-    chipAll.innerHTML = '<span class="emo">✨</span> Todas';
-    chipAll.onclick = function(){ filterByCat("all"); };
-    cont.appendChild(chipAll);
-    cats.forEach(function(cat){
-      var chip = document.createElement("button");
-      chip.className = "chip";
-      chip.dataset.id = cat.id;
-      chip.innerHTML = '<span class="emo">' + cat.emoji + '</span> ' + cat.name;
-      chip.onclick = function(){ filterByCat(cat.id); };
-      cont.appendChild(chip);
-    });
-  }
-
-  function filterByCat(catId){
-    document.querySelectorAll(".chip").forEach(function(c){
-      c.classList.toggle("active", c.dataset.id === catId);
-    });
-    document.querySelectorAll(".categoria-section").forEach(function(sec){
-      if (catId === "all" || sec.dataset.cat === catId) sec.style.display = "";
-      else sec.style.display = "none";
-    });
-    if (catId === "all"){
-      window.scrollTo({ top: document.getElementById("catBar").offsetTop - 10, behavior: "smooth" });
-    } else {
-      var target = document.querySelector('.categoria-section[data-cat="' + catId + '"]');
-      if (target) setTimeout(function(){ window.scrollTo({ top: target.offsetTop - 130, behavior: "smooth" }); }, 50);
-    }
-  }
-
-  function renderSections(){
-    var main = document.getElementById("sectionsMain");
-    var cats = PLANTILLAS.getCategorias();
-    cats.forEach(function(cat){
-      var list = PLANTILLAS.getPlantillas(cat.id);
-      if (!list.length) return;
-      var sec = document.createElement("section");
-      sec.className = "categoria-section reveal";
-      sec.dataset.cat = cat.id;
-      sec.id = "cat-" + cat.id;
-      sec.style.setProperty("--c", cat.color);
-      var header = document.createElement("div");
-      header.className = "cat-header";
-      header.innerHTML = '<div class="ico">' + cat.emoji + '</div><h2>' + cat.name + '</h2><div class="count-badge">' + list.length + ' plantilla' + (list.length !== 1 ? 's' : '') + '</div>';
-      sec.appendChild(header);
-      if (cat.tagline){
-        var tag = document.createElement("p");
-        tag.className = "cat-tagline";
-        tag.textContent = cat.tagline;
-        sec.appendChild(tag);
-      }
-      var grid = document.createElement("div");
-      grid.className = "tpl-grid";
-      list.forEach(function(tpl){ grid.appendChild(buildCard(tpl, cat)); });
-      sec.appendChild(grid);
-      main.appendChild(sec);
-    });
-  }
-
-  function buildCard(tpl, cat){
-    var card = document.createElement("div");
-    card.className = "tpl-card";
-    var baseColor = tpl.color || cat.color || "#ff2e88";
-    card.style.setProperty("--c", baseColor);
-    card.style.setProperty("--c-soft", hexToRGBA(baseColor, 0.25));
-    card.style.setProperty("--c-glow", hexToRGBA(baseColor, 0.35));
-
-    var isLocked = tpl.premium && !isPremium;
-
-    var preview = document.createElement("div");
-    preview.className = "tpl-preview" + (isLocked ? " blurred" : "");
-
-    if (tpl.imageURL && tpl.imageURL.trim()){
-      var img = document.createElement("img");
-      img.className = "tpl-cover";
-      img.src = tpl.imageURL;
-      img.alt = tpl.name;
-      img.loading = "lazy";
-      preview.appendChild(img);
-    } else {
-      var emo = document.createElement("div");
-      emo.className = "tpl-emoji";
-      emo.textContent = tpl.emoji || "✨";
-      preview.appendChild(emo);
-    }
-
-    var badge = document.createElement("div");
-    badge.className = "tpl-badge " + (tpl.premium ? "premium" : "free");
-    badge.textContent = tpl.premium ? "Premium" : "Gratis";
-    preview.appendChild(badge);
-
-    if (isLocked){
-      card.classList.add("locked-premium");
-      var lock = document.createElement("div");
-      lock.className = "lock-overlay";
-      lock.innerHTML = '<div class="lock-icon">🔒</div><div class="lock-text">Premium</div><div class="lock-price">$79</div>';
-      lock.onclick = function(e){
-        e.preventDefault();
-        window.location.href = "premium.html";
-      };
-      preview.appendChild(lock);
-    }
-
-    card.appendChild(preview);
-
-    var content = document.createElement("div");
-    content.className = "tpl-content";
-    var h3 = document.createElement("h3");
-    h3.className = "tpl-name";
-    h3.textContent = tpl.name;
-    content.appendChild(h3);
-    var p = document.createElement("p");
-    p.className = "tpl-desc";
-    p.textContent = tpl.description || "";
-    content.appendChild(p);
-
-    var btn = document.createElement("a");
-    var hasLink = tpl.editorURL && tpl.editorURL.trim();
-
-    if (isLocked){
-      btn.className = "tpl-btn premium-btn";
-      btn.href = "premium.html";
-      btn.innerHTML = "🔒 Desbloquear por $79";
-    } else if (hasLink){
-      btn.className = "tpl-btn" + (tpl.premium ? " premium-btn" : "");
-      btn.href = tpl.editorURL;
-      btn.innerHTML = tpl.premium ? "⭐ Usar Premium" : "✨ Personalizar";
-    } else {
-      btn.className = "tpl-btn no-link";
-      btn.href = "#";
-      btn.onclick = function(e){ e.preventDefault(); alert("Esta plantilla aún no tiene editor configurado."); };
-      btn.textContent = "Próximamente";
-    }
-    content.appendChild(btn);
-
-    // Texto de aviso que aparece al hacer click en el recuadro
-    var hintMsg = document.createElement("div");
-    hintMsg.className = "card-hint-msg";
-    hintMsg.style.cssText = "font-size:0.75rem; color:#ffb6d9; margin-top:8px; display:none; text-align:center; font-weight:600;";
-    hintMsg.textContent = "Por favor, haga click sobre el botón PERZONALIZAR";
-    content.appendChild(hintMsg);
-
-    // Evento al hacer click en la plantilla (recuadro)
-    card.onclick = function(e){
-      if(e.target.tagName === 'A' || e.target.closest('a')) return;
-      hintMsg.style.display = hintMsg.style.display === "block" ? "none" : "block";
-    };
-
-    card.appendChild(content);
-    return card;
-  }
-
-  function initReveal(){
-    var els = document.querySelectorAll(".reveal");
-    if ("IntersectionObserver" in window){
-      var io = new IntersectionObserver(function(entries){
-        entries.forEach(function(entry){
-          if (entry.isIntersecting){ entry.target.classList.add("visible"); io.unobserve(entry.target); }
+        // Manejo de eventos de categorías
+        categoriesContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('cat-btn')) {
+                document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                const category = e.target.getAttribute('data-category');
+                renderPlantillas(category);
+            }
         });
-      }, { threshold: 0.05 });
-      els.forEach(function(el){ io.observe(el); });
-    } else {
-      els.forEach(function(el){ el.classList.add("visible"); });
-    }
-  }
 
-  function hexToRGBA(hex, alpha){
-    if (!hex) return "rgba(255,255,255," + alpha + ")";
-    hex = hex.replace("#", "");
-    if (hex.length === 3) hex = hex.split("").map(function(c){ return c + c; }).join("");
-    var r = parseInt(hex.substr(0, 2), 16);
-    var g = parseInt(hex.substr(2, 2), 16);
-    var b = parseInt(hex.substr(4, 2), 16);
-    return "rgba(" + r + "," + g + "," + b + "," + alpha + ")";
-  }
-})();
-</script>
+        // Acción al hacer clic en personalizar
+        function seleccionarPlantilla(id) {
+            const plantilla = plantillasData.find(p => p.id === id);
+            const userIsPremium = localStorage.getItem('isUserPremium') === 'true';
 
+            if (plantilla.isPremium && !userIsPremium) {
+                alert("Esta plantilla es exclusiva para usuarios VIP. ¡Contáctanos vía WhatsApp para desbloquearla!");
+                return;
+            }
+
+            // Aquí puedes redirigir a tu editor o pasar el ID por URL
+            // Ejemplo: window.location.href = `editor.html?id=${id}`;
+            alert(`¡Has seleccionado la plantilla: ${plantilla.title}! Redirigiendo al editor...`);
+        }
+
+        // Inicializar renderizado
+        renderPlantillas();
+    </script>
 </body>
 </html>
