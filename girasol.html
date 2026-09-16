@@ -59,8 +59,9 @@ html,body{width:100%;min-height:100dvh;background:radial-gradient(ellipse at top
 .btn-primary{background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;box-shadow:0 10px 30px rgba(34,197,94,.4)}
 .btn-ghost{background:linear-gradient(135deg,#ffd166,#ffa000);color:#1a0e00;box-shadow:0 10px 30px rgba(255,180,40,.4)}
 .info{font-size:.72rem;color:#ffd166;text-align:center;margin-top:12px;line-height:1.5;background:rgba(255,209,102,.08);padding:10px;border-radius:10px}
-#status{position:fixed;bottom:calc(90px + env(safe-area-inset-bottom,0));left:50%;transform:translateX(-50%) translateY(120%);background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;padding:13px 24px;border-radius:12px;font-size:.9rem;font-weight:600;z-index:10000;transition:transform .35s;pointer-events:none;max-width:90vw;text-align:center;box-shadow:0 12px 34px rgba(0,0,0,.5)}
-#status.show{transform:translateX(-50%) translateY(0)}
+#status{position:fixed;bottom:calc(90px + env(safe-area-inset-bottom,0));left:50%;transform:translateX(-50%) translateY(200%);opacity:0;visibility:hidden;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;padding:13px 24px;border-radius:12px;font-size:.9rem;font-weight:600;z-index:9996;transition:transform .35s,opacity .35s,visibility .35s;pointer-events:none;max-width:90vw;text-align:center;box-shadow:0 12px 34px rgba(0,0,0,.5)}
+#status.show{transform:translateX(-50%) translateY(0);opacity:1;visibility:visible}
+#status:empty{display:none}
 #status.err{background:linear-gradient(135deg,#ef4444,#dc2626)}
 #loading{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:9998;flex-direction:column;gap:14px;color:#ffd8a8}
 #loading.show{display:flex}
@@ -113,8 +114,7 @@ html,body{width:100%;min-height:100dvh;background:radial-gradient(ellipse at top
 #premium-active-banner.show{display:block}
 @keyframes pop{from{transform:scale(.85) translateY(40px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
 
-/* ===== MODAL DE VISTA PREVIA ===== */
-#preview-modal{position:fixed;inset:0;z-index:9997;background:rgba(0,0,0,.98);display:none;flex-direction:column}
+#preview-modal{position:fixed;inset:0;z-index:99999;background:#000;display:none;flex-direction:column}
 #preview-modal.show{display:flex}
 #preview-modal .preview-bar{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:rgba(30,20,5,.98);border-bottom:1px solid rgba(255,209,102,.3);flex-shrink:0}
 #preview-modal .preview-bar span{color:#ffd166;font-weight:700;font-size:14px}
@@ -266,7 +266,6 @@ Mi todo"></textarea>
   </div>
 </div>
 
-<!-- MODAL PREMIUM -->
 <div id="premium-modal">
   <div id="premium-box">
     <button class="close-x" id="premium-close" type="button">×</button>
@@ -281,7 +280,6 @@ Mi todo"></textarea>
   </div>
 </div>
 
-<!-- MODAL VISTA PREVIA -->
 <div id="preview-modal">
   <div class="preview-bar">
     <span>👁️ Vista previa de tu galaxia</span>
@@ -294,7 +292,6 @@ Mi todo"></textarea>
 <div id="loading"><div class="spinner"></div><div id="loading-text">Creando tu galaxia...</div></div>
 
 <script>
-/* ========== ESTADO GLOBAL ========== */
 var PREMIUM_URL = "https://c4rlo53305-lgtm.github.io/Peri/premium.html";
 var isPremium = (localStorage.getItem("peri_premium_activated") === "1");
 var MAX_PHOTOS = isPremium ? 9999 : 6;
@@ -360,7 +357,6 @@ function slugify(s){
     .replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,40) || "galaxia";
 }
 
-/* ========== PREMIUM ========== */
 var PREMIUM_MESSAGES = {
   music: "<b>Música personalizada:</b> sube tu propia canción desde tu celular y que suene mientras tu pareja explora la galaxia de girasoles.",
   photos: "<b>Fotos ilimitadas:</b> sin límite de 6 fotos. Sube todos los recuerdos que quieras.",
@@ -376,12 +372,10 @@ function showPremium(feature){
   txt.innerHTML = PREMIUM_MESSAGES[feature] || "Desbloquea funciones exclusivas.";
   modal.classList.add("show");
 }
-
 function closePremium(){
   var modal = $("premium-modal");
   if (modal) modal.classList.remove("show");
 }
-
 function initPremium(){
   $("premium-close").addEventListener("click", closePremium);
   $("premium-later").addEventListener("click", closePremium);
@@ -392,7 +386,6 @@ function initPremium(){
     window.open(PREMIUM_URL, "_blank");
   });
 }
-
 function applyPremiumState(){
   if (!isPremium) return;
   var banner = $("premium-active-banner");
@@ -414,7 +407,6 @@ function applyPremiumState(){
   MAX_PHOTOS = 9999;
 }
 
-/* ========== FOTOS ========== */
 function renderPhotoList(){
   var list = $("photo-list"); list.innerHTML = "";
   state.photos.forEach(function(p, i){
@@ -511,7 +503,6 @@ function readInputs(){
   state.customPhrases = $("i-phrases").value.trim();
 }
 
-/* ========== GENERAR LA GALAXIA ========== */
 async function buildGalaxyHTML(){
   var name = state.name;
   var fromName = state.fromName;
@@ -554,14 +545,13 @@ input[type=range]{width:100%;accent-color:#ffd166}
 .controls{position:fixed;top:max(12px,env(safe-area-inset-top));left:12px;display:flex;flex-direction:column;gap:6px;z-index:30}
 .controls button{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,209,102,.3);background:rgba(0,0,0,.45);color:#fff;font-size:16px;cursor:pointer;backdrop-filter:blur(8px)}
 #fx{position:fixed;inset:0;pointer-events:none;z-index:10}
-/* ===== MARCA DE AGUA: AHORA ARRIBA-DERECHA SIN TAPAR EL PILL ===== */
 .attribution{
   position:fixed;
   right:10px;
   bottom:calc(100px + env(safe-area-inset-bottom,0));
   font-size:12px;
   color:#fff;
-  z-index:9999;
+  z-index:500;
   text-decoration:none;
   font-weight:800;
   background:linear-gradient(135deg,rgba(255,209,102,.95),rgba(255,140,26,.95));
@@ -578,19 +568,152 @@ input[type=range]{width:100%;accent-color:#ffd166}
 }
 .error{position:fixed;inset:auto 12px 130px 12px;background:#261a00;color:#fff0c2;border:1px solid #ffd166;border-radius:10px;padding:10px;font-size:12px;display:none;z-index:50}
 #modal{position:fixed;inset:0;padding:max(14px,env(safe-area-inset-top)) 14px max(14px,env(safe-area-inset-bottom));background:rgba(0,0,0,.82);backdrop-filter:blur(12px);display:none;justify-content:center;align-items:center;z-index:900}
-#modal.show{display:flex;animation:fadeIn .35s}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+#modal.show{display:flex;animation:fadeIn2 .35s}
+@keyframes fadeIn2{from{opacity:0}to{opacity:1}}
 #modal-box{background:linear-gradient(135deg,rgba(30,20,5,.96),rgba(15,10,3,.96));border:1px solid rgba(255,209,102,.45);border-radius:22px;padding:clamp(20px,5vw,32px);width:100%;max-width:min(94vw,480px);max-height:90vh;overflow-y:auto;text-align:center;position:relative;box-shadow:0 0 60px rgba(255,180,40,.35)}
 #modal-img{width:100%;aspect-ratio:1;max-height:50vh;border-radius:16px;overflow:hidden;margin-bottom:14px;object-fit:cover;display:block}
 #modal-desc{font-family:'Caveat',cursive;font-size:clamp(1.1rem,4vw,1.4rem);color:#ffd8a8;line-height:1.35;margin-bottom:12px;white-space:pre-wrap}
 #modal-msg{font-family:'Caveat',cursive;font-size:clamp(1.2rem,4.5vw,1.8rem);color:#fff0c2;line-height:1.35;white-space:pre-wrap}
 #modal-close{position:absolute;top:10px;right:10px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.5);border:1px solid rgba(255,209,102,.4);color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+
+/* ===== PANTALLA DE BIENVENIDA ===== */
+#welcome{position:fixed;inset:0;z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;background:radial-gradient(ellipse at center 40%,#2a1800 0%,#100800 40%,#000 100%);transition:opacity 1.2s ease,visibility 1.2s;overflow:hidden}
+#welcome.hide{opacity:0;visibility:hidden;pointer-events:none}
+#welcome .w-vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 30%,rgba(0,0,0,.85) 100%)}
+#welcome .w-glow{position:absolute;left:50%;top:45%;width:min(90vw,700px);height:min(90vw,700px);transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(255,209,102,.4) 0%,rgba(255,140,26,.15) 30%,transparent 70%);pointer-events:none;animation:wPulse 4s ease-in-out infinite}
+@keyframes wPulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.85}50%{transform:translate(-50%,-50%) scale(1.15);opacity:1}}
+
+#welcome .w-sunflower{
+  position:relative;
+  width:min(70vw,320px);
+  height:min(70vw,320px);
+  margin-bottom:20px;
+  z-index:2;
+  animation:wSpin 60s linear infinite,wFloat 5s ease-in-out infinite;
+  filter:drop-shadow(0 0 40px rgba(255,200,80,.85)) drop-shadow(0 0 90px rgba(255,150,30,.55));
+}
+@keyframes wSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes wFloat{0%,100%{margin-top:0}50%{margin-top:-14px}}
+.w-petal{
+  position:absolute;
+  left:50%;
+  bottom:50%;
+  width:11%;
+  height:44%;
+  margin-left:-5.5%;
+  transform-origin:50% 100%;
+  background:linear-gradient(180deg,#fff5cc 0%,#ffe066 30%,#ffb84d 65%,#ff8c1a 100%);
+  border-radius:50% 50% 42% 42% / 55% 55% 45% 45%;
+  box-shadow:inset 0 0 12px rgba(255,255,200,.75),0 0 8px rgba(255,180,40,.5);
+}
+.w-petal.back{
+  width:12%;
+  height:40%;
+  margin-left:-6%;
+  background:linear-gradient(180deg,#e0b030 0%,#c89018 50%,#a06808 100%);
+  filter:brightness(.8);
+  box-shadow:inset 0 0 8px rgba(120,80,10,.5);
+}
+.w-center{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:36%;
+  height:36%;
+  margin-left:-18%;
+  margin-top:-18%;
+  border-radius:50%;
+  background:radial-gradient(circle at 40% 35%,#a06830 0%,#5a3a10 35%,#2a1808 75%,#150b03 100%);
+  box-shadow:inset 0 0 26px rgba(0,0,0,.9),0 0 30px rgba(255,200,80,.55);
+  z-index:3;
+}
+.w-center::before{content:'';position:absolute;inset:6%;border-radius:50%;background-image:radial-gradient(circle,rgba(20,12,3,.85) 1.6px,transparent 2.4px);background-size:10px 10px;opacity:.9}
+.w-center::after{content:'';position:absolute;left:22%;top:18%;width:22%;height:16%;border-radius:50%;background:radial-gradient(circle,rgba(255,240,200,.55),transparent 70%);filter:blur(2px)}
+
+/* ✨ DESTELLOS DEL GIRASOL DE BIENVENIDA ✨ */
+.w-shine{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:10px;
+  height:10px;
+  margin-left:-5px;
+  margin-top:-5px;
+  pointer-events:none;
+  z-index:4;
+  border-radius:50%;
+  background:radial-gradient(circle,#fff 0%,#ffe066 35%,rgba(255,180,40,0) 75%);
+  box-shadow:0 0 12px #ffe066,0 0 24px #ffb84d,0 0 42px rgba(255,200,80,.65);
+  animation:wShine ease-in-out infinite;
+}
+.w-shine::before,.w-shine::after{
+  content:'';
+  position:absolute;
+  left:50%;
+  top:50%;
+  background:linear-gradient(90deg,transparent 0%,#fff5cc 50%,transparent 100%);
+  transform:translate(-50%,-50%);
+  border-radius:2px;
+}
+.w-shine::before{width:34px;height:2px;box-shadow:0 0 8px #ffe066}
+.w-shine::after{width:2px;height:34px;box-shadow:0 0 8px #ffe066}
+@keyframes wShine{
+  0%,100%{opacity:0;transform:scale(.3) rotate(0deg)}
+  50%{opacity:1;transform:scale(1.15) rotate(180deg)}
+}
+/* Destellos que giran alrededor del girasol */
+.w-orbit-shine{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:0;
+  height:0;
+  z-index:4;
+  pointer-events:none;
+  animation:wOrbit linear infinite;
+}
+.w-orbit-shine .dot{
+  position:absolute;
+  left:-4px;
+  top:-14vw;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:radial-gradient(circle,#fff 0%,#ffe066 40%,rgba(255,180,40,0) 80%);
+  box-shadow:0 0 10px #ffe066,0 0 22px rgba(255,180,40,.7);
+  animation:wDotPulse 1.4s ease-in-out infinite;
+}
+@keyframes wOrbit{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes wDotPulse{0%,100%{opacity:.4;transform:scale(.7)}50%{opacity:1;transform:scale(1.3)}}
+
+#welcome .w-name{font-family:'Dancing Script',cursive;font-size:clamp(2.2rem,9vw,3.6rem);font-weight:700;background:linear-gradient(90deg,#fff5cc,#ffe066,#ffb84d,#ffe066);background-size:300% 300%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 22px rgba(255,200,80,.75));margin-bottom:6px;animation:wFlow 4s ease-in-out infinite;z-index:2;position:relative;line-height:1.1}
+@keyframes wFlow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+#welcome .w-sub{font-family:'Caveat',cursive;font-size:clamp(1.05rem,4vw,1.4rem);color:#ffe8b3;opacity:.92;max-width:340px;margin-bottom:30px;z-index:2;position:relative;text-shadow:0 0 14px rgba(255,180,40,.55)}
+#welcome .w-btn{position:relative;padding:16px 52px;border-radius:999px;border:2px solid #fff5cc;background:linear-gradient(135deg,#ffe066 0%,#ffb84d 50%,#ff8c1a 100%);color:#3a1a00;font-size:1.25rem;letter-spacing:1.5px;font-weight:700;cursor:pointer;animation:wBtnGlow 1.6s ease-in-out infinite;text-shadow:0 1px 2px rgba(255,255,255,.5);z-index:2;touch-action:manipulation;font-family:'Permanent Marker',cursive}
+#welcome .w-btn:active{transform:scale(.96)}
+@keyframes wBtnGlow{0%,100%{box-shadow:0 0 0 0 rgba(255,209,102,.85),0 0 30px rgba(255,180,40,.75),0 0 60px rgba(255,180,40,.55);transform:scale(1)}50%{box-shadow:0 0 0 22px rgba(255,209,102,0),0 0 55px rgba(255,180,40,1),0 0 100px rgba(255,180,40,.75);transform:scale(1.08)}}
+.w-fall-petal{position:absolute;top:-60px;width:22px;height:14px;border-radius:50% 0 50% 50%;background:linear-gradient(135deg,#ffe066,#ffb84d 60%,#ff8c1a);box-shadow:0 0 10px rgba(255,200,80,.75);will-change:transform;animation:wFall linear infinite;pointer-events:none}
+@keyframes wFall{0%{transform:translateY(-60px) translateX(0) rotate(0deg);opacity:0}10%{opacity:1}88%{opacity:1}100%{transform:translateY(110vh) translateX(var(--drift,40px)) rotate(720deg);opacity:0}}
+.w-sparkle{position:absolute;width:5px;height:5px;border-radius:50%;background:#fff;box-shadow:0 0 10px #ffe066,0 0 22px #ffd166,0 0 34px rgba(255,200,80,.65);pointer-events:none;animation:wTwinkle ease-in-out infinite}
+@keyframes wTwinkle{0%,100%{opacity:0;transform:scale(.4)}50%{opacity:1;transform:scale(1.4)}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"><\/script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"><\/script>
 </head>
 <body>
 <canvas id="galaxy-canvas"></canvas>
+
+<div id="welcome">
+  <div class="w-glow"></div>
+  <div id="w-fall"></div>
+  <div id="w-sparkle"></div>
+  <div class="w-sunflower" id="w-sunflower"></div>
+  <div class="w-name">${escapeHtml(name)}</div>
+  <div class="w-sub">${escapeHtml(subtitle)}</div>
+  <button class="w-btn" id="wStartBtn" type="button">Comenzar ✨</button>
+  <div class="w-vignette"></div>
+</div>
+
 <div class="pill" id="mainPill">${escapeHtml(subtitle)}</div>
 <div class="days" id="daysTogether"></div>
 <div class="controls">
@@ -651,11 +774,7 @@ input[type=range]{width:100%;accent-color:#ffd166}
   audio.loop = true;
 
   const DEFAULT_MUSIC = "https://raw.githubusercontent.com/c4rlo53305-lgtm/Peri/main/paulyudin-love-485933.mp3";
-  if (CONFIG.customMusic) {
-    audio.src = CONFIG.customMusic;
-  } else {
-    audio.src = DEFAULT_MUSIC;
-  }
+  audio.src = CONFIG.customMusic || DEFAULT_MUSIC;
 
   playBtn.onclick = async () => {
     try {
@@ -700,6 +819,117 @@ input[type=range]{width:100%;accent-color:#ffd166}
     } catch(e){}
   }
 
+  /* ===== PANTALLA DE BIENVENIDA ===== */
+  (function buildWelcome(){
+    const sf = document.getElementById('w-sunflower');
+    if (sf){
+      // Pétalos traseros
+      for (let i = 0; i < 20; i++){
+        const p = document.createElement('div');
+        p.className = 'w-petal back';
+        p.style.transform = 'rotate(' + (i * (360/20) + 9) + 'deg)';
+        sf.appendChild(p);
+      }
+      // Pétalos delanteros
+      for (let i = 0; i < 24; i++){
+        const p = document.createElement('div');
+        p.className = 'w-petal';
+        p.style.transform = 'rotate(' + (i * (360/24)) + 'deg)';
+        sf.appendChild(p);
+      }
+      // Centro
+      const c = document.createElement('div');
+      c.className = 'w-center';
+      sf.appendChild(c);
+
+      // ✨ DESTELLOS sobre los pétalos (fijos, titilando)
+      const shinePositions = [
+        {x:15, y:20, d:0.2}, {x:82, y:15, d:0.6}, {x:88, y:50, d:1.0},
+        {x:80, y:84, d:0.4}, {x:18, y:82, d:0.8}, {x:8,  y:50, d:1.4},
+        {x:50, y:6,  d:0.9}, {x:50, y:94, d:0.1}, {x:28, y:12, d:1.2},
+        {x:72, y:88, d:0.7}
+      ];
+      shinePositions.forEach(function(pos){
+        const s = document.createElement('div');
+        s.className = 'w-shine';
+        s.style.left = pos.x + '%';
+        s.style.top = pos.y + '%';
+        s.style.animationDuration = (1.2 + Math.random() * 1.2) + 's';
+        s.style.animationDelay = pos.d + 's';
+        const sc = 0.6 + Math.random() * 0.7;
+        s.style.width = (8 * sc) + 'px';
+        s.style.height = (8 * sc) + 'px';
+        s.style.marginLeft = (-4 * sc) + 'px';
+        s.style.marginTop = (-4 * sc) + 'px';
+        sf.appendChild(s);
+      });
+
+      // ✨ Destellos orbitando alrededor del girasol
+      for (let i = 0; i < 6; i++){
+        const o = document.createElement('div');
+        o.className = 'w-orbit-shine';
+        o.style.animationDuration = (5 + Math.random() * 4) + 's';
+        o.style.animationDelay = (Math.random() * -6) + 's';
+        o.style.transform = 'rotate(' + (i * 60) + 'deg)';
+        o.innerHTML = '<span class="dot"></span>';
+        const dot = o.querySelector('.dot');
+        dot.style.animationDelay = (Math.random() * 1.4) + 's';
+        sf.appendChild(o);
+      }
+    }
+    const fallC = document.getElementById('w-fall');
+    if (fallC){
+      for (let i = 0; i < 34; i++){
+        const fp = document.createElement('div');
+        fp.className = 'w-fall-petal';
+        fp.style.left = (Math.random() * 100) + '%';
+        fp.style.animationDuration = (5 + Math.random() * 5) + 's';
+        fp.style.animationDelay = (Math.random() * 6) + 's';
+        fp.style.setProperty('--drift', ((Math.random() - 0.5) * 160) + 'px');
+        const sc = 0.55 + Math.random() * 0.9;
+        fp.style.transform = 'scale(' + sc + ')';
+        fp.style.opacity = (0.55 + Math.random() * 0.45).toString();
+        fallC.appendChild(fp);
+      }
+    }
+    const spC = document.getElementById('w-sparkle');
+    if (spC){
+      for (let i = 0; i < 70; i++){
+        const s = document.createElement('div');
+        s.className = 'w-sparkle';
+        s.style.left = (Math.random() * 100) + '%';
+        s.style.top = (Math.random() * 100) + '%';
+        s.style.animationDuration = (1.6 + Math.random() * 2.2) + 's';
+        s.style.animationDelay = (Math.random() * 3) + 's';
+        const sz = 0.5 + Math.random() * 1.6;
+        s.style.width = (4 * sz) + 'px';
+        s.style.height = (4 * sz) + 'px';
+        spC.appendChild(s);
+      }
+    }
+    const btn = document.getElementById('wStartBtn');
+    const welcome = document.getElementById('welcome');
+    let started = false;
+    function startApp(){
+      if (started) return;
+      started = true;
+      if (welcome){
+        welcome.classList.add('hide');
+        setTimeout(function(){ if (welcome.parentNode) welcome.style.display = 'none'; }, 1400);
+      }
+      if (typeof window.__startZoom === 'function') window.__startZoom();
+      try {
+        if (audio && audio.play){
+          audio.play().then(function(){ if (playBtn) playBtn.textContent = '⏸︎'; }).catch(function(){});
+        }
+      } catch(e){}
+    }
+    if (btn) btn.addEventListener('click', startApp, { once: true });
+    if (welcome) welcome.addEventListener('click', function(e){
+      if (e.target === welcome) startApp();
+    }, { once: true });
+  })();
+
   try {
     const canvas = document.getElementById('galaxy-canvas');
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
@@ -715,20 +945,40 @@ input[type=range]{width:100%;accent-color:#ffd166}
     controls.minDistance = 12;
     controls.maxDistance = 250;
     controls.target.set(0,0,0);
+    controls.enabled = false;
 
-    function setCam(){
+    /* ZOOM CINEMATOGRÁFICO */
+    let zoomT = 0;
+    let zoomActive = false;
+    let endCamY = 24, endCamZ = 80;
+
+    function calcCamTargets(){
       const isMobile = window.innerWidth < 768 || window.innerWidth < window.innerHeight;
       camera.fov = isMobile ? 90 : 75;
-      camera.position.set(0, isMobile ? 28 : 24, isMobile ? 115 : 80);
+      endCamY = isMobile ? 28 : 24;
+      endCamZ = isMobile ? 115 : 80;
       camera.updateProjectionMatrix();
-      controls.update();
     }
-    setCam();
+    function applyCam(){
+      const startY = endCamY * 0.35;
+      const startZ = endCamZ * 4.5;
+      const e = zoomT < 0.5 ? 2*zoomT*zoomT : 1 - Math.pow(-2*zoomT + 2, 2) / 2;
+      camera.position.x = 0;
+      camera.position.y = startY + (endCamY - startY) * e;
+      camera.position.z = startZ + (endCamZ - startZ) * e;
+      camera.lookAt(0, 0, 0);
+    }
+    window.__startZoom = function(){
+      zoomActive = true;
+      controls.enabled = false;
+    };
+    calcCamTargets();
+    applyCam();
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
+      calcCamTargets();
       renderer.setSize(window.innerWidth, window.innerHeight);
-      setCam();
+      applyCam();
     });
 
     function makePrettyStarTexture(size=1024, count=2600){
@@ -758,7 +1008,6 @@ input[type=range]{width:100%;accent-color:#ffd166}
 
     const pal = (CONFIG.palettes && CONFIG.palettes[CONFIG.palette]) ? CONFIG.palettes[CONFIG.palette] : {colors:["#fffbe0","#ffe066","#ffb84d","#ff8c1a","#b85c00"]};
     const palColors = pal.colors || ["#fffbe0","#ffe066","#ffb84d","#ff8c1a","#b85c00"];
-    const accentColor = new THREE.Color(palColors[1] || "#ffe066");
     const lightColor = new THREE.Color(palColors[0] || "#fffbe0");
 
     const phrases = CONFIG.phrases;
@@ -771,8 +1020,7 @@ input[type=range]{width:100%;accent-color:#ffd166}
       g.clearRect(0,0,c.width,c.height);
       g.font = '800 '+size+'px -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial';
       g.textAlign='center'; g.textBaseline='middle';
-      const glowHex = palColors[1] || '#ffe066';
-      g.shadowColor = glowHex;
+      g.shadowColor = palColors[1] || '#ffe066';
       g.shadowBlur = 26;
       g.fillStyle = 'rgba(255,250,255,0.98)';
       g.fillText(text, c.width/2, c.height/2);
@@ -805,10 +1053,6 @@ input[type=range]{width:100%;accent-color:#ffd166}
       phraseSprites.push(spr);
     }
 
-    /* =====================================================
-       🌸 FLORES EN VEZ DE PUNTOS (girasoles, rosas, amarillas)
-       ===================================================== */
-    // Texturas de flores
     function makeFlowerTexture(type) {
       const c = document.createElement('canvas');
       c.width = c.height = 64;
@@ -823,8 +1067,6 @@ input[type=range]{width:100%;accent-color:#ffd166}
         white:     { petal: '#ffffff', petalDark: '#e0e0e0', center: '#ffd166', centerLight: '#fff5cc' }
       };
       const col = colors[type] || colors.sunflower;
-
-      // Pétalos
       const petalCount = type === 'rose' ? 6 : 8;
       for (let i = 0; i < petalCount; i++) {
         const angle = (i / petalCount) * Math.PI * 2;
@@ -838,7 +1080,6 @@ input[type=range]{width:100%;accent-color:#ffd166}
         g.ellipse(px, py, 10, 6, angle, 0, Math.PI * 2);
         g.fill();
       }
-      // Centro
       const centerGrd = g.createRadialGradient(cx, cy, 1, cx, cy, 8);
       centerGrd.addColorStop(0, col.centerLight);
       centerGrd.addColorStop(1, col.center);
@@ -846,16 +1087,13 @@ input[type=range]{width:100%;accent-color:#ffd166}
       g.beginPath();
       g.arc(cx, cy, 7, 0, Math.PI * 2);
       g.fill();
-      // Brillo
       g.fillStyle = 'rgba(255,255,255,0.5)';
       g.beginPath();
       g.arc(cx - 2, cy - 2, 2.5, 0, Math.PI * 2);
       g.fill();
-
       return new THREE.CanvasTexture(c);
     }
 
-    // Crear los diferentes tipos de flores
     const flowerTextures = {
       sunflower: makeFlowerTexture('sunflower'),
       rose:      makeFlowerTexture('rose'),
@@ -866,7 +1104,6 @@ input[type=range]{width:100%;accent-color:#ffd166}
     };
     const flowerTypes = ['sunflower','rose','yellow','orange','pink','white'];
 
-    // Distribuir flores en espiral galáctica (en vez de puntos)
     const flowerCount = isPremium ? 1800 : 1100;
     const flowerSprites = [];
     for (let i = 0; i < flowerCount; i++) {
@@ -879,26 +1116,21 @@ input[type=range]{width:100%;accent-color:#ffd166}
         opacity: 0.75 + Math.random() * 0.25
       });
       const spr = new THREE.Sprite(mat);
-
       const ang = Math.random() * Math.PI * 2;
       const dist = Math.random() * 98;
       const y = (Math.random() - 0.5) * 42 * Math.pow(1 - Math.min(dist, 90) / 90, 1.5);
       spr.position.set(Math.cos(ang) * dist, y, Math.sin(ang) * dist);
-
       const size = 1.2 + Math.random() * 1.4;
       spr.scale.set(size, size, 1);
-
       spr.userData = {
         baseY: y,
         phase: Math.random() * Math.PI * 2,
         speed: 0.3 + Math.random() * 0.6
       };
-
       galaxy.add(spr);
       flowerSprites.push(spr);
     }
 
-    /* 🌻 GIRASOL CENTRAL */
     const sunflowerGroup = new THREE.Group();
     scene.add(sunflowerGroup);
 
@@ -1026,22 +1258,123 @@ input[type=range]{width:100%;accent-color:#ffd166}
 
     const haloCanvas = document.createElement('canvas');
     haloCanvas.width = haloCanvas.height = 512;
-    const hg = haloCanvas.getContext('2d');
-    const haloGrd = hg.createRadialGradient(256, 256, 30, 256, 256, 256);
+    const hg2 = haloCanvas.getContext('2d');
+    const haloGrd = hg2.createRadialGradient(256, 256, 30, 256, 256, 256);
     haloGrd.addColorStop(0, 'rgba(255, 240, 180, 0.85)');
     haloGrd.addColorStop(0.3, 'rgba(255, 209, 102, 0.55)');
     haloGrd.addColorStop(0.6, 'rgba(255, 140, 26, 0.25)');
     haloGrd.addColorStop(1, 'rgba(255, 140, 26, 0)');
-    hg.fillStyle = haloGrd;
-    hg.fillRect(0, 0, 512, 512);
+    hg2.fillStyle = haloGrd;
+    hg2.fillRect(0, 0, 512, 512);
     const haloTexture = new THREE.CanvasTexture(haloCanvas);
     const haloMesh = new THREE.Mesh(new THREE.PlaneGeometry(40, 40), new THREE.MeshBasicMaterial({ map: haloTexture, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
     haloMesh.position.z = -1;
     sunflowerGroup.add(haloMesh);
-
     sunflowerGroup.rotation.x = -0.15;
 
-    /* ESTRELLAS FUGACES */
+    /* ✨✨ DESTELLOS DEL GIRASOL 3D DE LA GALAXIA ✨✨ */
+    // Textura de destello (estrella con cruz)
+    function makeSparkleTexture(size){
+      const c = document.createElement('canvas');
+      c.width = c.height = size;
+      const g = c.getContext('2d');
+      const cx = size/2, cy = size/2;
+      // Glow radial
+      const grd = g.createRadialGradient(cx,cy,0,cx,cy,cx);
+      grd.addColorStop(0, 'rgba(255,255,255,1)');
+      grd.addColorStop(0.25, 'rgba(255,230,140,0.85)');
+      grd.addColorStop(0.55, 'rgba(255,180,60,0.35)');
+      grd.addColorStop(1, 'rgba(255,140,20,0)');
+      g.fillStyle = grd;
+      g.fillRect(0,0,size,size);
+      // Cruz brillante
+      g.save();
+      g.translate(cx,cy);
+      g.strokeStyle = 'rgba(255,255,240,0.95)';
+      g.lineWidth = size * 0.035;
+      g.shadowColor = '#ffe066';
+      g.shadowBlur = size * 0.15;
+      g.beginPath();
+      g.moveTo(-cx*0.9, 0); g.lineTo(cx*0.9, 0);
+      g.moveTo(0, -cy*0.9); g.lineTo(0, cy*0.9);
+      g.stroke();
+      // Diagonal más suave
+      g.lineWidth = size * 0.018;
+      g.globalAlpha = 0.55;
+      g.beginPath();
+      g.moveTo(-cx*0.55, -cy*0.55); g.lineTo(cx*0.55, cy*0.55);
+      g.moveTo(cx*0.55, -cy*0.55); g.lineTo(-cx*0.55, cy*0.55);
+      g.stroke();
+      g.restore();
+      return new THREE.CanvasTexture(c);
+    }
+    const sparkleTex = makeSparkleTexture(128);
+
+    // Grupo de destellos alrededor del girasol
+    const sunflowerSparkles = [];
+    const SUNFLOWER_SPARKLE_COUNT = isPremium ? 40 : 24;
+    for (let i = 0; i < SUNFLOWER_SPARKLE_COUNT; i++){
+      const mat = new THREE.SpriteMaterial({
+        map: sparkleTex,
+        transparent: true,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        opacity: 0.9
+      });
+      const spr = new THREE.Sprite(mat);
+      // Anillo alrededor del girasol (radio 8-14), con algo de profundidad
+      const angle = Math.random() * Math.PI * 2;
+      const rad = 7.5 + Math.random() * 7;
+      spr.position.set(
+        Math.cos(angle) * rad,
+        Math.sin(angle) * rad,
+        (Math.random() - 0.5) * 3
+      );
+      const sc = 1.2 + Math.random() * 2.4;
+      spr.scale.set(sc, sc, 1);
+      spr.userData = {
+        baseScale: sc,
+        baseAngle: angle,
+        baseRad: rad,
+        phase: Math.random() * Math.PI * 2,
+        speed: 0.6 + Math.random() * 1.2,
+        orbitSpeed: (Math.random() < 0.5 ? 1 : -1) * (0.1 + Math.random() * 0.3),
+        baseZ: spr.position.z
+      };
+      sunflowerGroup.add(spr);
+      sunflowerSparkles.push(spr);
+    }
+
+    // Destellos pequeños cercanos al centro (brillo constante)
+    const centerSparkles = [];
+    const CENTER_SPARKLE_COUNT = isPremium ? 20 : 12;
+    for (let i = 0; i < CENTER_SPARKLE_COUNT; i++){
+      const mat = new THREE.SpriteMaterial({
+        map: sparkleTex,
+        transparent: true,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        opacity: 1
+      });
+      const spr = new THREE.Sprite(mat);
+      const angle = Math.random() * Math.PI * 2;
+      const rad = 1 + Math.random() * 4;
+      spr.position.set(
+        Math.cos(angle) * rad,
+        Math.sin(angle) * rad,
+        0.8 + Math.random() * 0.4
+      );
+      const sc = 0.8 + Math.random() * 1.2;
+      spr.scale.set(sc, sc, 1);
+      spr.userData = {
+        baseScale: sc,
+        phase: Math.random() * Math.PI * 2,
+        speed: 1 + Math.random() * 1.5
+      };
+      sunflowerGroup.add(spr);
+      centerSparkles.push(spr);
+    }
+
     let streakTex = null;
     function makeStreak(){
       if(streakTex) return streakTex;
@@ -1252,6 +1585,12 @@ input[type=range]{width:100%;accent-color:#ffd166}
       starTex.offset.set(tw, 0);
       galaxy.rotation.y = t * 0.05;
 
+      if (zoomActive && zoomT < 1){
+        zoomT += dt / 2.8;
+        if (zoomT >= 1){ zoomT = 1; controls.enabled = true; }
+        applyCam();
+      }
+
       sunflowerGroup.rotation.z = Math.sin(t * 0.3) * 0.15;
       sunflowerGroup.rotation.y = Math.sin(t * 0.2) * 0.25;
       sunflowerGroup.position.y = Math.sin(t * 0.5) * 1.2;
@@ -1262,7 +1601,34 @@ input[type=range]{width:100%;accent-color:#ffd166}
       haloMesh.scale.set(pulse, pulse, 1);
       ringMesh.scale.set(pulse, pulse, 1);
 
-      // Flores flotando suave
+      // ✨ Animar destellos del girasol 3D (los que orbitan)
+      for (let i = 0; i < sunflowerSparkles.length; i++){
+        const sp = sunflowerSparkles[i];
+        const d = sp.userData;
+        // Órbita lenta
+        const ang = d.baseAngle + t * d.orbitSpeed;
+        // Radio que respira
+        const rad = d.baseRad + Math.sin(t * 0.5 + d.phase) * 0.6;
+        sp.position.x = Math.cos(ang) * rad;
+        sp.position.y = Math.sin(ang) * rad;
+        sp.position.z = d.baseZ + Math.sin(t * 0.8 + d.phase) * 0.6;
+        // Parpadeo
+        const blink = 0.3 + Math.abs(Math.sin(t * d.speed + d.phase)) * 0.9;
+        sp.material.opacity = blink;
+        // Escala pulsante
+        const sc = d.baseScale * (0.6 + blink * 0.7);
+        sp.scale.set(sc, sc, 1);
+      }
+      // ✨ Destellos del centro (parpadeo constante)
+      for (let i = 0; i < centerSparkles.length; i++){
+        const sp = centerSparkles[i];
+        const d = sp.userData;
+        const blink = 0.2 + Math.abs(Math.sin(t * d.speed + d.phase)) * 1.0;
+        sp.material.opacity = blink;
+        const sc = d.baseScale * (0.5 + blink * 0.9);
+        sp.scale.set(sc, sc, 1);
+      }
+
       for (let i = 0; i < flowerSprites.length; i++) {
         const f = flowerSprites[i];
         f.position.y = f.userData.baseY + Math.sin(t * f.userData.speed + f.userData.phase) * 0.4;
@@ -1276,7 +1642,7 @@ input[type=range]{width:100%;accent-color:#ffd166}
       }
 
       updateShootingStars(dt);
-      controls.update();
+      if (zoomT >= 1) controls.update();
       renderer.render(scene, camera);
     }
     animate();
@@ -1352,7 +1718,6 @@ input[type=range]{width:100%;accent-color:#ffd166}
 </html>`;
 }
 
-/* ========== VISTA PREVIA (IFRAME EMBEBIDO) ========== */
 async function visualize(){
   readInputs();
   showLoading(true, "Preparando vista previa...");
@@ -1360,20 +1725,16 @@ async function visualize(){
     var html = await buildGalaxyHTML();
     var blob = new Blob([html], { type: "text/html;charset=utf-8" });
     var url = URL.createObjectURL(blob);
-
     var modal = $("preview-modal");
     var iframe = $("preview-frame");
-
     iframe.src = "about:blank";
     setTimeout(function(){
       iframe.src = url;
       modal.classList.add("show");
       showLoading(false);
     }, 60);
-
     if (_previewURL) URL.revokeObjectURL(_previewURL);
     _previewURL = url;
-
   } catch(err){
     console.error(err);
     showStatus("Error: " + err.message, false);
@@ -1389,7 +1750,6 @@ function closePreview(){
   if (_previewURL){ URL.revokeObjectURL(_previewURL); _previewURL = null; }
 }
 
-/* ========== DESCARGAR ========== */
 async function download(){
   readInputs();
   showLoading(true, "Empaquetando tu galaxia...");
@@ -1399,16 +1759,13 @@ async function download(){
     var blob = new Blob([html], { type: "text/html;charset=utf-8" });
     var url = URL.createObjectURL(blob);
     var filename = "galaxia-girasoles-para-" + slugify(state.name) + ".html";
-
     var a = document.createElement("a");
     a.href = url;
     a.download = filename;
     a.rel = "noopener";
     a.style.display = "none";
     document.body.appendChild(a);
-
     var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-
     if (isIOS) {
       var w = window.open(url, "_blank");
       if (!w) {
@@ -1424,10 +1781,8 @@ async function download(){
       a.click();
       showStatus("¡Descargado! (" + sizeKB + " KB)");
     }
-
     a.remove();
     setTimeout(function(){ URL.revokeObjectURL(url); }, 60000);
-
   } catch(err){
     console.error(err);
     showStatus("Error: " + err.message, false);
@@ -1436,7 +1791,6 @@ async function download(){
   }
 }
 
-/* ========== COMPARTIR ========== */
 function initShare(){
   var shareBtn = $("share-float"), menu = $("share-menu"), closeBtn = $("share-close");
   var wa = $("share-wa"), copyBtn = $("share-copy"), sysBtn = $("share-sys");
@@ -1474,12 +1828,10 @@ function initShare(){
   });
 }
 
-/* ========== EDITOR ========== */
 function initEditor(){
   $("i-photo").addEventListener("change", function(e){
     addPhotos(e.target.files); e.target.value = "";
   });
-
   var musicInput = $("i-music");
   musicInput.addEventListener("click", function(e){
     if (!isPremium){ e.preventDefault(); showPremium("music"); }
@@ -1499,14 +1851,12 @@ function initEditor(){
     };
     rd.readAsDataURL(file);
   });
-
   $("music-drop").addEventListener("click", function(e){
     if (!isPremium){ e.preventDefault(); showPremium("music"); }
   });
   $("photos-plus-drop").addEventListener("click", function(e){
     if (!isPremium){ e.preventDefault(); showPremium("photos"); }
   });
-
   var photoPlusInput = $("i-photo-plus");
   photoPlusInput.addEventListener("click", function(e){
     if (!isPremium){ e.preventDefault(); showPremium("photos"); }
@@ -1516,28 +1866,20 @@ function initEditor(){
     if (e.target.files && e.target.files.length) addPhotos(e.target.files);
     e.target.value = "";
   });
-
   $("premium-fx").addEventListener("click", function(e){
     e.preventDefault();
     if (!isPremium) showPremium("fx");
     else showStatus("Efectos premium ya activados ✓");
   });
-
   $("btn-view").addEventListener("click", visualize);
   $("btn-generate").addEventListener("click", download);
   $("close-preview").addEventListener("click", closePreview);
-
   document.addEventListener("keydown", function(e){
-    if (e.key === "Escape"){
-      closePremium();
-      closePreview();
-    }
+    if (e.key === "Escape"){ closePremium(); closePreview(); }
   });
-
   ["i-name","i-from","i-date","i-sub","i-msg","i-phrases"].forEach(function(id){
     $(id).addEventListener("input", readInputs);
   });
-
   var drop = $("file-drop");
   ["dragenter","dragover"].forEach(function(ev){
     drop.addEventListener(ev, function(e){ e.preventDefault(); drop.style.borderColor = "#ffd166"; });
@@ -1549,7 +1891,6 @@ function initEditor(){
     e.preventDefault();
     if (e.dataTransfer.files) addPhotos(e.dataTransfer.files);
   });
-
   renderPalettes();
   initShapes();
   renderPhotoList();
@@ -1560,23 +1901,15 @@ function initEditor(){
 
 if (document.readyState === "loading"){
   document.addEventListener("DOMContentLoaded", function(){
-    initEditor();
-    initShare();
+    initEditor(); initShare();
   });
 } else {
-  initEditor();
-  initShare();
+  initEditor(); initShare();
 }
 
 window.__peri = {
-  activatePremium: function(){
-    localStorage.setItem("peri_premium_activated", "1");
-    location.reload();
-  },
-  deactivatePremium: function(){
-    localStorage.removeItem("peri_premium_activated");
-    location.reload();
-  }
+  activatePremium: function(){ localStorage.setItem("peri_premium_activated", "1"); location.reload(); },
+  deactivatePremium: function(){ localStorage.removeItem("peri_premium_activated"); location.reload(); }
 };
 </script>
 </body>
