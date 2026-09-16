@@ -1,0 +1,1678 @@
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#010102">
+<title>Crear mi Red Neuronal Estelar ✨</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Pacifico&family=Permanent+Marker&family=Dancing+Script:wght@600;700&family=Inter:wght@400;600;700&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;min-height:100dvh;background:radial-gradient(ellipse at top,#0a1830 0%,#010102 70%);font-family:'Inter',sans-serif;color:#fff;overflow-x:hidden}
+#editor{position:relative;z-index:10;max-width:560px;margin:0 auto;padding:24px 18px 180px}
+.hero{text-align:center;margin-bottom:22px;margin-top:16px}
+.hero h1{font-family:'Permanent Marker',cursive;font-size:clamp(1.8rem,7vw,2.6rem);line-height:1.05;background:linear-gradient(90deg,#7dd3fc,#a78bfa,#c084fc,#fde68a);background-size:300% 300%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:flow 5s infinite;letter-spacing:1px;filter:drop-shadow(0 0 30px rgba(125,211,252,.55))}
+@keyframes flow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.hero p{font-family:'Caveat',cursive;font-size:1.15rem;color:#a7f3d0;margin-top:6px}
+.card{background:linear-gradient(160deg,rgba(10,24,48,.92),rgba(4,10,24,.92));border:1px solid rgba(167,243,208,.25);border-radius:18px;padding:20px 18px;box-shadow:0 20px 60px rgba(0,0,0,.5);backdrop-filter:blur(12px)}
+.fld{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.fld label{font-size:.72rem;font-weight:600;color:#a7f3d0;text-transform:uppercase;letter-spacing:.8px;display:flex;justify-content:space-between;align-items:center}
+.fld label .opt{font-size:.65rem;color:#7a86b5;font-weight:400;text-transform:none;letter-spacing:0}
+.fld label .premium-tag{font-size:.62rem;font-weight:700;color:#ffd166;background:rgba(255,209,102,.12);border:1px solid rgba(255,209,102,.4);padding:2px 7px;border-radius:20px;letter-spacing:.4px}
+.fld input,.fld textarea{background:rgba(0,0,0,.4);border:1px solid rgba(167,243,208,.22);border-radius:10px;padding:12px 14px;color:#e0f2fe;font-family:'Inter',sans-serif;font-size:16px;outline:none;width:100%}
+.fld input:focus,.fld textarea:focus{border-color:#a7f3d0;box-shadow:0 0 0 3px rgba(167,243,208,.18)}
+.fld textarea{min-height:80px;font-family:'Caveat',cursive;font-size:1.2rem;line-height:1.3;resize:vertical}
+.fld textarea.phrases{font-family:'Dancing Script',cursive;font-size:1.15rem;min-height:100px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.file-drop{display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border:1.5px dashed rgba(167,243,208,.45);border-radius:12px;cursor:pointer;transition:all .25s;background:rgba(167,243,208,.06);color:#a7f3d0;font-size:.88rem;text-align:center;position:relative;font-family:inherit}
+.file-drop:active{border-color:#a7f3d0;background:rgba(167,243,208,.14);color:#fff}
+.file-drop.has-file{border-style:solid;border-color:#22c55e;background:rgba(34,197,94,.1);color:#86efac}
+.file-drop.premium{border-color:rgba(255,209,102,.5);background:rgba(255,209,102,.06);color:#ffd166}
+.file-drop.premium::after{content:'🔒';position:absolute;top:6px;right:10px;font-size:14px;opacity:.8}
+.file-drop.premium.unlocked{border-color:rgba(34,197,94,.5);background:rgba(34,197,94,.06);color:#86efac}
+.file-drop.premium.unlocked::after{content:'✓';color:#4ade80;opacity:1}
+#palette-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.pal-btn{position:relative;display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;background:rgba(0,0,0,.35);border:1.5px solid rgba(167,243,208,.2);cursor:pointer;color:#a7f3d0;font-size:.75rem;font-weight:500;font-family:inherit;text-align:left;transition:all .2s}
+.pal-btn.active{border-color:#a7f3d0;background:rgba(167,243,208,.18);color:#fff}
+.pal-btn.locked{opacity:.75}
+.pal-btn.locked::after{content:'🔒';position:absolute;top:6px;right:8px;font-size:11px}
+.pal-swatches{display:flex;gap:2px;flex-shrink:0}
+.pal-swatch{width:10px;height:10px;border-radius:50%;border:1px solid rgba(255,255,255,.15)}
+.btn{padding:14px 18px;border-radius:12px;font-weight:700;font-size:.95rem;cursor:pointer;border:none;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;transition:transform .15s,box-shadow .2s;margin-bottom:10px}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;box-shadow:0 10px 30px rgba(34,197,94,.4)}
+.btn-ghost{background:linear-gradient(135deg,#a7f3d0,#7dd3fc);color:#020610;box-shadow:0 10px 30px rgba(167,243,208,.4)}
+#status{position:fixed;bottom:calc(90px + env(safe-area-inset-bottom,0));left:50%;transform:translateX(-50%) translateY(200%);opacity:0;visibility:hidden;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;padding:13px 24px;border-radius:12px;font-size:.9rem;font-weight:600;z-index:9996;transition:transform .35s,opacity .35s,visibility .35s;pointer-events:none;max-width:90vw;text-align:center;box-shadow:0 12px 34px rgba(0,0,0,.5)}
+#status.show{transform:translateX(-50%) translateY(0);opacity:1;visibility:visible}
+#status:empty{display:none}
+#status.err{background:linear-gradient(135deg,#ef4444,#dc2626)}
+#loading{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:9998;flex-direction:column;gap:14px;color:#a7f3d0}
+#loading.show{display:flex}
+.spinner{width:44px;height:44px;border:4px solid rgba(167,243,208,.2);border-top-color:#a7f3d0;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.back-float{position:fixed;top:max(14px,env(safe-area-inset-top,14px));left:14px;z-index:940;background:rgba(4,10,24,.9);backdrop-filter:blur(10px);border:1px solid rgba(167,243,208,.4);color:#a7f3d0;padding:9px 14px;border-radius:30px;font-size:.78rem;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:5px;font-family:inherit;cursor:pointer;transition:all .2s;white-space:nowrap}
+.back-float svg{width:14px;height:14px;fill:currentColor}
+.fixed-bar{position:fixed;bottom:0;left:0;right:0;z-index:900;padding:12px 18px calc(12px + env(safe-area-inset-bottom,0));background:linear-gradient(180deg,rgba(1,1,2,0),rgba(1,1,2,.96) 35%);display:flex;gap:10px;max-width:560px;margin:0 auto;pointer-events:none}
+.fixed-bar .btn{margin:0;flex:1;pointer-events:auto}
+#premium-modal{position:fixed;inset:0;z-index:1200;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:20px}
+#premium-modal.show{display:flex}
+#premium-box{width:100%;max-width:400px;background:linear-gradient(160deg,#1a1207,#0a0a15);border:2px solid rgba(255,209,102,.5);border-radius:22px;padding:28px 24px;text-align:center;box-shadow:0 0 80px rgba(255,180,40,.35);position:relative}
+#premium-box .crown{font-size:52px;margin-bottom:10px}
+#premium-box h2{font-family:'Pacifico',cursive;font-size:1.6rem;background:linear-gradient(90deg,#ffd166,#ffa000,#ffd166);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 3s infinite;margin-bottom:8px}
+@keyframes shimmer{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+#premium-box .subtitle{font-size:.85rem;color:#c9a76a;margin-bottom:18px}
+#premium-box .feature{background:rgba(255,209,102,.1);border:1px solid rgba(255,209,102,.3);border-radius:12px;padding:12px 16px;font-size:.88rem;color:#ffe8b3;margin-bottom:18px;text-align:left}
+#premium-box .feature b{color:#ffd166}
+#premium-box .price{font-family:'Permanent Marker',cursive;font-size:2rem;color:#ffd166;margin-bottom:6px}
+#premium-box .price-note{font-size:.72rem;color:#8a7a5a;margin-bottom:18px}
+#premium-box .btn-upgrade{background:linear-gradient(135deg,#ffd166,#ffa000);color:#1a0e00;font-weight:800;padding:14px;border-radius:12px;border:none;width:100%;cursor:pointer;font-family:inherit;font-size:1rem;margin-bottom:10px}
+#premium-box .btn-later{background:transparent;border:1px solid rgba(255,209,102,.3);color:#c9a76a;padding:12px;border-radius:12px;width:100%;cursor:pointer;font-family:inherit;font-size:.85rem}
+#premium-box .close-x{position:absolute;top:14px;right:16px;background:transparent;border:none;color:#c9a76a;font-size:24px;cursor:pointer;line-height:1}
+#premium-active-banner{display:none;background:linear-gradient(135deg,rgba(34,197,94,.15),rgba(74,222,128,.08));border:1.5px solid rgba(74,222,128,.4);border-radius:12px;padding:10px 14px;margin-top:14px;font-size:.82rem;color:#86efac;text-align:center;font-weight:600}
+#premium-active-banner.show{display:block}
+#preview-modal{position:fixed;inset:0;z-index:99999;background:#000;display:none;flex-direction:column}
+#preview-modal.show{display:flex}
+#preview-modal .preview-bar{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:rgba(4,10,24,.98);border-bottom:1px solid rgba(167,243,208,.3);flex-shrink:0}
+#preview-modal .preview-bar span{color:#a7f3d0;font-weight:700;font-size:14px}
+#close-preview{background:linear-gradient(135deg,#a7f3d0,#7dd3fc);color:#020610;border:none;padding:9px 18px;border-radius:20px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit}
+#preview-frame{flex:1;width:100%;border:0;background:#000}
+</style>
+</head>
+<body>
+
+<a href="https://c4rlo53305-lgtm.github.io/Peri/index.html" class="back-float" title="Volver">
+  <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+  Volver
+</a>
+
+<div id="editor">
+  <div class="hero">
+    <h1>Tu Red Neuronal Estelar ✨</h1>
+    <p>Partículas hipnóticas que forman tus frases ✨</p>
+    <div id="premium-active-banner">👑 Eres Premium · Todas las opciones desbloqueadas</div>
+  </div>
+
+  <div class="card">
+    <div class="fld">
+      <label for="i-name">Para quién es</label>
+      <input id="i-name" type="text" maxlength="40" placeholder="Ej: Para María" value="Mi amor">
+    </div>
+
+    <div class="row2">
+      <div class="fld">
+        <label for="i-from">De parte de <span class="opt">opcional</span></label>
+        <input id="i-from" type="text" maxlength="30" placeholder="Tu nombre" value="">
+      </div>
+      <div class="fld">
+        <label for="i-date">Juntos desde <span class="opt">opcional</span></label>
+        <input id="i-date" type="date">
+      </div>
+    </div>
+
+    <div class="fld">
+      <label for="i-sub">Subtítulo principal</label>
+      <input id="i-sub" type="text" maxlength="80" value="Toca la pantalla para enviar energía ✨">
+    </div>
+
+    <div class="fld">
+      <label for="i-phrases">Frases que formarán las estrellas <span class="opt" id="phrases-limit-text">1 frase gratis</span></label>
+      <textarea id="i-phrases" class="phrases" maxlength="1400" placeholder="Te amo más que a las estrellas"></textarea>
+    </div>
+
+    <div class="fld">
+      <label>🎨 Paletas de color</label>
+      <div id="palette-grid"></div>
+    </div>
+
+    <div class="fld">
+      <label>Música de fondo <span class="premium-tag" id="music-tag">PREMIUM</span></label>
+      <label class="file-drop premium" for="i-music" id="music-drop">
+        <span id="m-label">🎵 Subir mi canción</span>
+        <input id="i-music" type="file" accept="audio/*" hidden>
+      </label>
+    </div>
+
+    <div class="fld">
+      <label>Densidad máxima <span class="premium-tag" id="fx-tag">PREMIUM</span></label>
+      <button type="button" class="file-drop premium" id="premium-fx" style="cursor:pointer">
+        ✨ +25,000 partículas y +2,500 destellos (vs +10,000 y +900 gratis)
+      </button>
+    </div>
+
+    <div class="fld">
+      <label>Formaciones secretas <span class="premium-tag" id="secret-tag">PREMIUM</span></label>
+      <button type="button" class="file-drop premium" id="premium-secret" style="cursor:pointer">
+        🌟 Hélice triple, Telaraña fractal y Nebulosa cósmica
+      </button>
+    </div>
+
+    <div class="fld">
+      <label>Ondas de energía largas <span class="premium-tag" id="pulse-tag">PREMIUM</span></label>
+      <button type="button" class="file-drop premium" id="premium-pulse" style="cursor:pointer">
+        💫 Pulsos 3× más largos e intensos con más partículas reactivas
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="fixed-bar">
+  <button id="btn-view" class="btn btn-ghost">👁️ Visualizar</button>
+  <button id="btn-generate" class="btn btn-primary">💾 Descargar</button>
+</div>
+
+<div id="premium-modal">
+  <div id="premium-box">
+    <button class="close-x" id="premium-close" type="button">×</button>
+    <div class="crown">✨</div>
+    <h2>Función Premium</h2>
+    <div class="subtitle">Desbloquea todo el potencial</div>
+    <div class="feature" id="premium-feature-text"></div>
+    <div class="price">$79 MXN</div>
+    <div class="price-note">Pago único · Acceso de por vida</div>
+    <button class="btn-upgrade" id="premium-upgrade" type="button">✨ Desbloquear Premium</button>
+    <button class="btn-later" id="premium-later" type="button">Quizás después</button>
+  </div>
+</div>
+
+<div id="preview-modal">
+  <div class="preview-bar">
+    <span>👁️ Vista previa</span>
+    <button id="close-preview" type="button">Cerrar ×</button>
+  </div>
+  <iframe id="preview-frame" title="Vista previa"></iframe>
+</div>
+
+<div id="status"></div>
+<div id="loading"><div class="spinner"></div><div id="loading-text">Creando tu red neuronal...</div></div>
+
+<script>
+var PREMIUM_URL = "https://c4rlo53305-lgtm.github.io/Peri/premium.html";
+var isPremium = (localStorage.getItem("peri_premium_activated") === "1");
+var MAX_PHRASES_FREE = 1;
+var _previewURL = null;
+
+var DEFAULT_PHRASES = [
+  "Te amo más que a las estrellas",
+  "Eres mi universo entero",
+  "Mi persona favorita",
+  "Contigo todo es mejor",
+  "Eres mi luz en la noche"
+];
+
+var PALETTES = {
+  quantum:{name:"Quantum Violeta",emoji:"🌌",premium:false,colors:["#667eea","#764ba2","#f093fb","#9d50bb","#6e48aa"]},
+  sunset:{name:"Sunset Fire",emoji:"🔥",premium:true,colors:["#f857a6","#ff5858","#feca57","#ff6348","#ff9068"]},
+  aurora:{name:"Ocean Aurora",emoji:"🌊",premium:true,colors:["#4facfe","#00f2fe","#43e97b","#38f9d7","#4484ce"]},
+  galaxy:{name:"Nebulosa Rosa",emoji:"💗",premium:true,colors:["#fbcfe8","#f9a8d4","#ec4899","#a855f7","#7c3aed"]},
+  golden:{name:"Dorado Estelar",emoji:"👑",premium:true,colors:["#fef3c7","#fde68a","#fbbf24","#f59e0b","#fcd34d"]},
+  ice:{name:"Cristal Azul",emoji:"❄️",premium:true,colors:["#e0f2fe","#bae6fd","#7dd3fc","#38bdf8","#0ea5e9"]}
+};
+
+var state = {
+  name: "Mi amor",
+  fromName: "",
+  startDate: "",
+  subtitle: "Toca la pantalla para enviar energía ✨",
+  customPhrases: "",
+  palette: "quantum",
+  customMusic: null
+};
+
+function $(id){ return document.getElementById(id); }
+function showStatus(msg, ok){
+  var s = $("status");
+  s.textContent = msg;
+  s.classList.toggle("err", ok === false);
+  s.classList.add("show");
+  clearTimeout(showStatus._t);
+  showStatus._t = setTimeout(function(){ s.classList.remove("show"); }, 3400);
+}
+function showLoading(v, txt){
+  $("loading").classList.toggle("show", !!v);
+  if (txt) $("loading-text").textContent = txt;
+}
+function escapeHtml(s){
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+}
+function slugify(s){
+  return String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,40) || "neural";
+}
+
+var PREMIUM_MESSAGES = {
+  music: "<b>Música personalizada:</b> sube tu propia canción para que suene mientras tu pareja explora la red neuronal estelar.",
+  phrases: "<b>Frases ilimitadas:</b> la versión gratis permite 1 frase. Con Premium puedes escribir todas las que quieras.",
+  fx: "<b>Densidad extrema:</b> +25,000 partículas de texto (vs +10,000 gratis) y +2,500 destellos (vs +900 gratis) para frases aún más brillantes y nítidas.",
+  secret: "<b>Formaciones secretas:</b> desbloquea hélice triple, telaraña fractal y nebulosa cósmica en la red neuronal.",
+  pulse: "<b>Ondas largas:</b> pulsos 3× más largos y potentes que hacen vibrar todas las partículas al tocar.",
+  palette: "<b>Paletas exclusivas:</b> Sunset Fire, Ocean Aurora, Nebulosa Rosa, Dorado Estelar y Cristal Azul."
+};
+
+function showPremium(feature){
+  $("premium-feature-text").innerHTML = PREMIUM_MESSAGES[feature] || "Desbloquea funciones exclusivas.";
+  $("premium-modal").classList.add("show");
+}
+function closePremium(){ $("premium-modal").classList.remove("show"); }
+function initPremium(){
+  $("premium-close").onclick = closePremium;
+  $("premium-later").onclick = closePremium;
+  $("premium-modal").onclick = function(e){ if (e.target === $("premium-modal")) closePremium(); };
+  $("premium-upgrade").onclick = function(){ window.open(PREMIUM_URL, "_blank"); };
+  $("i-music").addEventListener("click", function(e){ if (!isPremium){ e.preventDefault(); showPremium("music"); } });
+  $("music-drop").addEventListener("click", function(e){ if (!isPremium){ e.preventDefault(); showPremium("music"); } });
+  $("premium-fx").addEventListener("click", function(e){ e.preventDefault(); if (!isPremium) showPremium("fx"); else showStatus("Densidad máxima activada ✓"); });
+  $("premium-secret").addEventListener("click", function(e){ e.preventDefault(); if (!isPremium) showPremium("secret"); else showStatus("Formaciones secretas activadas ✓"); });
+  $("premium-pulse").addEventListener("click", function(e){ e.preventDefault(); if (!isPremium) showPremium("pulse"); else showStatus("Ondas largas activadas ✓"); });
+}
+
+function applyPremiumState(){
+  if (!isPremium) return;
+  $("premium-active-banner").classList.add("show");
+  document.querySelectorAll(".premium-tag").forEach(function(el){
+    el.textContent = "✓ DESBLOQUEADO";
+    el.style.background = "rgba(34,197,94,.12)";
+    el.style.borderColor = "rgba(74,222,128,.4)";
+    el.style.color = "#4ade80";
+  });
+  document.querySelectorAll(".file-drop.premium").forEach(function(el){ el.classList.add("unlocked"); });
+  $("phrases-limit-text").textContent = "frases ilimitadas";
+}
+
+function renderPalettes(){
+  var grid = $("palette-grid"); grid.innerHTML = "";
+  Object.keys(PALETTES).forEach(function(key){
+    var pal = PALETTES[key];
+    var locked = pal.premium && !isPremium;
+    var b = document.createElement("button"); b.type = "button";
+    b.className = "pal-btn" + (key === state.palette ? " active" : "") + (locked ? " locked" : "");
+    var sw = document.createElement("div"); sw.className = "pal-swatches";
+    pal.colors.forEach(function(c){
+      var s = document.createElement("div"); s.className = "pal-swatch"; s.style.background = c;
+      sw.appendChild(s);
+    });
+    var t = document.createElement("div"); t.textContent = pal.emoji + " " + pal.name; t.style.flex = "1";
+    b.appendChild(sw); b.appendChild(t);
+    b.onclick = function(){
+      if (locked){ showPremium("palette"); return; }
+      state.palette = key; renderPalettes();
+    };
+    grid.appendChild(b);
+  });
+}
+
+function enforcePhrasesLimit(){
+  if (isPremium) return;
+  var ta = $("i-phrases");
+  var lines = ta.value.split("\n");
+  if (lines.length > MAX_PHRASES_FREE){
+    ta.value = lines.slice(0, MAX_PHRASES_FREE).join("\n");
+    showPremium("phrases");
+  }
+}
+
+function readInputs(){
+  state.name = $("i-name").value.trim() || "Mi amor";
+  state.fromName = $("i-from").value.trim();
+  state.startDate = $("i-date").value;
+  state.subtitle = $("i-sub").value.trim() || "Toca la pantalla para enviar energía ✨";
+  state.customPhrases = $("i-phrases").value.trim();
+}
+
+async function buildNeuralHTML(){
+  var name = state.name, fromName = state.fromName, subtitle = state.subtitle;
+  var paletteKey = state.palette;
+  var customLines = state.customPhrases.split("\n").map(function(l){ return l.trim(); }).filter(Boolean);
+  var phrases = customLines.length ? customLines : DEFAULT_PHRASES.slice(0, 1);
+  var phrasesJSON = JSON.stringify(phrases);
+  var palettesJSON = JSON.stringify(PALETTES);
+  var startDateJSON = JSON.stringify(state.startDate || null);
+  var customMusicJSON = JSON.stringify(state.customMusic || null);
+  var isPremiumJSON = JSON.stringify(isPremium);
+
+  var NOISE_FN = [
+    'vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }',
+    'vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }',
+    'vec4 permute(vec4 x) { return mod289(((x * 34.0) + 1.0) * x); }',
+    'vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }',
+    'float snoise(vec3 v) {',
+    '  const vec2 C = vec2(1.0/6.0, 1.0/3.0);',
+    '  const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);',
+    '  vec3 i = floor(v + dot(v, C.yyy));',
+    '  vec3 x0 = v - i + dot(i, C.xxx);',
+    '  vec3 g = step(x0.yzx, x0.xyz);',
+    '  vec3 l = 1.0 - g;',
+    '  vec3 i1 = min(g.xyz, l.zxy);',
+    '  vec3 i2 = max(g.xyz, l.zxy);',
+    '  vec3 x1 = x0 - i1 + C.xxx;',
+    '  vec3 x2 = x0 - i2 + C.yyy;',
+    '  vec3 x3 = x0 - D.yyy;',
+    '  i = mod289(i);',
+    '  vec4 p = permute(permute(permute(i.z + vec4(0.0, i1.z, i2.z, 1.0)) + i.y + vec4(0.0, i1.y, i2.y, 1.0)) + i.x + vec4(0.0, i1.x, i2.x, 1.0));',
+    '  float n_ = 0.142857142857;',
+    '  vec3 ns = n_ * D.wyz - D.xzx;',
+    '  vec4 j = p - 49.0 * floor(p * ns.z * ns.z);',
+    '  vec4 x_ = floor(j * ns.z);',
+    '  vec4 y_ = floor(j - 7.0 * x_);',
+    '  vec4 x = x_ * ns.x + ns.yyyy;',
+    '  vec4 y = y_ * ns.x + ns.yyyy;',
+    '  vec4 h = 1.0 - abs(x) - abs(y);',
+    '  vec4 b0 = vec4(x.xy, y.xy);',
+    '  vec4 b1 = vec4(x.zw, y.zw);',
+    '  vec4 s0 = floor(b0) * 2.0 + 1.0;',
+    '  vec4 s1 = floor(b1) * 2.0 + 1.0;',
+    '  vec4 sh = -step(h, vec4(0.0));',
+    '  vec4 a0 = b0.xzyw + s0.xzyw * sh.xxyy;',
+    '  vec4 a1 = b1.xzyw + s1.xzyw * sh.zzww;',
+    '  vec3 p0 = vec3(a0.xy, h.x);',
+    '  vec3 p1 = vec3(a0.zw, h.y);',
+    '  vec3 p2 = vec3(a1.xy, h.z);',
+    '  vec3 p3 = vec3(a1.zw, h.w);',
+    '  vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2,p2), dot(p3,p3)));',
+    '  p0 *= norm.x;',
+    '  p1 *= norm.y;',
+    '  p2 *= norm.z;',
+    '  p3 *= norm.w;',
+    '  vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);',
+    '  m = m * m;',
+    '  return 42.0 * dot(m * m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));',
+    '}'
+  ].join('\n');
+
+  // NODE VERTEX — TAMAÑO GRANDE cuando forma frase
+  var NODE_VERTEX = [
+    'uniform float uTime;',
+    'uniform float uMorph;',
+    'uniform vec3 uPulsePositions[3];',
+    'uniform float uPulseTimes[3];',
+    'uniform float uPulseSpeed;',
+    'uniform float uBaseNodeSize;',
+    'uniform float uPulseDuration;',
+    'attribute float nodeSize;',
+    'attribute float nodeType;',
+    'attribute vec3 nodeColor;',
+    'attribute float distanceFromRoot;',
+    'attribute vec3 targetPosition;',
+    'varying vec3 vColor;',
+    'varying float vNodeType;',
+    'varying vec3 vPosition;',
+    'varying float vPulseIntensity;',
+    'varying float vDistanceFromRoot;',
+    'varying float vGlow;',
+    'varying float vMorph;',
+    NOISE_FN,
+    'float getPulseIntensity(vec3 worldPos, vec3 pulsePos, float pulseTime) {',
+    '  if (pulseTime < 0.0) return 0.0;',
+    '  float timeSinceClick = uTime - pulseTime;',
+    '  if (timeSinceClick < 0.0 || timeSinceClick > uPulseDuration) return 0.0;',
+    '  float pulseRadius = timeSinceClick * uPulseSpeed;',
+    '  float distToClick = distance(worldPos, pulsePos);',
+    '  float pulseThickness = 3.0;',
+    '  float waveProximity = abs(distToClick - pulseRadius);',
+    '  return smoothstep(pulseThickness, 0.0, waveProximity) * smoothstep(uPulseDuration, 0.0, timeSinceClick);',
+    '}',
+    'void main() {',
+    '  vNodeType = nodeType;',
+    '  vColor = nodeColor;',
+    '  vDistanceFromRoot = distanceFromRoot;',
+    '  vMorph = uMorph;',
+    '  vec3 networkPos = position;',
+    '  vec3 finalPos = mix(networkPos, targetPosition, uMorph);',
+    '  vec3 worldPos = (modelMatrix * vec4(finalPos, 1.0)).xyz;',
+    '  vPosition = worldPos;',
+    '  float totalPulseIntensity = 0.0;',
+    '  for (int i = 0; i < 3; i++) {',
+    '    totalPulseIntensity += getPulseIntensity(worldPos, uPulsePositions[i], uPulseTimes[i]);',
+    '  }',
+    '  vPulseIntensity = min(totalPulseIntensity, 1.0);',
+    '  float breathe = sin(uTime * 0.7 + distanceFromRoot * 0.15) * 0.15 + 0.85;',
+    '  float baseSize = nodeSize * breathe;',
+    '  float pulseSize = baseSize * (1.0 + vPulseIntensity * 2.0);',
+    '  vGlow = 0.5 + 0.5 * sin(uTime * 0.5 + distanceFromRoot * 0.2);',
+    '  vec4 mvPosition = modelViewMatrix * vec4(finalPos, 1.0);',
+    // *** CLAVE 1: sizeFactor de 60 → 380 en modo frase + clamp hasta 6px ***
+    '  float sizeFactor = mix(1000.0, 380.0, uMorph);',
+    '  gl_PointSize = clamp(pulseSize * uBaseNodeSize * (sizeFactor / -mvPosition.z), 1.2, 6.0);',
+    '  gl_Position = projectionMatrix * mvPosition;',
+    '}'
+  ].join('\n');
+
+  // NODE FRAGMENT — alpha 1.0 y color reforzado en modo frase
+  var NODE_FRAGMENT = [
+    'uniform float uTime;',
+    'uniform vec3 uPulseColors[3];',
+    'varying vec3 vColor;',
+    'varying float vNodeType;',
+    'varying vec3 vPosition;',
+    'varying float vPulseIntensity;',
+    'varying float vDistanceFromRoot;',
+    'varying float vGlow;',
+    'varying float vMorph;',
+    'void main() {',
+    '  vec2 center = 2.0 * gl_PointCoord - 1.0;',
+    '  float dist = length(center);',
+    '  if (dist > 1.0) discard;',
+    '  float breatheColor = 0.92 + 0.08 * sin(uTime * 0.6 + vDistanceFromRoot * 0.25);',
+    '  vec3 baseColor = vColor * breatheColor;',
+    '  float glow1 = 1.0 - smoothstep(0.0, 0.40, dist);',
+    '  float glow2 = 1.0 - smoothstep(0.0, 0.80, dist);',
+    '  float glow3 = 1.0 - smoothstep(0.0, 1.00, dist);',
+    '  float glowStrengthN = pow(glow1, 1.0) + glow2 * 0.55 + glow3 * 0.28;',
+    '  vec3 colorN = baseColor;',
+    '  if (vPulseIntensity > 0.0) {',
+    '    vec3 pc = mix(vec3(1.0), uPulseColors[0], 0.35);',
+    '    colorN = mix(baseColor, pc, vPulseIntensity * 0.85);',
+    '    colorN *= (1.0 + vPulseIntensity * 1.5);',
+    '    glowStrengthN *= (1.0 + vPulseIntensity * 1.1);',
+    '  }',
+    '  float coreN = smoothstep(0.55, 0.0, dist);',
+    '  colorN += vec3(1.0) * coreN * 0.5;',
+    '  float alphaN = glowStrengthN * (1.0 - 0.22 * dist);',
+    // *** CLAVE 2: punto sólido, alpha 1.0, color reforzado 1.35x + brillo extra ***
+    '  vec3 colorP = baseColor * 1.35 + vec3(0.08);',
+    '  float alphaP = (dist < 0.7) ? 1.0 : 0.0;',
+    '  vec3 finalColor = mix(colorN, colorP, vMorph);',
+    '  float alpha = mix(alphaN, alphaP, vMorph);',
+    '  float camDistance = length(vPosition - cameraPosition);',
+    '  float distanceFade = smoothstep(100.0, 15.0, camDistance);',
+    '  if (vNodeType > 0.5) { finalColor *= 1.1; alpha *= 0.95; }',
+    '  finalColor *= (1.0 + vGlow * 0.15);',
+    '  gl_FragColor = vec4(finalColor, alpha * distanceFade);',
+    '}'
+  ].join('\n');
+
+  var CONN_VERTEX = [
+    'uniform float uTime;',
+    'uniform float uMorph;',
+    'uniform vec3 uPulsePositions[3];',
+    'uniform float uPulseTimes[3];',
+    'uniform float uPulseSpeed;',
+    'uniform float uPulseDuration;',
+    'attribute vec3 startPoint;',
+    'attribute vec3 endPoint;',
+    'attribute float connectionStrength;',
+    'attribute float pathIndex;',
+    'attribute vec3 connectionColor;',
+    'varying vec3 vColor;',
+    'varying float vConnectionStrength;',
+    'varying float vPulseIntensity;',
+    'varying float vPathPosition;',
+    'varying float vDistanceFromCamera;',
+    'varying float vMorph;',
+    NOISE_FN,
+    'float getPulseIntensity(vec3 worldPos, vec3 pulsePos, float pulseTime) {',
+    '  if (pulseTime < 0.0) return 0.0;',
+    '  float timeSinceClick = uTime - pulseTime;',
+    '  if (timeSinceClick < 0.0 || timeSinceClick > uPulseDuration) return 0.0;',
+    '  float pulseRadius = timeSinceClick * uPulseSpeed;',
+    '  float distToClick = distance(worldPos, pulsePos);',
+    '  float pulseThickness = 3.0;',
+    '  float waveProximity = abs(distToClick - pulseRadius);',
+    '  return smoothstep(pulseThickness, 0.0, waveProximity) * smoothstep(uPulseDuration, 0.0, timeSinceClick);',
+    '}',
+    'void main() {',
+    '  float t = position.x;',
+    '  vPathPosition = t;',
+    '  vec3 midPoint = mix(startPoint, endPoint, 0.5);',
+    '  float pathOffset = sin(t * 3.14159) * 0.15;',
+    '  vec3 perpendicular = normalize(cross(normalize(endPoint - startPoint), vec3(0.0, 1.0, 0.0)));',
+    '  if (length(perpendicular) < 0.1) perpendicular = vec3(1.0, 0.0, 0.0);',
+    '  midPoint += perpendicular * pathOffset;',
+    '  vec3 p0 = mix(startPoint, midPoint, t);',
+    '  vec3 p1 = mix(midPoint, endPoint, t);',
+    '  vec3 finalPos = mix(p0, p1, t);',
+    '  float noiseTime = uTime * 0.15;',
+    '  float noise = snoise(vec3(pathIndex * 0.08, t * 0.6, noiseTime));',
+    '  finalPos += perpendicular * noise * 0.12;',
+    '  vec3 worldPos = (modelMatrix * vec4(finalPos, 1.0)).xyz;',
+    '  float totalPulseIntensity = 0.0;',
+    '  for (int i = 0; i < 3; i++) {',
+    '    totalPulseIntensity += getPulseIntensity(worldPos, uPulsePositions[i], uPulseTimes[i]);',
+    '  }',
+    '  vPulseIntensity = min(totalPulseIntensity, 1.0);',
+    '  vColor = connectionColor;',
+    '  vConnectionStrength = connectionStrength;',
+    '  vMorph = uMorph;',
+    '  vDistanceFromCamera = length(worldPos - cameraPosition);',
+    '  gl_Position = projectionMatrix * modelViewMatrix * vec4(finalPos, 1.0);',
+    '}'
+  ].join('\n');
+
+  var CONN_FRAGMENT = [
+    'uniform float uTime;',
+    'uniform vec3 uPulseColors[3];',
+    'varying vec3 vColor;',
+    'varying float vConnectionStrength;',
+    'varying float vPulseIntensity;',
+    'varying float vPathPosition;',
+    'varying float vDistanceFromCamera;',
+    'varying float vMorph;',
+    'void main() {',
+    '  float flowPattern1 = sin(vPathPosition * 25.0 - uTime * 4.0) * 0.5 + 0.5;',
+    '  float flowPattern2 = sin(vPathPosition * 15.0 - uTime * 2.5 + 1.57) * 0.5 + 0.5;',
+    '  float combinedFlow = (flowPattern1 + flowPattern2 * 0.5) / 1.5;',
+    '  vec3 baseColor = vColor * (0.9 + 0.2 * sin(uTime * 0.6 + vPathPosition * 12.0));',
+    '  float flowIntensity = 0.5 * combinedFlow * vConnectionStrength;',
+    '  vec3 finalColor = baseColor;',
+    '  if (vPulseIntensity > 0.0) {',
+    '    vec3 pulseColor = mix(vec3(1.0), uPulseColors[0], 0.25);',
+    '    finalColor = mix(baseColor, pulseColor * 1.3, vPulseIntensity * 0.7);',
+    '    flowIntensity += vPulseIntensity * 0.9;',
+    '  }',
+    '  finalColor *= (1.0 + flowIntensity + vConnectionStrength * 0.55);',
+    '  float baseAlpha = 0.75 * vConnectionStrength;',
+    '  float flowAlpha = combinedFlow * 0.3;',
+    '  float alpha = baseAlpha + flowAlpha;',
+    '  alpha = mix(alpha, min(1.0, alpha * 2.5), vPulseIntensity);',
+    '  alpha *= (1.0 - vMorph * 0.99);',
+    '  float distanceFade = smoothstep(100.0, 15.0, vDistanceFromCamera);',
+    '  gl_FragColor = vec4(finalColor, alpha * distanceFade);',
+    '}'
+  ].join('\n');
+
+  // FILLER VERTEX — TAMAÑO GRANDE en modo frase
+  var FILLER_VERTEX = [
+    'uniform float uTime;',
+    'uniform float uMorph;',
+    'attribute vec3 targetPosition;',
+    'attribute vec3 aColor;',
+    'attribute vec3 aRand;',
+    'attribute float aActive;',
+    'varying vec3 vColor;',
+    'varying float vMorph;',
+    'varying float vAlpha;',
+    'void main() {',
+    '  vec3 finalPos = mix(position, targetPosition, uMorph);',
+    '  float noise = sin(uTime * 0.9 + aRand.x * 6.283) * 0.15 * (1.0 - uMorph);',
+    '  finalPos += vec3(noise, noise * 0.7, noise * 0.5);',
+    '  vColor = aColor;',
+    '  vMorph = uMorph;',
+    '  float activeMod = mix(1.0, aActive, uMorph);',
+    '  vAlpha = (0.15 + uMorph * 0.85) * activeMod;',
+    '  vec4 mvPos = modelViewMatrix * vec4(finalPos, 1.0);',
+    '  gl_Position = projectionMatrix * mvPos;',
+    // *** CLAVE 3: filler sizeFactor de 40 → 240 en modo frase, clamp hasta 5px ***
+    '  float sizeFactor = mix(250.0, 240.0, uMorph);',
+    '  gl_PointSize = clamp((1.15 + aRand.y * 0.55) * (sizeFactor / -mvPos.z), 1.0, 5.0);',
+    '}'
+  ].join('\n');
+
+  // FILLER FRAGMENT — alpha 1.0 y color reforzado en modo frase
+  var FILLER_FRAGMENT = [
+    'varying vec3 vColor;',
+    'varying float vMorph;',
+    'varying float vAlpha;',
+    'void main() {',
+    '  vec2 uv = gl_PointCoord - vec2(0.5);',
+    '  float d = length(uv);',
+    '  if (d > 0.5) discard;',
+    '  float alphaN = smoothstep(0.5, 0.15, d);',
+    '  float coreN = smoothstep(0.18, 0.0, d);',
+    '  vec3 colorN = vColor * 0.85 + vec3(1.0) * coreN * 0.2;',
+    // *** CLAVE 4: punto sólido, alpha 1.0, color reforzado 1.3x ***
+    '  float alphaP = (d < 0.6) ? 1.0 : 0.0;',
+    '  vec3 colorP = vColor * 1.3 + vec3(0.05);',
+    '  float alpha = mix(alphaN, alphaP, vMorph);',
+    '  vec3 finalColor = mix(colorN, colorP, vMorph);',
+    '  alpha *= mix(1.0, 1.0, vMorph);',
+    '  gl_FragColor = vec4(finalColor, alpha * vAlpha);',
+    '}'
+  ].join('\n');
+
+  // SPARKLE VERTEX — más grandes en modo frase para que brillen alrededor
+  var SPARKLE_VERTEX = [
+    'uniform float uTime;',
+    'uniform float uMorph;',
+    'attribute vec3 aColor;',
+    'attribute vec3 aRand;',
+    'attribute float aSize;',
+    'attribute vec3 aPos;',
+    'varying vec3 vColor;',
+    'varying float vAlpha;',
+    'varying float vGlow;',
+    'void main() {',
+    '  vec3 finalPos = aPos;',
+    '  float driftX = sin(uTime * 0.4 + aRand.x * 6.283) * 0.6;',
+    '  float driftY = cos(uTime * 0.5 + aRand.y * 6.283) * 0.6;',
+    '  float driftZ = sin(uTime * 0.3 + aRand.z * 6.283) * 0.4;',
+    '  finalPos += vec3(driftX, driftY, driftZ) * uMorph;',
+    '  vColor = aColor;',
+    '  float twinkle = sin(uTime * (2.0 + aRand.x * 4.0) + aRand.y * 6.283) * 0.5 + 0.5;',
+    '  twinkle = pow(twinkle, 1.8);',
+    '  vGlow = twinkle;',
+    '  vAlpha = twinkle * uMorph;',
+    '  vec4 mvPos = modelViewMatrix * vec4(finalPos, 1.0);',
+    '  gl_Position = projectionMatrix * mvPos;',
+    '  float sizeFactor = mix(280.0, 180.0, uMorph);',
+    '  gl_PointSize = clamp(aSize * (1.0 + twinkle * 1.5) * uMorph * (sizeFactor / -mvPos.z), 1.0, 4.0);',
+    '}'
+  ].join('\n');
+
+  var SPARKLE_FRAGMENT = [
+    'varying vec3 vColor;',
+    'varying float vAlpha;',
+    'varying float vGlow;',
+    'void main() {',
+    '  vec2 uv = gl_PointCoord - vec2(0.5);',
+    '  float d = length(uv);',
+    '  if (d > 0.5) discard;',
+    '  float core = 1.0 - smoothstep(0.0, 0.22, d);',
+    '  float halo = 1.0 - smoothstep(0.0, 0.5, d);',
+    '  float alpha = (core * 1.4 + halo * 0.5) * vAlpha;',
+    '  vec3 finalColor = vColor * (1.2 + vGlow * 1.5);',
+    '  finalColor += vec3(1.0) * core * 0.25;',
+    '  gl_FragColor = vec4(finalColor, alpha);',
+    '}'
+  ].join('\n');
+
+  var NODE_VS_JSON = JSON.stringify(NODE_VERTEX);
+  var NODE_FS_JSON = JSON.stringify(NODE_FRAGMENT);
+  var CONN_VS_JSON = JSON.stringify(CONN_VERTEX);
+  var CONN_FS_JSON = JSON.stringify(CONN_FRAGMENT);
+  var FILLER_VS_JSON = JSON.stringify(FILLER_VERTEX);
+  var FILLER_FS_JSON = JSON.stringify(FILLER_FRAGMENT);
+  var SPARKLE_VS_JSON = JSON.stringify(SPARKLE_VERTEX);
+  var SPARKLE_FS_JSON = JSON.stringify(SPARKLE_FRAGMENT);
+
+  return `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#010102">
+<title>${escapeHtml(name)} · Red Neuronal Estelar ✨</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;height:100dvh;overflow:hidden;background:#010102;color:#fff;font-family:'Outfit','Inter',-apple-system,sans-serif;user-select:none}
+#neural-canvas{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:1;touch-action:none}
+#pill{position:fixed;top:max(12px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);padding:8px 18px;border-radius:999px;background:rgba(167,243,208,.08);border:1px solid rgba(167,243,208,.3);backdrop-filter:blur(10px);font-size:13px;z-index:30;white-space:nowrap;max-width:60vw;overflow:hidden;text-overflow:ellipsis;color:#a7f3d0}
+#days{position:fixed;top:max(52px,calc(env(safe-area-inset-top)+40px));left:50%;transform:translateX(-50%);font-size:12px;color:#7dd3fc;opacity:.9;z-index:30;text-align:center;text-shadow:0 0 10px rgba(125,211,252,.5)}
+.controls{position:fixed;top:max(12px,env(safe-area-inset-top));left:12px;display:flex;flex-direction:column;gap:6px;z-index:30}
+.controls button{width:38px;height:38px;border-radius:50%;border:1px solid rgba(167,243,208,.3);background:rgba(0,0,0,.5);color:#fff;font-size:16px;cursor:pointer;backdrop-filter:blur(8px)}
+.attribution{position:fixed;right:10px;top:max(12px,env(safe-area-inset-top));font-size:11px;color:#020610;z-index:500;text-decoration:none;font-weight:800;background:linear-gradient(135deg,rgba(167,243,208,.95),rgba(125,211,252,.95));padding:7px 11px;border-radius:20px;border:2px solid #e0f2fe;max-width:140px;text-align:center;line-height:1.2;box-shadow:0 6px 18px rgba(125,211,252,.5)}
+#music-btn{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0));z-index:950;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,rgba(167,243,208,.95),rgba(125,211,252,.95));border:2px solid #e0f2fe;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 24px rgba(125,211,252,.55),0 4px 10px rgba(0,0,0,.4);transition:transform .2s,box-shadow .2s;color:#020610;font-size:22px}
+#music-btn:active{transform:scale(.92)}
+#music-btn.playing{animation:musicPulse 1.6s ease-in-out infinite}
+@keyframes musicPulse{0%,100%{box-shadow:0 8px 24px rgba(125,211,252,.55),0 4px 10px rgba(0,0,0,.4),0 0 0 0 rgba(167,243,208,.6)}50%{box-shadow:0 8px 24px rgba(125,211,252,.55),0 4px 10px rgba(0,0,0,.4),0 0 0 12px rgba(167,243,208,0)}}
+#music-panel{position:fixed;right:16px;bottom:calc(80px + env(safe-area-inset-bottom,0));z-index:960;width:230px;background:rgba(4,10,24,.95);border:1px solid rgba(167,243,208,.3);border-radius:16px;padding:14px;backdrop-filter:blur(14px);display:none;flex-direction:column;gap:10px;box-shadow:0 16px 40px rgba(0,0,0,.6)}
+#music-panel.show{display:flex;animation:panelIn .3s ease}
+@keyframes panelIn{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+#music-panel .mp-title{font-size:11px;color:#a7f3d0;text-transform:uppercase;letter-spacing:1px;font-weight:600}
+#music-panel .mp-progress{height:5px;background:rgba(255,255,255,.15);border-radius:3px;cursor:pointer;overflow:hidden}
+#music-panel .mp-bar{height:100%;width:0%;background:linear-gradient(90deg,#a7f3d0,#7dd3fc);border-radius:3px;transition:width .1s}
+#music-panel .mp-time{font-size:10px;color:#7dd3fc;text-align:right}
+#music-panel .mp-row{display:flex;align-items:center;gap:8px}
+#music-panel .mp-row button{padding:6px 10px;border-radius:8px;border:1px solid rgba(167,243,208,.3);background:rgba(167,243,208,.1);color:#fff;cursor:pointer;font-size:12px}
+#music-panel .mp-row input[type=range]{flex:1;accent-color:#a7f3d0}
+
+#magic-btn{
+  position:fixed;
+  bottom:calc(88px + env(safe-area-inset-bottom,0));
+  left:50%;
+  transform:translateX(-50%);
+  z-index:945;
+  padding:14px 26px;
+  border-radius:999px;
+  border:2px solid #e0f2fe;
+  background:linear-gradient(135deg,rgba(167,243,208,.97),rgba(125,211,252,.97));
+  color:#020610;
+  font-family:inherit;
+  font-weight:800;
+  font-size:14px;
+  letter-spacing:.3px;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  cursor:pointer;
+  box-shadow:0 10px 32px rgba(125,211,252,.6),0 4px 14px rgba(0,0,0,.5);
+  animation:magicPulse 2.2s ease-in-out infinite;
+  transition:background .3s,border-color .3s,transform .15s;
+  white-space:nowrap;
+  max-width:92vw;
+}
+#magic-btn:active{transform:translateX(-50%) scale(.94)}
+#magic-btn .mb-icon{font-size:19px;line-height:1;display:inline-block;animation:wandWave 2.4s ease-in-out infinite;transform-origin:center bottom}
+#magic-btn .mb-text{position:relative;top:0}
+@keyframes wandWave{
+  0%,100%{transform:rotate(-12deg) scale(1)}
+  50%{transform:rotate(16deg) scale(1.08)}
+}
+@keyframes magicPulse{
+  0%,100%{box-shadow:0 10px 32px rgba(125,211,252,.6),0 4px 14px rgba(0,0,0,.5),0 0 0 0 rgba(167,243,208,.65)}
+  50%{box-shadow:0 10px 32px rgba(125,211,252,.6),0 4px 14px rgba(0,0,0,.5),0 0 0 15px rgba(167,243,208,0)}
+}
+#magic-btn.active{
+  background:linear-gradient(135deg,rgba(255,209,102,.97),rgba(251,191,36,.97));
+  border-color:#fef3c7;
+}
+#magic-btn.active .mb-icon{animation:spinSlow 3s linear infinite}
+@keyframes spinSlow{to{transform:rotate(360deg)}}
+
+#intro{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;background:radial-gradient(ellipse at center,#0a1830 0%,#010102 75%);transition:opacity 1.2s ease}
+#intro.hide{opacity:0;pointer-events:none}
+#intro > *{pointer-events:none;position:relative;z-index:2}
+#intro .i-from{font-size:13px;color:#a7f3d0;opacity:.85;margin-bottom:6px}
+#intro .i-name{font-family:'Dancing Script',cursive;font-weight:700;font-size:clamp(2.2rem,10vw,3.6rem);background:linear-gradient(90deg,#a7f3d0,#7dd3fc,#fde68a);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 24px rgba(167,243,208,.5));margin-bottom:10px;line-height:1.15}
+#intro .i-sub{font-family:'Caveat',cursive;font-size:clamp(1.05rem,4vw,1.4rem);color:#a7f3d0;opacity:.9;max-width:340px;margin-bottom:32px}
+#intro .i-btn{padding:16px 44px;border-radius:999px;border:2px solid #a7f3d0;background:linear-gradient(135deg,rgba(167,243,208,.2),rgba(125,211,252,.2));color:#fff;font-size:1rem;font-weight:700;letter-spacing:.5px;backdrop-filter:blur(8px);animation:pulse 2.2s ease-in-out infinite;cursor:pointer;font-family:inherit;pointer-events:auto;z-index:100}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(167,243,208,.45)}50%{box-shadow:0 0 0 18px rgba(167,243,208,0)}}
+</style>
+<script async src="https://unpkg.com/es-module-shims@1.8.0/dist/es-module-shims.js"><\/script>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.162.0/examples/jsm/"
+  }
+}
+<\/script>
+</head>
+<body>
+<canvas id="neural-canvas"></canvas>
+
+<div id="intro">
+  ${fromName ? `<div class="i-from">De parte de ${escapeHtml(fromName)}</div>` : ""}
+  <div class="i-name">${escapeHtml(name)}</div>
+  <div class="i-sub">${escapeHtml(subtitle)}</div>
+  <button class="i-btn" id="iBtn" type="button">✨ Entrar al universo</button>
+</div>
+
+<div id="pill">${escapeHtml(subtitle)}</div>
+<div id="days"></div>
+<div class="controls">
+  <button id="btnFullscreen" title="Pantalla completa">⛶</button>
+</div>
+<a href="https://c4rlo53305-lgtm.github.io/Peri/index.html" class="attribution" target="_blank" rel="noopener">✨ Creado por<br>Dedicatorias Mágicas</a>
+
+<button id="magic-btn" type="button">
+  <span class="mb-text">Haz click aquí y haz magia</span>
+  <span class="mb-icon">🪄</span>
+</button>
+
+<button id="music-btn" type="button" aria-label="Reproductor de música">🎵</button>
+<div id="music-panel">
+  <div class="mp-title">🎶 Música de fondo</div>
+  <div class="mp-progress" id="mpProgress"><div class="mp-bar" id="mpBar"></div></div>
+  <div class="mp-time" id="mpTime">0:00 / 0:00</div>
+  <div class="mp-row">
+    <button id="mpPlay">▶︎</button>
+    <button id="mpLoop">🔁</button>
+    <input type="range" id="mpVol" min="0" max="1" step="0.01" value="0.75">
+  </div>
+</div>
+<audio id="audio" preload="auto" loop></audio>
+
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+
+const CONFIG = {
+  subtitle: ${JSON.stringify(subtitle)},
+  startDate: ${startDateJSON},
+  isPremium: ${isPremiumJSON},
+  phrases: ${phrasesJSON},
+  palette: ${JSON.stringify(paletteKey)},
+  customMusic: ${customMusicJSON},
+  palettes: ${palettesJSON}
+};
+const isPremium = CONFIG.isPremium;
+const pal = CONFIG.palettes[CONFIG.palette] || CONFIG.palettes.quantum;
+const palColors = pal.colors.map(c => new THREE.Color(c));
+
+// ===== AUDIO =====
+const audio = document.getElementById('audio');
+const musicBtn = document.getElementById('music-btn');
+const musicPanel = document.getElementById('music-panel');
+const mpPlay = document.getElementById('mpPlay');
+const mpLoop = document.getElementById('mpLoop');
+const mpVol = document.getElementById('mpVol');
+const mpProgress = document.getElementById('mpProgress');
+const mpBar = document.getElementById('mpBar');
+const mpTime = document.getElementById('mpTime');
+let isLoop = true;
+audio.loop = true;
+const DEFAULT_MUSIC = "https://raw.githubusercontent.com/c4rlo53305-lgtm/Peri/main/paulyudin-love-485933.mp3";
+audio.src = CONFIG.customMusic || DEFAULT_MUSIC;
+
+musicBtn.addEventListener('click', function(e){ e.stopPropagation(); musicPanel.classList.toggle('show'); });
+mpPlay.addEventListener('click', async (e) => {
+  e.stopPropagation();
+  try {
+    if (audio.paused){ await audio.play(); mpPlay.textContent = '⏸︎'; musicBtn.classList.add('playing'); musicBtn.textContent = '🎶'; }
+    else { audio.pause(); mpPlay.textContent = '▶︎'; musicBtn.classList.remove('playing'); musicBtn.textContent = '🎵'; }
+  } catch(err){}
+});
+mpVol.oninput = () => audio.volume = mpVol.value;
+mpLoop.onclick = (e) => { e.stopPropagation(); isLoop = !isLoop; audio.loop = isLoop; mpLoop.style.opacity = isLoop ? '1' : '0.5'; };
+function fmtTime(s){ const m=Math.floor(s/60), sec=Math.floor(s%60); return m+':'+sec.toString().padStart(2,'0'); }
+audio.ontimeupdate = () => {
+  if (audio.duration){ mpBar.style.width = (audio.currentTime/audio.duration*100)+'%'; mpTime.textContent = fmtTime(audio.currentTime)+' / '+fmtTime(audio.duration); }
+};
+mpProgress.addEventListener('click', (e) => {
+  e.stopPropagation();
+  if (!audio.duration) return;
+  const r = mpProgress.getBoundingClientRect();
+  audio.currentTime = ((e.clientX-r.left)/r.width)*audio.duration;
+});
+
+document.getElementById('btnFullscreen').onclick = (e) => {
+  e.stopPropagation();
+  if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+  else document.exitFullscreen();
+};
+if (CONFIG.startDate) {
+  try {
+    const d0 = new Date(CONFIG.startDate);
+    const diff = Math.floor((Date.now()-d0.getTime())/86400000);
+    if (diff >= 0) document.getElementById('days').textContent = 'Juntos desde hace '+diff.toLocaleString('es')+' días ✨';
+  } catch(e){}
+}
+
+// ===== THREE SCENE =====
+const canvasElement = document.getElementById('neural-canvas');
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x000000, 0.002);
+
+const camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.set(0, 8, 28);
+
+const renderer = new THREE.WebGLRenderer({ canvas: canvasElement, antialias: true, powerPreference: "high-performance" });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setClearColor(0x000000);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+function createStarfield() {
+  const count = isPremium ? 12000 : 6000;
+  const positions = [], colors = [], sizes = [];
+  for (let i = 0; i < count; i++) {
+    const r = THREE.MathUtils.randFloat(50, 150);
+    const phi = Math.acos(THREE.MathUtils.randFloatSpread(2));
+    const theta = THREE.MathUtils.randFloat(0, Math.PI * 2);
+    positions.push(r * Math.sin(phi) * Math.cos(theta), r * Math.sin(phi) * Math.sin(theta), r * Math.cos(phi));
+    const cc = Math.random();
+    if (cc < 0.7) colors.push(1, 1, 1);
+    else if (cc < 0.85) colors.push(0.7, 0.8, 1);
+    else colors.push(1, 0.9, 0.8);
+    sizes.push(THREE.MathUtils.randFloat(0.1, 0.3));
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+  geo.setAttribute('size', new THREE.Float32BufferAttribute(sizes, 1));
+  const mat = new THREE.ShaderMaterial({
+    uniforms: { uTime: { value: 0 } },
+    vertexShader: 'attribute float size;attribute vec3 color;varying vec3 vColor;uniform float uTime;void main(){vColor=color;vec4 mvPosition=modelViewMatrix*vec4(position,1.0);float twinkle=sin(uTime*2.0+position.x*100.0)*0.3+0.7;gl_PointSize=size*twinkle*(300.0/-mvPosition.z);gl_Position=projectionMatrix*mvPosition;}',
+    fragmentShader: 'varying vec3 vColor;void main(){vec2 center=gl_PointCoord-0.5;float dist=length(center);if(dist>0.5)discard;float alpha=1.0-smoothstep(0.0,0.5,dist);gl_FragColor=vec4(vColor,alpha*0.75);}',
+    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
+  });
+  return new THREE.Points(geo, mat);
+}
+const starField = createStarfield();
+scene.add(starField);
+
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.05;
+controls.rotateSpeed = 0.6;
+controls.zoomSpeed = 0.9;
+controls.enableZoom = true;
+controls.enablePan = false;
+controls.minDistance = 5;
+controls.maxDistance = 120;
+controls.autoRotate = true;
+controls.autoRotateSpeed = 0.2;
+
+// *** Bloom: moderado en red, ligero en frase (0.15) para que las letras brillen ***
+const BASE_BLOOM = isPremium ? 1.8 : 1.5;
+const PHRASE_BLOOM = 0.15;
+
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), BASE_BLOOM, 0.55, 0.85);
+composer.addPass(bloomPass);
+composer.addPass(new OutputPass());
+
+const pulseUniforms = {
+  uTime: { value: 0.0 },
+  uMorph: { value: 0.0 },
+  uPulsePositions: { value: [new THREE.Vector3(1e3,1e3,1e3), new THREE.Vector3(1e3,1e3,1e3), new THREE.Vector3(1e3,1e3,1e3)] },
+  uPulseTimes: { value: [-1e3, -1e3, -1e3] },
+  uPulseColors: { value: [new THREE.Color(1,1,1), new THREE.Color(1,1,1), new THREE.Color(1,1,1)] },
+  uPulseSpeed: { value: isPremium ? 22.0 : 18.0 },
+  uBaseNodeSize: { value: 0.6 },
+  uPulseDuration: { value: isPremium ? 6.0 : 4.0 }
+};
+
+const NODE_VS = ${NODE_VS_JSON};
+const NODE_FS = ${NODE_FS_JSON};
+const CONN_VS = ${CONN_VS_JSON};
+const CONN_FS = ${CONN_FS_JSON};
+const FILLER_VS = ${FILLER_VS_JSON};
+const FILLER_FS = ${FILLER_FS_JSON};
+const SPARKLE_VS = ${SPARKLE_VS_JSON};
+const SPARKLE_FS = ${SPARKLE_FS_JSON};
+
+// ====== NETWORK ======
+class Node {
+  constructor(position, level = 0, type = 0) {
+    this.position = position;
+    this.connections = [];
+    this.level = level;
+    this.type = type;
+    this.size = type === 0 ? THREE.MathUtils.randFloat(0.8, 1.4) : THREE.MathUtils.randFloat(0.5, 1.0);
+    this.distanceFromRoot = 0;
+  }
+  addConnection(node, strength = 1.0) {
+    if (!this.isConnectedTo(node)) {
+      this.connections.push({ node, strength });
+      node.connections.push({ node: this, strength });
+    }
+  }
+  isConnectedTo(node) {
+    return this.connections.some(conn => conn.node === node);
+  }
+}
+
+function generateNetwork(densityFactor = 1.0) {
+  const nodes = [];
+  const rootNode = new Node(new THREE.Vector3(0, 0, 0), 0, 0);
+  rootNode.size = 2.0;
+  nodes.push(rootNode);
+  const layers = 5;
+  const goldenRatio = (1 + Math.sqrt(5)) / 2;
+  for (let layer = 1; layer <= layers; layer++) {
+    const radius = layer * 4;
+    const numPoints = Math.floor(layer * 12 * densityFactor);
+    for (let i = 0; i < numPoints; i++) {
+      const phi = Math.acos(1 - 2 * (i + 0.5) / numPoints);
+      const theta = 2 * Math.PI * i / goldenRatio;
+      const pos = new THREE.Vector3(
+        radius * Math.sin(phi) * Math.cos(theta),
+        radius * Math.sin(phi) * Math.sin(theta),
+        radius * Math.cos(phi)
+      );
+      const isLeaf = layer === layers || Math.random() < 0.3;
+      const node = new Node(pos, layer, isLeaf ? 1 : 0);
+      node.distanceFromRoot = radius;
+      nodes.push(node);
+      if (layer > 1) {
+        const prevLayerNodes = nodes.filter(n => n.level === layer - 1 && n !== rootNode);
+        prevLayerNodes.sort((a, b) => pos.distanceTo(a.position) - pos.distanceTo(b.position));
+        for (let j = 0; j < Math.min(3, prevLayerNodes.length); j++) {
+          const dist = pos.distanceTo(prevLayerNodes[j].position);
+          const strength = 1.0 - (dist / (radius * 2));
+          node.addConnection(prevLayerNodes[j], Math.max(0.3, strength));
+        }
+      } else {
+        rootNode.addConnection(node, 0.9);
+      }
+    }
+    const layerNodes = nodes.filter(n => n.level === layer && n !== rootNode);
+    for (const node of layerNodes) {
+      const nearby = layerNodes.filter(n => n !== node).sort((a, b) =>
+        node.position.distanceTo(a.position) - node.position.distanceTo(b.position)
+      ).slice(0, 5);
+      for (const nearNode of nearby) {
+        const dist = node.position.distanceTo(nearNode.position);
+        if (dist < radius * 0.8 && !node.isConnectedTo(nearNode)) {
+          node.addConnection(nearNode, 0.6);
+        }
+      }
+    }
+  }
+  return { nodes, rootNode };
+}
+
+let nodesMesh = null, connectionsMesh = null, fillerMesh = null, sparkleMesh = null;
+let phraseBounds = { w: 24, h: 12 };
+
+function bakePhrase(text) {
+  const canvas = document.createElement('canvas');
+  canvas.width = 1600;
+  canvas.height = 800;
+  const g = canvas.getContext('2d', { willReadFrequently: true });
+  g.fillStyle = '#fff';
+  g.strokeStyle = '#fff';
+  g.textAlign = 'center';
+  g.textBaseline = 'middle';
+  g.lineJoin = 'round';
+  g.lineCap = 'round';
+
+  let fontSize = 260;
+  const len = text.length;
+  if (len > 8) fontSize = 215;
+  if (len > 14) fontSize = 178;
+  if (len > 22) fontSize = 145;
+  if (len > 32) fontSize = 118;
+  if (len > 45) fontSize = 96;
+  if (len > 60) fontSize = 78;
+
+  g.font = '900 ' + fontSize + 'px "Arial Black",-apple-system,"Segoe UI",Arial,sans-serif';
+
+  const maxWidth = canvas.width - 300;
+  const words = text.split(/\\s+/);
+  const lines = [];
+  let line = '';
+  for (const w of words) {
+    const test = line ? line + ' ' + w : w;
+    if (g.measureText(test).width > maxWidth && line) { lines.push(line); line = w; }
+    else line = test;
+  }
+  if (line) lines.push(line);
+
+  const lh = fontSize * 1.15;
+  const totalH = lines.length * lh;
+  const startY = canvas.height/2 - totalH/2 + lh/2;
+
+  g.lineWidth = Math.max(4, fontSize * 0.04);
+  lines.forEach((l, i) => {
+    const y = startY + i*lh;
+    g.strokeText(l, canvas.width/2, y);
+    g.fillText(l, canvas.width/2, y);
+  });
+
+  const data = g.getImageData(0, 0, canvas.width, canvas.height).data;
+  const points = [];
+  const step = 3;
+  const threshold = 60;
+  for (let y = 0; y < canvas.height; y += step) {
+    for (let x = 0; x < canvas.width; x += step) {
+      const i = (y * canvas.width + x) * 4;
+      if (data[i+3] > threshold) points.push({ x, y });
+    }
+  }
+  if (!points.length) points.push({x:canvas.width/2, y:canvas.height/2});
+
+  let minX = canvas.width, maxX = 0, minY = canvas.height, maxY = 0;
+  points.forEach(p => {
+    if (p.x < minX) minX = p.x;
+    if (p.x > maxX) maxX = p.x;
+    if (p.y < minY) minY = p.y;
+    if (p.y > maxY) maxY = p.y;
+  });
+  const pad = 8;
+  minX = Math.max(0, minX - pad);
+  maxX = Math.min(canvas.width, maxX + pad);
+  minY = Math.max(0, minY - pad);
+  maxY = Math.min(canvas.height, maxY + pad);
+
+  const cxPx = (minX + maxX) / 2;
+  const cyPx = (minY + maxY) / 2;
+  const textW = Math.max(1, maxX - minX);
+  const textH = Math.max(1, maxY - minY);
+  const aspect = textW / textH;
+
+  // *** TEXTO MÁS GRANDE ***
+  const maxW = 24;
+  const maxH = 12;
+  let WORLD_W, WORLD_H;
+  if (aspect > maxW / maxH) {
+    WORLD_W = maxW; WORLD_H = maxW / aspect;
+  } else {
+    WORLD_H = maxH; WORLD_W = maxH * aspect;
+  }
+  phraseBounds.w = WORLD_W;
+  phraseBounds.h = WORLD_H;
+
+  for (let i = points.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const tmp = points[i]; points[i] = points[j]; points[j] = tmp;
+  }
+
+  return points.map(p => ({
+    x: ((p.x - cxPx) / textW) * WORLD_W,
+    y: -((p.y - cyPx) / textH) * WORLD_H,
+    z: 0
+  }));
+}
+
+let phraseIdx = 0;
+let phrasePositions = null;
+let morphValue = 0;
+let morphTarget = 0;
+let morphStart = 0;
+let currentState = 'network';
+
+function updatePhraseTargets(phrase) {
+  phrasePositions = bakePhrase(phrase);
+  const total = phrasePositions.length;
+  if (!total) return;
+
+  // *** CLAVE 5: jitter mínimo (0.04) para letras nítidas ***
+  if (nodesMesh) {
+    const attr = nodesMesh.geometry.attributes.targetPosition;
+    const arr = attr.array;
+    const count = attr.count;
+    for (let i = 0; i < count; i++) {
+      const p = phrasePositions[i % total];
+      arr[i*3]   = p.x + (Math.random() - 0.5) * 0.04;
+      arr[i*3+1] = p.y + (Math.random() - 0.5) * 0.04;
+      arr[i*3+2] = (Math.random() - 0.5) * 0.1;
+    }
+    attr.needsUpdate = true;
+  }
+
+  // *** CLAVE 6: 40% de fillers van a la frase (antes 15%) → mucha más densidad ***
+  if (fillerMesh) {
+    const attr = fillerMesh.geometry.attributes.targetPosition;
+    const activeAttr = fillerMesh.geometry.attributes.aActive;
+    const arr = attr.array;
+    const actArr = activeAttr.array;
+    const count = attr.count;
+    const toPhrase = Math.min(9000, Math.floor(count * 0.40));
+    for (let i = 0; i < count; i++) {
+      if (i < toPhrase) {
+        const p = phrasePositions[i % total];
+        arr[i*3]   = p.x + (Math.random() - 0.5) * 0.04;
+        arr[i*3+1] = p.y + (Math.random() - 0.5) * 0.04;
+        arr[i*3+2] = (Math.random() - 0.5) * 0.1;
+        actArr[i] = 1.0;
+      } else {
+        arr[i*3]   = (Math.random() - 0.5) * 100;
+        arr[i*3+1] = (Math.random() - 0.5) * 100;
+        arr[i*3+2] = (Math.random() - 0.5) * 60;
+        actArr[i] = 0.0;
+      }
+    }
+    attr.needsUpdate = true;
+    activeAttr.needsUpdate = true;
+  }
+
+  if (sparkleMesh) {
+    const attr = sparkleMesh.geometry.attributes.aPos;
+    const arr = attr.array;
+    const count = attr.count;
+    const marginX = phraseBounds.w * 0.5;
+    const marginY = phraseBounds.h * 0.5;
+    for (let i = 0; i < count; i++) {
+      arr[i*3]   = (Math.random() - 0.5) * (phraseBounds.w + marginX * 2);
+      arr[i*3+1] = (Math.random() - 0.5) * (phraseBounds.h + marginY * 2);
+      arr[i*3+2] = (Math.random() - 0.5) * 6;
+    }
+    attr.needsUpdate = true;
+  }
+}
+
+function buildFillerParticles() {
+  const count = isPremium ? 25000 : 10000;
+  const positions = new Float32Array(count * 3);
+  const targets = new Float32Array(count * 3);
+  const colors = new Float32Array(count * 3);
+  const randoms = new Float32Array(count * 3);
+  const actives = new Float32Array(count);
+
+  for (let i = 0; i < count; i++) {
+    const r = 6 + Math.random() * 22;
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(2 * Math.random() - 1);
+    positions[i*3] = r * Math.sin(phi) * Math.cos(theta);
+    positions[i*3+1] = r * Math.sin(phi) * Math.sin(theta) + 2;
+    positions[i*3+2] = r * Math.cos(phi);
+
+    targets[i*3] = positions[i*3];
+    targets[i*3+1] = positions[i*3+1];
+    targets[i*3+2] = positions[i*3+2];
+
+    const c = palColors[Math.floor(Math.random() * palColors.length)];
+    colors[i*3] = c.r; colors[i*3+1] = c.g; colors[i*3+2] = c.b;
+
+    randoms[i*3] = Math.random();
+    randoms[i*3+1] = Math.random();
+    randoms[i*3+2] = Math.random();
+
+    actives[i] = 1.0;
+  }
+
+  const geom = new THREE.BufferGeometry();
+  geom.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geom.setAttribute('targetPosition', new THREE.Float32BufferAttribute(targets, 3));
+  geom.setAttribute('aColor', new THREE.Float32BufferAttribute(colors, 3));
+  geom.setAttribute('aRand', new THREE.Float32BufferAttribute(randoms, 3));
+  geom.setAttribute('aActive', new THREE.Float32BufferAttribute(actives, 1));
+
+  const mat = new THREE.ShaderMaterial({
+    uniforms: { uTime: { value: 0.0 }, uMorph: { value: 0.0 } },
+    vertexShader: FILLER_VS, fragmentShader: FILLER_FS,
+    transparent: true, depthWrite: false, depthTest: false,
+    blending: THREE.NormalBlending
+  });
+
+  fillerMesh = new THREE.Points(geom, mat);
+  scene.add(fillerMesh);
+}
+
+function buildSparkles() {
+  const count = isPremium ? 2200 : 800;
+  const positions = new Float32Array(count * 3);
+  const aPositions = new Float32Array(count * 3);
+  const colors = new Float32Array(count * 3);
+  const randoms = new Float32Array(count * 3);
+  const sizes = new Float32Array(count);
+
+  for (let i = 0; i < count; i++) {
+    positions[i*3] = (Math.random() - 0.5) * 100;
+    positions[i*3+1] = (Math.random() - 0.5) * 100;
+    positions[i*3+2] = (Math.random() - 0.5) * 100;
+
+    aPositions[i*3] = (Math.random() - 0.5) * 40;
+    aPositions[i*3+1] = (Math.random() - 0.5) * 25;
+    aPositions[i*3+2] = (Math.random() - 0.5) * 8;
+
+    const c = palColors[Math.floor(Math.random() * palColors.length)].clone();
+    c.lerp(new THREE.Color(1,1,1), Math.random() * 0.4);
+    colors[i*3] = c.r; colors[i*3+1] = c.g; colors[i*3+2] = c.b;
+
+    randoms[i*3] = Math.random();
+    randoms[i*3+1] = Math.random();
+    randoms[i*3+2] = Math.random();
+
+    const r = Math.random();
+    sizes[i] = r < 0.85 ? (0.6 + Math.random() * 0.9) : (1.6 + Math.random() * 1.4);
+  }
+
+  const geom = new THREE.BufferGeometry();
+  geom.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geom.setAttribute('aPos', new THREE.Float32BufferAttribute(aPositions, 3));
+  geom.setAttribute('aColor', new THREE.Float32BufferAttribute(colors, 3));
+  geom.setAttribute('aRand', new THREE.Float32BufferAttribute(randoms, 3));
+  geom.setAttribute('aSize', new THREE.Float32BufferAttribute(sizes, 1));
+
+  const mat = new THREE.ShaderMaterial({
+    uniforms: { uTime: { value: 0.0 }, uMorph: { value: 0.0 } },
+    vertexShader: SPARKLE_VS, fragmentShader: SPARKLE_FS,
+    transparent: true, depthWrite: false, depthTest: false,
+    blending: THREE.AdditiveBlending
+  });
+
+  sparkleMesh = new THREE.Points(geom, mat);
+  scene.add(sparkleMesh);
+}
+
+function buildVisualization() {
+  if (nodesMesh) { scene.remove(nodesMesh); nodesMesh.geometry.dispose(); nodesMesh.material.dispose(); }
+  if (connectionsMesh) { scene.remove(connectionsMesh); connectionsMesh.geometry.dispose(); connectionsMesh.material.dispose(); }
+  if (fillerMesh) { scene.remove(fillerMesh); fillerMesh.geometry.dispose(); fillerMesh.material.dispose(); }
+  if (sparkleMesh) { scene.remove(sparkleMesh); sparkleMesh.geometry.dispose(); sparkleMesh.material.dispose(); }
+
+  const network = generateNetwork(1.0);
+  const nodes = network.nodes;
+
+  const nodePos = [], nodeTypes = [], nodeSizes = [], nodeColors = [], distances = [], targetPos = [];
+  nodes.forEach((node) => {
+    nodePos.push(node.position.x, node.position.y, node.position.z);
+    nodeTypes.push(node.type);
+    nodeSizes.push(node.size);
+    distances.push(node.distanceFromRoot);
+    const ci = Math.min(node.level, palColors.length - 1);
+    const baseColor = palColors[ci].clone();
+    baseColor.offsetHSL(THREE.MathUtils.randFloatSpread(0.03), THREE.MathUtils.randFloatSpread(0.08), THREE.MathUtils.randFloatSpread(0.08));
+    nodeColors.push(baseColor.r, baseColor.g, baseColor.b);
+    targetPos.push(node.position.x, node.position.y, node.position.z);
+  });
+
+  const nodeGeom = new THREE.BufferGeometry();
+  nodeGeom.setAttribute('position', new THREE.Float32BufferAttribute(nodePos, 3));
+  nodeGeom.setAttribute('nodeType', new THREE.Float32BufferAttribute(nodeTypes, 1));
+  nodeGeom.setAttribute('nodeSize', new THREE.Float32BufferAttribute(nodeSizes, 1));
+  nodeGeom.setAttribute('nodeColor', new THREE.Float32BufferAttribute(nodeColors, 3));
+  nodeGeom.setAttribute('distanceFromRoot', new THREE.Float32BufferAttribute(distances, 1));
+  nodeGeom.setAttribute('targetPosition', new THREE.Float32BufferAttribute(targetPos, 3));
+
+  const nodeMat = new THREE.ShaderMaterial({
+    uniforms: THREE.UniformsUtils.clone(pulseUniforms),
+    vertexShader: NODE_VS, fragmentShader: NODE_FS,
+    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
+  });
+
+  nodesMesh = new THREE.Points(nodeGeom, nodeMat);
+  scene.add(nodesMesh);
+
+  const connPos = [], connColors = [], connStrengths = [], startPts = [], endPts = [], pathIdxs = [];
+  const processed = new Set();
+  let pathIdx = 0;
+  nodes.forEach((node, ni) => {
+    node.connections.forEach(conn => {
+      const ci = nodes.indexOf(conn.node);
+      if (ci === -1) return;
+      const key = [Math.min(ni, ci), Math.max(ni, ci)].join('-');
+      if (processed.has(key)) return;
+      processed.add(key);
+      const numSeg = 20;
+      for (let i = 0; i < numSeg; i++) {
+        const t = i / (numSeg - 1);
+        connPos.push(t, 0, 0);
+        startPts.push(node.position.x, node.position.y, node.position.z);
+        endPts.push(conn.node.position.x, conn.node.position.y, conn.node.position.z);
+        pathIdxs.push(pathIdx);
+        connStrengths.push(conn.strength);
+        const avgLvl = Math.min(Math.floor((node.level + conn.node.level) / 2), palColors.length - 1);
+        const cc = palColors[avgLvl].clone();
+        cc.offsetHSL(THREE.MathUtils.randFloatSpread(0.03), THREE.MathUtils.randFloatSpread(0.08), THREE.MathUtils.randFloatSpread(0.08));
+        connColors.push(cc.r, cc.g, cc.b);
+      }
+      pathIdx++;
+    });
+  });
+
+  const connGeom = new THREE.BufferGeometry();
+  connGeom.setAttribute('position', new THREE.Float32BufferAttribute(connPos, 3));
+  connGeom.setAttribute('startPoint', new THREE.Float32BufferAttribute(startPts, 3));
+  connGeom.setAttribute('endPoint', new THREE.Float32BufferAttribute(endPts, 3));
+  connGeom.setAttribute('connectionStrength', new THREE.Float32BufferAttribute(connStrengths, 1));
+  connGeom.setAttribute('connectionColor', new THREE.Float32BufferAttribute(connColors, 3));
+  connGeom.setAttribute('pathIndex', new THREE.Float32BufferAttribute(pathIdxs, 1));
+
+  const connMat = new THREE.ShaderMaterial({
+    uniforms: THREE.UniformsUtils.clone(pulseUniforms),
+    vertexShader: CONN_VS, fragmentShader: CONN_FS,
+    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
+  });
+
+  connectionsMesh = new THREE.LineSegments(connGeom, connMat);
+  scene.add(connectionsMesh);
+
+  palColors.forEach((color, i) => {
+    if (i < 3) {
+      nodesMesh.material.uniforms.uPulseColors.value[i].copy(color);
+      connectionsMesh.material.uniforms.uPulseColors.value[i].copy(color);
+    }
+  });
+
+  buildFillerParticles();
+  buildSparkles();
+  updatePhraseTargets(CONFIG.phrases[phraseIdx]);
+}
+
+// ===== INTERACTION =====
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+const interactionPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+const interactionPoint = new THREE.Vector3();
+let lastPulseIdx = 0;
+
+function triggerPulse(clientX, clientY) {
+  pointer.x = (clientX / window.innerWidth) * 2 - 1;
+  pointer.y = -(clientY / window.innerHeight) * 2 + 1;
+  raycaster.setFromCamera(pointer, camera);
+  interactionPlane.normal.copy(camera.position).normalize();
+  interactionPlane.constant = -interactionPlane.normal.dot(camera.position) + camera.position.length() * 0.5;
+  if (raycaster.ray.intersectPlane(interactionPlane, interactionPoint)) {
+    const time = clock.getElapsedTime();
+    if (nodesMesh && connectionsMesh) {
+      lastPulseIdx = (lastPulseIdx + 1) % 3;
+      nodesMesh.material.uniforms.uPulsePositions.value[lastPulseIdx].copy(interactionPoint);
+      nodesMesh.material.uniforms.uPulseTimes.value[lastPulseIdx] = time;
+      connectionsMesh.material.uniforms.uPulsePositions.value[lastPulseIdx].copy(interactionPoint);
+      connectionsMesh.material.uniforms.uPulseTimes.value[lastPulseIdx] = time;
+      const randomColor = palColors[Math.floor(Math.random() * palColors.length)];
+      nodesMesh.material.uniforms.uPulseColors.value[lastPulseIdx].copy(randomColor);
+      connectionsMesh.material.uniforms.uPulseColors.value[lastPulseIdx].copy(randomColor);
+    }
+  }
+}
+
+let started = false;
+
+let savedDistance = 28;
+let targetCamDist = 28;
+const frontCamPos = new THREE.Vector3();
+const originTarget = new THREE.Vector3(0, 0, 0);
+
+function computeNeededDistance() {
+  const fovRad = camera.fov * Math.PI / 180;
+  const aspect = Math.max(0.35, camera.aspect);
+  const viewH = 2 * Math.tan(fovRad / 2);
+  const dH = (phraseBounds.h * 1.25) / viewH;
+  const dW = (phraseBounds.w * 1.25) / (viewH * aspect);
+  return Math.max(dH, dW);
+}
+
+function triggerPhrase() {
+  if (currentState !== 'network') return;
+  currentState = 'toPhrase';
+  morphStart = clock.getElapsedTime();
+  morphTarget = 1;
+  phraseIdx = (phraseIdx + 1) % CONFIG.phrases.length;
+  updatePhraseTargets(CONFIG.phrases[phraseIdx]);
+
+  savedDistance = camera.position.length();
+  const needed = computeNeededDistance();
+  // *** SIEMPRE encuadra bien la frase ***
+  targetCamDist = needed * 1.08;
+  frontCamPos.set(0, 0, targetCamDist);
+
+  controls.autoRotate = false;
+
+  magicBtn.classList.add('active');
+  magicBtn.querySelector('.mb-text').textContent = 'Volver a la red neuronal';
+  magicBtn.querySelector('.mb-icon').textContent = '✨';
+}
+
+function releasePhrase() {
+  if (currentState !== 'phrase' && currentState !== 'toPhrase') return;
+  currentState = 'toNetwork';
+  morphStart = clock.getElapsedTime();
+  morphTarget = 0;
+  controls.autoRotate = true;
+
+  magicBtn.classList.remove('active');
+  magicBtn.querySelector('.mb-text').textContent = 'Haz click aquí y haz magia';
+  magicBtn.querySelector('.mb-icon').textContent = '🪄';
+}
+
+const magicBtn = document.getElementById('magic-btn');
+magicBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  if (!started) return;
+  if (currentState === 'network') {
+    triggerPhrase();
+  } else if (currentState === 'phrase' || currentState === 'toPhrase') {
+    releasePhrase();
+  }
+});
+
+function handleScreenTap(clientX, clientY) {
+  if (!started) return;
+  if (currentState === 'phrase' || currentState === 'toPhrase') {
+    triggerPulse(clientX, clientY);
+  }
+}
+window.addEventListener('click', (e) => {
+  if (!started) return;
+  if (e.target.closest('#music-btn') || e.target.closest('#music-panel') ||
+      e.target.closest('.controls') || e.target.closest('.attribution') ||
+      e.target.closest('#intro') || e.target.closest('#magic-btn')) return;
+  handleScreenTap(e.clientX, e.clientY);
+});
+window.addEventListener('touchstart', (e) => {
+  if (!started) return;
+  const t = e.touches[0];
+  if (!t) return;
+  const el = document.elementFromPoint(t.clientX, t.clientY);
+  if (el && (el.closest('#music-btn') || el.closest('#music-panel') || el.closest('.controls') ||
+             el.closest('.attribution') || el.closest('#intro') || el.closest('#magic-btn'))) return;
+  handleScreenTap(t.clientX, t.clientY);
+}, { passive: true });
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  composer.setSize(window.innerWidth, window.innerHeight);
+  bloomPass.resolution.set(window.innerWidth, window.innerHeight);
+});
+
+// ===== INTRO =====
+const intro = document.getElementById('intro');
+const iBtn = document.getElementById('iBtn');
+iBtn.addEventListener('click', function(){
+  if (started) return;
+  started = true;
+  intro.classList.add('hide');
+  setTimeout(function(){ if (intro.parentNode) intro.style.display = 'none'; }, 1400);
+  audio.play().then(() => { mpPlay.textContent = '⏸︎'; musicBtn.classList.add('playing'); musicBtn.textContent = '🎶'; }).catch(() => {});
+}, { once: true });
+
+const clock = new THREE.Clock();
+function animate() {
+  requestAnimationFrame(animate);
+  const t = clock.getElapsedTime();
+
+  if (currentState === 'toPhrase' || currentState === 'toNetwork') {
+    const p = Math.min(1, (t - morphStart) / 1.6);
+    const e = p < 0.5 ? 4*p*p*p : 1 - Math.pow(-2*p+2, 3)/2;
+    morphValue = currentState === 'toPhrase' ? e : 1 - e;
+    if (p >= 1) {
+      if (currentState === 'toPhrase') {
+        currentState = 'phrase';
+      } else {
+        currentState = 'network';
+        morphValue = 0;
+      }
+    }
+  }
+
+  if (currentState === 'toPhrase') {
+    camera.position.lerp(frontCamPos, 0.08);
+    controls.target.lerp(originTarget, 0.12);
+  }
+
+  const targetBloom = BASE_BLOOM + (PHRASE_BLOOM - BASE_BLOOM) * morphValue;
+  bloomPass.strength += (targetBloom - bloomPass.strength) * 0.08;
+
+  if (nodesMesh) {
+    nodesMesh.material.uniforms.uTime.value = t;
+    nodesMesh.material.uniforms.uMorph.value = morphValue;
+    nodesMesh.rotation.y = Math.sin(t * 0.04) * 0.05 * (1 - morphValue);
+  }
+  if (connectionsMesh) {
+    connectionsMesh.material.uniforms.uTime.value = t;
+    connectionsMesh.material.uniforms.uMorph.value = morphValue;
+    connectionsMesh.rotation.y = Math.sin(t * 0.04) * 0.05 * (1 - morphValue);
+  }
+  if (fillerMesh) {
+    fillerMesh.material.uniforms.uTime.value = t;
+    fillerMesh.material.uniforms.uMorph.value = morphValue;
+    fillerMesh.rotation.y = Math.sin(t * 0.04) * 0.05 * (1 - morphValue);
+  }
+  if (sparkleMesh) {
+    sparkleMesh.material.uniforms.uTime.value = t;
+    sparkleMesh.material.uniforms.uMorph.value = morphValue;
+    sparkleMesh.rotation.y = Math.sin(t * 0.04) * 0.05 * (1 - morphValue);
+  }
+  starField.rotation.y += 0.0002;
+  starField.material.uniforms.uTime.value = t;
+  controls.update();
+  composer.render();
+}
+
+buildVisualization();
+animate();
+<\/script>
+</body>
+</html>`;
+}
+
+async function visualize(){
+  readInputs();
+  showLoading(true, "Preparando vista previa...");
+  try {
+    var html = await buildNeuralHTML();
+    var blob = new Blob([html], { type: "text/html;charset=utf-8" });
+    var url = URL.createObjectURL(blob);
+    var modal = $("preview-modal");
+    var iframe = $("preview-frame");
+    iframe.src = "about:blank";
+    setTimeout(function(){
+      iframe.src = url;
+      modal.classList.add("show");
+      showLoading(false);
+    }, 60);
+    if (_previewURL) URL.revokeObjectURL(_previewURL);
+    _previewURL = url;
+  } catch(err){
+    console.error(err);
+    showStatus("Error: " + err.message, false);
+    showLoading(false);
+  }
+}
+function closePreview(){
+  var modal = $("preview-modal");
+  var iframe = $("preview-frame");
+  if (modal) modal.classList.remove("show");
+  if (iframe) iframe.src = "about:blank";
+  if (_previewURL){ URL.revokeObjectURL(_previewURL); _previewURL = null; }
+}
+
+async function download(){
+  readInputs();
+  showLoading(true, "Empaquetando tu red neuronal...");
+  try {
+    var html = await buildNeuralHTML();
+    var sizeKB = (html.length / 1024).toFixed(1);
+    var blob = new Blob([html], { type: "text/html;charset=utf-8" });
+    var url = URL.createObjectURL(blob);
+    var filename = "red-neuronal-para-" + slugify(state.name) + ".html";
+    var a = document.createElement("a");
+    a.href = url; a.download = filename; a.rel = "noopener"; a.style.display = "none";
+    document.body.appendChild(a);
+    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    if (isIOS) {
+      var w = window.open(url, "_blank");
+      if (!w) { var modal = $("preview-modal"); var iframe = $("preview-frame"); iframe.src = url; modal.classList.add("show"); showStatus("En iOS: usa Compartir → Guardar en Archivos", false); }
+      else { showStatus("En iOS: toca Compartir → Guardar en Archivos"); }
+    } else {
+      a.click();
+      showStatus("¡Descargado! (" + sizeKB + " KB)");
+    }
+    a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 60000);
+  } catch(err){
+    console.error(err);
+    showStatus("Error: " + err.message, false);
+  } finally {
+    showLoading(false);
+  }
+}
+
+function initEditor(){
+  $("i-music").addEventListener("change", function(e){
+    if (!isPremium){ e.target.value = ""; return; }
+    var file = e.target.files[0]; if (!file) return;
+    if (file.type.indexOf("audio/") !== 0){ showStatus("Solo archivos de audio", false); return; }
+    if (file.size > 6 * 1024 * 1024){ showStatus("Máximo 6 MB de audio", false); return; }
+    var rd = new FileReader();
+    rd.onload = function(ev){
+      state.customMusic = ev.target.result;
+      $("m-label").textContent = "✓ " + file.name;
+      $("music-drop").classList.add("has-file");
+      showStatus("Música cargada ✓");
+    };
+    rd.readAsDataURL(file);
+  });
+  $("btn-view").addEventListener("click", visualize);
+  $("btn-generate").addEventListener("click", download);
+  $("close-preview").addEventListener("click", closePreview);
+  ["i-name","i-from","i-date","i-sub"].forEach(function(id){
+    $(id).addEventListener("input", readInputs);
+  });
+  $("i-phrases").addEventListener("input", function(){ enforcePhrasesLimit(); readInputs(); });
+  renderPalettes();
+  initPremium();
+  applyPremiumState();
+  readInputs();
+}
+
+initEditor();
+</script>
+</body>
+</html>
