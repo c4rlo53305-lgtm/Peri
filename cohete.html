@@ -1,0 +1,2014 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#05021a">
+<title>Crear mi Cosmos en Primera Persona 🚀</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Pacifico&family=Permanent+Marker&family=Dancing+Script:wght@600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;min-height:100dvh;background:radial-gradient(ellipse at top,#0a0820 0%,#03010e 70%);font-family:'Inter',sans-serif;color:#fff;overflow-x:hidden}
+#editor{position:relative;z-index:10;max-width:560px;margin:0 auto;padding:24px 18px 180px}
+.hero{text-align:center;margin-bottom:22px;margin-top:16px}
+.hero h1{font-family:'Permanent Marker',cursive;font-size:clamp(1.8rem,7vw,2.6rem);line-height:1.05;background:linear-gradient(90deg,#7dd3fc,#a78bfa,#c084fc,#7dd3fc);background-size:300% 300%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:flow 5s infinite;letter-spacing:1px;filter:drop-shadow(0 0 30px rgba(125,211,252,.55))}
+@keyframes flow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.hero p{font-family:'Caveat',cursive;font-size:1.15rem;color:#c7d2fe;margin-top:6px}
+.card{background:linear-gradient(160deg,rgba(15,15,40,.92),rgba(8,5,25,.92));border:1px solid rgba(125,211,252,.25);border-radius:18px;padding:20px 18px;box-shadow:0 20px 60px rgba(0,0,0,.5);backdrop-filter:blur(12px)}
+.fld{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.fld label{font-size:.72rem;font-weight:600;color:#7dd3fc;text-transform:uppercase;letter-spacing:.8px;display:flex;justify-content:space-between;align-items:center}
+.fld label .opt{font-size:.65rem;color:#7a86b5;font-weight:400;text-transform:none;letter-spacing:0}
+.fld label .premium-tag{font-size:.62rem;font-weight:700;color:#ffd166;background:rgba(255,209,102,.12);border:1px solid rgba(255,209,102,.4);padding:2px 7px;border-radius:20px;letter-spacing:.4px}
+.fld input,.fld textarea{background:rgba(0,0,0,.4);border:1px solid rgba(125,211,252,.22);border-radius:10px;padding:12px 14px;color:#e0e7ff;font-family:'Inter',sans-serif;font-size:16px;outline:none;width:100%}
+.fld input:focus,.fld textarea:focus{border-color:#7dd3fc;box-shadow:0 0 0 3px rgba(125,211,252,.18)}
+.fld textarea{min-height:80px;font-family:'Caveat',cursive;font-size:1.2rem;line-height:1.3;resize:vertical}
+.fld textarea.phrases{font-family:'Dancing Script',cursive;font-size:1.15rem}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.file-drop{display:flex;align-items:center;justify-content:center;gap:8px;padding:14px;border:1.5px dashed rgba(125,211,252,.45);border-radius:12px;cursor:pointer;transition:all .25s;background:rgba(125,211,252,.06);color:#c7d2fe;font-size:.88rem;text-align:center;position:relative}
+.file-drop:active{border-color:#7dd3fc;background:rgba(125,211,252,.14);color:#fff}
+.file-drop.has-file{border-style:solid;border-color:#22c55e;background:rgba(34,197,94,.1);color:#86efac}
+.file-drop.premium{border-color:rgba(255,209,102,.5);background:rgba(255,209,102,.06);color:#ffd166}
+.file-drop.premium::after{content:'🔒';position:absolute;top:6px;right:10px;font-size:14px;opacity:.8}
+.file-drop.premium.unlocked{border-color:rgba(34,197,94,.5);background:rgba(34,197,94,.06);color:#86efac}
+.file-drop.premium.unlocked::after{content:'✓';color:#4ade80;opacity:1}
+#photo-list{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+.photo-block{background:rgba(0,0,0,.3);border:1px solid rgba(125,211,252,.2);border-radius:12px;padding:10px;display:flex;gap:10px;align-items:flex-start}
+.thumb{position:relative;width:70px;height:70px;flex-shrink:0;border-radius:9px;overflow:hidden;background:#000;border:1px solid rgba(125,211,252,.4)}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb button{position:absolute;top:2px;right:2px;width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,.75);color:#fff;border:1px solid rgba(255,255,255,.3);cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center}
+.meta{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.meta .filename{font-size:.7rem;color:#7dd3fc}
+.meta textarea{background:rgba(0,0,0,.4);border:1px solid rgba(125,211,252,.2);border-radius:8px;padding:8px 10px;color:#e0e7ff;font-family:'Caveat',cursive;font-size:1rem;line-height:1.3;outline:none;resize:vertical;min-height:44px;width:100%}
+#palette-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.pal-btn{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:10px;background:rgba(0,0,0,.35);border:1.5px solid rgba(125,211,252,.2);cursor:pointer;color:#c7d2fe;font-size:.75rem;font-weight:500;font-family:inherit;text-align:left;transition:all .2s}
+.pal-btn.active{border-color:#7dd3fc;background:rgba(125,211,252,.18);color:#fff}
+.pal-swatches{display:flex;gap:2px;flex-shrink:0}
+.pal-swatch{width:10px;height:10px;border-radius:50%;border:1px solid rgba(255,255,255,.15)}
+#shape-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.shape-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:12px 8px;border-radius:10px;background:rgba(0,0,0,.35);border:1.5px solid rgba(125,211,252,.2);cursor:pointer;color:#c7d2fe;font-size:.72rem;font-family:inherit;transition:all .2s;position:relative}
+.shape-btn.active{border-color:#7dd3fc;background:rgba(125,211,252,.18);color:#fff}
+.shape-btn svg{width:32px;height:32px;fill:currentColor;opacity:.75}
+.shape-btn.active svg{opacity:1}
+.shape-btn.premium-locked{border-color:rgba(255,209,102,.35);opacity:.75}
+.shape-btn.premium-locked::after{content:'🔒';position:absolute;top:4px;right:6px;font-size:11px}
+.shape-btn.premium-locked.active{border-color:#7dd3fc;opacity:1;background:rgba(125,211,252,.18)}
+.btn{padding:14px 18px;border-radius:12px;font-weight:700;font-size:.95rem;cursor:pointer;border:none;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;transition:transform .15s,box-shadow .2s;margin-bottom:10px}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;box-shadow:0 10px 30px rgba(34,197,94,.4)}
+.btn-ghost{background:linear-gradient(135deg,#7dd3fc,#a78bfa);color:#05021a;box-shadow:0 10px 30px rgba(125,211,252,.4)}
+.info{font-size:.72rem;color:#7dd3fc;text-align:center;margin-top:12px;line-height:1.5;background:rgba(125,211,252,.08);padding:10px;border-radius:10px}
+#status{position:fixed;bottom:calc(90px + env(safe-area-inset-bottom,0));left:50%;transform:translateX(-50%) translateY(200%);opacity:0;visibility:hidden;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;padding:13px 24px;border-radius:12px;font-size:.9rem;font-weight:600;z-index:9996;transition:transform .35s,opacity .35s,visibility .35s;pointer-events:none;max-width:90vw;text-align:center;box-shadow:0 12px 34px rgba(0,0,0,.5)}
+#status.show{transform:translateX(-50%) translateY(0);opacity:1;visibility:visible}
+#status:empty{display:none}
+#status.err{background:linear-gradient(135deg,#ef4444,#dc2626)}
+#loading{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:9998;flex-direction:column;gap:14px;color:#c7d2fe}
+#loading.show{display:flex}
+.spinner{width:44px;height:44px;border:4px solid rgba(125,211,252,.2);border-top-color:#7dd3fc;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.back-float{position:fixed;top:max(14px,env(safe-area-inset-top,14px));left:14px;z-index:940;background:rgba(10,8,30,.9);backdrop-filter:blur(10px);border:1px solid rgba(125,211,252,.4);color:#c7d2fe;padding:9px 14px;border-radius:30px;font-size:.78rem;font-weight:600;text-decoration:none;display:flex;align-items:center;gap:5px;font-family:inherit;cursor:pointer;transition:all .2s;white-space:nowrap}
+.back-float:hover{background:rgba(125,211,252,.18);color:#fff;border-color:rgba(125,211,252,.7)}
+.back-float svg{width:14px;height:14px;fill:currentColor}
+.fixed-bar{position:fixed;bottom:0;left:0;right:0;z-index:900;padding:12px 18px calc(12px + env(safe-area-inset-bottom,0));background:linear-gradient(180deg,rgba(3,1,14,0),rgba(3,1,14,.96) 35%);display:flex;gap:10px;max-width:560px;margin:0 auto;pointer-events:none}
+.fixed-bar .btn{margin:0;flex:1;pointer-events:auto}
+#share-float{position:fixed;bottom:calc(96px + env(safe-area-inset-bottom,0));right:16px;z-index:950;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation;box-shadow:0 10px 30px rgba(37,211,102,.55),0 4px 10px rgba(0,0,0,.5);transition:transform .2s ease,box-shadow .2s ease}
+#share-float svg{width:32px;height:32px;fill:#fff}
+#share-float:active{transform:scale(.92)}
+#share-menu{position:fixed;inset:0;z-index:990;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:none;align-items:flex-end;justify-content:center;padding:20px}
+#share-menu.show{display:flex;animation:fadeIn .25s}
+#share-menu-box{width:100%;max-width:440px;background:linear-gradient(160deg,rgba(15,15,40,.98),rgba(8,5,25,.98));border:1px solid rgba(125,211,252,.35);border-radius:20px;padding:22px 20px calc(20px + env(safe-area-inset-bottom,0));animation:slideUp .3s cubic-bezier(.2,.9,.3,1.1);box-shadow:0 0 60px rgba(125,211,252,.3)}
+@keyframes slideUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+#share-menu h3{font-size:1rem;font-weight:700;margin-bottom:6px;color:#fff;display:flex;justify-content:space-between;align-items:center}
+#share-menu h3 button{background:transparent;border:none;color:#7dd3fc;font-size:22px;cursor:pointer;padding:0 4px;line-height:1}
+#share-menu p{font-size:.78rem;color:#7dd3fc;margin-bottom:16px}
+.share-opt{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:12px;background:rgba(0,0,0,.35);border:1px solid rgba(125,211,252,.2);cursor:pointer;transition:all .2s;margin-bottom:9px;color:#e0e7ff;font-size:.9rem;font-weight:500;text-decoration:none;font-family:inherit;width:100%;text-align:left}
+.share-opt:hover{background:rgba(125,211,252,.15);border-color:rgba(125,211,252,.5)}
+.share-opt .ico{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.share-wa .ico{background:linear-gradient(135deg,#25D366,#128C7E);color:#fff}
+.share-wa .ico svg{width:22px;height:22px;fill:#fff}
+.share-copy .ico{background:linear-gradient(135deg,#7dd3fc,#a78bfa);color:#05021a}
+.share-sys .ico{background:rgba(255,255,255,.1);color:#c7d2fe;border:1px solid rgba(125,211,252,.3)}
+.share-opt .txt{flex:1;min-width:0}
+.share-opt .txt b{display:block;font-weight:600;color:#fff;margin-bottom:2px}
+.share-opt .txt span{font-size:.75rem;color:#7dd3fc}
+#premium-modal{position:fixed;inset:0;z-index:1200;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:20px}
+#premium-modal.show{display:flex;animation:fadeIn .3s}
+#premium-box{width:100%;max-width:400px;background:linear-gradient(160deg,#1a1207,#0a0a15);border:2px solid rgba(255,209,102,.5);border-radius:22px;padding:28px 24px;text-align:center;animation:pop .4s cubic-bezier(.2,.9,.3,1.2);box-shadow:0 0 80px rgba(255,180,40,.35);position:relative;overflow:hidden}
+#premium-box::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at top,rgba(255,209,102,.2),transparent 60%);pointer-events:none}
+#premium-box .crown{font-size:52px;margin-bottom:10px;filter:drop-shadow(0 0 20px rgba(255,209,102,.7));animation:crownFloat 2s ease-in-out infinite;position:relative}
+@keyframes crownFloat{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-6px) rotate(4deg)}}
+#premium-box h2{font-family:'Pacifico',cursive;font-size:1.6rem;background:linear-gradient(90deg,#ffd166,#ffa000,#ffd166);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 3s infinite;margin-bottom:8px;position:relative}
+@keyframes shimmer{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+#premium-box .subtitle{font-size:.85rem;color:#c9a76a;margin-bottom:20px;position:relative}
+#premium-box .feature{background:rgba(255,209,102,.1);border:1px solid rgba(255,209,102,.3);border-radius:12px;padding:12px 16px;font-size:.88rem;color:#ffe8b3;margin-bottom:18px;text-align:left;position:relative}
+#premium-box .feature b{color:#ffd166}
+#premium-box .price{font-family:'Permanent Marker',cursive;font-size:2rem;color:#ffd166;margin-bottom:6px;text-shadow:0 0 20px rgba(255,209,102,.5);position:relative}
+#premium-box .price-note{font-size:.72rem;color:#8a7a5a;margin-bottom:20px;position:relative}
+#premium-box .btn-upgrade{background:linear-gradient(135deg,#ffd166,#ffa000);color:#1a0e00;font-weight:800;padding:14px;border-radius:12px;border:none;width:100%;cursor:pointer;font-family:inherit;font-size:1rem;box-shadow:0 10px 30px rgba(255,180,40,.5);margin-bottom:10px;position:relative;transition:transform .2s}
+#premium-box .btn-upgrade:active{transform:scale(.97)}
+#premium-box .btn-later{background:transparent;border:1px solid rgba(255,209,102,.3);color:#c9a76a;padding:12px;border-radius:12px;width:100%;cursor:pointer;font-family:inherit;font-size:.85rem;position:relative}
+#premium-box .close-x{position:absolute;top:14px;right:16px;background:transparent;border:none;color:#c9a76a;font-size:24px;cursor:pointer;line-height:1;z-index:2}
+#premium-active-banner{display:none;background:linear-gradient(135deg,rgba(34,197,94,.15),rgba(74,222,128,.08));border:1.5px solid rgba(74,222,128,.4);border-radius:12px;padding:10px 14px;margin-top:14px;font-size:.82rem;color:#86efac;text-align:center;font-weight:600}
+#premium-active-banner.show{display:block}
+@keyframes pop{from{transform:scale(.85) translateY(40px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+#preview-modal{position:fixed;inset:0;z-index:99999;background:#000;display:none;flex-direction:column}
+#preview-modal.show{display:flex}
+#preview-modal .preview-bar{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:rgba(15,15,40,.98);border-bottom:1px solid rgba(125,211,252,.3);flex-shrink:0}
+#preview-modal .preview-bar span{color:#7dd3fc;font-weight:700;font-size:14px}
+#close-preview{background:linear-gradient(135deg,#7dd3fc,#a78bfa);color:#05021a;border:none;padding:9px 18px;border-radius:20px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit}
+#preview-frame{flex:1;width:100%;border:0;background:#000}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="back-float" title="Volver a las plantillas">
+  <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+  Volver
+</a>
+
+<div id="editor">
+  <div class="hero">
+    <h1>Tu Cosmos en Primera Persona 🚀</h1>
+    <p>Un viaje estelar directo hacia tu corazón ✨</p>
+    <div id="premium-active-banner">👑 Eres Premium · Todas las opciones desbloqueadas</div>
+  </div>
+
+  <div class="card">
+    <div class="fld">
+      <label for="i-name">Para quién es</label>
+      <input id="i-name" type="text" maxlength="40" placeholder="Ej: Para María" value="Mi amor">
+    </div>
+
+    <div class="row2">
+      <div class="fld">
+        <label for="i-from">De parte de <span class="opt">opcional</span></label>
+        <input id="i-from" type="text" maxlength="30" placeholder="Tu nombre" value="">
+      </div>
+      <div class="fld">
+        <label for="i-date">Juntos desde <span class="opt">opcional</span></label>
+        <input id="i-date" type="date">
+      </div>
+    </div>
+
+    <div class="fld">
+      <label for="i-sub">Subtítulo / Mensaje principal</label>
+      <input id="i-sub" type="text" maxlength="80" value="Viajando por el cosmos hacia ti ✨">
+    </div>
+
+    <div class="fld">
+      <label for="i-msg">Mensaje al tocar foto</label>
+      <textarea id="i-msg" maxlength="400">En este viaje infinito por el universo,
+siempre te encuentro a ti ✨</textarea>
+    </div>
+
+    <div class="fld">
+      <label for="i-phrases">Frases que vuelan hacia ti <span class="opt">una por línea · 20 por defecto</span></label>
+      <textarea id="i-phrases" class="phrases" maxlength="1200" placeholder="Te amo
+Te necesito
+Eres mi todo
+Mi universo
+Eres mi luz
+Mi persona favorita
+Eres mi hogar
+Mi mundo entero
+Te adoro
+Eres mi sueño
+Mi razón de ser
+Eres mi estrella
+Sin ti no soy nada
+Eres mi destino
+Mi corazón es tuyo
+Eres mi cielo
+Te pienso siempre
+Mi vida entera
+Eres mi paz
+Te amo infinito"></textarea>
+    </div>
+
+    <div class="fld">
+      <label>Tus fotos <span class="opt" id="photos-limit-text">máx. 4 gratis</span></label>
+      <label class="file-drop" for="i-photo" id="file-drop">
+        <span id="f-label">📷 Añadir fotos</span>
+        <input id="i-photo" type="file" accept="image/*" multiple hidden>
+      </label>
+      <div id="photo-list"></div>
+    </div>
+
+    <div class="fld">
+      <label>Forma de las fotos</label>
+      <div id="shape-grid">
+        <button type="button" class="shape-btn active" data-shape="square">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+          Cuadrada
+        </button>
+        <button type="button" class="shape-btn premium-locked" data-shape="circle">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/></svg>
+          Círculo
+        </button>
+        <button type="button" class="shape-btn premium-locked" data-shape="heart">
+          <svg viewBox="0 0 24 24"><path d="M12 21s-7-4.5-9-9c-1.4-3.2.5-7 4-7 2 0 3.5 1 5 3 1.5-2 3-3 5-3 3.5 0 5.4 3.8 4 7-2 4.5-9 9-9 9z"/></svg>
+          Corazón
+        </button>
+      </div>
+    </div>
+
+    <div class="fld">
+      <label>🌌 Colores del cosmos</label>
+      <div id="palette-grid"></div>
+    </div>
+
+    <div class="fld">
+      <label>Música de fondo <span class="premium-tag" id="music-tag">PREMIUM</span></label>
+      <label class="file-drop premium" for="i-music" id="music-drop">
+        <span id="m-label">🎵 Subir mi canción</span>
+        <input id="i-music" type="file" accept="audio/*" hidden>
+      </label>
+    </div>
+
+    <div class="fld">
+      <label>Fotos ilimitadas <span class="premium-tag" id="photos-tag">PREMIUM</span></label>
+      <label class="file-drop premium" for="i-photo-plus" id="photos-plus-drop">
+        <span>📸 Añadir más de 4 fotos (hasta 10+)</span>
+        <input id="i-photo-plus" type="file" accept="image/*" multiple hidden>
+      </label>
+    </div>
+
+    <div class="fld">
+      <label>Efectos exclusivos <span class="premium-tag" id="fx-tag">PREMIUM</span></label>
+      <button type="button" class="file-drop premium" id="premium-fx" style="cursor:pointer;font-family:inherit">
+        ✨ Más estrellas, más meteoritos y nebulosas
+      </button>
+    </div>
+
+    <div class="info">
+      💾 Se descarga un archivo <b>.html</b> con tu cosmos completo.<br>
+      👁️ Puedes verlo antes con "Visualizar".<br>
+      📤 Comparte el archivo por WhatsApp o súbelo a cualquier hosting.
+    </div>
+  </div>
+</div>
+
+<div class="fixed-bar">
+  <button id="btn-view" class="btn btn-ghost">👁️ Visualizar</button>
+  <button id="btn-generate" class="btn btn-primary">💾 Descargar</button>
+</div>
+
+<button id="share-float" aria-label="Compartir">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+  </svg>
+</button>
+
+<div id="share-menu">
+  <div id="share-menu-box">
+    <h3>Compartir esta página <button id="share-close" aria-label="Cerrar">×</button></h3>
+    <p>Comparte el editor para que otros creen su propio cosmos</p>
+    <a id="share-wa" class="share-opt share-wa" href="#" target="_blank" rel="noopener">
+      <div class="ico"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></div>
+      <div class="txt"><b>WhatsApp</b><span>Enviar por WhatsApp</span></div>
+    </a>
+    <button id="share-copy" class="share-opt share-copy" type="button">
+      <div class="ico">🔗</div>
+      <div class="txt"><b>Copiar enlace</b><span>Copiar el link del editor</span></div>
+    </button>
+    <button id="share-sys" class="share-opt share-sys" type="button">
+      <div class="ico">📱</div>
+      <div class="txt"><b>Más opciones</b><span>Usar el compartir del sistema</span></div>
+    </button>
+  </div>
+</div>
+
+<div id="premium-modal">
+  <div id="premium-box">
+    <button class="close-x" id="premium-close" type="button">×</button>
+    <div class="crown">🚀</div>
+    <h2>Función Premium</h2>
+    <div class="subtitle">Desbloquea todo el potencial</div>
+    <div class="feature" id="premium-feature-text"><b>Esta función</b> te permite llevar tu cosmos al siguiente nivel.</div>
+    <div class="price">$79 MXN</div>
+    <div class="price-note">Pago único · Acceso de por vida</div>
+    <button class="btn-upgrade" id="premium-upgrade" type="button">✨ Desbloquear Premium</button>
+    <button class="btn-later" id="premium-later" type="button">Quizás después</button>
+  </div>
+</div>
+
+<div id="preview-modal">
+  <div class="preview-bar">
+    <span>👁️ Vista previa de tu cosmos</span>
+    <button id="close-preview" type="button">Cerrar ×</button>
+  </div>
+  <iframe id="preview-frame" title="Vista previa"></iframe>
+</div>
+
+<div id="status"></div>
+<div id="loading"><div class="spinner"></div><div id="loading-text">Creando tu cosmos...</div></div>
+
+<script>
+var PREMIUM_URL = "https://c4rlo53305-lgtm.github.io/Peri/premium.html";
+var isPremium = (localStorage.getItem("peri_premium_activated") === "1");
+var MAX_PHOTOS_FREE = 4;
+var MAX_PHOTOS_PREMIUM = 10;
+var MAX_PHOTOS = isPremium ? MAX_PHOTOS_PREMIUM : MAX_PHOTOS_FREE;
+var _previewURL = null;
+
+var DEFAULT_PHRASES = [
+  "Te amo","Te necesito","Eres mi todo","Mi universo","Eres mi luz",
+  "Mi persona favorita","Eres mi hogar","Mi mundo entero","Te adoro","Eres mi sueño",
+  "Mi razón de ser","Eres mi estrella","Sin ti no soy nada","Eres mi destino","Mi corazón es tuyo",
+  "Eres mi cielo","Te pienso siempre","Mi vida entera","Eres mi paz","Te amo infinito"
+];
+
+var PALETTES = {
+  cosmos:{name:"Nebulosa azul",emoji:"🌌",colors:["#e0e7ff","#7dd3fc","#a78bfa","#1e1b4b","#c4b5fd"]},
+  rosa:{name:"Nebulosa rosa",emoji:"🌸",colors:["#fce7f3","#f9a8d4","#db2777","#4a044e","#f5d0fe"]},
+  dorado:{name:"Nebulosa dorada",emoji:"✨",colors:["#fef3c7","#fbbf24","#d97706","#3a1f00","#fde68a"]},
+  verde:{name:"Nebulosa esmeralda",emoji:"💚",colors:["#d1fae5","#34d399","#059669","#022c22","#a7f3d0"]},
+  violeta:{name:"Violeta profundo",emoji:"💜",colors:["#ede9fe","#c4b5fd","#7c3aed","#2e1065","#ddd6fe"]}
+};
+
+var state = {
+  name: "Mi amor",
+  fromName: "",
+  startDate: "",
+  subtitle: "Viajando por el cosmos hacia ti ✨",
+  message: "En este viaje infinito por el universo,\nsiempre te encuentro a ti ✨",
+  customPhrases: "",
+  photos: [],
+  palette: "cosmos",
+  photoShape: "square",
+  customMusic: null
+};
+
+function $(id){ return document.getElementById(id); }
+
+function showStatus(msg, ok){
+  var s = $("status");
+  if (!s) return;
+  s.textContent = msg;
+  s.classList.toggle("err", ok === false);
+  s.classList.add("show");
+  clearTimeout(showStatus._t);
+  showStatus._t = setTimeout(function(){ s.classList.remove("show"); }, 3400);
+}
+function showLoading(v, txt){
+  var l = $("loading");
+  if (!l) return;
+  l.classList.toggle("show", !!v);
+  if (txt) $("loading-text").textContent = txt;
+}
+function escapeHtml(s){
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+}
+function slugify(s){
+  return String(s).toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,40) || "cosmos";
+}
+
+var PREMIUM_MESSAGES = {
+  music: "<b>Música personalizada:</b> sube tu propia canción para que suene mientras tu pareja viaja por el cosmos.",
+  photos: "<b>Fotos ilimitadas:</b> la versión gratis permite 4 fotos. Con Premium puedes subir hasta 10 o más.",
+  fx: "<b>Efectos exclusivos:</b> más estrellas, más meteoritos, nebulosas adicionales y planetas detallados.",
+  shapeCircle: "<b>Forma circular:</b> dale un toque cósmico a tus fotos con marco circular. Solo Premium.",
+  shapeHeart: "<b>Forma de corazón:</b> muestra tus fotos con forma de corazón brillante. Exclusivo Premium."
+};
+
+function showPremium(feature){
+  var modal = $("premium-modal");
+  var txt = $("premium-feature-text");
+  if (!modal || !txt) return;
+  txt.innerHTML = PREMIUM_MESSAGES[feature] || "Desbloquea funciones exclusivas.";
+  modal.classList.add("show");
+}
+function closePremium(){
+  var modal = $("premium-modal");
+  if (modal) modal.classList.remove("show");
+}
+function initPremium(){
+  $("premium-close").addEventListener("click", closePremium);
+  $("premium-later").addEventListener("click", closePremium);
+  $("premium-modal").addEventListener("click", function(e){
+    if (e.target === $("premium-modal")) closePremium();
+  });
+  $("premium-upgrade").addEventListener("click", function(){
+    window.open(PREMIUM_URL, "_blank");
+  });
+}
+function applyPremiumState(){
+  if (!isPremium) return;
+  var banner = $("premium-active-banner");
+  if (banner) banner.classList.add("show");
+  document.querySelectorAll(".premium-tag").forEach(function(el){
+    el.textContent = "✓ DESBLOQUEADO";
+    el.style.background = "rgba(34,197,94,.12)";
+    el.style.borderColor = "rgba(74,222,128,.4)";
+    el.style.color = "#4ade80";
+  });
+  document.querySelectorAll(".file-drop.premium").forEach(function(el){
+    el.classList.add("unlocked");
+  });
+  document.querySelectorAll(".shape-btn.premium-locked").forEach(function(el){
+    el.classList.remove("premium-locked");
+  });
+  var limTxt = $("photos-limit-text");
+  if (limTxt) limTxt.textContent = "ilimitadas (10+)";
+  MAX_PHOTOS = MAX_PHOTOS_PREMIUM;
+}
+
+function renderPhotoList(){
+  var list = $("photo-list"); list.innerHTML = "";
+  state.photos.forEach(function(p, i){
+    var block = document.createElement("div"); block.className = "photo-block";
+    var thumb = document.createElement("div"); thumb.className = "thumb";
+    var im = document.createElement("img"); im.src = p.url; im.alt = "foto " + (i+1);
+    var del = document.createElement("button"); del.textContent = "×"; del.type = "button";
+    del.onclick = function(){ state.photos.splice(i,1); renderPhotoList(); };
+    thumb.appendChild(im); thumb.appendChild(del);
+    var meta = document.createElement("div"); meta.className = "meta";
+    var n = document.createElement("div"); n.className = "filename"; n.textContent = "Foto #" + (i+1);
+    var ta = document.createElement("textarea");
+    ta.placeholder = "Descripción (opcional)..."; ta.maxLength = 120; ta.value = p.desc || "";
+    ta.addEventListener("input", function(){ p.desc = ta.value; });
+    meta.appendChild(n); meta.appendChild(ta);
+    block.appendChild(thumb); block.appendChild(meta);
+    list.appendChild(block);
+  });
+  var limitText = isPremium ? "ilimitadas (10+)" : "máx. 4";
+  $("f-label").textContent = state.photos.length === 0
+    ? "📷 Añadir fotos (" + limitText + ")"
+    : "✓ " + state.photos.length + (isPremium ? "" : "/" + MAX_PHOTOS) + " · añadir más";
+  $("file-drop").classList.toggle("has-file", state.photos.length > 0);
+}
+
+async function addPhotos(files){
+  var list = Array.from(files).filter(function(f){ return f.type.indexOf("image/") === 0; });
+  if (!list.length) return;
+  var slots = MAX_PHOTOS - state.photos.length;
+  if (slots <= 0){ showPremium("photos"); return; }
+  if (list.length > slots){ showPremium("photos"); list = list.slice(0, slots); }
+  for (var i = 0; i < list.length; i++){
+    var file = list[i];
+    var url = await new Promise(function(res){
+      var rd = new FileReader();
+      rd.onload = function(ev){
+        var img = new Image();
+        img.onload = function(){
+          var maxW = 800;
+          var s = Math.min(1, maxW / img.width);
+          var w = Math.round(img.width * s), h = Math.round(img.height * s);
+          var cv = document.createElement("canvas"); cv.width = w; cv.height = h;
+          cv.getContext("2d").drawImage(img, 0, 0, w, h);
+          res(cv.toDataURL("image/jpeg", 0.82));
+        };
+        img.src = ev.target.result;
+      };
+      rd.readAsDataURL(file);
+    });
+    state.photos.push({ url: url, desc: "" });
+  }
+  renderPhotoList();
+}
+
+function renderPalettes(){
+  var grid = $("palette-grid"); grid.innerHTML = "";
+  Object.keys(PALETTES).forEach(function(key){
+    var pal = PALETTES[key];
+    var b = document.createElement("button"); b.type = "button";
+    b.className = "pal-btn" + (key === state.palette ? " active" : "");
+    var sw = document.createElement("div"); sw.className = "pal-swatches";
+    pal.colors.forEach(function(c){
+      var s = document.createElement("div"); s.className = "pal-swatch"; s.style.background = c;
+      sw.appendChild(s);
+    });
+    var t = document.createElement("div"); t.textContent = pal.emoji + " " + pal.name; t.style.flex = "1";
+    b.appendChild(sw); b.appendChild(t);
+    b.onclick = function(){ state.palette = key; renderPalettes(); };
+    grid.appendChild(b);
+  });
+}
+
+function initShapes(){
+  var btns = document.querySelectorAll(".shape-btn");
+  btns.forEach(function(b){
+    b.onclick = function(){
+      if (b.classList.contains("premium-locked") && !isPremium){
+        showPremium(b.dataset.shape === "circle" ? "shapeCircle" : "shapeHeart");
+        return;
+      }
+      btns.forEach(function(x){ x.classList.remove("active"); });
+      b.classList.add("active");
+      state.photoShape = b.dataset.shape;
+    };
+  });
+}
+
+function readInputs(){
+  state.name = $("i-name").value.trim() || "Mi amor";
+  state.fromName = $("i-from").value.trim();
+  state.startDate = $("i-date").value;
+  state.subtitle = $("i-sub").value.trim() || "Viajando por el cosmos hacia ti ✨";
+  state.message = $("i-msg").value;
+  state.customPhrases = $("i-phrases").value.trim();
+}
+
+async function buildGalaxyHTML(){
+  var name = state.name;
+  var fromName = state.fromName;
+  var subtitle = state.subtitle;
+  var message = state.message;
+  var photosJSON = JSON.stringify(state.photos);
+  var paletteKey = state.palette;
+  var photoShape = state.photoShape;
+  var customPhrases = state.customPhrases.split("\n").map(function(l){ return l.trim(); }).filter(Boolean);
+  var allPhrases = customPhrases.length ? customPhrases : DEFAULT_PHRASES;
+  var phrasesJSON = JSON.stringify(allPhrases);
+  var palettesJSON = JSON.stringify(PALETTES);
+  var startDateJSON = JSON.stringify(state.startDate || null);
+  var customMusicJSON = JSON.stringify(state.customMusic || null);
+  var isPremiumJSON = JSON.stringify(isPremium);
+
+  return `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<title>${escapeHtml(name)} · Cosmos en Primera Persona 🚀</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;height:100dvh;overflow:hidden;background:#000;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;user-select:none}
+#galaxy-canvas{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
+.pill{position:fixed;top:max(12px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);padding:8px 18px;border-radius:999px;background:rgba(125,211,252,0.12);border:1px solid rgba(125,211,252,0.35);backdrop-filter:blur(10px);font-size:13px;z-index:30;white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis;color:#c7d2fe}
+.days{position:fixed;top:max(52px,calc(env(safe-area-inset-top)+40px));left:50%;transform:translateX(-50%);font-size:12px;color:#a5b4fc;opacity:.9;z-index:30;text-align:center;text-shadow:0 0 10px rgba(125,211,252,.5)}
+.player{position:fixed;left:12px;right:12px;bottom:max(12px,env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:6px;background:rgba(10,8,30,.6);border:1px solid rgba(125,211,252,.18);border-radius:16px;padding:10px 12px;backdrop-filter:blur(14px);z-index:30}
+.player-row{display:flex;align-items:center;gap:8px}
+.player button{padding:7px 12px;border-radius:10px;border:1px solid rgba(125,211,252,.3);background:rgba(125,211,252,.1);color:#fff;cursor:pointer;font-size:13px}
+.progress-container{flex:1;height:5px;background:rgba(255,255,255,.15);border-radius:3px;cursor:pointer}
+.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#7dd3fc,#a78bfa);border-radius:3px}
+.time{font-size:11px;opacity:.8;min-width:70px;text-align:right;color:#c7d2fe}
+.volume{width:60px}
+input[type=range]{width:100%;accent-color:#7dd3fc}
+.controls{position:fixed;top:max(12px,env(safe-area-inset-top));left:12px;display:flex;flex-direction:column;gap:6px;z-index:30}
+.controls button{width:38px;height:38px;border-radius:50%;border:1px solid rgba(125,211,252,.3);background:rgba(0,0,0,.5);color:#fff;font-size:16px;cursor:pointer;backdrop-filter:blur(8px)}
+#fx{position:fixed;inset:0;pointer-events:none;z-index:10}
+.attribution{position:fixed;right:10px;bottom:calc(100px + env(safe-area-inset-bottom,0));font-size:12px;color:#fff;z-index:500;text-decoration:none;font-weight:800;background:linear-gradient(135deg,rgba(125,211,252,.95),rgba(167,139,250,.95));padding:8px 12px;border-radius:20px;border:2px solid #e0e7ff;backdrop-filter:blur(8px);max-width:160px;text-align:center;line-height:1.2;box-shadow:0 6px 18px rgba(125,211,252,.6),0 2px 6px rgba(0,0,0,.5);text-shadow:0 1px 2px rgba(0,0,0,.4)}
+.error{position:fixed;inset:auto 12px 130px 12px;background:#0a0820;color:#c7d2fe;border:1px solid #7dd3fc;border-radius:10px;padding:10px;font-size:12px;display:none;z-index:50}
+#modal{position:fixed;inset:0;padding:max(14px,env(safe-area-inset-top)) 14px max(14px,env(safe-area-inset-bottom));background:rgba(0,0,0,.82);backdrop-filter:blur(12px);display:none;justify-content:center;align-items:center;z-index:900}
+#modal.show{display:flex;animation:fadeIn2 .35s}
+@keyframes fadeIn2{from{opacity:0}to{opacity:1}}
+#modal-box{background:linear-gradient(135deg,rgba(15,15,40,.96),rgba(8,5,25,.96));border:1px solid rgba(125,211,252,.45);border-radius:22px;padding:clamp(20px,5vw,32px);width:100%;max-width:min(94vw,480px);max-height:90vh;overflow-y:auto;text-align:center;position:relative;box-shadow:0 0 60px rgba(125,211,252,.35)}
+#modal-img{width:100%;aspect-ratio:1;max-height:50vh;border-radius:16px;overflow:hidden;margin-bottom:14px;object-fit:cover;display:block}
+#modal-desc{font-family:'Caveat',cursive;font-size:clamp(1.1rem,4vw,1.4rem);color:#a5b4fc;line-height:1.35;margin-bottom:12px;white-space:pre-wrap}
+#modal-msg{font-family:'Caveat',cursive;font-size:clamp(1.2rem,4.5vw,1.8rem);color:#e0e7ff;line-height:1.35;white-space:pre-wrap}
+#modal-close{position:absolute;top:10px;right:10px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.5);border:1px solid rgba(125,211,252,.4);color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+
+#welcome{position:fixed;inset:0;z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;background:radial-gradient(ellipse at center 40%,#0a0820 0%,#04010e 40%,#000 100%);transition:opacity 1.2s ease;overflow:hidden}
+#welcome.hide{opacity:0;pointer-events:none}
+#welcome > *{pointer-events:none}
+#welcome > .w-btn{pointer-events:auto}
+.w-glow{position:absolute;left:50%;top:45%;width:min(90vw,700px);height:min(90vw,700px);transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(125,211,252,.35) 0%,rgba(167,139,250,.15) 30%,transparent 70%);animation:wPulse 4s ease-in-out infinite}
+@keyframes wPulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.85}50%{transform:translate(-50%,-50%) scale(1.15);opacity:1}}
+.w-tunnel{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(70vw,320px);height:min(70vw,320px)}
+.w-ring{position:absolute;inset:0;border-radius:50%;border:2px solid rgba(125,211,252,.6);box-shadow:0 0 30px rgba(125,211,252,.5),inset 0 0 30px rgba(167,139,250,.3);animation:wRing 3s ease-out infinite}
+.w-ring.r2{animation-delay:1s;border-color:rgba(167,139,250,.6)}
+.w-ring.r3{animation-delay:2s;border-color:rgba(192,132,252,.6)}
+@keyframes wRing{0%{transform:scale(.3);opacity:0}30%{opacity:1}100%{transform:scale(1.6);opacity:0}}
+.w-planet{position:absolute;left:50%;top:50%;width:min(35vw,160px);height:min(35vw,160px);margin-left:calc(min(35vw,160px)/-2);margin-top:calc(min(35vw,160px)/-2);border-radius:50%;background:radial-gradient(circle at 35% 30%,#c7d2fe 0%,#7dd3fc 30%,#4c1d95 70%,#1e1b4b 100%);box-shadow:0 0 40px rgba(125,211,252,.7),inset -20px -20px 50px rgba(30,27,75,.9);animation:wFloat 5s ease-in-out infinite;z-index:2}
+@keyframes wFloat{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-14px) rotate(5deg)}}
+.w-planet::before{content:'';position:absolute;inset:20% 15% 15% 20%;background:radial-gradient(circle,rgba(255,255,255,.4),transparent 70%);border-radius:50%;filter:blur(6px)}
+.w-planet::after{content:'';position:absolute;left:-30%;right:-30%;top:40%;height:20%;background:linear-gradient(90deg,transparent 0%,rgba(192,132,252,.7) 50%,transparent 100%);border-radius:50%;transform:rotate(-20deg);box-shadow:0 0 20px rgba(192,132,252,.8)}
+.w-name{font-family:'Dancing Script',cursive;font-size:clamp(2.2rem,9vw,3.6rem);font-weight:700;background:linear-gradient(90deg,#e0e7ff,#7dd3fc,#a78bfa,#7dd3fc);background-size:300% 300%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 22px rgba(125,211,252,.85));margin-bottom:6px;animation:wFlow 4s ease-in-out infinite;z-index:3;position:relative;line-height:1.1;margin-top:calc(min(35vw,160px) + 20px)}
+@keyframes wFlow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.w-sub{font-family:'Caveat',cursive;font-size:clamp(1.05rem,4vw,1.4rem);color:#c7d2fe;opacity:.92;max-width:340px;margin-bottom:30px;z-index:3;position:relative;text-shadow:0 0 14px rgba(125,211,252,.55)}
+.w-btn{position:relative;padding:16px 52px;border-radius:999px;border:2px solid #e0e7ff;background:linear-gradient(135deg,#7dd3fc 0%,#a78bfa 50%,#c084fc 100%);color:#05021a;font-size:1.25rem;letter-spacing:1.5px;font-weight:700;cursor:pointer;animation:wBtnGlow 1.6s ease-in-out infinite;text-shadow:0 1px 2px rgba(255,255,255,.5);z-index:100;touch-action:manipulation;font-family:'Permanent Marker',cursive}
+.w-btn:active{opacity:.85}
+@keyframes wBtnGlow{0%,100%{box-shadow:0 0 0 0 rgba(125,211,252,.85),0 0 30px rgba(125,211,252,.75),0 0 60px rgba(167,139,250,.55)}50%{box-shadow:0 0 0 22px rgba(125,211,252,0),0 0 55px rgba(125,211,252,1),0 0 100px rgba(167,139,250,.75)}}
+.w-vignette{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 30%,rgba(0,0,0,.85) 100%)}
+.w-sparkle{position:absolute;width:5px;height:5px;border-radius:50%;background:#fff;box-shadow:0 0 10px #7dd3fc,0 0 22px #a78bfa,0 0 34px rgba(125,211,252,.65);animation:wTwinkle ease-in-out infinite}
+@keyframes wTwinkle{0%,100%{opacity:0;transform:scale(.4)}50%{opacity:1;transform:scale(1.4)}}
+.w-star{position:absolute;width:3px;height:3px;border-radius:50%;background:#fff;box-shadow:0 0 6px #e0e7ff;animation:wStarFly linear infinite}
+@keyframes wStarFly{0%{transform:translate(0,0) scale(.4);opacity:0}10%{opacity:1}100%{transform:translate(var(--dx,0),var(--dy,0)) scale(2.5);opacity:0}}
+.w-meteor{position:absolute;width:80px;height:2px;background:linear-gradient(90deg,transparent 0%,#e0e7ff 50%,#fff 100%);border-radius:2px;box-shadow:0 0 12px #7dd3fc,0 0 24px rgba(125,211,252,.5);animation:wMeteor linear infinite}
+@keyframes wMeteor{0%{transform:translate(0,0) rotate(var(--ang,-30deg));opacity:0}10%{opacity:1}100%{transform:translate(var(--mx,300px),var(--my,200px)) rotate(var(--ang,-30deg));opacity:0}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"><\/script>
+</head>
+<body>
+<canvas id="galaxy-canvas"></canvas>
+
+<div id="welcome">
+  <div class="w-glow"></div>
+  <div class="w-tunnel">
+    <div class="w-ring"></div>
+    <div class="w-ring r2"></div>
+    <div class="w-ring r3"></div>
+  </div>
+  <div class="w-planet"></div>
+  <div id="w-stars"></div>
+  <div id="w-sparkle"></div>
+  <div id="w-meteor"></div>
+  <div class="w-name">${escapeHtml(name)}</div>
+  <div class="w-sub">${escapeHtml(subtitle)}</div>
+  <button class="w-btn" id="wStartBtn" type="button" onclick="window.startGalaxyApp && window.startGalaxyApp(event)">Despegar 🚀</button>
+  <div class="w-vignette"></div>
+</div>
+
+<div class="pill">${escapeHtml(subtitle)}</div>
+<div class="days" id="daysTogether"></div>
+<div class="controls">
+  <button id="btnFullscreen" title="Pantalla completa">⛶</button>
+  <button id="btnSpeed" title="Velocidad">⚡</button>
+</div>
+<a href="https://c4rlo53305-lgtm.github.io/Peri/premium.html" class="attribution" target="_blank" rel="noopener">🚀 Creado por<br>Dedicatorias Mágicas</a>
+<div id="err" class="error"></div>
+<div class="player">
+  <div class="player-row">
+    <button id="playBtn">▶︎</button>
+    <div class="progress-container" id="progressContainer"><div class="progress-bar" id="progressBar"></div></div>
+    <span class="time" id="timeDisplay">0:00 / 0:00</span>
+  </div>
+  <div class="player-row">
+    <input type="range" id="volume" class="volume" min="0" max="1" step="0.01" value="0.75">
+    <button id="loopBtn">🔁</button>
+  </div>
+</div>
+<canvas id="fx"></canvas>
+<audio id="audio" preload="auto" loop></audio>
+<div id="modal">
+  <div id="modal-box">
+    <button id="modal-close">×</button>
+    <img id="modal-img" alt="Recuerdo">
+    <div id="modal-desc"></div>
+    <div id="modal-msg"></div>
+  </div>
+</div>
+
+<script>
+window.startGalaxyApp = function(ev){
+  if (ev){ ev.preventDefault(); ev.stopPropagation(); }
+  if (window.__galaxyStarted) return;
+  window.__galaxyStarted = true;
+  var welcome = document.getElementById('welcome');
+  if (welcome){
+    welcome.classList.add('hide');
+    setTimeout(function(){ if (welcome.parentNode) welcome.style.display = 'none'; }, 1400);
+  }
+  if (typeof window.__startWarp === 'function') window.__startWarp();
+  var audio = document.getElementById('audio');
+  var playBtn = document.getElementById('playBtn');
+  if (audio && audio.play){
+    audio.play().then(function(){ if (playBtn) playBtn.textContent = '⏸︎'; }).catch(function(){});
+  }
+};
+
+(function buildWelcomeEffects(){
+  const starsC = document.getElementById('w-stars');
+  if (starsC){
+    for (let i = 0; i < 60; i++){
+      const s = document.createElement('div');
+      s.className = 'w-star';
+      const ang = Math.random() * Math.PI * 2;
+      const dist = 200 + Math.random() * 300;
+      s.style.left = '50%'; s.style.top = '50%';
+      s.style.setProperty('--dx', (Math.cos(ang) * dist) + 'px');
+      s.style.setProperty('--dy', (Math.sin(ang) * dist) + 'px');
+      s.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+      s.style.animationDelay = (Math.random() * 2.5) + 's';
+      const sz = 0.6 + Math.random() * 1.4;
+      s.style.width = (3 * sz) + 'px'; s.style.height = (3 * sz) + 'px';
+      starsC.appendChild(s);
+    }
+  }
+  const spC = document.getElementById('w-sparkle');
+  if (spC){
+    for (let i = 0; i < 60; i++){
+      const s = document.createElement('div');
+      s.className = 'w-sparkle';
+      s.style.left = (Math.random() * 100) + '%'; s.style.top = (Math.random() * 100) + '%';
+      s.style.animationDuration = (1.6 + Math.random() * 2.2) + 's';
+      s.style.animationDelay = (Math.random() * 3) + 's';
+      const sz = 0.5 + Math.random() * 1.6;
+      s.style.width = (4 * sz) + 'px'; s.style.height = (4 * sz) + 'px';
+      spC.appendChild(s);
+    }
+  }
+  const mC = document.getElementById('w-meteor');
+  if (mC){
+    for (let i = 0; i < 5; i++){
+      const m = document.createElement('div');
+      m.className = 'w-meteor';
+      m.style.left = (Math.random() * 60) + '%'; m.style.top = (Math.random() * 40) + '%';
+      const ang = -20 - Math.random() * 40;
+      m.style.setProperty('--ang', ang + 'deg');
+      m.style.setProperty('--mx', (300 + Math.random() * 400) + 'px');
+      m.style.setProperty('--my', (200 + Math.random() * 300) + 'px');
+      m.style.animationDuration = (1.5 + Math.random() * 1) + 's';
+      m.style.animationDelay = (Math.random() * 5) + 's';
+      mC.appendChild(m);
+    }
+  }
+  const btn = document.getElementById('wStartBtn');
+  if (btn){
+    btn.addEventListener('click', function(e){
+      if (window.startGalaxyApp) window.startGalaxyApp(e);
+    });
+  }
+})();
+
+(function(){
+  const CONFIG = {
+    mainMessage: ${JSON.stringify(subtitle)},
+    message: ${JSON.stringify(message)},
+    startDate: ${startDateJSON},
+    isPremium: ${isPremiumJSON},
+    photos: ${photosJSON},
+    phrases: ${phrasesJSON},
+    palette: ${JSON.stringify(paletteKey)},
+    photoShape: ${JSON.stringify(photoShape)},
+    customMusic: ${customMusicJSON},
+    palettes: ${palettesJSON}
+  };
+  const isPremium = CONFIG.isPremium;
+
+  /* ============================================================
+     🌕 URL DE LA LUNA — ¡AQUÍ PEGA TU ENLACE DIRECTO!
+     ============================================================
+     Debe ser el enlace DIRECTO (termina en .png, .jpg, .webp).
+     En ImgBB: sube tu imagen → botón "Direct link" → copiar.
+     Ejemplo: https://i.ibb.co/XXXXXXX/luna.png
+     ============================================================ */
+  const MOON_IMAGE_URL = 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/1024px-FullMoon2010.jpg';
+
+  const err = document.getElementById('err');
+  function showError(msg){ if(!err) return; err.textContent = msg; err.style.display='block'; setTimeout(()=>err.style.display='none',4000); }
+
+  const audio = document.getElementById('audio');
+  const playBtn = document.getElementById('playBtn');
+  const progressBar = document.getElementById('progressBar');
+  const progressContainer = document.getElementById('progressContainer');
+  const timeDisplay = document.getElementById('timeDisplay');
+  const volume = document.getElementById('volume');
+  const loopBtn = document.getElementById('loopBtn');
+  let isLoop = true;
+  if (audio) audio.loop = true;
+
+  const DEFAULT_MUSIC = "https://raw.githubusercontent.com/c4rlo53305-lgtm/Peri/main/paulyudin-love-485933.mp3";
+  if (audio) audio.src = CONFIG.customMusic || DEFAULT_MUSIC;
+
+  if (playBtn) playBtn.onclick = async () => {
+    try {
+      if (audio.paused) { await audio.play(); playBtn.textContent = '⏸︎'; }
+      else { audio.pause(); playBtn.textContent = '▶︎'; }
+    } catch(e) { showError('Toca para activar el audio'); }
+  };
+  if (volume) volume.oninput = () => audio.volume = volume.value;
+  if (loopBtn) loopBtn.onclick = () => {
+    isLoop = !isLoop; audio.loop = isLoop; loopBtn.style.opacity = isLoop ? '1' : '0.5';
+  };
+  function formatTime(s){ const m=Math.floor(s/60); const sec=Math.floor(s%60); return m+':'+sec.toString().padStart(2,'0'); }
+  if (audio) audio.ontimeupdate = () => {
+    if (audio.duration) {
+      progressBar.style.width = (audio.currentTime / audio.duration * 100) + '%';
+      timeDisplay.textContent = formatTime(audio.currentTime) + ' / ' + formatTime(audio.duration);
+    }
+  };
+  if (progressContainer) progressContainer.onclick = (e) => {
+    if (!audio.duration) return;
+    const rect = progressContainer.getBoundingClientRect();
+    audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
+  };
+
+  const btnFullscreen = document.getElementById('btnFullscreen');
+  if (btnFullscreen) btnFullscreen.onclick = () => {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+    else document.exitFullscreen();
+  };
+  let speedMultiplier = 1;
+  const btnSpeed = document.getElementById('btnSpeed');
+  if (btnSpeed) btnSpeed.onclick = () => {
+    speedMultiplier = speedMultiplier === 1 ? 2.2 : speedMultiplier === 2.2 ? 0.4 : 1;
+    showError('Velocidad: ' + (speedMultiplier===1?'Normal':speedMultiplier===2.2?'Rápida':'Lenta'));
+  };
+
+  if (CONFIG.startDate) {
+    try {
+      const d0 = new Date(CONFIG.startDate);
+      const diff = Math.floor((Date.now() - d0.getTime()) / 86400000);
+      if (diff >= 0) { const el = document.getElementById('daysTogether'); if (el) el.textContent = 'Juntos desde hace ' + diff.toLocaleString('es') + ' días ✨'; }
+    } catch(e){}
+  }
+
+  try {
+    const canvas = document.getElementById('galaxy-canvas');
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+    renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.setClearColor(0x000004, 1);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(78, window.innerWidth / window.innerHeight, 0.1, 2000);
+    camera.position.set(0, 0, 0);
+
+    let warpFactor = 0, warpTarget = 0, time = 0, lastT = performance.now();
+    window.__startWarp = function(){ warpTarget = 1; };
+
+    const pal = (CONFIG.palettes && CONFIG.palettes[CONFIG.palette]) ? CONFIG.palettes[CONFIG.palette] : {colors:["#e0e7ff","#7dd3fc","#a78bfa","#1e1b4b","#c4b5fd"]};
+    const palColors = pal.colors || ["#e0e7ff","#7dd3fc","#a78bfa","#1e1b4b","#c4b5fd"];
+    const colorLight = new THREE.Color(palColors[0] || "#e0e7ff");
+    const colorMid = new THREE.Color(palColors[1] || "#7dd3fc");
+    const colorAccent = new THREE.Color(palColors[2] || "#a78bfa");
+    const colorSoft = new THREE.Color(palColors[4] || "#c4b5fd");
+
+    function makeStarTexture(size){
+      const c = document.createElement('canvas'); c.width = c.height = size;
+      const g = c.getContext('2d');
+      const cx = size/2, cy = size/2;
+      const grd = g.createRadialGradient(cx,cy,0,cx,cy,cx);
+      grd.addColorStop(0.00, 'rgba(255,255,255,1)');
+      grd.addColorStop(0.12, 'rgba(255,255,255,0.95)');
+      grd.addColorStop(0.28, 'rgba(230,240,255,0.55)');
+      grd.addColorStop(0.55, 'rgba(180,205,255,0.18)');
+      grd.addColorStop(0.80, 'rgba(150,180,255,0.05)');
+      grd.addColorStop(1.00, 'rgba(140,160,255,0)');
+      g.fillStyle = grd;
+      g.fillRect(0,0,size,size);
+      return new THREE.CanvasTexture(c);
+    }
+    const starTex = makeStarTexture(128);
+
+    function makeDustTexture(size){
+      const c = document.createElement('canvas'); c.width = c.height = size;
+      const g = c.getContext('2d');
+      const cx = size/2, cy = size/2;
+      const grd = g.createRadialGradient(cx,cy,0,cx,cy,cx);
+      grd.addColorStop(0,'rgba(255,255,255,0.85)');
+      grd.addColorStop(0.4,'rgba(200,220,255,0.4)');
+      grd.addColorStop(0.75,'rgba(160,180,255,0.12)');
+      grd.addColorStop(1,'rgba(120,140,220,0)');
+      g.fillStyle = grd; g.fillRect(0,0,size,size);
+      return new THREE.CanvasTexture(c);
+    }
+    const dustTex = makeDustTexture(64);
+
+    function makeSkyBoxTexture(size){
+      const c = document.createElement('canvas'); c.width = c.height = size;
+      const g = c.getContext('2d');
+      const grd = g.createLinearGradient(0, 0, 0, size);
+      grd.addColorStop(0,'#0a0820'); grd.addColorStop(0.4,'#06021a'); grd.addColorStop(1,'#02000a');
+      g.fillStyle = grd; g.fillRect(0,0,size,size);
+      const nebColors = ['#3b2d7a','#7a2d6b','#1c3f7a','#4a1d6b','#233a75','#2d1b5a'];
+      for (let i = 0; i < 30; i++){
+        const x = Math.random()*size, y = Math.random()*size;
+        const rad = size * (0.08 + Math.random()*0.24);
+        const col = nebColors[i % nebColors.length];
+        const cr = parseInt(col.slice(1,3),16), cg2 = parseInt(col.slice(3,5),16), cb = parseInt(col.slice(5,7),16);
+        const ngr = g.createRadialGradient(x,y,0,x,y,rad);
+        ngr.addColorStop(0,'rgba('+cr+','+cg2+','+cb+',0.22)');
+        ngr.addColorStop(0.5,'rgba('+cr+','+cg2+','+cb+',0.08)');
+        ngr.addColorStop(1,'rgba('+cr+','+cg2+','+cb+',0)');
+        g.fillStyle = ngr;
+        g.beginPath(); g.arc(x,y,rad,0,Math.PI*2); g.fill();
+      }
+      for (let i = 0; i < 4500; i++){
+        const x = Math.random()*size, y = Math.random()*size;
+        const b = Math.random()*0.7+0.3;
+        const s = Math.random()*1.4+0.4;
+        const tint = Math.random();
+        let col, colHalf;
+        if (tint < 0.1) { col = 'rgba(255,220,180,'+b+')'; colHalf = 'rgba(255,220,180,'+(b*0.4)+')'; }
+        else if (tint < 0.2) { col = 'rgba(200,180,255,'+b+')'; colHalf = 'rgba(200,180,255,'+(b*0.4)+')'; }
+        else if (tint < 0.28) { col = 'rgba(180,220,255,'+b+')'; colHalf = 'rgba(180,220,255,'+(b*0.4)+')'; }
+        else { col = 'rgba(255,255,255,'+b+')'; colHalf = 'rgba(255,255,255,'+(b*0.4)+')'; }
+        const sgr = g.createRadialGradient(x,y,0,x,y,s*2.2);
+        sgr.addColorStop(0, col); sgr.addColorStop(0.5, colHalf); sgr.addColorStop(1, 'rgba(255,255,255,0)');
+        g.fillStyle = sgr; g.beginPath(); g.arc(x,y,s*2.2,0,Math.PI*2); g.fill();
+      }
+      return new THREE.CanvasTexture(c);
+    }
+    const skyBox = new THREE.Mesh(
+      new THREE.SphereGeometry(1500, 64, 64),
+      new THREE.MeshBasicMaterial({ map: makeSkyBoxTexture(2048), side: THREE.BackSide, opacity: 0.85, transparent: true, depthWrite: false })
+    );
+    scene.add(skyBox);
+
+    const STAR_COUNT = isPremium ? 8000 : 4000;
+    const starsPos = new Float32Array(STAR_COUNT * 3);
+    const starsVel = new Float32Array(STAR_COUNT);
+    const starsCol = new Float32Array(STAR_COUNT * 3);
+
+    function resetStar(i, initial){
+      const spread = 220;
+      starsPos[i*3]   = (Math.random()-0.5) * spread * 2;
+      starsPos[i*3+1] = (Math.random()-0.5) * spread * 2;
+      starsPos[i*3+2] = initial ? (-Math.random() * 500 - 20) : (-500 - Math.random() * 40);
+      starsVel[i] = 30 + Math.random() * 45;
+      const tint = Math.random();
+      let col;
+      if (tint < 0.12) col = colorMid;
+      else if (tint < 0.22) col = colorAccent;
+      else if (tint < 0.32) col = colorSoft;
+      else col = colorLight;
+      const b = 0.7 + Math.random() * 0.4;
+      starsCol[i*3]   = Math.min(1, col.r * b);
+      starsCol[i*3+1] = Math.min(1, col.g * b);
+      starsCol[i*3+2] = Math.min(1, col.b * b);
+    }
+    for (let i = 0; i < STAR_COUNT; i++) resetStar(i, true);
+
+    const starsGeo = new THREE.BufferGeometry();
+    starsGeo.setAttribute('position', new THREE.BufferAttribute(starsPos, 3));
+    starsGeo.setAttribute('color', new THREE.BufferAttribute(starsCol, 3));
+    const starsMat = new THREE.PointsMaterial({
+      map: starTex, vertexColors: true, size: 1.0, transparent: true, opacity: 0.9,
+      blending: THREE.AdditiveBlending, depthWrite: false, sizeAttenuation: true
+    });
+    scene.add(new THREE.Points(starsGeo, starsMat));
+
+    const TWINKLE_COUNT = isPremium ? 200 : 120;
+    const twinklePos = new Float32Array(TWINKLE_COUNT * 3);
+    const twinkleCol = new Float32Array(TWINKLE_COUNT * 3);
+    const twinkleBaseCol = new Float32Array(TWINKLE_COUNT * 3);
+    const twinklePhase = new Float32Array(TWINKLE_COUNT);
+    const twinkleSpeed = new Float32Array(TWINKLE_COUNT);
+    const twinkleVel = new Float32Array(TWINKLE_COUNT);
+
+    function resetTwinkle(i, initial){
+      const spread = 260;
+      twinklePos[i*3]   = (Math.random()-0.5) * spread * 2;
+      twinklePos[i*3+1] = (Math.random()-0.5) * spread * 2;
+      twinklePos[i*3+2] = initial ? (-Math.random() * 600 - 30) : (-600 - Math.random() * 60);
+      twinkleVel[i] = 25 + Math.random() * 35;
+      const tint = Math.random();
+      let col;
+      if (tint < 0.25) col = colorLight;
+      else if (tint < 0.5) col = colorMid;
+      else if (tint < 0.75) col = colorAccent;
+      else col = colorSoft;
+      const b = 0.8 + Math.random() * 0.2;
+      twinkleBaseCol[i*3]   = col.r * b;
+      twinkleBaseCol[i*3+1] = col.g * b;
+      twinkleBaseCol[i*3+2] = col.b * b;
+      twinklePhase[i] = Math.random() * Math.PI * 2;
+      twinkleSpeed[i] = 0.8 + Math.random() * 1.8;
+    }
+    for (let i = 0; i < TWINKLE_COUNT; i++) resetTwinkle(i, true);
+
+    const twinkleGeo = new THREE.BufferGeometry();
+    twinkleGeo.setAttribute('position', new THREE.BufferAttribute(twinklePos, 3));
+    twinkleGeo.setAttribute('color', new THREE.BufferAttribute(twinkleCol, 3));
+    const twinkleMat = new THREE.PointsMaterial({
+      map: starTex, vertexColors: true, size: 1.8, transparent: true, opacity: 0.95,
+      blending: THREE.AdditiveBlending, depthWrite: false, sizeAttenuation: true
+    });
+    scene.add(new THREE.Points(twinkleGeo, twinkleMat));
+
+    const DUST_COUNT = isPremium ? 2800 : 1500;
+    const dustPos = new Float32Array(DUST_COUNT * 3);
+    const dustVel = new Float32Array(DUST_COUNT);
+    const dustCol = new Float32Array(DUST_COUNT * 3);
+
+    function resetDust(i, initial){
+      const spread = 140;
+      dustPos[i*3]   = (Math.random()-0.5) * spread * 2;
+      dustPos[i*3+1] = (Math.random()-0.5) * spread * 2;
+      dustPos[i*3+2] = initial ? (-Math.random() * 400 - 5) : (-400 - Math.random() * 60);
+      dustVel[i] = 60 + Math.random() * 100;
+      const tint = Math.random();
+      let col;
+      if (tint < 0.35) col = colorMid;
+      else if (tint < 0.55) col = colorAccent;
+      else if (tint < 0.75) col = colorSoft;
+      else col = colorLight;
+      const b = 0.5 + Math.random() * 0.5;
+      dustCol[i*3]   = Math.min(1, col.r * b);
+      dustCol[i*3+1] = Math.min(1, col.g * b);
+      dustCol[i*3+2] = Math.min(1, col.b * b);
+    }
+    for (let i = 0; i < DUST_COUNT; i++) resetDust(i, true);
+
+    const dustGeo = new THREE.BufferGeometry();
+    dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
+    dustGeo.setAttribute('color', new THREE.BufferAttribute(dustCol, 3));
+    const dustMat = new THREE.PointsMaterial({
+      map: dustTex, vertexColors: true, size: 1.8, transparent: true, opacity: 0.55,
+      blending: THREE.AdditiveBlending, depthWrite: false, sizeAttenuation: true
+    });
+    scene.add(new THREE.Points(dustGeo, dustMat));
+
+    function makeNebulaTexture(hex){
+      const size = 256;
+      const c = document.createElement('canvas'); c.width = c.height = size;
+      const g = c.getContext('2d');
+      const col = new THREE.Color(hex);
+      const r = Math.round(col.r*255), gg = Math.round(col.g*255), b = Math.round(col.b*255);
+      for (let i = 0; i < 14; i++){
+        const x = size/2 + (Math.random()-0.5)*size*0.6;
+        const y = size/2 + (Math.random()-0.5)*size*0.6;
+        const rad = size*(0.14 + Math.random()*0.26);
+        const grd = g.createRadialGradient(x,y,0,x,y,rad);
+        grd.addColorStop(0, 'rgba('+r+','+gg+','+b+',0.25)');
+        grd.addColorStop(0.5, 'rgba('+r+','+gg+','+b+',0.1)');
+        grd.addColorStop(1, 'rgba('+r+','+gg+','+b+',0)');
+        g.fillStyle = grd;
+        g.beginPath(); g.arc(x,y,rad,0,Math.PI*2); g.fill();
+      }
+      return new THREE.CanvasTexture(c);
+    }
+    const NEBULA_COUNT = isPremium ? 18 : 10;
+    const nebulaColors = [palColors[1], palColors[2], palColors[4], '#7c3aed', '#db2777', '#0ea5e9'];
+    const nebulae = [];
+    for (let i = 0; i < NEBULA_COUNT; i++){
+      const hex = nebulaColors[i % nebulaColors.length];
+      const mat = new THREE.SpriteMaterial({
+        map: makeNebulaTexture(hex), transparent: true, depthWrite: false,
+        blending: THREE.AdditiveBlending, opacity: 0.18 + Math.random() * 0.12,
+        rotation: Math.random() * Math.PI * 2
+      });
+      const spr = new THREE.Sprite(mat);
+      spr.userData = { speed: 15 + Math.random() * 20, rotSpeed: (Math.random() - 0.5) * 0.3 };
+      spr.position.set((Math.random()-0.5) * 240, (Math.random()-0.5) * 180, -Math.random() * 500 - 100);
+      const s = 80 + Math.random() * 120;
+      spr.scale.set(s, s * (0.7 + Math.random() * 0.6), 1);
+      scene.add(spr);
+      nebulae.push(spr);
+    }
+
+    /* ===== LUNA CON FOTO REAL ===== */
+    function buildMoonTexture(img){
+      const size = 512;
+      const c = document.createElement('canvas'); c.width = c.height = size;
+      const g = c.getContext('2d');
+      const cx = size/2, cy = size/2;
+      const r = size * 0.40;
+
+      // 1) HALO PLATEADO detrás
+      const halo = g.createRadialGradient(cx, cy, r*0.85, cx, cy, size*0.5);
+      halo.addColorStop(0.00, 'rgba(225,235,252,0.55)');
+      halo.addColorStop(0.22, 'rgba(200,215,240,0.30)');
+      halo.addColorStop(0.50, 'rgba(175,195,225,0.12)');
+      halo.addColorStop(0.78, 'rgba(155,175,210,0.03)');
+      halo.addColorStop(1.00, 'rgba(155,175,210,0)');
+      g.fillStyle = halo;
+      g.beginPath(); g.arc(cx, cy, size*0.5, 0, Math.PI*2); g.fill();
+
+      // 2) FOTO DE LA LUNA con máscara circular
+      g.save();
+      g.beginPath(); g.arc(cx, cy, r, 0, Math.PI*2); g.closePath(); g.clip();
+      const aspect = img.width / img.height;
+      let sx, sy, sw, sh;
+      if (aspect > 1){ sh = img.height; sw = sh; sx = (img.width - sw)/2; sy = 0; }
+      else { sw = img.width; sh = sw; sx = 0; sy = (img.height - sh)/2; }
+      g.drawImage(img, sx, sy, sw, sh, cx-r, cy-r, r*2, r*2);
+
+      // 3) Sombra esférica sutil
+      const sh3d = g.createRadialGradient(cx - r*0.35, cy - r*0.35, r*0.3, cx + r*0.15, cy + r*0.15, r*1.05);
+      sh3d.addColorStop(0, 'rgba(0,0,0,0)');
+      sh3d.addColorStop(0.6, 'rgba(0,0,0,0.05)');
+      sh3d.addColorStop(0.85, 'rgba(0,0,0,0.28)');
+      sh3d.addColorStop(1, 'rgba(0,0,0,0.65)');
+      g.fillStyle = sh3d;
+      g.beginPath(); g.arc(cx, cy, r, 0, Math.PI*2); g.fill();
+
+      // 4) Rim light plateado
+      const rim = g.createRadialGradient(cx - r*0.3, cy - r*0.3, r*0.7, cx, cy, r*1.0);
+      rim.addColorStop(0, 'rgba(230,240,255,0)');
+      rim.addColorStop(0.82, 'rgba(230,240,255,0)');
+      rim.addColorStop(0.95, 'rgba(230,240,255,0.28)');
+      rim.addColorStop(1, 'rgba(230,240,255,0.5)');
+      g.fillStyle = rim;
+      g.fillRect(0, 0, size, size);
+      g.restore();
+
+      // 5) Suaviza el borde exterior
+      g.globalCompositeOperation = 'destination-out';
+      const edgeFade = g.createRadialGradient(cx, cy, r*0.94, cx, cy, r*1.005);
+      edgeFade.addColorStop(0, 'rgba(0,0,0,0)');
+      edgeFade.addColorStop(0.7, 'rgba(0,0,0,0.15)');
+      edgeFade.addColorStop(1, 'rgba(0,0,0,1)');
+      g.fillStyle = edgeFade;
+      g.beginPath(); g.arc(cx, cy, r*1.005, 0, Math.PI*2); g.fill();
+      g.globalCompositeOperation = 'source-over';
+
+      const tex = new THREE.CanvasTexture(c);
+      tex.encoding = THREE.sRGBEncoding;
+      tex.minFilter = THREE.LinearFilter;
+      tex.magFilter = THREE.LinearFilter;
+      tex.generateMipmaps = false;
+      return tex;
+    }
+
+    function makeFallbackMoonTexture(){
+      const size = 512;
+      const c = document.createElement('canvas'); c.width = c.height = size;
+      const g = c.getContext('2d');
+      const cx = 256, cy = 256, r = 205;
+      const halo = g.createRadialGradient(cx, cy, r*0.9, cx, cy, 256);
+      halo.addColorStop(0, 'rgba(220,230,250,0.5)');
+      halo.addColorStop(0.5, 'rgba(180,200,230,0.15)');
+      halo.addColorStop(1, 'rgba(150,175,210,0)');
+      g.fillStyle = halo; g.fillRect(0,0,size,size);
+      const base = g.createRadialGradient(cx - r*0.35, cy - r*0.35, r*0.1, cx, cy, r);
+      base.addColorStop(0, '#f4f6fa');
+      base.addColorStop(0.4, '#ccd1da');
+      base.addColorStop(0.75, '#8b9098');
+      base.addColorStop(1, '#3e4148');
+      g.fillStyle = base;
+      g.beginPath(); g.arc(cx, cy, r, 0, Math.PI*2); g.fill();
+      for (let i = 0; i < 5; i++){
+        const mx = cx + (Math.random()-0.5)*r*1.2;
+        const my = cy + (Math.random()-0.5)*r*1.2;
+        const mr = r * (0.15 + Math.random()*0.2);
+        const mg = g.createRadialGradient(mx, my, 0, mx, my, mr);
+        mg.addColorStop(0, 'rgba(90,95,105,0.5)');
+        mg.addColorStop(1, 'rgba(110,115,125,0)');
+        g.fillStyle = mg;
+        g.beginPath(); g.arc(mx, my, mr, 0, Math.PI*2); g.fill();
+      }
+      for (let i = 0; i < 120; i++){
+        const ang = Math.random()*Math.PI*2;
+        const dist = Math.sqrt(Math.random())*r*0.9;
+        const mx = cx + Math.cos(ang)*dist;
+        const my = cy + Math.sin(ang)*dist;
+        const mr = 2 + Math.random()*8;
+        const cg = g.createRadialGradient(mx-mr*0.2, my-mr*0.2, 0, mx, my, mr);
+        cg.addColorStop(0, 'rgba(255,255,255,0.7)');
+        cg.addColorStop(0.6, 'rgba(140,145,155,0.8)');
+        cg.addColorStop(1, 'rgba(60,63,70,0)');
+        g.fillStyle = cg;
+        g.beginPath(); g.arc(mx, my, mr, 0, Math.PI*2); g.fill();
+      }
+      const sh = g.createRadialGradient(cx - r*0.4, cy - r*0.4, r*0.4, cx + r*0.15, cy + r*0.15, r*1.05);
+      sh.addColorStop(0, 'rgba(0,0,0,0)');
+      sh.addColorStop(0.8, 'rgba(0,0,0,0.35)');
+      sh.addColorStop(1, 'rgba(0,0,0,0.75)');
+      g.fillStyle = sh;
+      g.beginPath(); g.arc(cx, cy, r, 0, Math.PI*2); g.fill();
+      const tex = new THREE.CanvasTexture(c);
+      tex.encoding = THREE.sRGBEncoding;
+      tex.minFilter = THREE.LinearFilter;
+      tex.magFilter = THREE.LinearFilter;
+      tex.generateMipmaps = false;
+      return tex;
+    }
+
+    const moonMat = new THREE.SpriteMaterial({
+      transparent: true,
+      depthWrite: false,
+      depthTest: false,
+      opacity: 1.0
+    });
+    const moon = new THREE.Sprite(moonMat);
+    const MOON_BASE_X = 195;
+    const MOON_BASE_Y = 260;
+    const MOON_BASE_Z = -700;
+    moon.position.set(MOON_BASE_X, MOON_BASE_Y, MOON_BASE_Z);
+    moon.scale.set(190, 190, 1);
+    moon.renderOrder = 5;
+    scene.add(moon);
+
+    (function loadMoonImage(){
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = function(){
+        try {
+          const tex = buildMoonTexture(img);
+          moonMat.map = tex;
+          moonMat.needsUpdate = true;
+        } catch(e){
+          console.warn('Error generando textura de luna:', e);
+          moonMat.map = makeFallbackMoonTexture();
+          moonMat.needsUpdate = true;
+        }
+      };
+      img.onerror = function(){
+        console.warn('No se pudo cargar la imagen de la luna, usando fallback.');
+        moonMat.map = makeFallbackMoonTexture();
+        moonMat.needsUpdate = true;
+      };
+      img.src = MOON_IMAGE_URL;
+    })();
+
+    const moonSparkles = [];
+    const MOON_SPARKLE_COUNT = isPremium ? 14 : 8;
+    for (let i = 0; i < MOON_SPARKLE_COUNT; i++){
+      const sMat = new THREE.SpriteMaterial({
+        map: starTex, transparent: true, depthWrite: false, depthTest: false,
+        blending: THREE.AdditiveBlending, opacity: 0.9
+      });
+      const s = new THREE.Sprite(sMat);
+      const ang = (i / MOON_SPARKLE_COUNT) * Math.PI * 2 + Math.random() * 0.5;
+      const rad = 95 + Math.random() * 70;
+      s.userData = {
+        ang: ang, rad: rad,
+        speed: (Math.random() < 0.5 ? 1 : -1) * (0.15 + Math.random() * 0.25),
+        baseScale: 3 + Math.random() * 4,
+        phase: Math.random() * Math.PI * 2,
+        twinkleSpeed: 1.5 + Math.random() * 2.5
+      };
+      s.scale.set(s.userData.baseScale, s.userData.baseScale, 1);
+      s.renderOrder = 6;
+      scene.add(s);
+      moonSparkles.push(s);
+    }
+
+    function makeRingTexture(colorHex){
+      const w = 1024, h = 8;
+      const c = document.createElement('canvas'); c.width = w; c.height = h;
+      const g = c.getContext('2d');
+      const col = new THREE.Color(colorHex);
+      const r = Math.round(col.r*255), gg = Math.round(col.g*255), b = Math.round(col.b*255);
+      for (let x = 0; x < w; x++){
+        const t = x / (w - 1);
+        let alpha = 0.75 + Math.sin(t * 32) * 0.1 + Math.sin(t * 71 + 1.3) * 0.06 + Math.sin(t * 17 + 2.7) * 0.08;
+        if (t > 0.62 && t < 0.685) alpha *= 0.18;
+        if (t > 0.27 && t < 0.295) alpha *= 0.45;
+        if (t < 0.03) alpha *= t / 0.03;
+        if (t > 0.97) alpha *= (1 - t) / 0.03;
+        const rC = r + Math.sin(t * 24) * 22;
+        const gC = gg + Math.sin(t * 33 + 1) * 18;
+        const bC = b + Math.sin(t * 21 + 2) * 26;
+        g.fillStyle = 'rgba(' + Math.round(rC) + ',' + Math.round(gC) + ',' + Math.round(bC) + ',' + Math.max(0, alpha).toFixed(3) + ')';
+        g.fillRect(x, 0, 1, h);
+      }
+      const tex = new THREE.CanvasTexture(c);
+      tex.wrapS = THREE.ClampToEdgeWrapping;
+      tex.wrapT = THREE.RepeatWrapping;
+      return tex;
+    }
+    function createRing(innerR, outerR, colorHex, opacity){
+      const segments = 128;
+      const geo = new THREE.RingGeometry(innerR, outerR, segments, 1);
+      const uv = geo.attributes.uv;
+      const pos = geo.attributes.position;
+      for (let i = 0; i < uv.count; i++){
+        const x = pos.getX(i), y = pos.getY(i);
+        const r = Math.sqrt(x*x + y*y);
+        uv.setXY(i, (r - innerR) / (outerR - innerR), 0.5);
+      }
+      const mat = new THREE.MeshBasicMaterial({
+        map: makeRingTexture(colorHex), transparent: true, side: THREE.DoubleSide,
+        opacity: opacity, depthWrite: false
+      });
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.rotation.x = Math.PI / 2;
+      return mesh;
+    }
+
+    function makeGasGiantTexture(w, h, baseHue, satBase){
+      const c = document.createElement('canvas'); c.width = w; c.height = h;
+      const g = c.getContext('2d');
+      g.fillStyle = 'hsl(' + baseHue + ', ' + satBase + '%, 45%)';
+      g.fillRect(0, 0, w, h);
+      const bandCount = 30;
+      for (let i = 0; i < bandCount; i++){
+        const y0 = (i / bandCount) * h;
+        const bh = (h / bandCount) * (0.5 + Math.random() * 1.5);
+        const hue = baseHue + (Math.random() - 0.5) * 40;
+        const light = 25 + Math.random() * 45;
+        const sat = satBase + (Math.random() - 0.5) * 30;
+        g.fillStyle = 'hsla(' + hue + ', ' + sat + '%, ' + light + '%, 0.7)';
+        g.beginPath();
+        for (let x = 0; x <= w; x += 4){
+          const wy = y0 + Math.sin(x * 0.02 + i * 1.3) * 6 + Math.sin(x * 0.007 + i * 2.1) * 10;
+          if (x === 0) g.moveTo(x, wy); else g.lineTo(x, wy);
+        }
+        for (let x = w; x >= 0; x -= 4){
+          const wy = y0 + bh + Math.sin(x * 0.02 + i * 1.3) * 6 + Math.sin(x * 0.007 + i * 2.1) * 10;
+          g.lineTo(x, wy);
+        }
+        g.closePath(); g.fill();
+      }
+      for (let i = 0; i < 500; i++){
+        const x = Math.random() * w, y = Math.random() * h;
+        const r = 3 + Math.random() * 25;
+        const hue = baseHue + (Math.random() - 0.5) * 40;
+        const light = 20 + Math.random() * 55;
+        const grd = g.createRadialGradient(x, y, 0, x, y, r);
+        grd.addColorStop(0, 'hsla(' + hue + ', ' + satBase + '%, ' + light + '%, 0.55)');
+        grd.addColorStop(1, 'hsla(' + hue + ', ' + satBase + '%, ' + light + '%, 0)');
+        g.fillStyle = grd;
+        g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fill();
+      }
+      const shadow = g.createLinearGradient(0, 0, w, 0);
+      shadow.addColorStop(0, 'rgba(0,0,0,0.75)');
+      shadow.addColorStop(0.25, 'rgba(0,0,0,0)');
+      shadow.addColorStop(0.75, 'rgba(0,0,0,0)');
+      shadow.addColorStop(1, 'rgba(0,0,0,0.85)');
+      g.fillStyle = shadow;
+      g.fillRect(0, 0, w, h);
+      return new THREE.CanvasTexture(c);
+    }
+
+    const planets = [];
+    function createPlanet(config){
+      const group = new THREE.Group();
+      const tex = makeGasGiantTexture(512, 256, config.hue, 55);
+      const geo = new THREE.SphereGeometry(config.radius, 48, 32);
+      const mat = new THREE.MeshBasicMaterial({ map: tex });
+      const planet = new THREE.Mesh(geo, mat);
+      group.add(planet);
+      if (config.ring){
+        const ring1 = createRing(config.radius * 1.4, config.radius * 2.1, config.ringColor || palColors[1], 0.92);
+        group.add(ring1);
+        const ring2 = createRing(config.radius * 2.18, config.radius * 2.34, config.ringColor || palColors[2], 0.6);
+        group.add(ring2);
+        const ring0 = createRing(config.radius * 1.15, config.radius * 1.36, config.ringColor || palColors[0], 0.55);
+        group.add(ring0);
+        ring1.rotation.z = config.ringTilt || 0;
+        ring2.rotation.z = config.ringTilt || 0;
+        ring0.rotation.z = config.ringTilt || 0;
+      }
+      group.position.set(config.x, config.y, config.z);
+      group.rotation.z = config.tilt || 0;
+      group.rotation.x = config.xTilt || 0;
+      planet.userData = { spin: 0.06 + Math.random() * 0.08 };
+      group.userData = { speed: config.speed || 5, baseZ: config.z };
+      return { group, planet };
+    }
+
+    planets.push(createPlanet({
+      x: -250, y: 10, z: -700, radius: 65, hue: 210,
+      ring: true, ringColor: palColors[1], ringTilt: 0.28,
+      tilt: 0.12, xTilt: 0.08, speed: 4
+    }));
+    if (isPremium){
+      planets.push(createPlanet({
+        x: -320, y: -140, z: -1100, radius: 45, hue: 280,
+        ring: false, tilt: 0.15, speed: 3
+      }));
+    }
+    planets.forEach(function(p){ scene.add(p.group); });
+
+    function makeMeteorTexture(){
+      const w = 256, h = 32;
+      const c = document.createElement('canvas'); c.width = w; c.height = h;
+      const g = c.getContext('2d');
+      for (let x = 0; x < w; x++){
+        const t = x / w;
+        const alpha = Math.pow(t, 2.5) * 0.95;
+        for (let y = 0; y < h; y++){
+          const dy = Math.abs(y - h/2) / (h/2);
+          const a = alpha * Math.pow(1 - dy, 2.2);
+          if (a > 0.005){ g.fillStyle = 'rgba(220,235,255,'+a+')'; g.fillRect(x, y, 1, 1); }
+        }
+      }
+      const head = g.createRadialGradient(w-16, h/2, 0, w-16, h/2, 16);
+      head.addColorStop(0, 'rgba(255,255,255,1)');
+      head.addColorStop(0.35, 'rgba(200,225,255,0.85)');
+      head.addColorStop(1, 'rgba(150,190,255,0)');
+      g.fillStyle = head;
+      g.fillRect(w-34, 0, 34, h);
+      return new THREE.CanvasTexture(c);
+    }
+    const meteorTex = makeMeteorTexture();
+    const METEOR_COUNT = isPremium ? 24 : 14;
+    const meteors = [];
+    for (let i = 0; i < METEOR_COUNT; i++){
+      const mat = new THREE.SpriteMaterial({ map: meteorTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0 });
+      const s = new THREE.Sprite(mat);
+      s.visible = false;
+      scene.add(s);
+      meteors.push({ spr: s, active: false, delay: Math.random() * 6, t: 0, dur: 0, startPos: new THREE.Vector3(), vx: 0, vy: 0, vz: 0 });
+    }
+    function spawnMeteor(m){
+      m.active = true; m.t = 0; m.dur = 1.2 + Math.random() * 1.4;
+      const side = Math.random() < 0.5 ? -1 : 1;
+      m.startPos.set(side * (60 + Math.random() * 80), (Math.random() - 0.5) * 80, -250 - Math.random() * 150);
+      m.vx = -side * (10 + Math.random() * 25);
+      m.vy = (Math.random() - 0.5) * 15;
+      m.vz = 140 + Math.random() * 120;
+      m.spr.position.copy(m.startPos);
+      m.spr.visible = true;
+      m.spr.material.opacity = 0;
+      const sz2 = 1.2 + Math.random() * 1.4;
+      m.spr.scale.set(sz2 * 8, sz2, 1);
+      m.spr.material.rotation = Math.atan2(-m.vy, m.vx + (m.vz * 0.3));
+    }
+
+    function makePhraseTexture(text){
+      const c = document.createElement('canvas'); c.width = 1024; c.height = 256;
+      const g = c.getContext('2d');
+      g.clearRect(0, 0, c.width, c.height);
+      g.font = '700 96px -apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial';
+      g.textAlign = 'center'; g.textBaseline = 'middle';
+      g.shadowColor = palColors[2] || '#a78bfa';
+      g.shadowBlur = 40;
+      g.fillStyle = 'rgba(255,255,255,0.98)';
+      g.fillText(text, c.width/2, c.height/2);
+      g.shadowBlur = 20;
+      g.fillStyle = colorLight.getStyle();
+      g.fillText(text, c.width/2, c.height/2);
+      return new THREE.CanvasTexture(c);
+    }
+    const phrases = CONFIG.phrases;
+    const PHRASE_COUNT = Math.min(phrases.length * (isPremium ? 3 : 2), 60);
+    const phraseSprites = [];
+    for (let i = 0; i < PHRASE_COUNT; i++){
+      const text = phrases[i % phrases.length];
+      const tex = makePhraseTexture(text);
+      const mat = new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, opacity: 0 });
+      const spr = new THREE.Sprite(mat);
+      spr.userData = {
+        speed: 2.5 + Math.random() * 3,
+        baseX: (Math.random() - 0.5) * 100,
+        baseY: (Math.random() - 0.5) * 80,
+        baseZ: -100 - Math.random() * 500,
+        wobbleAmp: 3 + Math.random() * 5,
+        wobbleSpeed: 0.3 + Math.random() * 0.7,
+        phase: Math.random() * Math.PI * 2,
+        scale: 24 + Math.random() * 20
+      };
+      spr.position.set(spr.userData.baseX, spr.userData.baseY, spr.userData.baseZ);
+      spr.scale.set(spr.userData.scale, spr.userData.scale * 0.25, 1);
+      scene.add(spr);
+      phraseSprites.push(spr);
+    }
+
+    function makePhotoTexture(dataURL, shape){
+      return new Promise(resolve => {
+        const img = new Image();
+        img.onload = () => {
+          const S = 768;
+          const cv = document.createElement('canvas'); cv.width = cv.height = S;
+          const ctx = cv.getContext('2d');
+          const pad = 60, inner = S - pad*2, cx = S/2, cy = S/2;
+          const glowCol = colorMid;
+          const glow = ctx.createRadialGradient(cx, cy, inner*0.35, cx, cy, inner*0.6);
+          glow.addColorStop(0, 'rgba(' + Math.round(glowCol.r*255) + ',' + Math.round(glowCol.g*255) + ',' + Math.round(glowCol.b*255) + ',0.45)');
+          glow.addColorStop(1, 'rgba(' + Math.round(glowCol.r*255) + ',' + Math.round(glowCol.g*255) + ',' + Math.round(glowCol.b*255) + ',0)');
+          ctx.fillStyle = glow; ctx.fillRect(0, 0, S, S);
+          ctx.save();
+          if (shape === 'circle'){ ctx.beginPath(); ctx.arc(cx, cy, inner/2, 0, Math.PI*2); ctx.clip(); }
+          else if (shape === 'heart'){
+            const s = inner / 16;
+            ctx.beginPath();
+            ctx.moveTo(cx, cy + 5*s);
+            ctx.bezierCurveTo(cx - 8*s, cy - 2*s, cx - 10*s, cy - 10*s, cx, cy - 7*s);
+            ctx.bezierCurveTo(cx + 10*s, cy - 10*s, cx + 8*s, cy - 2*s, cx, cy + 5*s);
+            ctx.closePath(); ctx.clip();
+          } else {
+            const r = inner * 0.08;
+            ctx.beginPath();
+            ctx.moveTo(cx - inner/2 + r, cy - inner/2);
+            ctx.lineTo(cx + inner/2 - r, cy - inner/2);
+            ctx.quadraticCurveTo(cx + inner/2, cy - inner/2, cx + inner/2, cy - inner/2 + r);
+            ctx.lineTo(cx + inner/2, cy + inner/2 - r);
+            ctx.quadraticCurveTo(cx + inner/2, cy + inner/2, cx + inner/2 - r, cy + inner/2);
+            ctx.lineTo(cx - inner/2 + r, cy + inner/2);
+            ctx.quadraticCurveTo(cx - inner/2, cy + inner/2, cx - inner/2, cy + inner/2 - r);
+            ctx.lineTo(cx - inner/2, cy - inner/2 + r);
+            ctx.quadraticCurveTo(cx - inner/2, cy - inner/2, cx - inner/2 + r, cy - inner/2);
+            ctx.closePath(); ctx.clip();
+          }
+          const scale = Math.max(inner / img.width, inner / img.height);
+          const dw = img.width * scale, dh = img.height * scale;
+          ctx.drawImage(img, cx - dw/2, cy - dh/2, dw, dh);
+          ctx.restore();
+          const borderCol = colorLight;
+          ctx.strokeStyle = 'rgba(' + Math.round(borderCol.r*255) + ',' + Math.round(borderCol.g*255) + ',' + Math.round(borderCol.b*255) + ',0.95)';
+          ctx.lineWidth = 6;
+          ctx.shadowColor = 'rgba(' + Math.round(borderCol.r*255) + ',' + Math.round(borderCol.g*255) + ',' + Math.round(borderCol.b*255) + ',0.85)';
+          ctx.shadowBlur = 22;
+          if (shape === 'circle'){ ctx.beginPath(); ctx.arc(cx, cy, inner/2, 0, Math.PI*2); ctx.stroke(); }
+          else if (shape === 'heart'){
+            const s = inner / 16;
+            ctx.beginPath();
+            ctx.moveTo(cx, cy + 5*s);
+            ctx.bezierCurveTo(cx - 8*s, cy - 2*s, cx - 10*s, cy - 10*s, cx, cy - 7*s);
+            ctx.bezierCurveTo(cx + 10*s, cy - 10*s, cx + 8*s, cy - 2*s, cx, cy + 5*s);
+            ctx.closePath(); ctx.stroke();
+          } else {
+            const r = inner * 0.08;
+            ctx.beginPath();
+            ctx.moveTo(cx - inner/2 + r, cy - inner/2);
+            ctx.lineTo(cx + inner/2 - r, cy - inner/2);
+            ctx.quadraticCurveTo(cx + inner/2, cy - inner/2, cx + inner/2, cy - inner/2 + r);
+            ctx.lineTo(cx + inner/2, cy + inner/2 - r);
+            ctx.quadraticCurveTo(cx + inner/2, cy + inner/2, cx + inner/2 - r, cy + inner/2);
+            ctx.lineTo(cx - inner/2 + r, cy + inner/2);
+            ctx.quadraticCurveTo(cx - inner/2, cy + inner/2, cx - inner/2, cy + inner/2 - r);
+            ctx.lineTo(cx - inner/2, cy - inner/2 + r);
+            ctx.quadraticCurveTo(cx - inner/2, cy - inner/2, cx - inner/2 + r, cy - inner/2);
+            ctx.closePath(); ctx.stroke();
+          }
+          const tex = new THREE.CanvasTexture(cv);
+          tex.encoding = THREE.sRGBEncoding;
+          resolve(tex);
+        };
+        img.src = dataURL;
+      });
+    }
+
+    const photoSprites = [];
+    (async function loadPhotos(){
+      for (let i = 0; i < CONFIG.photos.length; i++){
+        const p = CONFIG.photos[i];
+        const tex = await makePhotoTexture(p.url, CONFIG.photoShape);
+        const mat = new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false, opacity: 0 });
+        const spr = new THREE.Sprite(mat);
+        spr.userData = {
+          url: p.url, desc: p.desc || '',
+          speed: 3.5 + Math.random() * 3,
+          baseX: (Math.random() - 0.5) * 70,
+          baseY: (Math.random() - 0.5) * 50,
+          baseZ: -150 - i * 120 - Math.random() * 200,
+          wobbleAmp: 4 + Math.random() * 6,
+          wobbleSpeed: 0.3 + Math.random() * 0.6,
+          phase: Math.random() * Math.PI * 2,
+          scale: 40 + Math.random() * 20
+        };
+        spr.position.set(spr.userData.baseX, spr.userData.baseY, spr.userData.baseZ);
+        spr.scale.set(spr.userData.scale, spr.userData.scale, 1);
+        scene.add(spr);
+        photoSprites.push(spr);
+      }
+    })();
+
+    let pointerNDC = new THREE.Vector2(0, 0);
+    let pointerWorldPos = new THREE.Vector3(0, 0, -50);
+    let pointerActive = false;
+    let pointerIdleTimer = null;
+
+    function updatePointerWorld(clientX, clientY){
+      const rect = renderer.domElement.getBoundingClientRect();
+      pointerNDC.x = ((clientX - rect.left) / rect.width) * 2 - 1;
+      pointerNDC.y = -((clientY - rect.top) / rect.height) * 2 + 1;
+      const vec = new THREE.Vector3(pointerNDC.x, pointerNDC.y, 0.5).unproject(camera);
+      const dir = vec.sub(camera.position).normalize();
+      const dist = (-50 - camera.position.z) / dir.z;
+      pointerWorldPos.copy(camera.position).add(dir.multiplyScalar(dist));
+      pointerActive = true;
+      clearTimeout(pointerIdleTimer);
+      pointerIdleTimer = setTimeout(function(){ pointerActive = false; }, 200);
+    }
+    function onPointerMove(e){ updatePointerWorld(e.clientX, e.clientY); }
+    function onTouchMove(e){ const t = e.touches && e.touches[0]; if (t) updatePointerWorld(t.clientX, t.clientY); }
+    renderer.domElement.addEventListener('pointermove', onPointerMove, {passive:true});
+    renderer.domElement.addEventListener('touchmove', onTouchMove, {passive:true});
+
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    const modal = document.getElementById('modal');
+    const modalImg = document.getElementById('modal-img');
+    const modalDesc = document.getElementById('modal-desc');
+    const modalMsg = document.getElementById('modal-msg');
+    const modalClose = document.getElementById('modal-close');
+    if (modalClose) modalClose.onclick = () => modal.classList.remove('show');
+    if (modal) modal.onclick = (e) => { if (e.target === modal) modal.classList.remove('show'); };
+
+    function onTap(e){
+      const rect = renderer.domElement.getBoundingClientRect();
+      mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+      raycaster.setFromCamera(mouse, camera);
+      const hits = raycaster.intersectObjects(photoSprites);
+      if (hits.length){
+        const spr = hits[0].object;
+        if (spr.position.z > -200){
+          modalImg.src = spr.userData.url;
+          modalDesc.textContent = spr.userData.desc || '';
+          modalMsg.textContent = CONFIG.message;
+          modal.classList.add('show');
+        }
+      }
+    }
+    renderer.domElement.addEventListener('click', onTap);
+    renderer.domElement.addEventListener('touchend', (e) => {
+      if (e.changedTouches && e.changedTouches[0]){
+        const t = e.changedTouches[0];
+        onTap({clientX: t.clientX, clientY: t.clientY});
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    function animate(){
+      requestAnimationFrame(animate);
+      const now = performance.now();
+      const dt = Math.min(0.05, (now - lastT) / 1000);
+      lastT = now;
+      time += dt * speedMultiplier;
+
+      if (warpTarget > warpFactor) warpFactor = Math.min(warpTarget, warpFactor + dt * 0.6);
+      const warpBoost = 1 + warpFactor * 6;
+
+      const camSwayX = Math.sin(time * 0.5) * 0.4 + Math.sin(time * 0.23) * 0.3;
+      const camSwayY = Math.cos(time * 0.4) * 0.35 + Math.sin(time * 0.31) * 0.25;
+      camera.position.x = camSwayX;
+      camera.position.y = camSwayY;
+      camera.rotation.z = Math.sin(time * 0.4) * 0.02;
+
+      const sp = starsGeo.attributes.position.array;
+      for (let i = 0; i < STAR_COUNT; i++){
+        sp[i*3+2] += starsVel[i] * dt * warpBoost;
+        if (warpFactor > 0.05){ sp[i*3] *= 1 + warpFactor * 0.15 * dt; sp[i*3+1] *= 1 + warpFactor * 0.15 * dt; }
+        if (pointerActive && sp[i*3+2] > -150){
+          const dx = sp[i*3] - pointerWorldPos.x;
+          const dy = sp[i*3+1] - pointerWorldPos.y;
+          const dist2 = dx*dx + dy*dy;
+          if (dist2 < 400){
+            const dist = Math.sqrt(dist2) + 0.01;
+            const force = (20 - dist) / 20;
+            sp[i*3] += (dx / dist) * force * 25 * dt;
+            sp[i*3+1] += (dy / dist) * force * 25 * dt;
+          }
+        }
+        if (sp[i*3+2] > 15) resetStar(i, false);
+      }
+      starsGeo.attributes.position.needsUpdate = true;
+
+      const tp = twinkleGeo.attributes.position.array;
+      const tc = twinkleGeo.attributes.color.array;
+      for (let i = 0; i < TWINKLE_COUNT; i++){
+        tp[i*3+2] += twinkleVel[i] * dt * warpBoost;
+        const blink = 0.55 + 0.45 * Math.sin(time * twinkleSpeed[i] + twinklePhase[i]);
+        tc[i*3] = twinkleBaseCol[i*3] * blink;
+        tc[i*3+1] = twinkleBaseCol[i*3+1] * blink;
+        tc[i*3+2] = twinkleBaseCol[i*3+2] * blink;
+        if (pointerActive && tp[i*3+2] > -150){
+          const dx = tp[i*3] - pointerWorldPos.x;
+          const dy = tp[i*3+1] - pointerWorldPos.y;
+          const dist2 = dx*dx + dy*dy;
+          if (dist2 < 500){
+            const dist = Math.sqrt(dist2) + 0.01;
+            const force = (22 - dist) / 22;
+            tp[i*3] += (dx / dist) * force * 30 * dt;
+            tp[i*3+1] += (dy / dist) * force * 30 * dt;
+          }
+        }
+        if (tp[i*3+2] > 15) resetTwinkle(i, false);
+      }
+      twinkleGeo.attributes.position.needsUpdate = true;
+      twinkleGeo.attributes.color.needsUpdate = true;
+
+      const dp = dustGeo.attributes.position.array;
+      for (let i = 0; i < DUST_COUNT; i++){
+        dp[i*3+2] += dustVel[i] * dt * warpBoost;
+        if (pointerActive && dp[i*3+2] > -100){
+          const dx = dp[i*3] - pointerWorldPos.x;
+          const dy = dp[i*3+1] - pointerWorldPos.y;
+          const dist2 = dx*dx + dy*dy;
+          if (dist2 < 300){
+            const dist = Math.sqrt(dist2) + 0.01;
+            const force = (17 - dist) / 17;
+            dp[i*3] += (dx / dist) * force * 45 * dt;
+            dp[i*3+1] += (dy / dist) * force * 45 * dt;
+          }
+        }
+        if (dp[i*3+2] > 12) resetDust(i, false);
+      }
+      dustGeo.attributes.position.needsUpdate = true;
+
+      for (let i = 0; i < nebulae.length; i++){
+        const n = nebulae[i];
+        n.position.z += n.userData.speed * dt * warpBoost;
+        n.material.rotation += n.userData.rotSpeed * dt;
+        if (n.position.z > 50){
+          n.position.set((Math.random()-0.5) * 240, (Math.random()-0.5) * 180, -500 - Math.random() * 100);
+          n.userData.speed = 15 + Math.random() * 20;
+        }
+      }
+
+      for (let i = 0; i < planets.length; i++){
+        const p = planets[i];
+        p.planet.rotation.y += p.planet.userData.spin * dt;
+        p.group.position.z += p.group.userData.speed * dt * (1 + warpFactor * 2);
+        if (p.group.position.z > -200) p.group.position.z = p.group.userData.baseZ - 300;
+      }
+
+      // Luna con pulso
+      const moonPulse = 1 + Math.sin(time * 1.4) * 0.045;
+      moon.position.x = MOON_BASE_X + camSwayX * 0.3;
+      moon.position.y = MOON_BASE_Y + camSwayY * 0.3 + Math.sin(time * 0.8) * 3;
+      moon.scale.set(190 * moonPulse, 190 * moonPulse, 1);
+      moonMat.opacity = 0.92 + Math.sin(time * 1.4) * 0.08;
+
+      for (let i = 0; i < moonSparkles.length; i++){
+        const spk = moonSparkles[i];
+        const d = spk.userData;
+        d.ang += d.speed * dt;
+        const x = moon.position.x + Math.cos(d.ang) * d.rad;
+        const y = moon.position.y + Math.sin(d.ang) * d.rad;
+        spk.position.set(x, y, MOON_BASE_Z + 5);
+        const twinkle = 0.35 + 0.65 * Math.abs(Math.sin(time * d.twinkleSpeed + d.phase));
+        spk.material.opacity = twinkle;
+        const sc = d.baseScale * (0.5 + twinkle * 0.9);
+        spk.scale.set(sc, sc, 1);
+      }
+
+      for (let i = 0; i < meteors.length; i++){
+        const m = meteors[i];
+        if (!m.active){
+          m.delay -= dt;
+          if (m.delay <= 0) spawnMeteor(m);
+        } else {
+          m.t += dt;
+          m.spr.position.x += m.vx * dt;
+          m.spr.position.y += m.vy * dt;
+          m.spr.position.z += m.vz * dt * warpBoost;
+          const p = m.t / m.dur;
+          let op = 1;
+          if (p < 0.15) op = p / 0.15;
+          else if (p > 0.75) op = (1 - p) / 0.25;
+          m.spr.material.opacity = Math.max(0, Math.min(1, op));
+          if (m.t >= m.dur || m.spr.position.z > 30){
+            m.active = false; m.spr.visible = false; m.delay = 1.5 + Math.random() * 5;
+          }
+        }
+      }
+
+      for (let i = 0; i < phraseSprites.length; i++){
+        const spr = phraseSprites[i];
+        const d = spr.userData;
+        spr.position.z += d.speed * dt * warpBoost;
+        spr.position.x = d.baseX + Math.sin(time * d.wobbleSpeed + d.phase) * d.wobbleAmp;
+        spr.position.y = d.baseY + Math.cos(time * d.wobbleSpeed * 0.8 + d.phase) * d.wobbleAmp * 0.6;
+        const zDist = spr.position.z;
+        let op = 0;
+        if (zDist < -300) op = 0;
+        else if (zDist < -150) op = (zDist + 300) / 150;
+        else if (zDist < -20) op = 1;
+        else if (zDist < 15) op = (15 - zDist) / 35;
+        else op = 0;
+        spr.material.opacity = op * 0.95;
+        if (zDist > -20){
+          const shrink = 1 - Math.min(1, (zDist + 20) / 35) * 0.5;
+          spr.scale.set(d.scale * shrink, d.scale * 0.25 * shrink, 1);
+        } else {
+          spr.scale.set(d.scale, d.scale * 0.25, 1);
+        }
+        if (spr.position.z > 20){
+          spr.userData.baseX = (Math.random() - 0.5) * 100;
+          spr.userData.baseY = (Math.random() - 0.5) * 80;
+          spr.userData.speed = 2.5 + Math.random() * 3;
+          spr.userData.baseZ = -400 - Math.random() * 300;
+          spr.position.z = spr.userData.baseZ;
+        }
+      }
+
+      for (let i = 0; i < photoSprites.length; i++){
+        const spr = photoSprites[i];
+        const d = spr.userData;
+        spr.position.z += d.speed * dt * warpBoost;
+        spr.position.x = d.baseX + Math.sin(time * d.wobbleSpeed + d.phase) * d.wobbleAmp;
+        spr.position.y = d.baseY + Math.cos(time * d.wobbleSpeed * 0.7 + d.phase) * d.wobbleAmp * 0.5;
+        const zDist = spr.position.z;
+        let op = 0;
+        if (zDist < -350) op = 0;
+        else if (zDist < -180) op = (zDist + 350) / 170;
+        else if (zDist < -20) op = 1;
+        else if (zDist < 15) op = (15 - zDist) / 35;
+        else op = 0;
+        spr.material.opacity = op;
+        if (spr.position.z > 20){
+          spr.userData.baseX = (Math.random() - 0.5) * 70;
+          spr.userData.baseY = (Math.random() - 0.5) * 50;
+          spr.userData.speed = 3.5 + Math.random() * 3;
+          spr.userData.baseZ = -400 - Math.random() * 300;
+          spr.position.z = spr.userData.baseZ;
+        }
+      }
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    const fx = document.getElementById('fx');
+    const ctx2 = fx.getContext('2d');
+    function resizeFx(){
+      const dpr = Math.min(2, window.devicePixelRatio||1);
+      fx.width = Math.floor(innerWidth * dpr);
+      fx.height = Math.floor(innerHeight * dpr);
+      fx.style.width = innerWidth + 'px';
+      fx.style.height = innerHeight + 'px';
+    }
+    addEventListener('resize', resizeFx); resizeFx();
+    const DPR = Math.min(2, window.devicePixelRatio||1);
+    const sparkles = [];
+    let lastTrail = 0;
+    function spawnSparkle(cx, cy, burst){
+      const x = cx * DPR, y = cy * DPR;
+      const n = burst || 2;
+      for (let k = 0; k < n; k++){
+        sparkles.push({ x, y, vx: (Math.random() - 0.5) * 3.5, vy: (Math.random() - 0.5) * 3.5 - 0.5, life: 1, size: 1.5 + Math.random() * 3, hue: Math.random() });
+      }
+    }
+    function onMoveTrail(clientX, clientY){
+      const now = performance.now();
+      if (now - lastTrail < 16) return;
+      lastTrail = now;
+      spawnSparkle(clientX, clientY, 3);
+    }
+    window.addEventListener('pointermove', (e) => onMoveTrail(e.clientX, e.clientY), {passive:true});
+    window.addEventListener('touchmove', (e) => { const t = e.touches && e.touches[0]; if (t) onMoveTrail(t.clientX, t.clientY); }, {passive:true});
+    window.addEventListener('click', (e) => spawnSparkle(e.clientX, e.clientY, 12), {passive:true});
+    window.addEventListener('touchend', (e) => { const t = e.changedTouches && e.changedTouches[0]; if (t) spawnSparkle(t.clientX, t.clientY, 12); }, {passive:true});
+
+    function loopFx(){
+      ctx2.clearRect(0, 0, fx.width, fx.height);
+      for (let i = sparkles.length - 1; i >= 0; i--){
+        const s = sparkles[i];
+        s.x += s.vx; s.y += s.vy;
+        s.vy += 0.08; s.vx *= 0.98; s.vy *= 0.98;
+        s.life -= 0.035;
+        if (s.life <= 0){ sparkles.splice(i, 1); continue; }
+        const r = Math.round(200 + s.hue * 55);
+        const g2 = Math.round(180 + s.hue * 60);
+        const b = Math.round(230 + s.hue * 25);
+        const grd = ctx2.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.size * 5);
+        grd.addColorStop(0, 'rgba(' + r + ',' + g2 + ',' + b + ',' + s.life + ')');
+        grd.addColorStop(0.5, 'rgba(167,139,250,' + (s.life * 0.55) + ')');
+        grd.addColorStop(1, 'rgba(125,211,252,0)');
+        ctx2.fillStyle = grd;
+        ctx2.beginPath(); ctx2.arc(s.x, s.y, s.size * 5, 0, Math.PI * 2); ctx2.fill();
+      }
+      requestAnimationFrame(loopFx);
+    }
+    loopFx();
+
+  } catch(e){
+    showError('Error: ' + e.message);
+    console.error(e);
+  }
+})();
+<\/script>
+</body>
+</html>`;
+}
+
+async function visualize(){
+  readInputs();
+  showLoading(true, "Preparando vista previa...");
+  try {
+    var html = await buildGalaxyHTML();
+    var blob = new Blob([html], { type: "text/html;charset=utf-8" });
+    var url = URL.createObjectURL(blob);
+    var modal = $("preview-modal");
+    var iframe = $("preview-frame");
+    iframe.src = "about:blank";
+    setTimeout(function(){
+      iframe.src = url;
+      modal.classList.add("show");
+      showLoading(false);
+    }, 60);
+    if (_previewURL) URL.revokeObjectURL(_previewURL);
+    _previewURL = url;
+  } catch(err){
+    console.error(err);
+    showStatus("Error: " + err.message, false);
+    showLoading(false);
+  }
+}
+
+function closePreview(){
+  var modal = $("preview-modal");
+  var iframe = $("preview-frame");
+  if (modal) modal.classList.remove("show");
+  if (iframe) iframe.src = "about:blank";
+  if (_previewURL){ URL.revokeObjectURL(_previewURL); _previewURL = null; }
+}
+
+async function download(){
+  readInputs();
+  showLoading(true, "Empaquetando tu cosmos...");
+  try {
+    var html = await buildGalaxyHTML();
+    var sizeKB = (html.length / 1024).toFixed(1);
+    var blob = new Blob([html], { type: "text/html;charset=utf-8" });
+    var url = URL.createObjectURL(blob);
+    var filename = "cosmos-para-" + slugify(state.name) + ".html";
+    var a = document.createElement("a");
+    a.href = url; a.download = filename; a.rel = "noopener"; a.style.display = "none";
+    document.body.appendChild(a);
+    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    if (isIOS) {
+      var w = window.open(url, "_blank");
+      if (!w) {
+        var modal = $("preview-modal");
+        var iframe = $("preview-frame");
+        iframe.src = url;
+        modal.classList.add("show");
+        showStatus("En iOS: usa Compartir → Guardar en Archivos", false);
+      } else {
+        showStatus("En iOS: toca Compartir → Guardar en Archivos");
+      }
+    } else {
+      a.click();
+      showStatus("¡Descargado! (" + sizeKB + " KB)");
+    }
+    a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 60000);
+  } catch(err){
+    console.error(err);
+    showStatus("Error: " + err.message, false);
+  } finally {
+    showLoading(false);
+  }
+}
+
+function initShare(){
+  var shareBtn = $("share-float"), menu = $("share-menu"), closeBtn = $("share-close");
+  var wa = $("share-wa"), copyBtn = $("share-copy"), sysBtn = $("share-sys");
+  if (!shareBtn || !menu) return;
+  var pageURL = window.location.href.split("#")[0].split("?")[0];
+  var pageTitle = "Crea tu Cosmos en Primera Persona 🚀";
+  var pageText = "Mira este editor para crear un viaje cósmico personalizado y regalarlo ✨\n" + pageURL;
+  function openMenu(){ wa.href = "https://wa.me/?text=" + encodeURIComponent(pageText); menu.classList.add("show"); }
+  function closeMenu(){ menu.classList.remove("show"); }
+  shareBtn.addEventListener("click", openMenu);
+  closeBtn.addEventListener("click", closeMenu);
+  menu.addEventListener("click", function(e){ if (e.target === menu) closeMenu(); });
+  copyBtn.addEventListener("click", function(){
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(pageURL).then(function(){
+        showStatus("Enlace copiado ✓"); setTimeout(closeMenu, 400);
+      }).catch(function(){ fallbackCopy(pageURL); });
+    } else { fallbackCopy(pageURL); }
+  });
+  function fallbackCopy(txt){
+    var ta = document.createElement("textarea"); ta.value = txt;
+    ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); showStatus("Enlace copiado ✓"); } catch(_){ showStatus("No se pudo copiar", false); }
+    ta.remove(); setTimeout(closeMenu, 400);
+  }
+  sysBtn.addEventListener("click", function(){
+    if (navigator.share){
+      navigator.share({ title: pageTitle, text: "Crea tu cosmos en primera persona 🚀", url: pageURL })
+        .then(function(){ closeMenu(); }).catch(function(){});
+    } else { showStatus("Tu navegador no soporta compartir nativo", false); }
+  });
+}
+
+function initEditor(){
+  $("i-photo").addEventListener("change", function(e){ addPhotos(e.target.files); e.target.value = ""; });
+  var musicInput = $("i-music");
+  musicInput.addEventListener("click", function(e){ if (!isPremium){ e.preventDefault(); showPremium("music"); } });
+  musicInput.addEventListener("change", function(e){
+    if (!isPremium){ e.target.value = ""; return; }
+    var file = e.target.files[0]; if (!file) return;
+    if (file.type.indexOf("audio/") !== 0){ showStatus("Solo archivos de audio", false); return; }
+    if (file.size > 6 * 1024 * 1024){ showStatus("Máximo 6 MB de audio", false); return; }
+    var rd = new FileReader();
+    rd.onload = function(ev){
+      state.customMusic = ev.target.result;
+      $("m-label").textContent = "✓ " + file.name;
+      $("music-drop").classList.add("has-file");
+      showStatus("Música cargada ✓");
+    };
+    rd.readAsDataURL(file);
+  });
+  $("music-drop").addEventListener("click", function(e){ if (!isPremium){ e.preventDefault(); showPremium("music"); } });
+  $("photos-plus-drop").addEventListener("click", function(e){ if (!isPremium){ e.preventDefault(); showPremium("photos"); } });
+  var photoPlusInput = $("i-photo-plus");
+  photoPlusInput.addEventListener("click", function(e){ if (!isPremium){ e.preventDefault(); showPremium("photos"); } });
+  photoPlusInput.addEventListener("change", function(e){
+    if (!isPremium){ e.target.value = ""; return; }
+    if (e.target.files && e.target.files.length) addPhotos(e.target.files);
+    e.target.value = "";
+  });
+  $("premium-fx").addEventListener("click", function(e){
+    e.preventDefault();
+    if (!isPremium) showPremium("fx");
+    else showStatus("Efectos premium ya activados ✓");
+  });
+  $("btn-view").addEventListener("click", visualize);
+  $("btn-generate").addEventListener("click", download);
+  $("close-preview").addEventListener("click", closePreview);
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape"){ closePremium(); closePreview(); } });
+  ["i-name","i-from","i-date","i-sub","i-msg","i-phrases"].forEach(function(id){
+    $(id).addEventListener("input", readInputs);
+  });
+  var drop = $("file-drop");
+  ["dragenter","dragover"].forEach(function(ev){
+    drop.addEventListener(ev, function(e){ e.preventDefault(); drop.style.borderColor = "#7dd3fc"; });
+  });
+  ["dragleave","drop"].forEach(function(ev){
+    drop.addEventListener(ev, function(e){ e.preventDefault(); drop.style.borderColor = ""; });
+  });
+  drop.addEventListener("drop", function(e){
+    e.preventDefault();
+    if (e.dataTransfer.files) addPhotos(e.dataTransfer.files);
+  });
+  renderPalettes(); initShapes(); renderPhotoList(); initPremium(); applyPremiumState(); readInputs();
+}
+
+if (document.readyState === "loading"){
+  document.addEventListener("DOMContentLoaded", function(){ initEditor(); initShare(); });
+} else { initEditor(); initShare(); }
+
+window.__peri = {
+  activatePremium: function(){ localStorage.setItem("peri_premium_activated", "1"); location.reload(); },
+  deactivatePremium: function(){ localStorage.removeItem("peri_premium_activated"); location.reload(); }
+};
+</script>
+</body>
+</html>
