@@ -1,0 +1,1885 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Nombre de Partículas · Cosmic Chain Reaction</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      background-color: #000;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      touch-action: manipulation;
+    }
+
+    canvas {
+      display: block;
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      -webkit-user-drag: none;
+      user-select: none;
+    }
+
+    #fallback2D {
+      display: none;
+      z-index: 50;
+      pointer-events: none;
+      background: #000022;
+    }
+    #fallback2D.active { display: block; }
+
+    #emergencyText {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 12vw;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-align: center;
+      padding: 20px;
+      background: radial-gradient(ellipse at center, #001133 0%, #000 75%);
+      text-shadow: 0 0 20px #4fd1ff, 0 0 40px #4fd1ff;
+      word-break: break-word;
+    }
+    #emergencyText.active { display: flex; }
+
+    .ui-top {
+      position: fixed;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      padding: 8px 10px;
+      border-radius: 14px;
+      background: rgba(10, 12, 30, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 100;
+      max-width: calc(100vw - 20px);
+    }
+
+    .ui-top input {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #fff;
+      border-radius: 9px;
+      padding: 9px 12px;
+      font-size: 15px;
+      outline: none;
+      width: 210px;
+      max-width: 55vw;
+      transition: all 0.25s ease;
+      -webkit-user-select: text;
+      user-select: text;
+    }
+
+    .ui-top input::placeholder { color: rgba(255, 255, 255, 0.45); }
+    .ui-top input:focus {
+      border-color: #4fd1ff;
+      box-shadow: 0 0 12px rgba(79, 209, 255, 0.5);
+    }
+
+    button {
+      background: linear-gradient(45deg, rgba(255,255,255,0.12), rgba(255,255,255,0.3));
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      border-radius: 9px;
+      padding: 9px 14px;
+      font-size: 14px;
+      font-family: inherit;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.25s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(45deg, rgba(255,255,255,0.3), rgba(255,255,255,0.55));
+      transform: translateY(-1px);
+    }
+    button:active { transform: scale(0.95); }
+
+    .controls {
+      position: fixed;
+      bottom: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 14px;
+      background: rgba(10, 12, 30, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 100;
+      max-width: calc(100vw - 20px);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .watermark-btn {
+      position: fixed;
+      top: 86px;
+      right: 16px;
+      z-index: 2147483600;
+      padding: 9px 16px;
+      border-radius: 999px;
+      background: linear-gradient(115deg,
+        #6b4e00 0%, #d4a017 18%, #ffd700 36%,
+        #fff4b0 50%, #ffd700 64%, #d4a017 82%, #6b4e00 100%);
+      background-size: 280% 100%;
+      color: #2a1f00;
+      font-weight: 900;
+      font-size: 12px;
+      letter-spacing: 0.4px;
+      text-decoration: none;
+      white-space: nowrap;
+      border: 1px solid rgba(255, 245, 180, 0.95);
+      box-shadow:
+        0 0 12px rgba(255, 215, 0, 0.7),
+        0 0 26px rgba(255, 215, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.65),
+        inset 0 -2px 6px rgba(120, 80, 0, 0.4);
+      overflow: hidden;
+      cursor: pointer;
+      animation: goldShine 3.4s linear infinite, goldPulse 2.2s ease-in-out infinite;
+      transition: transform 0.25s ease;
+    }
+    .watermark-btn:hover { transform: scale(1.06); }
+    .watermark-btn::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 40%, rgba(255,245,180,0.7), transparent 55%);
+      opacity: 0.75;
+      animation: sparkleHalo 2.6s ease-in-out infinite;
+      pointer-events: none;
+      z-index: -1;
+    }
+    .watermark-btn::after {
+      content: '';
+      position: absolute;
+      top: -60%; left: -130%;
+      width: 55%; height: 220%;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.85) 50%, transparent 100%);
+      transform: skewX(-22deg);
+      animation: sparkleSweep 2.8s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes goldShine { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+    @keyframes goldPulse {
+      0%, 100% {
+        box-shadow:
+          0 0 12px rgba(255, 215, 0, 0.7),
+          0 0 26px rgba(255, 215, 0, 0.4),
+          inset 0 1px 0 rgba(255, 255, 255, 0.65),
+          inset 0 -2px 6px rgba(120, 80, 0, 0.4);
+      }
+      50% {
+        box-shadow:
+          0 0 22px rgba(255, 230, 100, 0.95),
+          0 0 44px rgba(255, 200, 0, 0.6),
+          inset 0 1px 0 rgba(255, 255, 255, 0.85),
+          inset 0 -2px 6px rgba(120, 80, 0, 0.4);
+      }
+    }
+    @keyframes sparkleSweep { 0% { left: -130%; } 55% { left: 220%; } 100% { left: 220%; } }
+    @keyframes sparkleHalo {
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 0.95; transform: scale(1.04); }
+    }
+
+    /* =========================================================
+       BOTÓN FLOTANTE WHATSAPP · PÍLDORA CON TEXTO
+    ========================================================= */
+    .wa-float {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      padding: 12px 22px 12px 14px;
+      border-radius: 999px;
+      background: linear-gradient(145deg, #2ce07a 0%, #25D366 45%, #128C7E 100%);
+      border: 2px solid rgba(255, 255, 255, 0.85);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 2147483500;
+      cursor: pointer;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.35);
+      box-shadow:
+        0 6px 18px rgba(0, 0, 0, 0.45),
+        0 0 18px rgba(37, 211, 102, 0.75),
+        0 0 36px rgba(37, 211, 102, 0.4),
+        inset 0 2px 4px rgba(255, 255, 255, 0.4),
+        inset 0 -3px 6px rgba(0, 80, 40, 0.4);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      animation: waPulse 2.4s ease-in-out infinite;
+      overflow: hidden;
+    }
+    .wa-float:hover {
+      transform: scale(1.06);
+      box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.55),
+        0 0 30px rgba(37, 211, 102, 1),
+        0 0 60px rgba(37, 211, 102, 0.65),
+        inset 0 2px 4px rgba(255, 255, 255, 0.5),
+        inset 0 -3px 6px rgba(0, 80, 40, 0.4);
+    }
+    .wa-float:active { transform: scale(0.95); }
+    .wa-float svg {
+      width: 26px;
+      height: 26px;
+      display: block;
+      flex-shrink: 0;
+      filter: drop-shadow(0 1px 2px rgba(0,0,0,0.35));
+    }
+    .wa-float::before {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 999px;
+      background: radial-gradient(ellipse, rgba(37,211,102,0.55) 0%, transparent 70%);
+      opacity: 0.9;
+      pointer-events: none;
+      z-index: -1;
+      animation: waHalo 2.2s ease-in-out infinite;
+    }
+    .wa-float::after {
+      content: '';
+      position: absolute;
+      top: 6%;
+      left: -60%;
+      width: 40%;
+      height: 90%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
+      transform: skewX(-22deg);
+      animation: waSweep 3s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .wa-float .wa-text {
+      position: relative;
+      z-index: 1;
+    }
+
+    @keyframes waPulse {
+      0%, 100% {
+        box-shadow:
+          0 6px 18px rgba(0, 0, 0, 0.45),
+          0 0 18px rgba(37, 211, 102, 0.75),
+          0 0 36px rgba(37, 211, 102, 0.4),
+          inset 0 2px 4px rgba(255, 255, 255, 0.4),
+          inset 0 -3px 6px rgba(0, 80, 40, 0.4);
+      }
+      50% {
+        box-shadow:
+          0 6px 18px rgba(0, 0, 0, 0.45),
+          0 0 28px rgba(37, 211, 102, 1),
+          0 0 55px rgba(37, 211, 102, 0.65),
+          inset 0 2px 4px rgba(255, 255, 255, 0.5),
+          inset 0 -3px 6px rgba(0, 80, 40, 0.4);
+      }
+    }
+    @keyframes waHalo {
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.06); }
+    }
+    @keyframes waSweep {
+      0% { left: -60%; }
+      55% { left: 130%; }
+      100% { left: 130%; }
+    }
+
+    @media (max-width: 760px) {
+      .ui-top { top: 10px; gap: 6px; padding: 7px 8px; }
+      .ui-top input { width: 46vw; font-size: 14px; padding: 8px 10px; }
+      .ui-top button { padding: 8px 10px; font-size: 13px; }
+      .controls { bottom: 12px; gap: 6px; padding: 7px 8px; }
+      .controls button { padding: 8px 10px; font-size: 12px; }
+      .watermark-btn {
+        top: 68px; right: 8px;
+        font-size: 9.5px; padding: 7px 10px; letter-spacing: 0.2px;
+      }
+      .wa-float {
+        bottom: 70px;
+        right: 12px;
+        padding: 10px 16px 10px 11px;
+        font-size: 12.5px;
+        gap: 8px;
+      }
+      .wa-float svg { width: 22px; height: 22px; }
+    }
+
+    @media (max-width: 420px) {
+      .watermark-btn { font-size: 8.5px; padding: 6px 8px; top: 64px; }
+      .ui-top input { width: 40vw; }
+      .controls button { font-size: 11px; padding: 7px 9px; }
+      .wa-float {
+        bottom: 62px;
+        right: 10px;
+        padding: 9px 14px 9px 10px;
+        font-size: 11.5px;
+        gap: 6px;
+      }
+      .wa-float svg { width: 20px; height: 20px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="ui-top">
+    <input id="nameInput" type="text" maxlength="20" placeholder="Escribe un nombre..." value="HOLA"
+      autocomplete="off" spellcheck="false">
+    <button id="applyName">Formar</button>
+  </div>
+
+  <div class="controls">
+    <button id="chainReaction">✨ Efecto click aquí</button>
+  </div>
+
+  <!-- Botón flotante WhatsApp (píldora con logo + texto) -->
+  <a class="wa-float" id="waShare" href="#" aria-label="Comparte tu frase" title="Comparte tu frase">
+    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path fill="#ffffff" d="M16.004 3C8.832 3 3 8.83 3 16.002c0 2.29.6 4.523 1.742 6.494L3 29l6.688-1.75a12.94 12.94 0 0 0 6.316 1.61h.006C23.18 28.86 29 23.03 29 15.858 29 8.686 23.176 3 16.004 3zm0 23.616h-.005a10.75 10.75 0 0 1-5.474-1.5l-.393-.234-4.05 1.06 1.08-3.948-.256-.405a10.77 10.77 0 0 1-1.65-5.737c0-5.94 4.834-10.77 10.774-10.77 2.878 0 5.583 1.122 7.617 3.157a10.7 10.7 0 0 1 3.154 7.62c-.002 5.94-4.833 10.76-10.793 10.76zm5.916-8.06c-.324-.162-1.918-.946-2.216-1.054-.297-.108-.514-.162-.73.163-.216.324-.837.946-1.026 1.14-.19.19-.378.216-.702.054-.324-.162-1.368-.504-2.606-1.608-.963-.86-1.612-1.918-1.802-2.242-.19-.324-.02-.5.142-.66.146-.146.324-.378.486-.568.162-.19.216-.324.324-.54.108-.216.054-.405-.028-.567-.082-.162-.73-1.756-.998-2.404-.263-.632-.53-.546-.73-.556l-.622-.01c-.216 0-.567.08-.864.405-.297.324-1.135 1.108-1.135 2.7s1.162 3.132 1.324 3.35c.162.216 2.287 3.494 5.54 4.9.774.334 1.378.534 1.85.683.776.246 1.482.212 2.04.128.622-.092 1.918-.782 2.188-1.538.27-.756.27-1.404.19-1.54-.082-.134-.297-.216-.622-.378z"/>
+    </svg>
+    <span class="wa-text">Comparte tu frase</span>
+  </a>
+
+  <!-- Canvas 2D de respaldo -->
+  <canvas id="fallback2D"></canvas>
+
+  <!-- Texto de emergencia (último recurso) -->
+  <div id="emergencyText">HOLA</div>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.162.0/build/three.module.js",
+      "three/addons/controls/OrbitControls.js": "https://unpkg.com/three@0.162.0/examples/jsm/controls/OrbitControls.js",
+      "three/addons/postprocessing/EffectComposer.js": "https://unpkg.com/three@0.162.0/examples/jsm/postprocessing/EffectComposer.js",
+      "three/addons/postprocessing/RenderPass.js": "https://unpkg.com/three@0.162.0/examples/jsm/postprocessing/RenderPass.js",
+      "three/addons/postprocessing/UnrealBloomPass.js": "https://unpkg.com/three@0.162.0/examples/jsm/postprocessing/UnrealBloomPass.js",
+      "three/addons/postprocessing/ShaderPass.js": "https://unpkg.com/three@0.162.0/examples/jsm/postprocessing/ShaderPass.js"
+    }
+  }
+  </script>
+
+  <!-- =========================================================
+       BLOQUE DE PROTECCIÓN
+  ========================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      document.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+        return false;
+      }, { capture: true });
+
+      document.addEventListener('keydown', function (e) {
+        const k = (e.key || '').toLowerCase();
+        const blockF12 = e.key === 'F12' || e.keyCode === 123;
+        const devI = (e.ctrlKey || e.metaKey) && e.shiftKey && (k === 'i' || k === 'j' || k === 'c' || k === 'k');
+        const devMac = (e.metaKey || e.ctrlKey) && e.altKey && (k === 'i' || k === 'j' || k === 'c');
+        const src = (e.ctrlKey || e.metaKey) && (k === 'u' || k === 's' || k === 'p' || k === 'a');
+        if (blockF12 || devI || devMac || src) {
+          e.preventDefault();
+          e.stopPropagation();
+          return false;
+        }
+      }, { capture: true });
+
+      document.addEventListener('dragstart', function (e) {
+        e.preventDefault();
+        return false;
+      }, { capture: true });
+
+      try {
+        const style = 'color:#ffd700;font-size:20px;font-weight:bold;text-shadow:0 0 8px #ffd700;';
+        console.log('%c⚠️ ALTO AHÍ', style);
+        console.log('%cEste efecto es propiedad de Dedicatorias Mágicas.', 'color:#fff;font-size:13px;');
+        console.log('%cCopiar el código es ilegal y antiético.', 'color:#ff5555;font-size:13px;');
+      } catch (e) {}
+
+      setInterval(function () {
+        try { console.clear(); } catch (e) {}
+      }, 4000);
+
+      let _devtoolsWarn = false;
+      setInterval(function () {
+        const wDelta = window.outerWidth - window.innerWidth;
+        const hDelta = window.outerHeight - window.innerHeight;
+        if ((wDelta > 200 || hDelta > 220) && !_devtoolsWarn) {
+          _devtoolsWarn = true;
+          try {
+            console.clear();
+            console.log('%c🔒 Contenido protegido', 'color:#ff0000;font-size:24px;font-weight:bold;');
+          } catch (e) {}
+        }
+      }, 2500);
+
+      const _u = atob('aHR0cHM6Ly9jNHJsbzUzMzA1LWxndG0uZ2l0aHViLmlvL1Blcmkv');
+      const _wText = '\u2728 Creado por ' + 'Dedicatorias ' + 'M\u00e1gicas';
+      const _wId = 'wm-shield';
+
+      function buildWatermark() {
+        let a = document.getElementById(_wId);
+        if (!a) {
+          a = document.createElement('a');
+          a.id = _wId;
+          a.className = 'watermark-btn';
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          document.body.appendChild(a);
+        }
+        if (a.getAttribute('href') !== _u) a.setAttribute('href', _u);
+        if (a.textContent.trim() !== _wText) a.textContent = _wText;
+
+        const forceStyle = {
+          position: 'fixed',
+          display: 'block',
+          visibility: 'visible',
+          opacity: '1',
+          'z-index': '2147483600',
+          'pointer-events': 'auto',
+          transform: '',
+          filter: 'none'
+        };
+        for (const prop in forceStyle) {
+          if (forceStyle[prop]) a.style.setProperty(prop, forceStyle[prop], 'important');
+        }
+      }
+
+      buildWatermark();
+
+      try {
+        const mo = new MutationObserver(function (mutations) {
+          for (let i = 0; i < mutations.length; i++) {
+            const m = mutations[i];
+            if (m.type === 'childList') {
+              const removed = Array.from(m.removedNodes);
+              if (removed.some(n => n && (n.id === _wId || (n.classList && n.classList.contains('watermark-btn'))))) {
+                buildWatermark();
+              }
+            } else if (m.type === 'attributes') {
+              if (m.target && m.target.id === _wId) buildWatermark();
+            }
+          }
+        });
+        mo.observe(document.documentElement, {
+          childList: true, subtree: true, attributes: true,
+          attributeFilter: ['style', 'class', 'href']
+        });
+      } catch (e) {}
+
+      setInterval(buildWatermark, 900);
+      setInterval(function () {
+        const a = document.getElementById(_wId);
+        if (!a || !document.body.contains(a)) buildWatermark();
+      }, 500);
+    })();
+  </script>
+
+  <!-- =========================================================
+       RESPALDO 2D
+  ========================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      let fc = document.getElementById('fallback2D');
+      if (!fc) {
+        fc = document.createElement('canvas');
+        fc.id = 'fallback2D';
+        document.body.appendChild(fc);
+      }
+      const fctx = fc.getContext('2d');
+
+      let active = false;
+      let particles = [];
+      let currentName = 'HOLA';
+      let fallbackAspect = 0.32;
+      let rafId = null;
+      let needsFullClear = true;
+
+      const emergency = document.getElementById('emergencyText');
+
+      function readHashName() {
+        const hash = window.location.hash || '';
+        const m = hash.match(/[#&]name=([^&]+)/);
+        if (m) {
+          try { return decodeURIComponent(m[1].replace(/\+/g, ' ')); } catch (e) { return m[1]; }
+        }
+        return null;
+      }
+
+      function getInputValue() {
+        const inp = document.getElementById('nameInput');
+        return (inp && inp.value) ? inp.value : 'HOLA';
+      }
+
+      function syncInputFromHash() {
+        const h = readHashName();
+        if (h) {
+          const inp = document.getElementById('nameInput');
+          if (inp) inp.value = h;
+        }
+      }
+      syncInputFromHash();
+
+      currentName = readHashName() || getInputValue();
+
+      function resize() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        fc.width = Math.max(1, Math.floor(window.innerWidth * dpr));
+        fc.height = Math.max(1, Math.floor(window.innerHeight * dpr));
+        fc.style.width = window.innerWidth + 'px';
+        fc.style.height = window.innerHeight + 'px';
+        needsFullClear = true;
+      }
+
+      function buildParticles(text) {
+        try {
+          const clean = (text || '').trim().toUpperCase() || 'HOLA';
+          const fontSize = 300;
+          const fontStr = `900 ${fontSize}px "Arial Black", Impact, "Helvetica Neue", Arial, sans-serif`;
+
+          const measure = document.createElement('canvas').getContext('2d');
+          measure.font = fontStr;
+
+          const chars = clean.split('');
+          const charWidths = chars.map(c => measure.measureText(c).width);
+          const letterSpacing = fontSize * 0.12;
+          const spaceExtra   = fontSize * 0.42;
+
+          let totalWidth = 0;
+          for (let i = 0; i < chars.length; i++) {
+            totalWidth += charWidths[i];
+            if (i < chars.length - 1) totalWidth += letterSpacing;
+            if (chars[i] === ' ') totalWidth += spaceExtra;
+          }
+
+          const pad = fontSize * 0.22;
+          const w = Math.ceil(totalWidth + pad * 2);
+          const h = Math.ceil(fontSize * 1.35);
+
+          const off = document.createElement('canvas');
+          off.width = w; off.height = h;
+          const octx = off.getContext('2d');
+          octx.font = fontStr;
+          octx.textAlign = 'left';
+          octx.textBaseline = 'middle';
+          octx.fillStyle = '#fff';
+          octx.strokeStyle = '#fff';
+          octx.lineWidth = fontSize * 0.055;
+          octx.lineJoin = 'round';
+
+          let x = pad;
+          for (let i = 0; i < chars.length; i++) {
+            if (chars[i] !== ' ') {
+              octx.fillText(chars[i], x, h / 2);
+              octx.strokeText(chars[i], x, h / 2);
+            }
+            x += charWidths[i];
+            if (i < chars.length - 1) x += letterSpacing;
+            if (chars[i] === ' ') x += spaceExtra;
+          }
+
+          const data = octx.getImageData(0, 0, w, h).data;
+
+          let minX = w, maxX = -1, minY = h, maxY = -1;
+          for (let y = 0; y < h; y++) {
+            const rowOff = y * w;
+            for (let x2 = 0; x2 < w; x2++) {
+              if (data[(rowOff + x2) * 4 + 3] > 140) {
+                if (x2 < minX) minX = x2;
+                if (x2 > maxX) maxX = x2;
+                if (y < minY) minY = y;
+                if (y > maxY) maxY = y;
+              }
+            }
+          }
+
+          if (maxX < 0) {
+            particles = [];
+            fallbackAspect = 0.3;
+            return;
+          }
+
+          const cx = (minX + maxX) / 2;
+          const cy = (minY + maxY) / 2;
+          const boxW = maxX - minX + 1;
+          const boxH = maxY - minY + 1;
+          fallbackAspect = boxH / boxW;
+
+          const isMobile = window.innerWidth < 700;
+          const step = isMobile ? 5 : 4;
+          const cap = isMobile ? 5000 : 12000;
+
+          const list = [];
+          for (let y = minY; y <= maxY; y += step) {
+            const rowOff = y * w;
+            for (let x2 = minX; x2 <= maxX; x2 += step) {
+              if (data[(rowOff + x2) * 4 + 3] > 140) list.push([x2, y]);
+            }
+          }
+
+          let chosen = list;
+          if (list.length > cap) {
+            for (let i = list.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              const t = list[i]; list[i] = list[j]; list[j] = t;
+            }
+            chosen = list.slice(0, cap);
+          }
+
+          particles = chosen.map(([px, py]) => {
+            const nx = (px - cx) / boxW;
+            const ny = (py - cy) / boxW;
+            const tx = Math.min(1, Math.max(0, nx + 0.5));
+            const ty = Math.min(1, Math.max(0, -ny + 0.5));
+            const hue = (tx * 0.72 + ty * 0.18 + Math.random() * 0.14) % 1;
+            return {
+              nx, ny,
+              phase: Math.random() * Math.PI * 2,
+              hue,
+              r: 0.55 + Math.random() * 0.45,
+              speed: 4 + Math.random() * 5
+            };
+          });
+        } catch (e) {
+          console.error('Fallback build error:', e);
+          particles = [];
+        }
+      }
+
+      function draw(now) {
+        if (!active) { rafId = null; return; }
+
+        const t = now * 0.001;
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const vw = fc.width / dpr;
+        const vh = fc.height / dpr;
+
+        fctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        if (needsFullClear) {
+          fctx.fillStyle = '#000022';
+          fctx.fillRect(0, 0, vw, vh);
+          needsFullClear = false;
+        } else {
+          fctx.fillStyle = 'rgba(0, 0, 34, 0.32)';
+          fctx.fillRect(0, 0, vw, vh);
+        }
+
+        if (!window.__ssList) {
+          window.__ssList = [];
+          for (let i = 0; i < 3; i++) {
+            window.__ssList.push({
+              x: Math.random() * vw,
+              y: Math.random() * vh,
+              vx: 80 + Math.random() * 80,
+              vy: 20 + Math.random() * 30,
+              life: 0,
+              maxLife: 3 + Math.random() * 2,
+              len: 60 + Math.random() * 80
+            });
+          }
+        }
+        fctx.globalCompositeOperation = 'lighter';
+        for (let i = 0; i < window.__ssList.length; i++) {
+          const s = window.__ssList[i];
+          s.life += 1 / 60;
+          s.x += s.vx / 60;
+          s.y += s.vy / 60;
+          const alpha = Math.max(0, 1 - s.life / s.maxLife);
+          if (alpha <= 0 || s.x > vw + 100 || s.y > vh + 100) {
+            s.x = -s.len;
+            s.y = Math.random() * vh * 0.7;
+            s.life = 0;
+            s.maxLife = 3 + Math.random() * 2;
+            continue;
+          }
+          const grad = fctx.createLinearGradient(s.x, s.y, s.x - s.len, s.y - s.len * 0.3);
+          grad.addColorStop(0, `rgba(255,255,255,${alpha})`);
+          grad.addColorStop(0.4, `rgba(160,200,255,${alpha * 0.6})`);
+          grad.addColorStop(1, 'rgba(160,200,255,0)');
+          fctx.strokeStyle = grad;
+          fctx.lineWidth = 1.6;
+          fctx.beginPath();
+          fctx.moveTo(s.x, s.y);
+          fctx.lineTo(s.x - s.len, s.y - s.len * 0.3);
+          fctx.stroke();
+        }
+
+        const cx = vw / 2;
+        const cy = vh / 2;
+        const scaleW = vw * 0.9;
+        const scaleH = (vh * 0.72) / Math.max(0.05, fallbackAspect);
+        const scale = Math.min(scaleW, scaleH);
+        const baseRadius = Math.max(1.1, scale * 0.003);
+
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          const px = cx + p.nx * scale + Math.sin(t * 0.9 + p.phase) * 1.4;
+          const py = cy + p.ny * scale + Math.cos(t * 1.1 + p.phase) * 1.4;
+
+          const twinkle = 0.72 + 0.5 * Math.pow(
+            Math.sin(t * p.speed + p.phase * 10) * 0.5 + 0.5, 2
+          );
+
+          const radius = baseRadius * p.r * (1 + twinkle * 0.45);
+          const hue = (p.hue * 0.72 + (p.nx + 0.5) * 0.2 + (p.ny + 0.5) * 0.08) * 360;
+
+          const grad = fctx.createRadialGradient(px, py, 0, px, py, radius * 4);
+          grad.addColorStop(0, `hsla(${hue}, 100%, 88%, ${0.95 * twinkle})`);
+          grad.addColorStop(0.35, `hsla(${hue}, 100%, 68%, ${0.55 * twinkle})`);
+          grad.addColorStop(1, `hsla(${hue}, 100%, 50%, 0)`);
+          fctx.fillStyle = grad;
+          fctx.beginPath();
+          fctx.arc(px, py, radius * 4, 0, Math.PI * 2);
+          fctx.fill();
+
+          const core = fctx.createRadialGradient(px, py, 0, px, py, radius * 1.1);
+          core.addColorStop(0, `rgba(255, 255, 255, ${0.85 * twinkle})`);
+          core.addColorStop(1, 'rgba(255, 255, 255, 0)');
+          fctx.fillStyle = core;
+          fctx.beginPath();
+          fctx.arc(px, py, radius * 1.1, 0, Math.PI * 2);
+          fctx.fill();
+        }
+
+        fctx.globalCompositeOperation = 'source-over';
+        rafId = requestAnimationFrame(draw);
+      }
+
+      function show() {
+        if (active) return;
+        active = true;
+        if (emergency) emergency.classList.remove('active');
+        fc.classList.add('active');
+        resize();
+        window.addEventListener('resize', resize);
+        window.addEventListener('orientationchange', function () { setTimeout(resize, 250); });
+        if (particles.length === 0) buildParticles(currentName);
+        if (rafId) cancelAnimationFrame(rafId);
+        rafId = requestAnimationFrame(draw);
+      }
+
+      function hide() {
+        if (!active) return;
+        active = false;
+        fc.classList.remove('active');
+        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+      }
+
+      function setName(name) {
+        currentName = (name || 'HOLA').trim() || 'HOLA';
+        buildParticles(currentName);
+        if (active) needsFullClear = true;
+      }
+
+      window.__showFallback2D = function (name) {
+        if (name) currentName = name;
+        show();
+      };
+      window.__hideFallback2D = hide;
+      window.__fallbackBuildName = setName;
+
+      function bindInput() {
+        const inp = document.getElementById('nameInput');
+        if (!inp) return;
+        const sync = function () {
+          if (active) setName(inp.value || 'HOLA');
+        };
+        inp.addEventListener('input', sync);
+        inp.addEventListener('change', sync);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bindInput);
+      } else {
+        bindInput();
+      }
+
+      buildParticles(currentName);
+
+      function hasWebGL() {
+        try {
+          const c = document.createElement('canvas');
+          return !!(c.getContext('webgl') || c.getContext('experimental-webgl'));
+        } catch (e) { return false; }
+      }
+
+      if (!hasWebGL()) {
+        show();
+      } else {
+        let waited = 0;
+        const poll = setInterval(function () {
+          if (window.__threeReady) {
+            clearInterval(poll);
+            return;
+          }
+          waited += 250;
+          if (waited >= 2500) {
+            clearInterval(poll);
+            if (!window.__threeReady) show();
+          }
+        }, 250);
+
+        window.addEventListener('error', function (ev) {
+          if (ev && ev.target && ev.target.tagName === 'SCRIPT' && ev.target.type === 'module') {
+            if (!window.__threeReady) {
+              clearInterval(poll);
+              show();
+            }
+          }
+        }, true);
+
+        setTimeout(function () {
+          if (!window.__threeReady && !active) {
+            show();
+          }
+        }, 5000);
+
+        setTimeout(function () {
+          if (!window.__threeReady && !active && emergency) {
+            emergency.textContent = currentName;
+            emergency.classList.add('active');
+          }
+        }, 8000);
+      }
+    })();
+  </script>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+    import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+    import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+    import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+    import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
+
+    const REF_DISTANCE = 24;
+
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x111133, 0.012);
+    scene.background = new THREE.Color(0x000022);
+
+    const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 0, REF_DISTANCE);
+
+    const renderer = new THREE.WebGLRenderer({
+      antialias: true, alpha: true, preserveDrawingBuffer: true
+    });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.0;
+    document.body.appendChild(renderer.domElement);
+
+    const composer = new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene, camera));
+
+    const bloomPass = new UnrealBloomPass(
+      new THREE.Vector2(window.innerWidth, window.innerHeight),
+      0.85, 0.55, 0.72
+    );
+    composer.addPass(bloomPass);
+
+    const vignetteShader = {
+      uniforms: {
+        'tDiffuse': { value: null },
+        'offset': { value: 1.0 },
+        'darkness': { value: 1.2 },
+        'time': { value: 0 }
+      },
+      vertexShader: `
+        varying vec2 vUv;
+        void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }
+      `,
+      fragmentShader: `
+        uniform sampler2D tDiffuse;
+        uniform float offset;
+        uniform float darkness;
+        uniform float time;
+        varying vec2 vUv;
+        void main() {
+          vec4 texel = texture2D(tDiffuse, vUv);
+          vec2 uv = (vUv - vec2(0.5)) * vec2(offset);
+          float dist = dot(uv, uv) * darkness;
+          dist += sin(time * 0.1) * 0.02;
+          gl_FragColor = vec4(mix(texel.rgb, vec3(0.0), dist), texel.a);
+        }
+      `
+    };
+    const vignettePass = new ShaderPass(vignetteShader);
+    composer.addPass(vignettePass);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.target.set(0, 0, 0);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+    controls.enablePan = false;
+    controls.maxDistance = 70;
+    controls.minDistance = 6;
+    controls.autoRotate = false;
+
+    scene.add(new THREE.AmbientLight(0x404060, 0.6));
+
+    const dirLight = new THREE.DirectionalLight(0xffffff, 1.0);
+    dirLight.position.set(10, 20, 10);
+    scene.add(dirLight);
+
+    const pointLight = new THREE.PointLight(0xffaa00, 1.2, 60);
+    pointLight.position.set(-14, 12, -10);
+    scene.add(pointLight);
+
+    const blueLight = new THREE.PointLight(0x0066ff, 0.9, 50);
+    blueLight.position.set(15, -10, 15);
+    scene.add(blueLight);
+
+    function createAtmosphere() {
+      const particleCount = 1400;
+      const geometry = new THREE.BufferGeometry();
+      const positions = new Float32Array(particleCount * 3);
+      const colors = new Float32Array(particleCount * 3);
+      const speeds = new Float32Array(particleCount);
+
+      for (let i = 0; i < particleCount; i++) {
+        const radius = 25 + Math.random() * 80;
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos(2 * Math.random() - 1);
+
+        positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
+        positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
+        positions[i * 3 + 2] = radius * Math.cos(phi);
+
+        speeds[i] = 0.01 + Math.random() * 0.04;
+
+        const hue = Math.random();
+        const color = new THREE.Color().setHSL(hue, 0.7 + Math.random() * 0.3, 0.6 + Math.random() * 0.4);
+        colors[i * 3] = color.r;
+        colors[i * 3 + 1] = color.g;
+        colors[i * 3 + 2] = color.b;
+      }
+
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+      const material = new THREE.PointsMaterial({
+        size: 0.18,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.55,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      });
+
+      const particles = new THREE.Points(geometry, material);
+      particles.userData = { speeds };
+      return particles;
+    }
+
+    const atmosphere = createAtmosphere();
+    scene.add(atmosphere);
+
+    const nameMaterial = new THREE.ShaderMaterial({
+      uniforms: {
+        time: { value: 0 },
+        scaleFactor: { value: 1000 }
+      },
+      vertexShader: `
+        attribute vec3 aColor;
+        attribute float aSize;
+        attribute float activation;
+        attribute float aRandom;
+        uniform float scaleFactor;
+        uniform float time;
+        varying vec3 vColor;
+        varying float vActivation;
+        varying float vRandom;
+        void main() {
+          vColor = aColor;
+          vActivation = activation;
+          vRandom = aRandom;
+
+          vec3 pos = position;
+          pos.x += sin(time * 1.7 + aRandom * 12.0) * 0.05;
+          pos.y += cos(time * 1.9 + aRandom * 15.0) * 0.05;
+
+          vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+
+          float sizeTwinkle = 0.85 + 0.3 * sin(time * 5.0 + aRandom * 25.0);
+          gl_PointSize = aSize * sizeTwinkle * scaleFactor / -mvPosition.z;
+
+          gl_Position = projectionMatrix * mvPosition;
+        }
+      `,
+      fragmentShader: `
+        uniform float time;
+        varying vec3 vColor;
+        varying float vActivation;
+        varying float vRandom;
+        void main() {
+          vec2 c = gl_PointCoord - vec2(0.5);
+          float d = length(c);
+          if (d > 0.5) discard;
+
+          float core = pow(1.0 - d * 2.0, 4.0);
+          float glow = pow(1.0 - d * 2.0, 1.4) * 0.32;
+
+          float twinkle = 0.72 + 0.55 * pow(sin(time * 6.0 + vRandom * 30.0) * 0.5 + 0.5, 2.0);
+
+          float intensity = (core * 2.0 + glow) * twinkle;
+
+          vec3 baseColor = vColor * intensity;
+          vec3 hot = vec3(1.0) * core * 0.85;
+
+          vec3 finalColor = baseColor + hot;
+          vec3 activationColor = vec3(1.0, 0.6, 0.15) * vActivation * 2.6;
+
+          gl_FragColor = vec4(finalColor + activationColor, 1.0);
+        }
+      `,
+      transparent: false,
+      depthWrite: true,
+      depthTest: true,
+      blending: THREE.NormalBlending
+    });
+
+    function renderTextToCanvas(text, fontSize) {
+      const fontStr = `900 ${fontSize}px "Arial Black", Impact, "Helvetica Neue", Arial, sans-serif`;
+
+      const measureCanvas = document.createElement('canvas');
+      const mctx = measureCanvas.getContext('2d');
+      mctx.font = fontStr;
+
+      const chars = text.split('');
+      const charWidths = chars.map(c => mctx.measureText(c).width);
+
+      const letterSpacing = fontSize * 0.12;
+      const spaceExtra   = fontSize * 0.42;
+
+      let totalWidth = 0;
+      for (let i = 0; i < chars.length; i++) {
+        totalWidth += charWidths[i];
+        if (i < chars.length - 1) totalWidth += letterSpacing;
+        if (chars[i] === ' ') totalWidth += spaceExtra;
+      }
+
+      const pad = fontSize * 0.22;
+      const w = Math.ceil(totalWidth + pad * 2);
+      const h = Math.ceil(fontSize * 1.35);
+
+      const canvas = document.createElement('canvas');
+      canvas.width = w;
+      canvas.height = h;
+      const ctx = canvas.getContext('2d');
+      ctx.font = fontStr;
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle = '#ffffff';
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = fontSize * 0.055;
+      ctx.lineJoin = 'round';
+
+      let x = pad;
+      for (let i = 0; i < chars.length; i++) {
+        if (chars[i] !== ' ') {
+          ctx.fillText(chars[i], x, h / 2);
+          ctx.strokeText(chars[i], x, h / 2);
+        }
+        x += charWidths[i];
+        if (i < chars.length - 1) x += letterSpacing;
+        if (chars[i] === ' ') x += spaceExtra;
+      }
+
+      return { canvas, w, h };
+    }
+
+    function sampleTextPoints(text) {
+      const fontSize = 320;
+      const { canvas, w, h } = renderTextToCanvas(text, fontSize);
+
+      const ctx = canvas.getContext('2d');
+      const data = ctx.getImageData(0, 0, w, h).data;
+      const alphaThreshold = 140;
+
+      let minX = w, maxX = -1, minY = h, maxY = -1;
+      for (let y = 0; y < h; y++) {
+        const rowOff = y * w;
+        for (let x = 0; x < w; x++) {
+          if (data[(rowOff + x) * 4 + 3] > alphaThreshold) {
+            if (x < minX) minX = x;
+            if (x > maxX) maxX = x;
+            if (y < minY) minY = y;
+            if (y > maxY) maxY = y;
+          }
+        }
+      }
+
+      if (maxX < 0) return { base: [new THREE.Vector3(0, 0, 0)], w: 1, h: 1 };
+
+      const boxW = maxX - minX + 1;
+      const boxH = maxY - minY + 1;
+
+      const isMobile = window.innerWidth < 700;
+      let step = 6;
+      const hardCap = isMobile ? 5500 : 13000;
+
+      const gridSample = (s) => {
+        const pts = [];
+        for (let y = minY; y <= maxY; y += s) {
+          const rowOff = y * w;
+          for (let x = minX; x <= maxX; x += s) {
+            if (data[(rowOff + x) * 4 + 3] > alphaThreshold) pts.push([x, y]);
+          }
+        }
+        return pts;
+      };
+
+      let points = gridSample(step);
+      while (points.length > hardCap && step < 20) {
+        step += 1;
+        points = gridSample(step);
+      }
+      if (points.length > hardCap) {
+        for (let i = points.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [points[i], points[j]] = [points[j], points[i]];
+        }
+        points = points.slice(0, hardCap);
+      }
+
+      const cx = (minX + maxX) / 2;
+      const cy = (minY + maxY) / 2;
+      const jitter = Math.min(0.35, step * 0.28);
+
+      const base = points.map(([x, y]) => new THREE.Vector3(
+        (x - cx) / boxW + (Math.random() - 0.5) * jitter / boxW,
+        -(y - cy) / boxW + (Math.random() - 0.5) * jitter / boxW,
+        (Math.random() - 0.5) * 0.12
+      ));
+
+      return { base, w: 1, h: boxH / boxW };
+    }
+
+    const nameGroup = new THREE.Group();
+    scene.add(nameGroup);
+
+    let namePoints = null;
+    let namePosAttr = null;
+    let nameColorAttr = null;
+    let nameSizeAttr = null;
+    let nameActivationAttr = null;
+
+    let nameBasePos = [];
+    let namePhases = [];
+    let nameNeighbors = [];
+    let nameActivationTime = [];
+    let nameActivated = null;
+    let nameCount = 0;
+    let nameSortedByX = [];
+
+    let textBounds = { w: 1, h: 0.35 };
+    let spacing = 0.02;
+    let fitScale = 20;
+    let chainGeneration = 0;
+
+    let sweepActive = false;
+    let sweepIndex = 0;
+    let sweepStartTime = 0;
+    let sweepBurstCounter = 0;
+    let sweepBurstEvery = 1;
+
+    const SWEEP_DURATION = 2.8;
+
+    function computeAverageNearest(points) {
+      let total = 0, count = 0;
+      const sampleStep = Math.max(1, Math.floor(points.length / 400));
+      for (let i = 0; i < points.length; i += sampleStep) {
+        let best = Infinity;
+        for (let j = 0; j < points.length; j++) {
+          if (i === j) continue;
+          const d = points[i].distanceToSquared(points[j]);
+          if (d < best) best = d;
+        }
+        if (best !== Infinity) { total += Math.sqrt(best); count++; }
+      }
+      return count ? total / count : 0.02;
+    }
+
+    function buildNeighbors() {
+      const threshold = spacing * 2.7;
+      const cellSize = threshold;
+
+      const grid = new Map();
+      for (let i = 0; i < nameCount; i++) {
+        const p = nameBasePos[i];
+        const key = Math.floor(p.x / cellSize) + ',' +
+                    Math.floor(p.y / cellSize) + ',' +
+                    Math.floor(p.z / cellSize);
+        let bucket = grid.get(key);
+        if (!bucket) { bucket = []; grid.set(key, bucket); }
+        bucket.push(i);
+      }
+
+      nameNeighbors = new Array(nameCount);
+      for (let i = 0; i < nameCount; i++) {
+        const p = nameBasePos[i];
+        const gx = Math.floor(p.x / cellSize);
+        const gy = Math.floor(p.y / cellSize);
+        const gz = Math.floor(p.z / cellSize);
+        const list = [];
+
+        for (let dx = -1; dx <= 1; dx++) {
+          for (let dy = -1; dy <= 1; dy++) {
+            for (let dz = -1; dz <= 1; dz++) {
+              const bucket = grid.get((gx + dx) + ',' + (gy + dy) + ',' + (gz + dz));
+              if (!bucket) continue;
+              for (let k = 0; k < bucket.length; k++) {
+                const j = bucket[k];
+                if (i === j) continue;
+                const d = p.distanceTo(nameBasePos[j]);
+                if (d < threshold) list.push({ j, d });
+              }
+            }
+          }
+        }
+
+        list.sort((a, b) => a.d - b.d);
+        nameNeighbors[i] = list.slice(0, 6).map(o => o.j);
+      }
+    }
+
+    function buildName(text) {
+      chainGeneration++;
+      sweepActive = false;
+
+      if (namePoints) {
+        nameGroup.remove(namePoints);
+        namePoints.geometry.dispose();
+      }
+
+      const clean = (text || '').trim().toUpperCase() || 'HOLA';
+      const { base, w, h } = sampleTextPoints(clean);
+      textBounds = { w, h };
+
+      nameBasePos = base;
+      nameCount = base.length;
+      namePhases = new Array(nameCount);
+      nameActivationTime = new Array(nameCount).fill(-1);
+      nameActivated = new Uint8Array(nameCount);
+
+      spacing = computeAverageNearest(nameBasePos);
+
+      const positions = new Float32Array(nameCount * 3);
+      const colors = new Float32Array(nameCount * 3);
+      const sizes = new Float32Array(nameCount);
+      const activations = new Float32Array(nameCount);
+      const randoms = new Float32Array(nameCount);
+
+      for (let i = 0; i < nameCount; i++) {
+        const p = base[i];
+        positions[i * 3] = p.x;
+        positions[i * 3 + 1] = p.y;
+        positions[i * 3 + 2] = p.z;
+
+        const tx = THREE.MathUtils.clamp(p.x + 0.5, 0, 1);
+        const ty = THREE.MathUtils.clamp(-p.y + 0.5, 0, 1);
+        const hue = (tx * 0.72 + ty * 0.18 + Math.random() * 0.14) % 1;
+        const color = new THREE.Color().setHSL(hue, 1.0, 0.68);
+
+        colors[i * 3] = color.r;
+        colors[i * 3 + 1] = color.g;
+        colors[i * 3 + 2] = color.b;
+
+        sizes[i] = 1.0;
+        activations[i] = 0;
+        randoms[i] = Math.random();
+        namePhases[i] = Math.random() * Math.PI * 2;
+      }
+
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geometry.setAttribute('aColor', new THREE.BufferAttribute(colors, 3));
+      geometry.setAttribute('aSize', new THREE.BufferAttribute(sizes, 1));
+      geometry.setAttribute('activation', new THREE.BufferAttribute(activations, 1));
+      geometry.setAttribute('aRandom', new THREE.BufferAttribute(randoms, 1));
+
+      namePosAttr = geometry.attributes.position;
+      nameColorAttr = geometry.attributes.aColor;
+      nameSizeAttr = geometry.attributes.aSize;
+      nameActivationAttr = geometry.attributes.activation;
+
+      namePoints = new THREE.Points(geometry, nameMaterial);
+      namePoints.frustumCulled = false;
+      nameGroup.add(namePoints);
+
+      const order = new Array(nameCount);
+      for (let i = 0; i < nameCount; i++) order[i] = i;
+      order.sort((a, b) => nameBasePos[a].x - nameBasePos[b].x);
+      nameSortedByX = order;
+
+      sweepBurstEvery = Math.max(1, Math.floor(nameCount / 45));
+
+      buildNeighbors();
+      layout();
+    }
+
+    function updateScaleFactor() {
+      const pixelRatio = renderer.getPixelRatio();
+      nameMaterial.uniforms.scaleFactor.value =
+        (window.innerHeight * pixelRatio) /
+        (2 * Math.tan(camera.fov * Math.PI / 360));
+    }
+
+    function layout() {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+
+      renderer.setSize(width, height);
+      composer.setSize(width, height);
+
+      const vFov = (camera.fov * Math.PI) / 180;
+      const visH = 2 * Math.tan(vFov / 2) * REF_DISTANCE;
+      const visW = visH * camera.aspect;
+
+      const sx = (visW * 0.92) / textBounds.w;
+      const sy = (visH * 0.74) / Math.max(0.05, textBounds.h);
+      fitScale = Math.min(sx, sy);
+      if (!isFinite(fitScale) || fitScale <= 0) fitScale = 20;
+
+      const radius = Math.max(0.032, spacing * fitScale * 0.34);
+
+      if (nameSizeAttr) {
+        const sizes = nameSizeAttr.array;
+        const diameter = radius * 2;
+        for (let i = 0; i < nameCount; i++) sizes[i] = diameter;
+        nameSizeAttr.needsUpdate = true;
+      }
+
+      raycaster.params.Points.threshold = radius * 2.2;
+
+      updateScaleFactor();
+    }
+
+    const particleBursts = [];
+
+    function createParticles(worldPosition, color) {
+      const particleCount = 40;
+      const geometry = new THREE.BufferGeometry();
+      const positions = [];
+      const colors = [];
+      const velocities = [];
+
+      for (let i = 0; i < particleCount; i++) {
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.random() * Math.PI;
+        const r = 0.2 + Math.random() * 0.3;
+
+        positions.push(
+          r * Math.sin(phi) * Math.cos(theta),
+          r * Math.sin(phi) * Math.sin(theta),
+          r * Math.cos(phi)
+        );
+
+        const pc = color.clone();
+        pc.offsetHSL(Math.random() * 0.1 - 0.05, 0, Math.random() * 0.2);
+        colors.push(pc.r, pc.g, pc.b);
+
+        velocities.push(
+          (Math.random() - 0.5) * 0.16,
+          (Math.random() - 0.5) * 0.16,
+          (Math.random() - 0.5) * 0.16
+        );
+      }
+
+      geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+      geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+      const material = new THREE.PointsMaterial({
+        size: 0.22,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.9,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      });
+
+      const points = new THREE.Points(geometry, material);
+      points.position.copy(worldPosition);
+      scene.add(points);
+
+      particleBursts.push({
+        points, geometry, material, velocities,
+        startTime: performance.now() * 0.001
+      });
+    }
+
+    function updateAllBursts(time) {
+      for (let i = particleBursts.length - 1; i >= 0; i--) {
+        const b = particleBursts[i];
+        const elapsed = time - b.startTime;
+
+        if (elapsed > 1.3) {
+          scene.remove(b.points);
+          b.geometry.dispose();
+          b.material.dispose();
+          particleBursts.splice(i, 1);
+          continue;
+        }
+
+        const pos = b.geometry.attributes.position.array;
+        const vel = b.velocities;
+
+        for (let j = 0; j < pos.length; j += 3) {
+          pos[j] += vel[j] * (1 + elapsed);
+          pos[j + 1] += vel[j + 1] * (1 + elapsed) + 0.01;
+          pos[j + 2] += vel[j + 2] * (1 + elapsed);
+        }
+
+        b.geometry.attributes.position.needsUpdate = true;
+        b.material.opacity = 0.9 * (1 - elapsed / 1.3);
+      }
+    }
+
+    function activateParticleBurst(index, time, generation) {
+      if (generation !== chainGeneration) return;
+      if (index < 0 || index >= nameCount) return;
+      if (nameActivated[index]) return;
+      nameActivated[index] = 1;
+      nameActivationTime[index] = time;
+
+      const bp = nameBasePos[index];
+      const worldPos = new THREE.Vector3(
+        bp.x * fitScale, bp.y * fitScale, bp.z * fitScale
+      );
+      nameGroup.localToWorld(worldPos);
+
+      const cArr = nameColorAttr.array;
+      const color = new THREE.Color(cArr[index * 3], cArr[index * 3 + 1], cArr[index * 3 + 2]);
+      createParticles(worldPos, color);
+
+      const neighbors = nameNeighbors[index];
+      if (!neighbors) return;
+      for (let i = 0; i < neighbors.length; i++) {
+        const nIdx = neighbors[i];
+        const delay = 55 + Math.random() * 70;
+        setTimeout(() => {
+          activateParticleBurst(nIdx, time + 0.1 * (i + 1), generation);
+        }, delay);
+      }
+    }
+
+    function startChainReaction() {
+      if (nameCount === 0) return;
+      nameActivated = new Uint8Array(nameCount);
+      nameActivationTime = new Array(nameCount).fill(-1);
+      sweepIndex = 0;
+      sweepBurstCounter = 0;
+      sweepStartTime = performance.now() * 0.001;
+      sweepActive = true;
+    }
+
+    document.getElementById('chainReaction').addEventListener('click', startChainReaction);
+
+    const nameInput = document.getElementById('nameInput');
+    const applyNameBtn = document.getElementById('applyName');
+
+    function readHashName() {
+      const hash = window.location.hash || '';
+      const m = hash.match(/[#&]name=([^&]+)/);
+      if (m) {
+        try { return decodeURIComponent(m[1].replace(/\+/g, ' ')); } catch (e) { return m[1]; }
+      }
+      return null;
+    }
+
+    (function initName() {
+      const h = readHashName();
+      if (h) {
+        nameInput.value = h;
+        try {
+          if (history.replaceState) {
+            history.replaceState(null, '', window.location.pathname + window.location.search + '#name=' + encodeURIComponent(h));
+          }
+        } catch (e) {}
+      }
+    })();
+
+    function applyName() {
+      buildName(nameInput.value);
+      if (window.__fallbackBuildName) window.__fallbackBuildName(nameInput.value);
+    }
+
+    applyNameBtn.addEventListener('click', applyName);
+    nameInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        nameInput.blur();
+        applyName();
+      }
+    });
+
+    /* =========================================================
+       COMPARTIR POR WHATSAPP · con el nombre en el hash
+    ========================================================= */
+    const waShareBtn = document.getElementById('waShare');
+
+    function buildShareURL(name) {
+      try {
+        const u = new URL(window.location.href);
+        u.hash = '#name=' + encodeURIComponent(name);
+        return u.toString();
+      } catch (e) {
+        const base = window.location.href.split('#')[0];
+        return base + '#name=' + encodeURIComponent(name);
+      }
+    }
+
+    waShareBtn.addEventListener('click', async (ev) => {
+      ev.preventDefault();
+      const name = (nameInput.value || 'HOLA').trim() || 'HOLA';
+      const shareURL = buildShareURL(name);
+
+      const shareText = '✨ Mira la frase mágica que creé con Dedicatorias Mágicas ✨\n' +
+                        '👀 Ábrelo aquí: ' + shareURL;
+
+      // Intento nativo en móvil (solo texto, sin archivo adjunto)
+      if (navigator.share && /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)) {
+        try {
+          await navigator.share({
+            title: 'Mi frase mágica',
+            text: shareText
+          });
+          return;
+        } catch (err) {
+          if (err && err.name === 'AbortError') return;
+        }
+      }
+
+      // Fallback universal: WhatsApp Web
+      window.open('https://wa.me/?text=' + encodeURIComponent(shareText), '_blank');
+    });
+
+    /* =========================================================
+       ESTRELLAS FUGACES
+    ========================================================= */
+    const SHOOTING_STAR_COUNT = 4;
+    const shootingStars = [];
+    const starBounds = { x: 70, y: 45, z: 60 };
+
+    function createShootingStar(segments = 34) {
+      const positions = new Float32Array(segments * 3);
+      const colors = new Float32Array(segments * 3);
+
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+      const material = new THREE.LineBasicMaterial({
+        vertexColors: true,
+        transparent: true,
+        opacity: 1.0,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        fog: false,
+        color: new THREE.Color(1.8, 1.8, 1.8)
+      });
+
+      const line = new THREE.Line(geometry, material);
+      line.frustumCulled = false;
+      scene.add(line);
+
+      const headGeo = new THREE.BufferGeometry();
+      headGeo.setAttribute('position', new THREE.Float32BufferAttribute([0, 0, 0], 3));
+      const headMat = new THREE.PointsMaterial({
+        size: 0.6,
+        color: new THREE.Color(2.5, 2.5, 2.5),
+        transparent: true,
+        opacity: 1.0,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+        fog: false,
+        sizeAttenuation: true
+      });
+      const headPoint = new THREE.Points(headGeo, headMat);
+      headPoint.frustumCulled = false;
+      scene.add(headPoint);
+
+      const star = {
+        line, geometry, positions, colors, segments,
+        headPoint, headMat,
+        head: new THREE.Vector3(),
+        dir: new THREE.Vector3(1, 0, 0),
+        speed: 25, tailLength: 6,
+        color: new THREE.Color(0.8, 0.9, 1.0),
+        curve: 0.3, life: 0
+      };
+
+      respawnStar(star);
+      return star;
+    }
+
+    function respawnStar(star) {
+      const fromLeft = Math.random() < 0.5;
+      const y = (Math.random() - 0.5) * 34;
+      const z = (Math.random() - 0.5) * 44 - 8;
+
+      star.head.set(fromLeft ? -starBounds.x : starBounds.x, y, z);
+
+      const dirX = fromLeft ? 1 : -1;
+      const dirY = (Math.random() - 0.5) * 0.35;
+      const dirZ = (Math.random() - 0.5) * 0.28;
+      star.dir.set(dirX, dirY, dirZ).normalize();
+
+      star.speed = 18 + Math.random() * 14;
+      star.tailLength = 7 + Math.random() * 6;
+      star.curve = (Math.random() - 0.5) * 0.6;
+
+      const pick = Math.random();
+      if (pick < 0.6) {
+        star.color.setHSL(0.58 + Math.random() * 0.08, 0.85, 0.85);
+      } else if (pick < 0.85) {
+        star.color.setHSL(0.12 + Math.random() * 0.06, 0.95, 0.82);
+      } else {
+        star.color.setHSL(0.88 + Math.random() * 0.08, 0.9, 0.85);
+      }
+
+      const headColor = star.color.clone().offsetHSL(0, -0.2, 0.15);
+      star.headMat.color.setRGB(
+        headColor.r * 2.6,
+        headColor.g * 2.6,
+        headColor.b * 2.6
+      );
+
+      rebuildTail(star);
+      star.life = 0;
+    }
+
+    function rebuildTail(star) {
+      const { dir, tailLength, positions, colors, segments, color, curve } = star;
+      const perp = new THREE.Vector3(-dir.y, dir.x, dir.z * 0.5).normalize();
+
+      for (let i = 0; i < segments; i++) {
+        const t = i / (segments - 1);
+        const offset = t * tailLength;
+
+        positions[i * 3]     = -dir.x * offset + perp.x * Math.sin(t * Math.PI) * curve;
+        positions[i * 3 + 1] = -dir.y * offset + perp.y * Math.sin(t * Math.PI) * curve;
+        positions[i * 3 + 2] = -dir.z * offset + perp.z * Math.sin(t * Math.PI) * curve;
+
+        const fade = Math.pow(1.0 - t, 1.7);
+        colors[i * 3]     = color.r * fade;
+        colors[i * 3 + 1] = color.g * fade;
+        colors[i * 3 + 2] = color.b * fade;
+      }
+
+      star.geometry.attributes.position.needsUpdate = true;
+      star.geometry.attributes.color.needsUpdate = true;
+    }
+
+    function updateShootingStars(delta) {
+      for (let s = 0; s < shootingStars.length; s++) {
+        const star = shootingStars[s];
+        star.life += delta;
+
+        star.head.addScaledVector(star.dir, star.speed * delta);
+        star.line.position.copy(star.head);
+        star.headPoint.position.copy(star.head);
+
+        if (Math.abs(star.head.x) > starBounds.x + 4 ||
+            Math.abs(star.head.y) > starBounds.y + 4 ||
+            Math.abs(star.head.z) > starBounds.z + 4) {
+          respawnStar(star);
+        }
+      }
+    }
+
+    for (let i = 0; i < SHOOTING_STAR_COUNT; i++) {
+      const star = createShootingStar();
+      const advance = Math.random() * 10;
+      star.head.addScaledVector(star.dir, star.speed * advance);
+      star.line.position.copy(star.head);
+      star.headPoint.position.copy(star.head);
+      shootingStars.push(star);
+    }
+
+    let lastTime = 0;
+
+    function animate(currentTime) {
+      requestAnimationFrame(animate);
+
+      const time = currentTime * 0.001;
+      const delta = Math.min(time - lastTime, 0.1);
+      lastTime = time;
+
+      if (sweepActive && nameCount > 0) {
+        const elapsed = time - sweepStartTime;
+        const t = Math.min(1, elapsed / SWEEP_DURATION);
+        const target = Math.floor(t * nameCount);
+
+        while (sweepIndex < target) {
+          const idx = nameSortedByX[sweepIndex];
+
+          nameActivated[idx] = 1;
+          nameActivationTime[idx] = time;
+
+          if (sweepBurstCounter % sweepBurstEvery === 0) {
+            const bp = nameBasePos[idx];
+            const worldPos = new THREE.Vector3(
+              bp.x * fitScale, bp.y * fitScale, bp.z * fitScale
+            );
+            nameGroup.localToWorld(worldPos);
+
+            const cArr = nameColorAttr.array;
+            const color = new THREE.Color(
+              cArr[idx * 3], cArr[idx * 3 + 1], cArr[idx * 3 + 2]
+            );
+            createParticles(worldPos, color);
+          }
+          sweepBurstCounter++;
+          sweepIndex++;
+        }
+
+        if (sweepIndex >= nameCount) sweepActive = false;
+      }
+
+      if (namePoints) {
+        const positions = namePosAttr.array;
+        const activations = nameActivationAttr.array;
+        const amp = fitScale * 0.006;
+
+        for (let i = 0; i < nameCount; i++) {
+          const bp = nameBasePos[i];
+          const ph = namePhases[i];
+          positions[i * 3]     = bp.x * fitScale + Math.sin(time * 0.9 + ph) * amp;
+          positions[i * 3 + 1] = bp.y * fitScale + Math.cos(time * 1.1 + ph) * amp;
+          positions[i * 3 + 2] = bp.z * fitScale + Math.sin(time * 1.3 + ph) * amp;
+
+          const at = nameActivationTime[i];
+          if (at >= 0) {
+            const e = time - at;
+            const strength = Math.max(0, 1 - e / 1.2);
+            activations[i] = strength;
+            if (strength <= 0) nameActivationTime[i] = -1;
+          } else if (activations[i] !== 0) {
+            activations[i] = 0;
+          }
+        }
+
+        namePosAttr.needsUpdate = true;
+        nameActivationAttr.needsUpdate = true;
+        nameMaterial.uniforms.time.value = time;
+      }
+
+      nameGroup.rotation.y = Math.sin(time * 0.35) * 0.16;
+      nameGroup.rotation.x = Math.sin(time * 0.27) * 0.07;
+
+      vignettePass.uniforms.time.value = time;
+
+      updateAllBursts(time);
+      updateShootingStars(delta);
+
+      if (atmosphere.geometry.attributes.position) {
+        const positions = atmosphere.geometry.attributes.position.array;
+        const speeds = atmosphere.userData.speeds;
+
+        for (let i = 0; i < positions.length; i += 3) {
+          const x = positions[i];
+          const z = positions[i + 2];
+          const speed = speeds[i / 3] * delta;
+
+          positions[i]     = x * Math.cos(speed) - z * Math.sin(speed);
+          positions[i + 2] = x * Math.sin(speed) + z * Math.cos(speed);
+          positions[i + 1] += Math.sin(time * 0.5 + i * 0.01) * 0.01;
+        }
+        atmosphere.geometry.attributes.position.needsUpdate = true;
+      }
+
+      blueLight.position.x = 15 * Math.cos(time * 0.2);
+      blueLight.position.z = 15 * Math.sin(time * 0.2);
+
+      atmosphere.rotation.y += 0.001;
+
+      controls.update();
+      composer.render();
+    }
+
+    window.addEventListener('resize', () => layout());
+    window.addEventListener('orientationchange', () => setTimeout(layout, 250));
+
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    let pointerDownPos = { x: 0, y: 0 };
+
+    renderer.domElement.addEventListener('pointerdown', (e) => {
+      pointerDownPos = { x: e.clientX, y: e.clientY };
+    });
+
+    renderer.domElement.addEventListener('pointerup', (e) => {
+      const dx = e.clientX - pointerDownPos.x;
+      const dy = e.clientY - pointerDownPos.y;
+      if (Math.hypot(dx, dy) > 12) return;
+      if (!namePoints) return;
+
+      mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObject(namePoints, false);
+
+      if (intersects.length > 0) {
+        const idx = intersects[0].index;
+        activateParticleBurst(idx, performance.now() * 0.001, chainGeneration);
+      }
+    });
+
+    buildName(nameInput.value);
+    animate(0);
+
+    window.__threeReady = true;
+    if (window.__hideFallback2D) window.__hideFallback2D();
+    if (window.__fallbackBuildName) window.__fallbackBuildName(nameInput.value);
+  </script>
+
+</body>
+
+</html>
