@@ -55,7 +55,6 @@ html,body{width:100%;min-height:100dvh;overflow-x:hidden;font-family:'Inter',sys
 .btn-add{background:rgba(255,77,109,.1);border:1.5px dashed rgba(255,77,109,.4);color:#ff8fa3;padding:10px;border-radius:10px;cursor:pointer;font-family:inherit;font-size:.82rem;font-weight:600;transition:all .2s}
 .btn-add:hover{background:rgba(255,77,109,.2)}
 
-/* ============ FOTOS MEJORADAS ============ */
 .fotos-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:.78rem;color:#c8b8c0}
 .fotos-header b{color:#ff8fa3;font-weight:700}
 .barra-fotos{flex:1;height:6px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;margin:0 10px}
@@ -81,7 +80,6 @@ html,body{width:100%;min-height:100dvh;overflow-x:hidden;font-family:'Inter',sys
 .file-btn.premium.unlocked::after{content:'✓';color:#4ade80}
 .file-btn.premium.unlocked{border-color:rgba(34,197,94,.5);background:rgba(34,197,94,.06);color:#86efac}
 
-/* Selector de modo fotos */
 .modo-fotos{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:8px}
 .modo-btn{background:rgba(0,0,0,.35);border:1.5px solid rgba(255,77,109,.2);border-radius:12px;padding:14px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;font-family:inherit;color:#e8d8a8;font-size:.72rem;font-weight:600;transition:all .2s}
 .modo-btn.active{border-color:#ff4d6d;background:rgba(255,77,109,.15);color:#fff}
@@ -90,19 +88,16 @@ html,body{width:100%;min-height:100dvh;overflow-x:hidden;font-family:'Inter',sys
 .modo-btn .desc{font-size:.62rem;color:#94a3b8;text-align:center;line-height:1.2;font-weight:400}
 .modo-btn.locked{opacity:.5}
 
-/* Selector animación fotos */
 .anim-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px}
 .anim-btn{background:rgba(0,0,0,.35);border:1.5px solid rgba(255,77,109,.2);border-radius:10px;padding:10px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:inherit;color:#e8d8a8;font-size:.62rem;font-weight:600;transition:all .2s}
 .anim-btn.active{border-color:#ff4d6d;background:rgba(255,77,109,.15);color:#fff}
 .anim-btn .emoji{font-size:1.3rem}
 
-/* Miniaturas resumen */
 .resumen-fotos{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px;padding:10px;background:rgba(0,0,0,.25);border-radius:10px}
 .resumen-fotos .mini{aspect-ratio:1;border-radius:6px;overflow:hidden;background:#000;border:1px solid rgba(255,77,109,.2);position:relative}
 .resumen-fotos .mini img{width:100%;height:100%;object-fit:cover}
 .resumen-fotos .vacio{aspect-ratio:1;border-radius:6px;background:rgba(255,77,109,.08);border:1.5px dashed rgba(255,77,109,.3);display:flex;align-items:center;justify-content:center;color:#ff8fa3;font-size:1.3rem;opacity:.4}
 
-/* Color picker */
 .color-picker{display:flex;gap:10px;align-items:center;margin-top:8px;flex-wrap:wrap}
 .color-dot{width:38px;height:38px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:all .2s;position:relative}
 .color-dot.active{border-color:#fff;transform:scale(1.1)}
@@ -160,7 +155,102 @@ html,body{width:100%;min-height:100dvh;overflow-x:hidden;font-family:'Inter',sys
 
 #toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);background:#22c55e;color:#fff;padding:12px 24px;border-radius:30px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:all .3s;z-index:2000;box-shadow:0 4px 15px rgba(34,197,94,.4)}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* =========================================================
+   NUEVOS BOTONES FLOTANTES
+   ========================================================= */
+#share-personalized{
+  position:fixed;
+  bottom:calc(96px + env(safe-area-inset-bottom,0));
+  right:16px;
+  z-index:950;
+  height:54px;
+  padding:0 20px 0 16px;
+  border-radius:27px;
+  background:linear-gradient(135deg,#7dd3fc,#a78bfa,#c084fc);
+  color:#05021a;
+  border:2px solid #e0e7ff;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  cursor:pointer;
+  touch-action:manipulation;
+  font-family:inherit;
+  font-size:13.5px;
+  font-weight:700;
+  letter-spacing:.2px;
+  white-space:nowrap;
+  box-shadow:0 10px 30px rgba(167,139,250,.55),0 4px 10px rgba(0,0,0,.5);
+  transition:transform .2s ease;
+  animation:spPulse 2.4s ease-in-out infinite;
+}
+#share-personalized svg{width:24px;height:24px;fill:#05021a;flex-shrink:0}
+#share-personalized:active{transform:scale(.95)}
+#share-personalized .sp-txt{position:relative;z-index:1}
+@keyframes spPulse{
+  0%,100%{box-shadow:0 10px 30px rgba(167,139,250,.55),0 4px 10px rgba(0,0,0,.5),0 0 0 0 rgba(167,139,250,.6)}
+  50%{box-shadow:0 10px 30px rgba(167,139,250,.75),0 4px 10px rgba(0,0,0,.5),0 0 0 14px rgba(167,139,250,0)}
+}
+#share-float{position:fixed;bottom:calc(160px + env(safe-area-inset-bottom,0));right:16px;z-index:950;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation;box-shadow:0 10px 30px rgba(37,211,102,.55),0 4px 10px rgba(0,0,0,.5);transition:transform .2s ease,box-shadow .2s ease}
+#share-float svg{width:32px;height:32px;fill:#fff}
+#share-float:active{transform:scale(.92)}
 </style>
+
+<!-- ========== PERI SECURITY PACK v1 · Dedicatorias Mágicas ========== -->
+<script>
+(function(){
+  'use strict';
+  var BRAND = '© Dedicatorias Mágicas · c4rlo53305-lgtm';
+
+  document.addEventListener('contextmenu', function(e){ e.preventDefault(); return false; }, {passive:false});
+
+  document.addEventListener('keydown', function(e){
+    var k = (e.key || '').toLowerCase();
+    if (e.key === 'F12'){ e.preventDefault(); return false; }
+    if (e.ctrlKey  && e.shiftKey && (k==='i'||k==='j'||k==='c')){ e.preventDefault(); return false; }
+    if (e.metaKey  && e.altKey   && (k==='i'||k==='j'||k==='c')){ e.preventDefault(); return false; }
+    if ((e.ctrlKey || e.metaKey) && k==='u'){ e.preventDefault(); return false; }
+    if ((e.ctrlKey || e.metaKey) && k==='s'){ e.preventDefault(); return false; }
+  });
+
+  document.addEventListener('selectstart', function(e){ e.preventDefault(); });
+  document.addEventListener('dragstart',   function(e){ e.preventDefault(); });
+
+  try {
+    console.log('%c⚠️ CONTENIDO PROTEGIDO', 'color:#ff4444;font-size:22px;font-weight:bold');
+    console.log('%c' + BRAND, 'color:#7dd3fc;font-size:13px');
+    console.log('%cSi ves esto, respeta el trabajo ajeno 🙏', 'color:#a78bfa;font-size:11px');
+  } catch(_){}
+
+  var devOpen = false, THRESHOLD = 170;
+  setInterval(function(){
+    var wDelta = window.outerWidth  - window.innerWidth;
+    var hDelta = window.outerHeight - window.innerHeight;
+    var open = (wDelta > THRESHOLD || hDelta > THRESHOLD);
+    if (open && !devOpen){
+      devOpen = true;
+      try {
+        document.body.innerHTML =
+          '<div style="position:fixed;inset:0;background:#000;color:#7dd3fc;' +
+          'display:flex;align-items:center;justify-content:center;flex-direction:column;' +
+          'font-family:sans-serif;font-size:1.1rem;text-align:center;padding:24px;gap:12px">' +
+          '<div style="font-size:48px">🔒</div>' +
+          '<div><b>Contenido protegido</b></div>' +
+          '<div style="opacity:.7;font-size:.85rem">' + BRAND + '</div>' +
+          '</div>';
+      } catch(_){}
+    } else if (!open){
+      devOpen = false;
+    }
+  }, 1200);
+
+  window.addEventListener('load', function(){
+    try { document.documentElement.setAttribute('data-brand', BRAND); } catch(_){}
+  });
+})();
+</script>
+<!-- ========== /PERI SECURITY PACK v1 ========== -->
+
 </head>
 <body>
 
@@ -175,7 +265,6 @@ html,body{width:100%;min-height:100dvh;overflow-x:hidden;font-family:'Inter',sys
     <p>Personaliza cada detalle 💖</p>
   </div>
 
-  <!-- SECCIÓN 1: BÁSICO -->
   <div class="seccion open">
     <div class="seccion-header"><h3><span class="icono">💌</span> Datos básicos</h3><span class="flecha">▼</span></div>
     <div class="seccion-body">
@@ -187,7 +276,6 @@ html,body{width:100%;min-height:100dvh;overflow-x:hidden;font-family:'Inter',sys
     </div>
   </div>
 
-  <!-- SECCIÓN 2: MENSAJES -->
   <div class="seccion">
     <div class="seccion-header"><h3><span class="icono">💬</span> Mensajes de la cápsula <span class="premium-tag" id="tag-mensajes">👑</span></h3><span class="flecha">▼</span></div>
     <div class="seccion-body">
@@ -197,7 +285,6 @@ html,body{width:100%;min-height:100dvh;overflow-x:hidden;font-family:'Inter',sys
     </div>
   </div>
 
-  <!-- SECCIÓN 3: FOTOS MEJORADA -->
   <div class="seccion">
     <div class="seccion-header"><h3><span class="icono">📸</span> Álbum de recuerdos <span class="premium-tag" id="tag-fotos">👑</span></h3><span class="flecha">▼</span></div>
     <div class="seccion-body">
@@ -257,7 +344,6 @@ html,body{width:100%;min-height:100dvh;overflow-x:hidden;font-family:'Inter',sys
     </div>
   </div>
 
-  <!-- SECCIÓN 4: ESTILO -->
   <div class="seccion">
     <div class="seccion-header"><h3><span class="icono">🎨</span> Estilo y color</h3><span class="flecha">▼</span></div>
     <div class="seccion-body">
@@ -281,7 +367,6 @@ html,body{width:100%;min-height:100dvh;overflow-x:hidden;font-family:'Inter',sys
     </div>
   </div>
 
-  <!-- SECCIÓN 5: EFECTOS -->
   <div class="seccion">
     <div class="seccion-header"><h3><span class="icono">✨</span> Efectos visuales <span class="premium-tag" id="tag-efectos">👑</span></h3><span class="flecha">▼</span></div>
     <div class="seccion-body">
@@ -308,7 +393,6 @@ html,body{width:100%;min-height:100dvh;overflow-x:hidden;font-family:'Inter',sys
     </div>
   </div>
 
-  <!-- SECCIÓN 6: MÚSICA -->
   <div class="seccion">
     <div class="seccion-header"><h3><span class="icono">🎵</span> Música <span class="premium-tag">👑 PREMIUM</span></h3><span class="flecha">▼</span></div>
     <div class="seccion-body">
@@ -334,6 +418,19 @@ html,body{width:100%;min-height:100dvh;overflow-x:hidden;font-family:'Inter',sys
     <button class="btn-descarga" id="btn-descarga">💾 Descargar HTML</button>
   </div>
 </div>
+
+<!-- BOTÓN MORADO: ver mi carta -->
+<button id="share-personalized" aria-label="Ver mi carta" title="Ver mi carta personalizada">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4.5C7 4.5 2.7 7.6 1 12c1.7 4.4 6 7.5 11 7.5s9.3-3.1 11-7.5c-1.7-4.4-6-7.5-11-7.5zm0 12.5a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg>
+  <span class="sp-txt">Ver mi carta 💌</span>
+</button>
+
+<!-- BOTÓN VERDE: compartir link del editor -->
+<button id="share-float" aria-label="Compartir">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+  </svg>
+</button>
 
 <div id="share-modal">
   <div class="modal-box">
@@ -373,7 +470,6 @@ html,body{width:100%;min-height:100dvh;overflow-x:hidden;font-family:'Inter',sys
 <div id="toast"></div>
 
 <script>
-// ================== ESTADO ==================
 var isPremium = (localStorage.getItem("peri_premium_activated") === "1");
 var MAX_MENSAJES_GRATIS = 4;
 var MAX_MENSAJES_PREMIUM = 8;
@@ -416,7 +512,6 @@ var data = {
   fotos: []
 };
 
-// ================== PREMIUM ==================
 function showPremium(feature){
   var msgs = {
     mensajes: "<b>Más mensajes:</b> Los usuarios Premium pueden agregar hasta 8 mensajes en la cápsula del tiempo.",
@@ -435,7 +530,6 @@ document.getElementById("premium-later").onclick = function(){ document.getEleme
 document.getElementById("premium-upgrade").onclick = function(){ window.location.href = "premium.html"; };
 document.getElementById("premium-modal").onclick = function(e){ if(e.target === this) this.classList.remove("show"); };
 
-// ================== ACORDEÓN ==================
 document.querySelectorAll(".seccion-header").forEach(function(h){
   h.addEventListener("click", function(){
     var sec = h.parentElement;
@@ -446,13 +540,11 @@ document.querySelectorAll(".seccion-header").forEach(function(h){
   });
 });
 
-// ================== CAMPOS BÁSICOS ==================
 ["nombre","titulo","subtitulo","firma","fecha"].forEach(function(campo){
   var input = document.getElementById("in-" + campo);
   input.addEventListener("input", function(e){ data[campo] = e.target.value; });
 });
 
-// ================== MENSAJES ==================
 var tagMensajes = document.getElementById("tag-mensajes");
 if(isPremium){ tagMensajes.classList.add("unlocked"); tagMensajes.textContent = "✓ 8 mensajes"; }
 else { tagMensajes.textContent = "👑 +4 premium"; }
@@ -490,7 +582,6 @@ document.getElementById("btn-add").addEventListener("click", function(){
   renderMensajes();
 });
 
-// ================== FOTOS MEJORADAS ==================
 var tagFotos = document.getElementById("tag-fotos");
 var tagModo = document.getElementById("tag-modo");
 var lblFotos = document.getElementById("lbl-fotos");
@@ -618,7 +709,6 @@ document.getElementById("in-fotos").addEventListener("change", function(e){
   e.target.value = "";
 });
 
-// Modos de fotos
 document.querySelectorAll("#modo-fotos .modo-btn").forEach(function(btn){
   btn.addEventListener("click", function(){
     var modo = btn.dataset.modo;
@@ -629,7 +719,6 @@ document.querySelectorAll("#modo-fotos .modo-btn").forEach(function(btn){
   });
 });
 
-// Animación de fotos
 document.querySelectorAll("#anim-fotos .anim-btn").forEach(function(btn){
   btn.addEventListener("click", function(){
     document.querySelectorAll("#anim-fotos .anim-btn").forEach(function(b){ b.classList.remove("active"); });
@@ -638,7 +727,6 @@ document.querySelectorAll("#anim-fotos .anim-btn").forEach(function(btn){
   });
 });
 
-// ================== COLOR PICKER ==================
 function renderColorPicker(){
   var cont = document.getElementById("color-picker");
   cont.innerHTML = "";
@@ -665,7 +753,6 @@ document.getElementById("in-tamano").addEventListener("input", function(e){
   document.getElementById("valor-tamano").textContent = data.tamano + "%";
 });
 
-// ================== PARTÍCULAS ==================
 document.querySelectorAll("#tipo-particulas .opt-btn").forEach(function(btn){
   btn.addEventListener("click", function(){
     var p = btn.dataset.p;
@@ -691,7 +778,6 @@ document.querySelectorAll("#efecto-especial .opt-btn").forEach(function(btn){
   });
 });
 
-// ================== MÚSICA ==================
 document.getElementById("in-musica").addEventListener("change", function(e){
   if(e.target.value === "cancion" && !isPremium){
     showPremium("musica");
@@ -712,7 +798,6 @@ document.getElementById("in-cancion").addEventListener("change", function(e){
   rd.readAsDataURL(f);
 });
 
-// ================== COMPARTIR ==================
 var shareModal = document.getElementById("share-modal");
 document.getElementById("btn-compartir").addEventListener("click", function(){ shareModal.classList.add("show"); });
 document.getElementById("close-share-modal").addEventListener("click", function(){ shareModal.classList.remove("show"); });
@@ -755,7 +840,6 @@ document.getElementById("share-more").addEventListener("click", function(){
   } else { fallbackCopiar(url); }
 });
 
-// ================== TOAST ==================
 function mostrarToast(msg, ok){
   var t = document.getElementById("toast");
   t.textContent = msg;
@@ -764,7 +848,6 @@ function mostrarToast(msg, ok){
   setTimeout(function(){ t.classList.remove("show"); }, 2500);
 }
 
-// ================== CONSTRUIR CARTA FINAL ==================
 function buildCartaHTML(){
   var tema = COLORES[data.color] || COLORES.rosa;
   var mensajesJSON = JSON.stringify(data.mensajes);
@@ -815,7 +898,6 @@ main{position:relative;z-index:2;padding:60px 20px 100px;display:flex;flex-direc
 .firma{text-align:right;margin-top:25px;font-family:'Dancing Script',cursive;font-size:${1.3*factorTamano}rem;color:${tema.secundario};position:relative;z-index:1}
 .firma b{color:${tema.primario}}
 
-/* ======== FOTOS - MODO MOSAICO ======== */
 .album{display:none;margin-top:30px;position:relative;z-index:1;width:100%}
 .album.show{display:block}
 .album-titulo{font-family:'Dancing Script',cursive;font-size:${1.6*factorTamano}rem;color:${tema.secundario};text-align:center;margin-bottom:18px;text-shadow:0 0 20px ${tema.primario}80}
@@ -827,7 +909,6 @@ main{position:relative;z-index:2;padding:60px 20px 100px;display:flex;flex-direc
 .grid-mosaico .foto-item .mensaje-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9),transparent 60%);display:flex;align-items:flex-end;padding:12px;font-family:'Caveat',cursive;font-size:1.05rem;color:#fff;opacity:0;transition:opacity .3s}
 .grid-mosaico .foto-item.tiene-msg .mensaje-overlay{opacity:1}
 
-/* ======== FOTOS - CARRUSEL ======== */
 .carrusel{position:relative;overflow:hidden;border-radius:16px;border:2px solid ${tema.primario}80;box-shadow:0 10px 40px rgba(0,0,0,.5)}
 .carrusel-track{display:flex;transition:transform .5s cubic-bezier(.2,.9,.3,1)}
 .carrusel-slide{min-width:100%;aspect-ratio:1;position:relative;background:#000}
@@ -840,7 +921,6 @@ main{position:relative;z-index:2;padding:60px 20px 100px;display:flex;flex-direc
 .carrusel-flecha.prev{left:10px}
 .carrusel-flecha.next{right:10px}
 
-/* ======== FOTOS - POLAROID ======== */
 .polaroids{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;padding:10px 0}
 .polaroid{background:#fff;padding:12px 12px 50px;border-radius:4px;box-shadow:0 12px 30px rgba(0,0,0,.5);position:relative;max-width:220px;transition:transform .3s;cursor:pointer}
 .polaroid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:2px;display:block}
@@ -849,7 +929,6 @@ main{position:relative;z-index:2;padding:60px 20px 100px;display:flex;flex-direc
 .polaroid:nth-child(even){transform:rotate(3deg)}
 .polaroid:hover{transform:rotate(0) scale(1.05);z-index:5}
 
-/* ======== FOTOS - FLIP ======== */
 .flip-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .flip-card{aspect-ratio:1;perspective:1000px;cursor:pointer}
 .flip-inner{position:relative;width:100%;height:100%;transition:transform .7s;transform-style:preserve-3d}
@@ -869,7 +948,6 @@ main{position:relative;z-index:2;padding:60px 20px 100px;display:flex;flex-direc
 .btn-musica.playing{background:linear-gradient(135deg,${tema.primario},${tema.secundario});color:#fff;animation:pulsoMusica 2s infinite}
 @keyframes pulsoMusica{0%,100%{box-shadow:0 0 0 0 ${tema.primario}99}50%{box-shadow:0 0 0 12px ${tema.primario}00}}
 
-/* Lightbox */
 .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;cursor:pointer}
 .lightbox.show{display:flex;animation:fadeIn .3s}
 .lightbox img{max-width:100%;max-height:80vh;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.8)}
@@ -920,7 +998,6 @@ var MODO_FOTOS = "${data.modoFotos}";
 var ANIM_FOTOS = "${data.animFotos}";
 var PALETA = { primario:"${tema.primario}", secundario:"${tema.secundario}" };
 
-// MÚSICA
 var audioCtx = null, musicaPlaying = false, musicaTimer = null, musicaStep = 0, customAudio = null;
 var MELODIA = [659.25,587.33,523.25,587.33,659.25,659.25,659.25,523.25,587.33,587.33,659.25,783.99,783.99,659.25,587.33,523.25];
 var BAJOS = [261.63,196.00,220.00,174.61];
@@ -940,7 +1017,6 @@ function actualizarBtn(){ document.getElementById("btn-musica").classList.toggle
 document.getElementById("btn-musica").addEventListener("click", function(){ musicaPlaying ? detenerMusica() : iniciarMusica(); });
 setTimeout(iniciarMusica, 2000);
 
-// PARTÍCULAS
 function lanzarParticulas(){
   var intervalo = 800 - (INTENSIDAD * 5);
   var timer = setInterval(function(){
@@ -956,7 +1032,6 @@ function lanzarParticulas(){
   setTimeout(function(){ clearInterval(timer); }, 30000);
 }
 
-// FUEGOS
 function lanzarFuegos(x, y){
   for(var i=0; i<24; i++){
     var ang = (i/24) * Math.PI * 2;
@@ -968,7 +1043,6 @@ function lanzarFuegos(x, y){
   }
 }
 
-// ANIMACIONES DE FOTO
 function claseAnim(){ return "anim-" + ANIM_FOTOS; }
 function aplicarAnim(el, delay){
   el.style.opacity = "0";
@@ -982,7 +1056,6 @@ function aplicarAnim(el, delay){
   }, delay);
 }
 
-// ALBUM
 function renderAlbum(){
   var cont = document.getElementById("album-content");
   cont.innerHTML = "";
@@ -1029,7 +1102,6 @@ function renderAlbum(){
     function irSlide(n){ idx = (n + fotos.length) % fotos.length; track.style.transform = "translateX(-" + (idx*100) + "%)"; puntos.querySelectorAll(".punto").forEach(function(p, i){ p.classList.toggle("active", i === idx); }); }
     prev.addEventListener("click", function(){ irSlide(idx-1); });
     next.addEventListener("click", function(){ irSlide(idx+1); });
-    // Swipe
     var startX = 0;
     wrap.addEventListener("touchstart", function(e){ startX = e.touches[0].clientX; });
     wrap.addEventListener("touchend", function(e){ var dx = e.changedTouches[0].clientX - startX; if(Math.abs(dx) > 40){ irSlide(dx > 0 ? idx-1 : idx+1); } });
@@ -1073,7 +1145,6 @@ document.getElementById("lightbox").addEventListener("click", function(){
   this.classList.remove("show");
 });
 
-// ABRIR CARTA
 document.getElementById("sello").addEventListener("click", function(){
   document.getElementById("sello").style.display = "none";
   document.getElementById("mensajes").classList.add("show");
@@ -1102,7 +1173,6 @@ document.getElementById("sello").addEventListener("click", function(){
 </html>`;
 }
 
-// ================== VISTA PREVIA ==================
 document.getElementById("btn-vista").addEventListener("click", function(){
   try {
     var html = buildCartaHTML();
@@ -1115,7 +1185,6 @@ document.getElementById("btn-vista").addEventListener("click", function(){
   } catch(err){ mostrarToast("Error: " + err.message, false); }
 });
 
-// ================== DESCARGAR ==================
 document.getElementById("btn-descarga").addEventListener("click", function(){
   try {
     var html = buildCartaHTML();
@@ -1131,6 +1200,54 @@ document.getElementById("btn-descarga").addEventListener("click", function(){
     setTimeout(function(){ URL.revokeObjectURL(url); }, 5000);
     mostrarToast("¡Descargado! ✓");
   } catch(err){ mostrarToast("Error: " + err.message, false); }
+});
+
+/* ============================================================
+   BOTÓN MORADO — Ver mi carta (comparte el HTML personalizado)
+   ============================================================ */
+async function sharePersonalized(){
+  try {
+    mostrarToast("Preparando tu carta...");
+    var html = buildCartaHTML();
+    var nombreArchivo = "carta-para-" + data.nombre.replace(/[^a-z0-9]+/gi, "-").toLowerCase() + ".html";
+    var blob = new Blob([html], { type: "text/html;charset=utf-8" });
+    var shareText = "💌 Te hice una carta de amor personalizada en Dedicatorias Mágicas ✨\nÁbrela y descúbrela 💗";
+
+    try {
+      var file = new File([blob], nombreArchivo, { type: "text/html" });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], title: "Carta para " + data.nombre, text: shareText });
+        mostrarToast("¡Compartido! 💌");
+        return;
+      }
+    } catch(err) {
+      if (err && err.name === "AbortError") return;
+    }
+
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = nombreArchivo; a.rel = "noopener"; a.style.display = "none";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 60000);
+
+    var waText = shareText + "\n\n📎 Se descargó el archivo " + nombreArchivo + ". Adjúntalo aquí en WhatsApp y envíalo 💌";
+    window.open("https://wa.me/?text=" + encodeURIComponent(waText), "_blank");
+    mostrarToast("Archivo listo. Adjúntalo en WhatsApp 📎");
+  } catch(err) {
+    console.error(err);
+    mostrarToast("Error: " + err.message, false);
+  }
+}
+
+document.getElementById("share-personalized").addEventListener("click", sharePersonalized);
+
+/* ============================================================
+   BOTÓN VERDE — Compartir link del editor por WhatsApp
+   ============================================================ */
+document.getElementById("share-float").addEventListener("click", function(){
+  var url = window.location.href.split("#")[0].split("?")[0];
+  var texto = "💌 Mira este editor de cartas de amor. Crea la tuya:\n" + url;
+  window.open("https://wa.me/?text=" + encodeURIComponent(texto), "_blank");
 });
 </script>
 
