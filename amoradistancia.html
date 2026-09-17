@@ -95,7 +95,120 @@ html,body{width:100%;min-height:100dvh;background:radial-gradient(ellipse at top
 #preview-modal .preview-bar span{color:#a7f3d0;font-weight:700;font-size:14px}
 #close-preview{background:linear-gradient(135deg,#a7f3d0,#7dd3fc);color:#020610;border:none;padding:9px 18px;border-radius:20px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit}
 #preview-frame{flex:1;width:100%;border:0;background:#000}
+
+/* =========================================================
+   BOTÓN MORADO — Ver mi diseño
+   ========================================================= */
+#share-personalized{
+  position:fixed;
+  bottom:calc(160px + env(safe-area-inset-bottom,0));
+  right:16px;
+  z-index:950;
+  height:54px;
+  padding:0 20px 0 16px;
+  border-radius:27px;
+  background:linear-gradient(135deg,#7dd3fc,#a78bfa,#c084fc);
+  color:#05021a;
+  border:2px solid #e0e7ff;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  cursor:pointer;
+  touch-action:manipulation;
+  font-family:inherit;
+  font-size:13.5px;
+  font-weight:700;
+  letter-spacing:.2px;
+  white-space:nowrap;
+  box-shadow:0 10px 30px rgba(167,139,250,.55),0 4px 10px rgba(0,0,0,.5);
+  transition:transform .2s ease;
+  animation:spPulse 2.4s ease-in-out infinite;
+}
+#share-personalized svg{width:24px;height:24px;fill:#05021a;flex-shrink:0}
+#share-personalized:active{transform:scale(.95)}
+#share-personalized .sp-txt{position:relative;z-index:1}
+@keyframes spPulse{
+  0%,100%{box-shadow:0 10px 30px rgba(167,139,250,.55),0 4px 10px rgba(0,0,0,.5),0 0 0 0 rgba(167,139,250,.6)}
+  50%{box-shadow:0 10px 30px rgba(167,139,250,.75),0 4px 10px rgba(0,0,0,.5),0 0 0 14px rgba(167,139,250,0)}
+}
+#share-float{position:fixed;bottom:calc(96px + env(safe-area-inset-bottom,0));right:16px;z-index:950;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation;box-shadow:0 10px 30px rgba(37,211,102,.55),0 4px 10px rgba(0,0,0,.5);transition:transform .2s ease,box-shadow .2s ease}
+#share-float svg{width:32px;height:32px;fill:#fff}
+#share-float:active{transform:scale(.92)}
+#share-menu{position:fixed;inset:0;z-index:990;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:none;align-items:flex-end;justify-content:center;padding:20px}
+#share-menu.show{display:flex;animation:fadeIn .25s}
+#share-menu-box{width:100%;max-width:440px;background:linear-gradient(160deg,rgba(10,24,48,.98),rgba(4,10,24,.98));border:1px solid rgba(167,243,208,.35);border-radius:20px;padding:22px 20px calc(20px + env(safe-area-inset-bottom,0));animation:slideUp .3s cubic-bezier(.2,.9,.3,1.1);box-shadow:0 0 60px rgba(167,243,208,.3)}
+@keyframes slideUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+#share-menu h3{font-size:1rem;font-weight:700;margin-bottom:6px;color:#fff;display:flex;justify-content:space-between;align-items:center}
+#share-menu h3 button{background:transparent;border:none;color:#a7f3d0;font-size:22px;cursor:pointer;padding:0 4px;line-height:1}
+#share-menu p{font-size:.78rem;color:#a7f3d0;margin-bottom:16px}
+.share-opt{display:flex;align-items:center;gap:12px;padding:13px 14px;border-radius:12px;background:rgba(0,0,0,.35);border:1px solid rgba(167,243,208,.2);cursor:pointer;transition:all .2s;margin-bottom:9px;color:#e0f2fe;font-size:.9rem;font-weight:500;text-decoration:none;font-family:inherit;width:100%;text-align:left}
+.share-opt:hover{background:rgba(167,243,208,.15);border-color:rgba(167,243,208,.5)}
+.share-opt .ico{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.share-wa .ico{background:linear-gradient(135deg,#25D366,#128C7E);color:#fff}
+.share-wa .ico svg{width:22px;height:22px;fill:#fff}
+.share-copy .ico{background:linear-gradient(135deg,#a7f3d0,#7dd3fc);color:#020610}
+.share-sys .ico{background:rgba(255,255,255,.1);color:#cbd5e1;border:1px solid rgba(167,243,208,.3)}
+.share-opt .txt{flex:1;min-width:0}
+.share-opt .txt b{display:block;font-weight:600;color:#fff;margin-bottom:2px}
+.share-opt .txt span{font-size:.75rem;color:#a7f3d0}
 </style>
+
+<!-- ========== PERI SECURITY PACK v1 · Dedicatorias Mágicas ========== -->
+<script>
+(function(){
+  'use strict';
+  var BRAND = '© Dedicatorias Mágicas · c4rlo53305-lgtm';
+
+  document.addEventListener('contextmenu', function(e){ e.preventDefault(); return false; }, {passive:false});
+
+  document.addEventListener('keydown', function(e){
+    var k = (e.key || '').toLowerCase();
+    if (e.key === 'F12'){ e.preventDefault(); return false; }
+    if (e.ctrlKey  && e.shiftKey && (k==='i'||k==='j'||k==='c')){ e.preventDefault(); return false; }
+    if (e.metaKey  && e.altKey   && (k==='i'||k==='j'||k==='c')){ e.preventDefault(); return false; }
+    if ((e.ctrlKey || e.metaKey) && k==='u'){ e.preventDefault(); return false; }
+    if ((e.ctrlKey || e.metaKey) && k==='s'){ e.preventDefault(); return false; }
+  });
+
+  document.addEventListener('selectstart', function(e){ e.preventDefault(); });
+  document.addEventListener('dragstart',   function(e){ e.preventDefault(); });
+
+  try {
+    console.log('%c⚠️ CONTENIDO PROTEGIDO', 'color:#ff4444;font-size:22px;font-weight:bold');
+    console.log('%c' + BRAND, 'color:#7dd3fc;font-size:13px');
+    console.log('%cSi ves esto, respeta el trabajo ajeno 🙏', 'color:#a78bfa;font-size:11px');
+  } catch(_){}
+
+  var devOpen = false, THRESHOLD = 170;
+  setInterval(function(){
+    var wDelta = window.outerWidth  - window.innerWidth;
+    var hDelta = window.outerHeight - window.innerHeight;
+    var open = (wDelta > THRESHOLD || hDelta > THRESHOLD);
+    if (open && !devOpen){
+      devOpen = true;
+      try {
+        document.body.innerHTML =
+          '<div style="position:fixed;inset:0;background:#000;color:#7dd3fc;' +
+          'display:flex;align-items:center;justify-content:center;flex-direction:column;' +
+          'font-family:sans-serif;font-size:1.1rem;text-align:center;padding:24px;gap:12px">' +
+          '<div style="font-size:48px">🔒</div>' +
+          '<div><b>Contenido protegido</b></div>' +
+          '<div style="opacity:.7;font-size:.85rem">' + BRAND + '</div>' +
+          '</div>';
+      } catch(_){}
+    } else if (!open){
+      devOpen = false;
+    }
+  }, 1200);
+
+  window.addEventListener('load', function(){
+    try { document.documentElement.setAttribute('data-brand', BRAND); } catch(_){}
+  });
+})();
+</script>
+<!-- ========== /PERI SECURITY PACK v1 ========== -->
+
 </head>
 <body>
 
@@ -178,6 +291,38 @@ Cada día te quiero más</textarea>
 <div class="fixed-bar">
   <button id="btn-view" class="btn btn-ghost">👁️ Visualizar</button>
   <button id="btn-generate" class="btn btn-primary">💾 Descargar</button>
+</div>
+
+<!-- BOTÓN MORADO: ver mi diseño -->
+<button id="share-personalized" aria-label="Ver mi diseño" title="Ver nuestro amor">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4.5C7 4.5 2.7 7.6 1 12c1.7 4.4 6 7.5 11 7.5s9.3-3.1 11-7.5c-1.7-4.4-6-7.5-11-7.5zm0 12.5a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg>
+  <span class="sp-txt">Ver nuestro amor 💫</span>
+</button>
+
+<!-- BOTÓN VERDE: compartir link del editor -->
+<button id="share-float" aria-label="Compartir">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+  </svg>
+</button>
+
+<div id="share-menu">
+  <div id="share-menu-box">
+    <h3>Compartir esta página <button id="share-close" aria-label="Cerrar">×</button></h3>
+    <p>Comparte el editor para que otros creen su propio mundo 💫</p>
+    <a id="share-wa" class="share-opt share-wa" href="#" target="_blank" rel="noopener">
+      <div class="ico"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg></div>
+      <div class="txt"><b>WhatsApp</b><span>Enviar por WhatsApp</span></div>
+    </a>
+    <button id="share-copy" class="share-opt share-copy" type="button">
+      <div class="ico">🔗</div>
+      <div class="txt"><b>Copiar enlace</b><span>Copiar el link del editor</span></div>
+    </button>
+    <button id="share-sys" class="share-opt share-sys" type="button">
+      <div class="ico">📱</div>
+      <div class="txt"><b>Más opciones</b><span>Usar el compartir del sistema</span></div>
+    </button>
+  </div>
 </div>
 
 <div id="premium-modal">
@@ -611,7 +756,6 @@ async function buildWorldHTML(){
   html += '<button class="btn-later" id="premium-later" type="button">Quizás después</button>\n';
   html += '</div>\n</div>\n';
 
-  // ============ SCRIPT MÓDULO ============
   html += '<script type="module">\n';
   html += 'import * as THREE from "three";\n';
   html += 'import { OrbitControls } from "three/addons/controls/OrbitControls.js";\n';
@@ -632,7 +776,6 @@ async function buildWorldHTML(){
   html += 'const pal = CONFIG.palettes[CONFIG.palette] || CONFIG.palettes.cosmica;\n';
   html += 'const palColors = pal.colors.map(c => new THREE.Color(c));\n';
 
-  // Intro stars
   html += '(function(){\n';
   html += '  const cont = document.getElementById("intro-stars");\n';
   html += '  for (let i=0;i<80;i++){\n';
@@ -646,7 +789,6 @@ async function buildWorldHTML(){
   html += '  }\n';
   html += '})();\n';
 
-  // Audio
   html += '\nconst audio = document.getElementById("audio");\n';
   html += 'const musicBtn = document.getElementById("music-btn");\n';
   html += 'const musicPanel = document.getElementById("music-panel");\n';
@@ -675,7 +817,6 @@ async function buildWorldHTML(){
   html += 'mpProgress.addEventListener("click", (e) => { e.stopPropagation(); if (!audio.duration) return; const r = mpProgress.getBoundingClientRect(); audio.currentTime = ((e.clientX-r.left)/r.width)*audio.duration; });\n';
   html += 'document.getElementById("btnFullscreen").onclick = (e) => { e.stopPropagation(); if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); };\n';
 
-  // Premium
   html += 'const premiumModal = document.getElementById("premium-modal");\n';
   html += 'document.getElementById("btnPremium").onclick = (e) => { e.stopPropagation(); premiumModal.classList.add("show"); };\n';
   html += 'document.getElementById("premium-close").onclick = () => premiumModal.classList.remove("show");\n';
@@ -683,7 +824,6 @@ async function buildWorldHTML(){
   html += 'premiumModal.onclick = (e) => { if (e.target === premiumModal) premiumModal.classList.remove("show"); };\n';
   html += 'document.getElementById("premium-upgrade").onclick = () => window.open("https://c4rlo53305-lgtm.github.io/Peri/premium.html", "_blank");\n';
 
-  // Three.js
   html += '\nconst canvas = document.getElementById("world-canvas");\n';
   html += 'const scene = new THREE.Scene();\n';
   html += 'const camera = new THREE.PerspectiveCamera(50, window.innerWidth/window.innerHeight, 0.1, 3000);\n';
@@ -696,7 +836,6 @@ async function buildWorldHTML(){
   html += 'const loader = new THREE.TextureLoader();\n';
   html += 'loader.setCrossOrigin("anonymous");\n';
 
-  // Fondo estelar
   html += '\nconst bgGeo = new THREE.SphereGeometry(1600, 48, 48);\n';
   html += 'const bgTex = loader.load("https://unpkg.com/three-globe/example/img/night-sky.png");\n';
   html += 'bgTex.colorSpace = THREE.SRGBColorSpace;\n';
@@ -704,7 +843,6 @@ async function buildWorldHTML(){
   html += 'const bgSphere = new THREE.Mesh(bgGeo, bgMat);\n';
   html += 'scene.add(bgSphere);\n';
 
-  // Nebulosas
   html += '\nfunction makeNebulaTex(color){\n';
   html += '  const c = document.createElement("canvas"); c.width = c.height = 256;\n';
   html += '  const g = c.getContext("2d");\n';
@@ -728,7 +866,6 @@ async function buildWorldHTML(){
   html += '  scene.add(s);\n';
   html += '}\n';
 
-  // Estrellas fugaces
   html += '\nconst shootingStars = [];\n';
   html += 'function spawnShootingStar(){\n';
   html += '  const g = new THREE.BufferGeometry();\n';
@@ -747,7 +884,6 @@ async function buildWorldHTML(){
   html += '  scene.add(line); shootingStars.push(line);\n';
   html += '}\n';
 
-  // EARTH
   html += '\nconst EARTH_RADIUS = 15;\n';
   html += 'const earthGroup = new THREE.Group();\n';
   html += 'scene.add(earthGroup);\n';
@@ -773,9 +909,7 @@ async function buildWorldHTML(){
   html += 'rimLight.position.set(-80, -20, -60);\n';
   html += 'scene.add(rimLight);\n';
 
-  // Atmósfera MUY sutil (transparente)
-  html += '\n// Atmósfera del planeta - MUY SUTIL, casi invisible\n';
-  html += 'const atmoGeo = new THREE.SphereGeometry(EARTH_RADIUS*1.06, 64, 64);\n';
+  html += '\nconst atmoGeo = new THREE.SphereGeometry(EARTH_RADIUS*1.06, 64, 64);\n';
   html += 'const atmoMat = new THREE.ShaderMaterial({\n';
   html += '  vertexShader: "varying vec3 vNormal; varying vec3 vPos; void main(){ vNormal=normalize(normalMatrix*normal); vPos=(modelViewMatrix*vec4(position,1.0)).xyz; gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0); }",\n';
   html += '  fragmentShader: "varying vec3 vNormal; varying vec3 vPos; void main(){ float f=pow(0.72-dot(vNormal,normalize(-vPos)),3.0); f=clamp(f,0.0,1.0); vec3 c=mix(vec3(0.35,0.55,0.85), vec3(0.55,0.75,0.95), f); gl_FragColor=vec4(c, f*0.18); }",\n';
@@ -783,7 +917,6 @@ async function buildWorldHTML(){
   html += '});\n';
   html += 'earthGroup.add(new THREE.Mesh(atmoGeo, atmoMat));\n';
 
-  // GALAXIA ESPIRAL
   html += '\nconst galaxyGroup = new THREE.Group();\n';
   html += 'earthGroup.add(galaxyGroup);\n';
   html += 'const galaxyCount = isPremium ? 14000 : 7000;\n';
@@ -822,7 +955,6 @@ async function buildWorldHTML(){
   html += 'const galaxyPoints = new THREE.Points(galGeo, galMat);\n';
   html += 'galaxyGroup.add(galaxyPoints);\n';
 
-  // Heart texture para viajar por el arco
   html += '\nfunction makeHeartTex(){\n';
   html += '  const size = 128;\n';
   html += '  const c = document.createElement("canvas");\n';
@@ -845,7 +977,6 @@ async function buildWorldHTML(){
   html += '}\n';
   html += 'const heartTex = makeHeartTex();\n';
 
-  // Marcadores - SUTILES
   html += '\nfunction latLngToVec3(lat, lng, radius){\n';
   html += '  const phi = (90 - lat) * Math.PI / 180;\n';
   html += '  const theta = (lng + 180) * Math.PI / 180;\n';
@@ -877,7 +1008,6 @@ async function buildWorldHTML(){
   html += 'markerA.visible = false; markerB.visible = false;\n';
   html += 'earthGroup.add(markerA); earthGroup.add(markerB);\n';
 
-  // Arco - más tenue y definido
   html += '\nconst arcGroup = new THREE.Group();\n';
   html += 'earthGroup.add(arcGroup);\n';
   html += 'const ARC_SEGMENTS = 160;\n';
@@ -901,7 +1031,6 @@ async function buildWorldHTML(){
   html += '}\n';
   html += 'const arcCurve = new THREE.CatmullRomCurve3(arcPoints);\n';
   html += 'const arcGeo = new THREE.TubeGeometry(arcCurve, ARC_SEGMENTS, 0.05, 8, false);\n';
-  // Color del tubo: usar color de la paleta con opacidad tenue
   html += 'const arcColorHex = palColors[1] ? "#" + palColors[1].getHexString() : "#88ddff";\n';
   html += 'const arcMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(arcColorHex), transparent: true, opacity: 0.55, depthWrite: false });\n';
   html += 'const arcTube = new THREE.Mesh(arcGeo, arcMat);\n';
@@ -909,7 +1038,6 @@ async function buildWorldHTML(){
   html += 'arcGroup.add(arcTube);\n';
   html += 'const totalTris = arcGeo.index.count / 3;\n';
 
-  // Corazones viajando por el arco (reemplaza los puntos brillantes)
   html += '\nconst travelCount = isPremium ? 24 : 14;\n';
   html += 'const travelGeo = new THREE.BufferGeometry();\n';
   html += 'const travelPos = new Float32Array(travelCount * 3);\n';
@@ -936,7 +1064,6 @@ async function buildWorldHTML(){
   html += 'travelPoints.visible = false;\n';
   html += 'arcGroup.add(travelPoints);\n';
 
-  // Corazones gigantes finales (sparkles)
   html += '\nconst sparkCount = isPremium ? 1400 : 700;\n';
   html += 'const sparkGeo = new THREE.BufferGeometry();\n';
   html += 'const sparkPos = new Float32Array(sparkCount*3);\n';
@@ -966,16 +1093,13 @@ async function buildWorldHTML(){
   html += 'sparkPoints.visible = false;\n';
   html += 'scene.add(sparkPoints);\n';
 
-  // BLOOM: reducido
-  html += '\n// BLOOM: reducido para que la Tierra NO brille y la línea sea tenue\n';
-  html += 'const BASE_BLOOM = isPremium ? 0.55 : 0.42;\n';
+  html += '\nconst BASE_BLOOM = isPremium ? 0.55 : 0.42;\n';
   html += 'const composer = new EffectComposer(renderer);\n';
   html += 'composer.addPass(new RenderPass(scene, camera));\n';
   html += 'const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), BASE_BLOOM, 0.55, 1.0);\n';
   html += 'composer.addPass(bloomPass);\n';
   html += 'composer.addPass(new OutputPass());\n';
 
-  // Controls
   html += '\nconst controls = new OrbitControls(camera, renderer.domElement);\n';
   html += 'controls.enableDamping = true;\n';
   html += 'controls.dampingFactor = 0.06;\n';
@@ -989,7 +1113,6 @@ async function buildWorldHTML(){
   html += 'controls.enabled = false;\n';
   html += 'controls.target.set(0,0,0);\n';
 
-  // Timeline
   html += '\nconst TL = {\n';
   html += '  INTRO_ZOOM_END: 2.8,\n';
   html += '  ZOOM_IN_A_END: 5.6,\n';
@@ -1059,7 +1182,6 @@ async function buildWorldHTML(){
   html += '  bloomPass.resolution.set(window.innerWidth, window.innerHeight);\n';
   html += '});\n';
 
-  // Animate
   html += '\nfunction animate(){\n';
   html += '  requestAnimationFrame(animate);\n';
   html += '  const t = clock.getElapsedTime();\n';
@@ -1207,7 +1329,6 @@ async function buildWorldHTML(){
   html += '    }, 1500);\n';
   html += '  }\n';
 
-  // Marcadores animados (más sutiles)
   html += '  if (markerA.visible){\n';
   html += '    const rt = 0.95 + (t * 0.9) % 0.55;\n';
   html += '    markerA.userData.ring.scale.set(rt, rt, rt);\n';
@@ -1221,19 +1342,15 @@ async function buildWorldHTML(){
   html += '    markerB.userData.halo.material.opacity = 0.12 + Math.sin(t*3 + 1)*0.05;\n';
   html += '  }\n';
 
-  // Rotación continua
   html += '  earthGroup.rotation.y += 0.0012;\n';
   html += '  bgSphere.rotation.y += 0.0001;\n';
 
-  // Galaxia
   html += '  galMat.uniforms.uOpacity.value = galaxyOpacity;\n';
   html += '  galMat.uniforms.uTime.value = t;\n';
   html += '  galaxyGroup.rotation.y += 0.0008;\n';
 
-  // Traveling hearts
   html += '  travelMat.uniforms.uTime.value = t;\n';
 
-  // Shooting stars
   html += '  if (t > shootNextAt){\n';
   html += '    spawnShootingStar();\n';
   html += '    shootNextAt = t + 5 + Math.random()*7;\n';
@@ -1312,6 +1429,93 @@ async function download(){
   } finally { showLoading(false); }
 }
 
+/* ============================================================
+   Compartir diseño personalizado (BOTÓN MORADO)
+   ============================================================ */
+async function sharePersonalized(){
+  if (!state.cityFrom.lat || !state.cityTo.lat){ showStatus("Selecciona las dos ciudades primero", false); return; }
+  showLoading(true, "Preparando tu mundo para compartir...");
+  try {
+    const html = await buildWorldHTML();
+    const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+    const filename = "sin-distancias-" + slugify(state.cityFrom.name) + "-" + slugify(state.cityTo.name) + ".html";
+    const shareText = "💫 Te hice un mundo personalizado en Dedicatorias Mágicas ✨\n" + state.cityFrom.name + " → " + state.cityTo.name + " 🚀";
+
+    try {
+      const file = new File([blob], filename, { type: "text/html" });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], title: state.cityFrom.name + " → " + state.cityTo.name, text: shareText });
+        showLoading(false); showStatus("¡Compartido! 💫");
+        return;
+      }
+    } catch(err) {
+      if (err && err.name === "AbortError"){ showLoading(false); return; }
+    }
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = filename; a.rel = "noopener"; a.style.display = "none";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 60000);
+
+    const waText = shareText + "\n\n📎 Se descargó el archivo " + filename + ". Adjúntalo aquí en WhatsApp y envíalo 💌";
+    window.open("https://wa.me/?text=" + encodeURIComponent(waText), "_blank");
+    showLoading(false);
+    showStatus("Archivo listo. Adjúntalo en WhatsApp 📎");
+  } catch(err) {
+    console.error(err);
+    showLoading(false);
+    showStatus("Error: " + err.message, false);
+  }
+}
+
+function initShare(){
+  var shareBtn = $("share-float"), menu = $("share-menu"), closeBtn = $("share-close");
+  var wa = $("share-wa"), copyBtn = $("share-copy"), sysBtn = $("share-sys");
+  var sharePersonalizedBtn = $("share-personalized");
+
+  if (!shareBtn || !menu) return;
+
+  var pageURL = window.location.href.split("#")[0].split("?")[0];
+  var pageTitle = "Tú y Yo sin Distancias 💫";
+  var pageText = "Mira este editor para crear un mundo personalizado y regalarlo ✨\n" + pageURL;
+
+  function openMenu(){
+    if (wa) wa.href = "https://wa.me/?text=" + encodeURIComponent(pageText);
+    menu.classList.add("show");
+  }
+  function closeMenu(){ menu.classList.remove("show"); }
+
+  shareBtn.addEventListener("click", openMenu);
+  if (closeBtn) closeBtn.addEventListener("click", closeMenu);
+  menu.addEventListener("click", function(e){ if (e.target === menu) closeMenu(); });
+
+  if (copyBtn) copyBtn.addEventListener("click", function(){
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(pageURL).then(function(){
+        showStatus("Enlace copiado ✓"); setTimeout(closeMenu, 400);
+      }).catch(function(){ fallbackCopy(pageURL); });
+    } else { fallbackCopy(pageURL); }
+  });
+  function fallbackCopy(txt){
+    var ta = document.createElement("textarea"); ta.value = txt;
+    ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); showStatus("Enlace copiado ✓"); } catch(_){ showStatus("No se pudo copiar", false); }
+    ta.remove(); setTimeout(closeMenu, 400);
+  }
+  if (sysBtn) sysBtn.addEventListener("click", function(){
+    if (navigator.share){
+      navigator.share({ title: pageTitle, text: "Crea tu mundo personalizado 💫", url: pageURL })
+        .then(function(){ closeMenu(); }).catch(function(){});
+    } else { showStatus("Tu navegador no soporta compartir nativo", false); }
+  });
+
+  if (sharePersonalizedBtn){
+    sharePersonalizedBtn.addEventListener("click", sharePersonalized);
+  }
+}
+
 function initEditor(){
   $("i-music").addEventListener("change", function(e){
     if (!isPremium){ e.target.value = ""; return; }
@@ -1352,6 +1556,7 @@ function initEditor(){
   renderPalettes();
   initPremium();
   applyPremiumState();
+  initShare();
 }
 
 initEditor();
