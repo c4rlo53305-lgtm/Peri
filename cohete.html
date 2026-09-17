@@ -75,6 +75,43 @@ html,body{width:100%;min-height:100dvh;background:radial-gradient(ellipse at top
 #share-float{position:fixed;bottom:calc(96px + env(safe-area-inset-bottom,0));right:16px;z-index:950;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation;box-shadow:0 10px 30px rgba(37,211,102,.55),0 4px 10px rgba(0,0,0,.5);transition:transform .2s ease,box-shadow .2s ease}
 #share-float svg{width:32px;height:32px;fill:#fff}
 #share-float:active{transform:scale(.92)}
+
+/* =========================================================
+   NUEVO BOTÓN: Compartir cosmos personalizado
+   ========================================================= */
+#share-personalized{
+  position:fixed;
+  bottom:calc(160px + env(safe-area-inset-bottom,0));
+  right:16px;
+  z-index:950;
+  height:54px;
+  padding:0 20px 0 16px;
+  border-radius:27px;
+  background:linear-gradient(135deg,#7dd3fc,#a78bfa,#c084fc);
+  color:#05021a;
+  border:2px solid #e0e7ff;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  cursor:pointer;
+  touch-action:manipulation;
+  font-family:inherit;
+  font-size:13.5px;
+  font-weight:700;
+  letter-spacing:.2px;
+  white-space:nowrap;
+  box-shadow:0 10px 30px rgba(167,139,250,.55),0 4px 10px rgba(0,0,0,.5);
+  transition:transform .2s ease;
+  animation:spPulse 2.4s ease-in-out infinite;
+}
+#share-personalized svg{width:24px;height:24px;fill:#05021a;flex-shrink:0}
+#share-personalized:active{transform:scale(.95)}
+#share-personalized .sp-txt{position:relative;z-index:1}
+@keyframes spPulse{
+  0%,100%{box-shadow:0 10px 30px rgba(167,139,250,.55),0 4px 10px rgba(0,0,0,.5),0 0 0 0 rgba(167,139,250,.6)}
+  50%{box-shadow:0 10px 30px rgba(167,139,250,.75),0 4px 10px rgba(0,0,0,.5),0 0 0 14px rgba(167,139,250,0)}
+}
+
 #share-menu{position:fixed;inset:0;z-index:990;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:none;align-items:flex-end;justify-content:center;padding:20px}
 #share-menu.show{display:flex;animation:fadeIn .25s}
 #share-menu-box{width:100%;max-width:440px;background:linear-gradient(160deg,rgba(15,15,40,.98),rgba(8,5,25,.98));border:1px solid rgba(125,211,252,.35);border-radius:20px;padding:22px 20px calc(20px + env(safe-area-inset-bottom,0));animation:slideUp .3s cubic-bezier(.2,.9,.3,1.1);box-shadow:0 0 60px rgba(125,211,252,.3)}
@@ -120,6 +157,68 @@ html,body{width:100%;min-height:100dvh;background:radial-gradient(ellipse at top
 #close-preview{background:linear-gradient(135deg,#7dd3fc,#a78bfa);color:#05021a;border:none;padding:9px 18px;border-radius:20px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit}
 #preview-frame{flex:1;width:100%;border:0;background:#000}
 </style>
+
+<!-- ========== PERI SECURITY PACK v1 · Dedicatorias Mágicas ========== -->
+<script>
+(function(){
+  'use strict';
+  var BRAND = '© Dedicatorias Mágicas · c4rlo53305-lgtm';
+
+  // 1) Bloquear clic derecho / long-press móvil
+  document.addEventListener('contextmenu', function(e){ e.preventDefault(); return false; }, {passive:false});
+
+  // 2) Bloquear atajos de DevTools y guardado
+  document.addEventListener('keydown', function(e){
+    var k = (e.key || '').toLowerCase();
+    if (e.key === 'F12'){ e.preventDefault(); return false; }
+    if (e.ctrlKey  && e.shiftKey && (k==='i'||k==='j'||k==='c')){ e.preventDefault(); return false; }
+    if (e.metaKey  && e.altKey   && (k==='i'||k==='j'||k==='c')){ e.preventDefault(); return false; }
+    if ((e.ctrlKey || e.metaKey) && k==='u'){ e.preventDefault(); return false; }
+    if ((e.ctrlKey || e.metaKey) && k==='s'){ e.preventDefault(); return false; }
+  });
+
+  // 3) Bloquear selección y arrastre
+  document.addEventListener('selectstart', function(e){ e.preventDefault(); });
+  document.addEventListener('dragstart',   function(e){ e.preventDefault(); });
+
+  // 4) Marca de agua en consola
+  try {
+    console.log('%c⚠️ CONTENIDO PROTEGIDO', 'color:#ff4444;font-size:22px;font-weight:bold');
+    console.log('%c' + BRAND, 'color:#7dd3fc;font-size:13px');
+    console.log('%cSi ves esto, respeta el trabajo ajeno 🙏', 'color:#a78bfa;font-size:11px');
+  } catch(_){}
+
+  // 5) Detección básica de DevTools abierto
+  var devOpen = false, THRESHOLD = 170;
+  setInterval(function(){
+    var wDelta = window.outerWidth  - window.innerWidth;
+    var hDelta = window.outerHeight - window.innerHeight;
+    var open = (wDelta > THRESHOLD || hDelta > THRESHOLD);
+    if (open && !devOpen){
+      devOpen = true;
+      try {
+        document.body.innerHTML =
+          '<div style="position:fixed;inset:0;background:#000;color:#7dd3fc;' +
+          'display:flex;align-items:center;justify-content:center;flex-direction:column;' +
+          'font-family:sans-serif;font-size:1.1rem;text-align:center;padding:24px;gap:12px">' +
+          '<div style="font-size:48px">🔒</div>' +
+          '<div><b>Contenido protegido</b></div>' +
+          '<div style="opacity:.7;font-size:.85rem">' + BRAND + '</div>' +
+          '</div>';
+      } catch(_){}
+    } else if (!open){
+      devOpen = false;
+    }
+  }, 1200);
+
+  // 6) Marca HTML
+  window.addEventListener('load', function(){
+    try { document.documentElement.setAttribute('data-brand', BRAND); } catch(_){}
+  });
+})();
+</script>
+<!-- ========== /PERI SECURITY PACK v1 ========== -->
+
 </head>
 <body>
 
@@ -254,6 +353,14 @@ Te amo infinito"></textarea>
   <button id="btn-view" class="btn btn-ghost">👁️ Visualizar</button>
   <button id="btn-generate" class="btn btn-primary">💾 Descargar</button>
 </div>
+
+<!-- NUEVO: botón compartir cosmos personalizado -->
+<button id="share-personalized" aria-label="Compartir mi cosmos personalizado" title="Comparte tu plantilla ya hecha">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+  </svg>
+  <span class="sp-txt">Comparte tu cosmos ✨</span>
+</button>
 
 <button id="share-float" aria-label="Compartir">
   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -733,13 +840,6 @@ window.startGalaxyApp = function(ev){
   };
   const isPremium = CONFIG.isPremium;
 
-  /* ============================================================
-     🌕 URL DE LA LUNA — ¡AQUÍ PEGA TU ENLACE DIRECTO!
-     ============================================================
-     Debe ser el enlace DIRECTO (termina en .png, .jpg, .webp).
-     En ImgBB: sube tu imagen → botón "Direct link" → copiar.
-     Ejemplo: https://i.ibb.co/XXXXXXX/luna.png
-     ============================================================ */
   const MOON_IMAGE_URL = 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/FullMoon2010.jpg/1024px-FullMoon2010.jpg';
 
   const err = document.getElementById('err');
@@ -1037,7 +1137,6 @@ window.startGalaxyApp = function(ev){
       nebulae.push(spr);
     }
 
-    /* ===== LUNA CON FOTO REAL ===== */
     function buildMoonTexture(img){
       const size = 512;
       const c = document.createElement('canvas'); c.width = c.height = size;
@@ -1045,7 +1144,6 @@ window.startGalaxyApp = function(ev){
       const cx = size/2, cy = size/2;
       const r = size * 0.40;
 
-      // 1) HALO PLATEADO detrás
       const halo = g.createRadialGradient(cx, cy, r*0.85, cx, cy, size*0.5);
       halo.addColorStop(0.00, 'rgba(225,235,252,0.55)');
       halo.addColorStop(0.22, 'rgba(200,215,240,0.30)');
@@ -1055,7 +1153,6 @@ window.startGalaxyApp = function(ev){
       g.fillStyle = halo;
       g.beginPath(); g.arc(cx, cy, size*0.5, 0, Math.PI*2); g.fill();
 
-      // 2) FOTO DE LA LUNA con máscara circular
       g.save();
       g.beginPath(); g.arc(cx, cy, r, 0, Math.PI*2); g.closePath(); g.clip();
       const aspect = img.width / img.height;
@@ -1064,7 +1161,6 @@ window.startGalaxyApp = function(ev){
       else { sw = img.width; sh = sw; sx = 0; sy = (img.height - sh)/2; }
       g.drawImage(img, sx, sy, sw, sh, cx-r, cy-r, r*2, r*2);
 
-      // 3) Sombra esférica sutil
       const sh3d = g.createRadialGradient(cx - r*0.35, cy - r*0.35, r*0.3, cx + r*0.15, cy + r*0.15, r*1.05);
       sh3d.addColorStop(0, 'rgba(0,0,0,0)');
       sh3d.addColorStop(0.6, 'rgba(0,0,0,0.05)');
@@ -1073,7 +1169,6 @@ window.startGalaxyApp = function(ev){
       g.fillStyle = sh3d;
       g.beginPath(); g.arc(cx, cy, r, 0, Math.PI*2); g.fill();
 
-      // 4) Rim light plateado
       const rim = g.createRadialGradient(cx - r*0.3, cy - r*0.3, r*0.7, cx, cy, r*1.0);
       rim.addColorStop(0, 'rgba(230,240,255,0)');
       rim.addColorStop(0.82, 'rgba(230,240,255,0)');
@@ -1083,7 +1178,6 @@ window.startGalaxyApp = function(ev){
       g.fillRect(0, 0, size, size);
       g.restore();
 
-      // 5) Suaviza el borde exterior
       g.globalCompositeOperation = 'destination-out';
       const edgeFade = g.createRadialGradient(cx, cy, r*0.94, cx, cy, r*1.005);
       edgeFade.addColorStop(0, 'rgba(0,0,0,0)');
@@ -1684,7 +1778,6 @@ window.startGalaxyApp = function(ev){
         if (p.group.position.z > -200) p.group.position.z = p.group.userData.baseZ - 300;
       }
 
-      // Luna con pulso
       const moonPulse = 1 + Math.sin(time * 1.4) * 0.045;
       moon.position.x = MOON_BASE_X + camSwayX * 0.3;
       moon.position.y = MOON_BASE_Y + camSwayY * 0.3 + Math.sin(time * 0.8) * 3;
@@ -1914,19 +2007,85 @@ async function download(){
   }
 }
 
+/* ============================================================
+   NUEVA FUNCIÓN: Compartir el cosmos PERSONALIZADO
+   Genera el HTML con fotos + música + textos y lo envía
+   por el share nativo (WhatsApp queda en la lista).
+   ============================================================ */
+async function sharePersonalized(){
+  readInputs();
+  showLoading(true, "Preparando tu cosmos para compartir...");
+  try {
+    const html = await buildGalaxyHTML();
+    const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+    const filename = "cosmos-para-" + slugify(state.name) + ".html";
+
+    const shareText = "💫 Te hice un cosmos personalizado en Dedicatorias Mágicas ✨\nÁbrelo y descubre tu viaje estelar 🚀";
+
+    // 1) Intentar Web Share API nativa con ARCHIVO adjunto (móvil)
+    try {
+      const file = new File([blob], filename, { type: "text/html" });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: "Cosmos para " + state.name,
+          text: shareText
+        });
+        showLoading(false);
+        showStatus("¡Compartido! 💫");
+        return;
+      }
+    } catch(err) {
+      if (err && err.name === "AbortError"){ showLoading(false); return; }
+      // si falla, seguimos al fallback
+    }
+
+    // 2) Fallback: descargar el archivo + abrir WhatsApp Web con instrucciones
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.rel = "noopener";
+    a.style.display = "none";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 60000);
+
+    const waText = shareText + "\n\n📎 Se descargó el archivo " + filename + ". Adjúntalo aquí en WhatsApp y envíalo 💌";
+    window.open("https://wa.me/?text=" + encodeURIComponent(waText), "_blank");
+
+    showLoading(false);
+    showStatus("Archivo listo. Adjúntalo en WhatsApp 📎");
+  } catch(err) {
+    console.error(err);
+    showLoading(false);
+    showStatus("Error: " + err.message, false);
+  }
+}
+
 function initShare(){
   var shareBtn = $("share-float"), menu = $("share-menu"), closeBtn = $("share-close");
   var wa = $("share-wa"), copyBtn = $("share-copy"), sysBtn = $("share-sys");
+  var sharePersonalizedBtn = $("share-personalized");
+
   if (!shareBtn || !menu) return;
+
   var pageURL = window.location.href.split("#")[0].split("?")[0];
   var pageTitle = "Crea tu Cosmos en Primera Persona 🚀";
   var pageText = "Mira este editor para crear un viaje cósmico personalizado y regalarlo ✨\n" + pageURL;
-  function openMenu(){ wa.href = "https://wa.me/?text=" + encodeURIComponent(pageText); menu.classList.add("show"); }
+
+  function openMenu(){
+    if (wa) wa.href = "https://wa.me/?text=" + encodeURIComponent(pageText);
+    menu.classList.add("show");
+  }
   function closeMenu(){ menu.classList.remove("show"); }
+
   shareBtn.addEventListener("click", openMenu);
-  closeBtn.addEventListener("click", closeMenu);
+  if (closeBtn) closeBtn.addEventListener("click", closeMenu);
   menu.addEventListener("click", function(e){ if (e.target === menu) closeMenu(); });
-  copyBtn.addEventListener("click", function(){
+
+  if (copyBtn) copyBtn.addEventListener("click", function(){
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(pageURL).then(function(){
         showStatus("Enlace copiado ✓"); setTimeout(closeMenu, 400);
@@ -1940,12 +2099,17 @@ function initShare(){
     try { document.execCommand("copy"); showStatus("Enlace copiado ✓"); } catch(_){ showStatus("No se pudo copiar", false); }
     ta.remove(); setTimeout(closeMenu, 400);
   }
-  sysBtn.addEventListener("click", function(){
+  if (sysBtn) sysBtn.addEventListener("click", function(){
     if (navigator.share){
       navigator.share({ title: pageTitle, text: "Crea tu cosmos en primera persona 🚀", url: pageURL })
         .then(function(){ closeMenu(); }).catch(function(){});
     } else { showStatus("Tu navegador no soporta compartir nativo", false); }
   });
+
+  // === NUEVO: botón "Comparte tu cosmos ✨" ===
+  if (sharePersonalizedBtn){
+    sharePersonalizedBtn.addEventListener("click", sharePersonalized);
+  }
 }
 
 function initEditor(){
