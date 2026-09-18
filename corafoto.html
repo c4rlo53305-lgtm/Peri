@@ -11,7 +11,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{width:100%;min-height:100dvh;background:radial-gradient(ellipse at top,#0b1530 0%,#000308 70%);font-family:'Inter',sans-serif;color:#fff;overflow-x:hidden}
-#editor{position:relative;z-index:10;max-width:560px;margin:0 auto;padding:24px 18px 180px}
+#editor{position:relative;z-index:10;max-width:560px;margin:0 auto;padding:24px 18px 260px}
 .hero{text-align:center;margin-bottom:22px;margin-top:16px}
 .hero h1{font-family:'Permanent Marker',cursive;font-size:clamp(1.7rem,7vw,2.4rem);line-height:1.05;background:linear-gradient(90deg,#7dd3fc,#38bdf8,#c084fc,#7dd3fc);background-size:300% 300%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:flow 5s infinite;letter-spacing:1px;filter:drop-shadow(0 0 30px rgba(125,211,252,.45))}
 @keyframes flow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
@@ -105,7 +105,97 @@ html,body{width:100%;min-height:100dvh;background:radial-gradient(ellipse at top
 #premium-active-banner{display:none;background:linear-gradient(135deg,rgba(34,197,94,.15),rgba(74,222,128,.08));border:1.5px solid rgba(74,222,128,.4);border-radius:12px;padding:10px 14px;margin-top:14px;font-size:.82rem;color:#86efac;text-align:center;font-weight:600}
 #premium-active-banner.show{display:block}
 @keyframes pop{from{transform:scale(.85) translateY(40px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+
+/* ============ BOTÓN MORADO "💌 Envíalo" ============ */
+#share-personalized{
+  position:fixed;
+  bottom:calc(160px + env(safe-area-inset-bottom,0));
+  right:16px;
+  z-index:950;
+  height:54px;
+  padding:0 22px 0 18px;
+  border-radius:27px;
+  background:linear-gradient(135deg,#7dd3fc,#a78bfa,#c084fc);
+  color:#05021a;
+  border:2px solid #e0e7ff;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  cursor:pointer;
+  touch-action:manipulation;
+  font-family:inherit;
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:.2px;
+  white-space:nowrap;
+  box-shadow:0 10px 30px rgba(167,139,250,.55),0 4px 10px rgba(0,0,0,.5);
+  transition:transform .2s ease;
+  animation:spPulse 2.4s ease-in-out infinite;
+}
+#share-personalized svg{width:22px;height:22px;fill:#05021a;flex-shrink:0}
+#share-personalized:active{transform:scale(.95)}
+#share-personalized .sp-txt{position:relative;z-index:1}
+@keyframes spPulse{
+  0%,100%{box-shadow:0 10px 30px rgba(167,139,250,.55),0 4px 10px rgba(0,0,0,.5),0 0 0 0 rgba(167,139,250,.6)}
+  50%{box-shadow:0 10px 30px rgba(167,139,250,.75),0 4px 10px rgba(0,0,0,.5),0 0 0 14px rgba(167,139,250,0)}
+}
 </style>
+
+<!-- ========== PERI SECURITY PACK v1 · Dedicatorias Mágicas ========== -->
+<script>
+(function(){
+  'use strict';
+  var BRAND = '© Dedicatorias Mágicas · c4rlo53305-lgtm';
+
+  document.addEventListener('contextmenu', function(e){ e.preventDefault(); return false; }, {passive:false});
+
+  document.addEventListener('keydown', function(e){
+    var k = (e.key || '').toLowerCase();
+    if (e.key === 'F12'){ e.preventDefault(); return false; }
+    if (e.ctrlKey  && e.shiftKey && (k==='i'||k==='j'||k==='c')){ e.preventDefault(); return false; }
+    if (e.metaKey  && e.altKey   && (k==='i'||k==='j'||k==='c')){ e.preventDefault(); return false; }
+    if ((e.ctrlKey || e.metaKey) && k==='u'){ e.preventDefault(); return false; }
+    if ((e.ctrlKey || e.metaKey) && k==='s'){ e.preventDefault(); return false; }
+  });
+
+  document.addEventListener('selectstart', function(e){ e.preventDefault(); });
+  document.addEventListener('dragstart',   function(e){ e.preventDefault(); });
+
+  try {
+    console.log('%c⚠️ CONTENIDO PROTEGIDO', 'color:#ff4444;font-size:22px;font-weight:bold');
+    console.log('%c' + BRAND, 'color:#7dd3fc;font-size:13px');
+    console.log('%cSi ves esto, respeta el trabajo ajeno 🙏', 'color:#a78bfa;font-size:11px');
+  } catch(_){}
+
+  var devOpen = false, THRESHOLD = 170;
+  setInterval(function(){
+    var wDelta = window.outerWidth  - window.innerWidth;
+    var hDelta = window.outerHeight - window.innerHeight;
+    var open = (wDelta > THRESHOLD || hDelta > THRESHOLD);
+    if (open && !devOpen){
+      devOpen = true;
+      try {
+        document.body.innerHTML =
+          '<div style="position:fixed;inset:0;background:#000;color:#7dd3fc;' +
+          'display:flex;align-items:center;justify-content:center;flex-direction:column;' +
+          'font-family:sans-serif;font-size:1.1rem;text-align:center;padding:24px;gap:12px">' +
+          '<div style="font-size:48px">🔒</div>' +
+          '<div><b>Contenido protegido</b></div>' +
+          '<div style="opacity:.7;font-size:.85rem">' + BRAND + '</div>' +
+          '</div>';
+      } catch(_){}
+    } else if (!open){
+      devOpen = false;
+    }
+  }, 1200);
+
+  window.addEventListener('load', function(){
+    try { document.documentElement.setAttribute('data-brand', BRAND); } catch(_){}
+  });
+})();
+</script>
+<!-- ========== /PERI SECURITY PACK v1 ========== -->
+
 </head>
 <body>
 
@@ -177,6 +267,13 @@ html,body{width:100%;min-height:100dvh;background:radial-gradient(ellipse at top
   <button id="btn-generate" class="btn btn-primary">💾 Descargar</button>
 </div>
 
+<!-- BOTÓN MORADO -->
+<button id="share-personalized" aria-label="Envíalo" title="Envíalo personalizado">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+  <span class="sp-txt">💌 Envíalo</span>
+</button>
+
+<!-- BOTÓN VERDE -->
 <button id="share-float" aria-label="Compartir">
   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
@@ -670,7 +767,6 @@ input[type=range]{width:100%;accent-color:#38bdf8}
     }
     const sharpTex = makeSharpDot(32);
 
-    // Textura dura para foto: círculo sólido sin bordes difusos
     function makeHardDot(size=16){
       const c = document.createElement('canvas'); c.width = c.height = size;
       const g = c.getContext('2d');
@@ -690,12 +786,10 @@ function makePrettyStarTexture(size=2048, count=9000){
       const g = c.getContext('2d');
       const r = size/2;
 
-      // FONDO: azul profundo con degradado (nada de negro plano)
       const bg = g.createRadialGradient(r,r,r*0.15,r,r,r);
       bg.addColorStop(0,'#0a1a33'); bg.addColorStop(0.5,'#050d1d'); bg.addColorStop(1,'#000208');
       g.fillStyle = bg; g.fillRect(0,0,size,size);
 
-      // NEBULOSAS GIGANTES pintadas en el cielo
       const nebCols = ['#3b2d7a','#7a2d6b','#1c3f7a','#155e6b','#4a1d6b','#233a75','#6b2d55'];
       for (let i = 0; i < 16; i++){
         const x = Math.random()*size, y = Math.random()*size;
@@ -710,7 +804,6 @@ function makePrettyStarTexture(size=2048, count=9000){
         g.beginPath(); g.arc(x,y,rad,0,Math.PI*2); g.fill();
       }
 
-      // BANDA DE LA VÍA LÁCTEA (diagonal, densa y difusa)
       g.save();
       g.translate(r,r); g.rotate(-0.5);
       const band = g.createLinearGradient(0,-size*0.13,0,size*0.13);
@@ -721,7 +814,6 @@ function makePrettyStarTexture(size=2048, count=9000){
       g.fillRect(-size,-size*0.13,size*2,size*0.26);
       g.restore();
 
-      // Estrellas con variedad de colores
       for(let i=0;i<count;i++){
         const x=Math.random()*size, y=Math.random()*size;
         const base = Math.random()*0.75+0.3;
@@ -736,7 +828,6 @@ function makePrettyStarTexture(size=2048, count=9000){
         g.fillStyle=glow; g.beginPath(); g.arc(x,y,Math.random()*1.3+0.6,0,Math.PI*2); g.fill();
       }
 
-      // Estrellas brillantes con destello en cruz
       for(let i=0;i<170;i++){
         const x=Math.random()*size, y=Math.random()*size;
         const s=1.2+Math.random()*2.2, a=0.45+Math.random()*0.55;
@@ -755,7 +846,6 @@ function makePrettyStarTexture(size=2048, count=9000){
     const bg = new THREE.Mesh(bgGeo, new THREE.MeshBasicMaterial({map:starTex, side:THREE.BackSide, opacity:0.95}));
     scene.add(bg);
 
-    // PARALLAX INTERACTIVO: el fondo sigue al dedo/mouse y al giroscopio
     let bgTiltX = 0, bgTiltY = 0, bgTargetX = 0, bgTargetY = 0;
     addEventListener('pointermove', function(e){
       bgTargetY = ((e.clientX / window.innerWidth) - 0.5) * 0.4;
@@ -767,7 +857,6 @@ function makePrettyStarTexture(size=2048, count=9000){
       bgTargetX = Math.max(-0.25, Math.min(0.25, ((e.beta - 45) / 90) * 0.25));
     }, {passive:true});
 
-    // ORBES DE LUZ gigantes en el fondo profundo
     const orbCols = ['#38bdf8','#8b5cf6','#ec4899','#22d3ee','#f97316','#a78bfa'];
     for (let i = 0; i < 14; i++){
       const col = new THREE.Color(orbCols[i % orbCols.length]);
@@ -798,7 +887,6 @@ function makePrettyStarTexture(size=2048, count=9000){
 
     const galaxy = new THREE.Group(); scene.add(galaxy);
 
-    // ===== NEBULOSAS DE COLOR (vida al fondo) =====
     function makeNebulaTexture(hex){
       const size = 256;
       const c = document.createElement('canvas'); c.width = c.height = size;
@@ -940,7 +1028,6 @@ function makePrettyStarTexture(size=2048, count=9000){
     haloPlane.position.y = 8;
     haloPlane.rotation.x = -Math.PI/2; haloPlane.renderOrder = 0.2; scene.add(haloPlane);
 
-    // ===== CORAZÓN =====
     const HEART_COUNT = isPremium ? 200000 : 100000;
     const HEART_SCALE = 30;
     const HEART_CENTER = { x: 0, y: 48, z: 6 };
@@ -995,7 +1082,6 @@ function makePrettyStarTexture(size=2048, count=9000){
     const heartGeom = new THREE.BufferGeometry();
     heartGeom.setAttribute('position', new THREE.BufferAttribute(heartPos, 3));
     heartGeom.setAttribute('color', new THREE.BufferAttribute(heartCols, 3));
-    // Referencia directa a los BufferAttribute (¡importante para needsUpdate!)
     const posAttribute = heartGeom.attributes.position;
     const colAttribute = heartGeom.attributes.color;
 
@@ -1015,14 +1101,11 @@ function makePrettyStarTexture(size=2048, count=9000){
     function easeOutCubic(x){ return 1 - Math.pow(1 - x, 3); }
     function easeInOutCubic(x){ return x<0.5 ? 4*x*x*x : 1 - Math.pow(-2*x+2,3)/2; }
 
-    // ===== SAMPLEAR IMAGEN A PARTÍCULAS =====
-    // Grid fino (300) + 200k partículas = foto muy nítida
     function sampleImage(img, targetCount){
       const W = 300, H = 300;
       const cnv = document.createElement('canvas');
       cnv.width = W; cnv.height = H;
       const g = cnv.getContext('2d');
-      // Cover-fit
       const aspect = img.width / img.height;
       let sx, sy, sw, sh;
       if (aspect > 1){
@@ -1052,7 +1135,6 @@ function makePrettyStarTexture(size=2048, count=9000){
           }
         }
       }
-      // Shuffle
       for (let i = candidates.length - 1; i > 0; i--){
         const j = Math.floor(Math.random() * (i + 1));
         const t = candidates[i]; candidates[i] = candidates[j]; candidates[j] = t;
@@ -1072,7 +1154,6 @@ function makePrettyStarTexture(size=2048, count=9000){
         posArr[i*3+1] = -(c.y / H - 0.5) * WORLD + jy + HEART_CENTER.y;
         posArr[i*3+2] = HEART_CENTER.z + (Math.random() - 0.5) * 0.8;
 
-        // Curva S: más contraste y negros profundos → la foto se ve definida
         const curve = function(v){
           v = v/255;
           v = Math.pow(v, 1.35);
@@ -1103,10 +1184,9 @@ function makePrettyStarTexture(size=2048, count=9000){
       });
     }
 
-    // ===== ESTADO =====
     let heartStartTime = null;
     let heartFormed = false;
-    const HEART_FORM_TOTAL = 5.2;   // formación lenta (~5s)
+    const HEART_FORM_TOTAL = 5.2;
     let heartMorph = 0;
     let morphFrom = 0, morphTo = 0, morphStart = 0;
     const MORPH_DUR = 1.6;
@@ -1142,7 +1222,6 @@ function makePrettyStarTexture(size=2048, count=9000){
         heartFormed = true;
       }
 
-      // Morph hacia foto (o de vuelta al corazón)
       if (heartFormed){
         const mp = Math.min(1, Math.max(0, (nowSec - morphStart) / MORPH_DUR));
         const me = easeInOutCubic(mp);
@@ -1154,7 +1233,6 @@ function makePrettyStarTexture(size=2048, count=9000){
       const useTarget = targetPositions && heartMorph > 0.001;
       const useTargetColors = targetColors && heartMorph > 0.001;
 
-      // Referencias a los arrays (BufferAttribute.array)
       const posArr = posAttribute.array;
       const colArr = colAttribute.array;
 
@@ -1184,20 +1262,17 @@ function makePrettyStarTexture(size=2048, count=9000){
         posArr[i*3+1] = fy + bob;
         posArr[i*3+2] = fz;
 
-        // Colores: mezcla entre color original del corazón y color de la foto
         if (useTargetColors){
           colArr[i*3]   = heartColorsOriginal[i*3]   + (targetColors[i*3]   - heartColorsOriginal[i*3])   * heartMorph;
           colArr[i*3+1] = heartColorsOriginal[i*3+1] + (targetColors[i*3+1] - heartColorsOriginal[i*3+1]) * heartMorph;
           colArr[i*3+2] = heartColorsOriginal[i*3+2] + (targetColors[i*3+2] - heartColorsOriginal[i*3+2]) * heartMorph;
         } else if (heartMorph < 0.99){
-          // Volviendo al color original
           colArr[i*3]   = heartColorsOriginal[i*3];
           colArr[i*3+1] = heartColorsOriginal[i*3+1];
           colArr[i*3+2] = heartColorsOriginal[i*3+2];
         }
       }
 
-      // ¡IMPORTANTE! Marcar los BufferAttribute para que se actualicen en la GPU
       posAttribute.needsUpdate = true;
       colAttribute.needsUpdate = true;
     }
@@ -1265,7 +1340,6 @@ function makePrettyStarTexture(size=2048, count=9000){
       }, { once: true });
     }
 
-    // ===== Estrellas fugaces =====
     let streakTex = null;
     function makeStreak(){
       if(streakTex) return streakTex;
@@ -1381,15 +1455,12 @@ function makePrettyStarTexture(size=2048, count=9000){
       }
     }
 
-    // ===== TAP =====
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
 
     function onTap(e){
       if (!entered || !heartFormed || !hasPhotos) return;
 
-      // Si ya está mostrando foto, cualquier tap cuenta.
-      // Si muestra el corazón, solo el tap dentro del corazón.
       let hit = heartMorph > 0.5;
       if (!hit){
         const rect = renderer.domElement.getBoundingClientRect();
@@ -1405,19 +1476,15 @@ function makePrettyStarTexture(size=2048, count=9000){
       if (!totalLoaded) return;
 
       if (heartMorph < 0.5){
-        // Mostrando CORAZÓN → mostrar primera foto disponible
         cycleIndex = 0;
         while (cycleIndex < photoParticles.length && !photoParticles[cycleIndex]) cycleIndex++;
         if (cycleIndex >= photoParticles.length) return;
         showPhoto(cycleIndex);
       } else {
-        // Mostrando FOTO → siguiente foto, o volver al corazón
         if (totalLoaded === 1){
-          // Solo una foto: alterna foto ↔ corazón
           cycleIndex = -1;
           returnToHeart();
         } else {
-          // Varias fotos (premium): rota foto por foto
           cycleIndex++;
           while (cycleIndex < photoParticles.length && !photoParticles[cycleIndex]) cycleIndex++;
           if (cycleIndex >= photoParticles.length){
@@ -1478,7 +1545,6 @@ function makePrettyStarTexture(size=2048, count=9000){
         haloPlane.scale.setScalar(1 + lvl * 0.12);
       }
 
-      // Modo foto: puntos duros, más pequeños y blending NORMAL (sin sobreexponer a blanco)
       const basePt = (isPremium ? 1.35 : 1.1) + lvl * 0.6;
       heartPoints.material.size = Math.max(0.28, basePt * (1 - heartMorph * 0.78));
       heartPoints.material.opacity = 1.0;
@@ -1623,13 +1689,55 @@ async function download(){
   }
 }
 
+/* ============================================================
+   BOTÓN MORADO — 💌 Envíalo
+   ============================================================ */
+async function sharePersonalized(){
+  readInputs();
+  showLoading(true, "Preparando tu corazón...");
+  try {
+    var html = await buildHeartHTML();
+    var nombreArchivo = "corazon-para-" + slugify(state.name) + ".html";
+    var blob = new Blob([html], { type: "text/html;charset=utf-8" });
+    var shareText = "💙 Te hice un corazón de estrellas personalizado ✨\nÁbrelo y toca el corazón 💫";
+
+    try {
+      var file = new File([blob], nombreArchivo, { type: "text/html" });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], title: "Corazón para " + state.name, text: shareText });
+        showLoading(false);
+        showStatus("¡Compartido! 💙");
+        return;
+      }
+    } catch(err) {
+      if (err && err.name === "AbortError"){ showLoading(false); return; }
+    }
+
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = nombreArchivo; a.rel = "noopener"; a.style.display = "none";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 60000);
+
+    var waText = shareText + "\n\n📎 Se descargó el archivo " + nombreArchivo + ". Adjúntalo aquí en WhatsApp y envíalo 💌";
+    window.open("https://wa.me/?text=" + encodeURIComponent(waText), "_blank");
+    showLoading(false);
+    showStatus("Archivo listo. Adjúntalo en WhatsApp 📎");
+  } catch(err) {
+    console.error(err);
+    showLoading(false);
+    showStatus("Error: " + err.message, false);
+  }
+}
+
 function initShare(){
   var shareBtn = $("share-float"), menu = $("share-menu"), closeBtn = $("share-close");
   var wa = $("share-wa"), copyBtn = $("share-copy"), sysBtn = $("share-sys");
+  var sharePersonalizedBtn = $("share-personalized");
   if (!shareBtn || !menu) return;
   var pageURL = window.location.href.split("#")[0].split("?")[0];
   var pageTitle = "Crea tu Corazón de Estrellas ✨";
-  var pageText = "Mira este editor para crear un corazón de partículas personalizado y regalarlo 💙\\n" + pageURL;
+  var pageText = "Mira este editor para crear un corazón de partículas personalizado y regalarlo 💙\n" + pageURL;
   function openMenu(){ wa.href = "https://wa.me/?text=" + encodeURIComponent(pageText); menu.classList.add("show"); }
   function closeMenu(){ menu.classList.remove("show"); }
   shareBtn.addEventListener("click", openMenu);
@@ -1648,6 +1756,11 @@ function initShare(){
       try { await navigator.share({ title: pageTitle, text: "Crea tu corazón de estrellas 💙", url: pageURL }); closeMenu(); } catch(e){}
     } else { showStatus("Tu navegador no soporta compartir nativo", false); }
   });
+
+  // Botón morado: Envíalo
+  if (sharePersonalizedBtn){
+    sharePersonalizedBtn.addEventListener("click", sharePersonalized);
+  }
 }
 
 function initEditor(){
