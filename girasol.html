@@ -11,7 +11,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{width:100%;min-height:100dvh;background:radial-gradient(ellipse at top,#1a1400 0%,#050400 70%);font-family:'Inter',sans-serif;color:#fff;overflow-x:hidden}
-#editor{position:relative;z-index:10;max-width:560px;margin:0 auto;padding:24px 18px 180px}
+#editor{position:relative;z-index:10;max-width:560px;margin:0 auto;padding:24px 18px 260px}
 .hero{text-align:center;margin-bottom:22px;margin-top:16px}
 .hero h1{font-family:'Permanent Marker',cursive;font-size:clamp(1.8rem,7vw,2.6rem);line-height:1.05;background:linear-gradient(90deg,#ffd166,#ffb84d,#ff8c1a,#ffd166);background-size:300% 300%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:flow 5s infinite;letter-spacing:1px;filter:drop-shadow(0 0 30px rgba(255,180,40,.55))}
 @keyframes flow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
@@ -120,7 +120,97 @@ html,body{width:100%;min-height:100dvh;background:radial-gradient(ellipse at top
 #preview-modal .preview-bar span{color:#ffd166;font-weight:700;font-size:14px}
 #close-preview{background:linear-gradient(135deg,#ffd166,#ffa000);color:#000;border:none;padding:9px 18px;border-radius:20px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit}
 #preview-frame{flex:1;width:100%;border:0;background:#000}
+
+/* ============ BOTÓN MORADO "💌 Envíalo" ============ */
+#share-personalized{
+  position:fixed;
+  bottom:calc(160px + env(safe-area-inset-bottom,0));
+  right:16px;
+  z-index:950;
+  height:54px;
+  padding:0 22px 0 18px;
+  border-radius:27px;
+  background:linear-gradient(135deg,#7dd3fc,#a78bfa,#c084fc);
+  color:#05021a;
+  border:2px solid #e0e7ff;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  cursor:pointer;
+  touch-action:manipulation;
+  font-family:inherit;
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:.2px;
+  white-space:nowrap;
+  box-shadow:0 10px 30px rgba(167,139,250,.55),0 4px 10px rgba(0,0,0,.5);
+  transition:transform .2s ease;
+  animation:spPulse 2.4s ease-in-out infinite;
+}
+#share-personalized svg{width:22px;height:22px;fill:#05021a;flex-shrink:0}
+#share-personalized:active{transform:scale(.95)}
+#share-personalized .sp-txt{position:relative;z-index:1}
+@keyframes spPulse{
+  0%,100%{box-shadow:0 10px 30px rgba(167,139,250,.55),0 4px 10px rgba(0,0,0,.5),0 0 0 0 rgba(167,139,250,.6)}
+  50%{box-shadow:0 10px 30px rgba(167,139,250,.75),0 4px 10px rgba(0,0,0,.5),0 0 0 14px rgba(167,139,250,0)}
+}
 </style>
+
+<!-- ========== PERI SECURITY PACK v1 · Dedicatorias Mágicas ========== -->
+<script>
+(function(){
+  'use strict';
+  var BRAND = '© Dedicatorias Mágicas · c4rlo53305-lgtm';
+
+  document.addEventListener('contextmenu', function(e){ e.preventDefault(); return false; }, {passive:false});
+
+  document.addEventListener('keydown', function(e){
+    var k = (e.key || '').toLowerCase();
+    if (e.key === 'F12'){ e.preventDefault(); return false; }
+    if (e.ctrlKey  && e.shiftKey && (k==='i'||k==='j'||k==='c')){ e.preventDefault(); return false; }
+    if (e.metaKey  && e.altKey   && (k==='i'||k==='j'||k==='c')){ e.preventDefault(); return false; }
+    if ((e.ctrlKey || e.metaKey) && k==='u'){ e.preventDefault(); return false; }
+    if ((e.ctrlKey || e.metaKey) && k==='s'){ e.preventDefault(); return false; }
+  });
+
+  document.addEventListener('selectstart', function(e){ e.preventDefault(); });
+  document.addEventListener('dragstart',   function(e){ e.preventDefault(); });
+
+  try {
+    console.log('%c⚠️ CONTENIDO PROTEGIDO', 'color:#ff4444;font-size:22px;font-weight:bold');
+    console.log('%c' + BRAND, 'color:#7dd3fc;font-size:13px');
+    console.log('%cSi ves esto, respeta el trabajo ajeno 🙏', 'color:#a78bfa;font-size:11px');
+  } catch(_){}
+
+  var devOpen = false, THRESHOLD = 170;
+  setInterval(function(){
+    var wDelta = window.outerWidth  - window.innerWidth;
+    var hDelta = window.outerHeight - window.innerHeight;
+    var open = (wDelta > THRESHOLD || hDelta > THRESHOLD);
+    if (open && !devOpen){
+      devOpen = true;
+      try {
+        document.body.innerHTML =
+          '<div style="position:fixed;inset:0;background:#000;color:#7dd3fc;' +
+          'display:flex;align-items:center;justify-content:center;flex-direction:column;' +
+          'font-family:sans-serif;font-size:1.1rem;text-align:center;padding:24px;gap:12px">' +
+          '<div style="font-size:48px">🔒</div>' +
+          '<div><b>Contenido protegido</b></div>' +
+          '<div style="opacity:.7;font-size:.85rem">' + BRAND + '</div>' +
+          '</div>';
+      } catch(_){}
+    } else if (!open){
+      devOpen = false;
+    }
+  }, 1200);
+
+  window.addEventListener('load', function(){
+    try { document.documentElement.setAttribute('data-brand', BRAND); } catch(_){}
+  });
+})();
+</script>
+<!-- ========== /PERI SECURITY PACK v1 ========== -->
+
 </head>
 <body>
 
@@ -241,6 +331,13 @@ Mi todo"></textarea>
   <button id="btn-generate" class="btn btn-primary">💾 Descargar</button>
 </div>
 
+<!-- BOTÓN MORADO -->
+<button id="share-personalized" aria-label="Envíalo" title="Envíalo personalizado">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+  <span class="sp-txt">💌 Envíalo</span>
+</button>
+
+<!-- BOTÓN VERDE -->
 <button id="share-float" aria-label="Compartir">
   <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
@@ -576,7 +673,6 @@ input[type=range]{width:100%;accent-color:#ffd166}
 #modal-msg{font-family:'Caveat',cursive;font-size:clamp(1.2rem,4.5vw,1.8rem);color:#fff0c2;line-height:1.35;white-space:pre-wrap}
 #modal-close{position:absolute;top:10px;right:10px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.5);border:1px solid rgba(255,209,102,.4);color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 
-/* ===== PANTALLA DE BIENVENIDA ===== */
 #welcome{position:fixed;inset:0;z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;background:radial-gradient(ellipse at center 40%,#2a1800 0%,#100800 40%,#000 100%);transition:opacity 1.2s ease,visibility 1.2s;overflow:hidden}
 #welcome.hide{opacity:0;visibility:hidden;pointer-events:none}
 #welcome .w-vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 30%,rgba(0,0,0,.85) 100%)}
@@ -630,7 +726,6 @@ input[type=range]{width:100%;accent-color:#ffd166}
 .w-center::before{content:'';position:absolute;inset:6%;border-radius:50%;background-image:radial-gradient(circle,rgba(20,12,3,.85) 1.6px,transparent 2.4px);background-size:10px 10px;opacity:.9}
 .w-center::after{content:'';position:absolute;left:22%;top:18%;width:22%;height:16%;border-radius:50%;background:radial-gradient(circle,rgba(255,240,200,.55),transparent 70%);filter:blur(2px)}
 
-/* ✨ DESTELLOS DEL GIRASOL DE BIENVENIDA ✨ */
 .w-shine{
   position:absolute;
   left:50%;
@@ -661,7 +756,6 @@ input[type=range]{width:100%;accent-color:#ffd166}
   0%,100%{opacity:0;transform:scale(.3) rotate(0deg)}
   50%{opacity:1;transform:scale(1.15) rotate(180deg)}
 }
-/* Destellos que giran alrededor del girasol */
 .w-orbit-shine{
   position:absolute;
   left:50%;
@@ -819,30 +913,25 @@ input[type=range]{width:100%;accent-color:#ffd166}
     } catch(e){}
   }
 
-  /* ===== PANTALLA DE BIENVENIDA ===== */
   (function buildWelcome(){
     const sf = document.getElementById('w-sunflower');
     if (sf){
-      // Pétalos traseros
       for (let i = 0; i < 20; i++){
         const p = document.createElement('div');
         p.className = 'w-petal back';
         p.style.transform = 'rotate(' + (i * (360/20) + 9) + 'deg)';
         sf.appendChild(p);
       }
-      // Pétalos delanteros
       for (let i = 0; i < 24; i++){
         const p = document.createElement('div');
         p.className = 'w-petal';
         p.style.transform = 'rotate(' + (i * (360/24)) + 'deg)';
         sf.appendChild(p);
       }
-      // Centro
       const c = document.createElement('div');
       c.className = 'w-center';
       sf.appendChild(c);
 
-      // ✨ DESTELLOS sobre los pétalos (fijos, titilando)
       const shinePositions = [
         {x:15, y:20, d:0.2}, {x:82, y:15, d:0.6}, {x:88, y:50, d:1.0},
         {x:80, y:84, d:0.4}, {x:18, y:82, d:0.8}, {x:8,  y:50, d:1.4},
@@ -864,7 +953,6 @@ input[type=range]{width:100%;accent-color:#ffd166}
         sf.appendChild(s);
       });
 
-      // ✨ Destellos orbitando alrededor del girasol
       for (let i = 0; i < 6; i++){
         const o = document.createElement('div');
         o.className = 'w-orbit-shine';
@@ -947,7 +1035,6 @@ input[type=range]{width:100%;accent-color:#ffd166}
     controls.target.set(0,0,0);
     controls.enabled = false;
 
-    /* ZOOM CINEMATOGRÁFICO */
     let zoomT = 0;
     let zoomActive = false;
     let endCamY = 24, endCamZ = 80;
@@ -1272,14 +1359,11 @@ input[type=range]{width:100%;accent-color:#ffd166}
     sunflowerGroup.add(haloMesh);
     sunflowerGroup.rotation.x = -0.15;
 
-    /* ✨✨ DESTELLOS DEL GIRASOL 3D DE LA GALAXIA ✨✨ */
-    // Textura de destello (estrella con cruz)
     function makeSparkleTexture(size){
       const c = document.createElement('canvas');
       c.width = c.height = size;
       const g = c.getContext('2d');
       const cx = size/2, cy = size/2;
-      // Glow radial
       const grd = g.createRadialGradient(cx,cy,0,cx,cy,cx);
       grd.addColorStop(0, 'rgba(255,255,255,1)');
       grd.addColorStop(0.25, 'rgba(255,230,140,0.85)');
@@ -1287,7 +1371,6 @@ input[type=range]{width:100%;accent-color:#ffd166}
       grd.addColorStop(1, 'rgba(255,140,20,0)');
       g.fillStyle = grd;
       g.fillRect(0,0,size,size);
-      // Cruz brillante
       g.save();
       g.translate(cx,cy);
       g.strokeStyle = 'rgba(255,255,240,0.95)';
@@ -1298,7 +1381,6 @@ input[type=range]{width:100%;accent-color:#ffd166}
       g.moveTo(-cx*0.9, 0); g.lineTo(cx*0.9, 0);
       g.moveTo(0, -cy*0.9); g.lineTo(0, cy*0.9);
       g.stroke();
-      // Diagonal más suave
       g.lineWidth = size * 0.018;
       g.globalAlpha = 0.55;
       g.beginPath();
@@ -1310,7 +1392,6 @@ input[type=range]{width:100%;accent-color:#ffd166}
     }
     const sparkleTex = makeSparkleTexture(128);
 
-    // Grupo de destellos alrededor del girasol
     const sunflowerSparkles = [];
     const SUNFLOWER_SPARKLE_COUNT = isPremium ? 40 : 24;
     for (let i = 0; i < SUNFLOWER_SPARKLE_COUNT; i++){
@@ -1322,7 +1403,6 @@ input[type=range]{width:100%;accent-color:#ffd166}
         opacity: 0.9
       });
       const spr = new THREE.Sprite(mat);
-      // Anillo alrededor del girasol (radio 8-14), con algo de profundidad
       const angle = Math.random() * Math.PI * 2;
       const rad = 7.5 + Math.random() * 7;
       spr.position.set(
@@ -1345,7 +1425,6 @@ input[type=range]{width:100%;accent-color:#ffd166}
       sunflowerSparkles.push(spr);
     }
 
-    // Destellos pequeños cercanos al centro (brillo constante)
     const centerSparkles = [];
     const CENTER_SPARKLE_COUNT = isPremium ? 20 : 12;
     for (let i = 0; i < CENTER_SPARKLE_COUNT; i++){
@@ -1601,25 +1680,19 @@ input[type=range]{width:100%;accent-color:#ffd166}
       haloMesh.scale.set(pulse, pulse, 1);
       ringMesh.scale.set(pulse, pulse, 1);
 
-      // ✨ Animar destellos del girasol 3D (los que orbitan)
       for (let i = 0; i < sunflowerSparkles.length; i++){
         const sp = sunflowerSparkles[i];
         const d = sp.userData;
-        // Órbita lenta
         const ang = d.baseAngle + t * d.orbitSpeed;
-        // Radio que respira
         const rad = d.baseRad + Math.sin(t * 0.5 + d.phase) * 0.6;
         sp.position.x = Math.cos(ang) * rad;
         sp.position.y = Math.sin(ang) * rad;
         sp.position.z = d.baseZ + Math.sin(t * 0.8 + d.phase) * 0.6;
-        // Parpadeo
         const blink = 0.3 + Math.abs(Math.sin(t * d.speed + d.phase)) * 0.9;
         sp.material.opacity = blink;
-        // Escala pulsante
         const sc = d.baseScale * (0.6 + blink * 0.7);
         sp.scale.set(sc, sc, 1);
       }
-      // ✨ Destellos del centro (parpadeo constante)
       for (let i = 0; i < centerSparkles.length; i++){
         const sp = centerSparkles[i];
         const d = sp.userData;
@@ -1791,9 +1864,51 @@ async function download(){
   }
 }
 
+/* ============================================================
+   BOTÓN MORADO — 💌 Envíalo
+   ============================================================ */
+async function sharePersonalized(){
+  readInputs();
+  showLoading(true, "Preparando tu galaxia...");
+  try {
+    var html = await buildGalaxyHTML();
+    var nombreArchivo = "galaxia-girasoles-para-" + slugify(state.name) + ".html";
+    var blob = new Blob([html], { type: "text/html;charset=utf-8" });
+    var shareText = "🌻 Te hice una galaxia de girasoles personalizada ✨\nÁbrela y descubre tu sorpresa 💛";
+
+    try {
+      var file = new File([blob], nombreArchivo, { type: "text/html" });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], title: "Girasoles para " + state.name, text: shareText });
+        showLoading(false);
+        showStatus("¡Compartido! 🌻");
+        return;
+      }
+    } catch(err) {
+      if (err && err.name === "AbortError"){ showLoading(false); return; }
+    }
+
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = nombreArchivo; a.rel = "noopener"; a.style.display = "none";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 60000);
+
+    var waText = shareText + "\n\n📎 Se descargó el archivo " + nombreArchivo + ". Adjúntalo aquí en WhatsApp y envíalo 💌";
+    window.open("https://wa.me/?text=" + encodeURIComponent(waText), "_blank");
+    showLoading(false);
+    showStatus("Archivo listo. Adjúntalo en WhatsApp 📎");
+  } catch(err) {
+    console.error(err);
+    showLoading(false);
+    showStatus("Error: " + err.message, false);
+  }
+}
+
 function initShare(){
   var shareBtn = $("share-float"), menu = $("share-menu"), closeBtn = $("share-close");
   var wa = $("share-wa"), copyBtn = $("share-copy"), sysBtn = $("share-sys");
+  var sharePersonalizedBtn = $("share-personalized");
   if (!shareBtn || !menu) return;
   var pageURL = window.location.href.split("#")[0].split("?")[0];
   var pageTitle = "Crea tu Galaxia de Girasoles 🌻";
@@ -1826,6 +1941,10 @@ function initShare(){
         .catch(function(){});
     } else { showStatus("Tu navegador no soporta compartir nativo", false); }
   });
+
+  if (sharePersonalizedBtn){
+    sharePersonalizedBtn.addEventListener("click", sharePersonalized);
+  }
 }
 
 function initEditor(){
