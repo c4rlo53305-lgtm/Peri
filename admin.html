@@ -341,6 +341,13 @@ header .logout{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,25
     state.categorias.forEach(function(cat){
       var items = state.plantillas.filter(function(p){ return p.category === cat.id; });
       if (items.length === 0) return;
+      // ✅ Ordenar por createdAt (más nuevas primero)
+      items = items.slice().sort(function(a, b){
+        var ta = a.createdAt || 0;
+        var tb = b.createdAt || 0;
+        if (ta !== tb) return tb - ta;
+        return 0;
+      });
       var group = document.createElement("div");
       group.className = "cat-group";
       var head = document.createElement("div");
@@ -348,7 +355,6 @@ header .logout{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,25
       head.innerHTML = '<span class="emo">' + cat.emoji + '</span><span class="name">' + cat.name + '</span><span class="count">' + items.length + '</span>';
       group.appendChild(head);
 
-      // items ya vienen en orden del array (más nuevas arriba)
       items.forEach(function(tpl){
         var row = document.createElement("div");
         row.className = "tpl-row";
@@ -465,6 +471,13 @@ header .logout{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,25
     var name = $("fName").value.trim();
     if (!name){ toast("Escribe un nombre", false); return; }
 
+    // ✅ Conservar createdAt original al editar; crear uno nuevo al agregar
+    var existingCreatedAt = null;
+    if (state.editingId){
+      var existing = state.plantillas.filter(function(p){ return p.id === state.editingId; })[0];
+      if (existing) existingCreatedAt = existing.createdAt || null;
+    }
+
     var tpl = {
       id: state.editingId || generateId($("fCategory").value, name),
       category: $("fCategory").value,
@@ -474,6 +487,7 @@ header .logout{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,25
       editorURL: $("fEditorURL").value.trim(),
       imageURL: state.currentImageData || "",
       premium: $("fPremium").checked,
+      createdAt: existingCreatedAt || Date.now(),  // ✅ Marca de tiempo
       defaultTitle: $("fTitle").value.trim(),
       defaultSubtitle: $("fSubtitle").value.trim(),
       defaultMessage: $("fMessage").value,
@@ -481,7 +495,6 @@ header .logout{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,25
     };
 
     if (state.editingId){
-      // Editar: mantener la posición original
       for (var i = 0; i < state.plantillas.length; i++){
         if (state.plantillas[i].id === state.editingId){
           state.plantillas[i] = tpl;
@@ -490,8 +503,7 @@ header .logout{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,25
       }
       toast("Plantilla actualizada");
     } else {
-      // NUEVA: se agrega AL PRINCIPIO para que aparezca arriba
-      state.plantillas.unshift(tpl);
+      state.plantillas.unshift(tpl); // ✅ al principio del array
       toast("Plantilla agregada arriba");
     }
 
@@ -511,15 +523,12 @@ header .logout{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,25
   }
 
   function exportFile(){
-    // El array ya está ordenado con las más nuevas al inicio.
-    // JSON.stringify respeta ese orden, así que el archivo exportado
-    // mantiene las plantillas nuevas arriba y las viejas abajo.
     var content =
       "/* ============================================================\n" +
       "   PLANTILLAS — Generado desde el panel admin\n" +
       "   Fecha: " + new Date().toLocaleString("es-MX") + "\n" +
       "   Total: " + state.plantillas.length + " plantillas\n" +
-      "   Orden: más nuevas arriba, más viejas abajo\n" +
+      "   Orden: más nuevas arriba (por createdAt)\n" +
       "   ============================================================ */\n\n" +
       "var PLANTILLAS = {\n" +
       "  categorias: " + JSON.stringify(state.categorias, null, 2) + ",\n\n" +
