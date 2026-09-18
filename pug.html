@@ -53,7 +53,6 @@ html,body{margin:0;padding:0;min-height:100vh;background:radial-gradient(circle 
 .btn svg{width:18px;height:18px;flex-shrink:0}
 #xwm{position:fixed;top:10px;right:10px;z-index:99999;background:linear-gradient(135deg,#7b2ff7,#f107a3,#7b2ff7);background-size:300% 300%;animation:gm 6s ease infinite;color:#fff;font:bold 12px Arial,sans-serif;padding:8px 14px;border-radius:50px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.3);display:inline-flex;align-items:center;gap:6px;pointer-events:auto}
 #xwm::before{content:"✨";font-size:14px}
-#xwm::after{content:"";position:absolute;top:0;left:-80%;width:60%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.75),transparent);transform:skewX(-25deg);animation:sh 2.8s infinite;pointer-events:none}
 @media(max-width:900px){.pug{transform:scale(.72);transform-origin:top center}.btns{position:fixed;bottom:8px}.btn{padding:10px 14px;font-size:12px}#xwm{top:6px;right:6px;font-size:11px;padding:6px 10px}}
 </style></head><body>
 <div class="pug" id="pug">
@@ -84,18 +83,32 @@ html,body{margin:0;padding:0;min-height:100vh;background:radial-gradient(circle 
 var _OWNER="c4rlo53305-lgtm.github.io";
 var _URL="https://c4rlo53305-lgtm.github.io/Peri/index.html";
 var _WA="523121052587";
+var _p=location.protocol;
 var _hn=location.hostname;
-var _ok=(_hn===_OWNER)||(_hn==="localhost")||(_hn==="127.0.0.1")||(_hn==="")||(_hn.indexOf("192.168.")===0)||(_hn.indexOf("10.")===0);
+var _ok=(_p==="file:")||(_hn===_OWNER)||(_hn==="localhost")||(_hn==="127.0.0.1")||(_hn==="")||(_hn.indexOf("192.168.")===0)||(_hn.indexOf("10.")===0);
 if(!_ok){
-  try{document.documentElement.innerHTML='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Contenido protegido</title></head><body style="margin:0;background:#111;color:#eee;font-family:Arial,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center"><div><div style="font-size:60px">🔒</div><h1 style="font-weight:800;letter-spacing:1px">CONTENIDO PROTEGIDO</h1><p style="opacity:.7;max-width:420px;line-height:1.6">Este sitio fue creado por <b>Detalles mágicos</b> y solo puede ejecutarse en su dominio autorizado.</p><a href="'+_URL+'" style="display:inline-block;margin-top:14px;padding:12px 22px;background:linear-gradient(135deg,#7b2ff7,#f107a3);color:#fff;text-decoration:none;border-radius:50px;font-weight:bold">Ir al sitio original</a></div></body></html>';}catch(e){document.body.innerHTML="";}
-  throw new Error("Dom");
+  try{document.documentElement.innerHTML='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Contenido protegido</title></head><body style="margin:0;background:#111;color:#eee;font-family:Arial,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center"><div><div style="font-size:60px">🔒</div><h1 style="font-weight:800;letter-spacing:1px">CONTENIDO PROTEGIDO</h1><p style="opacity:.7;max-width:420px;line-height:1.6">Este sitio fue creado por <b>Detalles mágicos</b> y solo puede ejecutarse en su dominio autorizado.</p><a href="'+_URL+'" style="display:inline-block;margin-top:14px;padding:12px 22px;background:linear-gradient(135deg,#7b2ff7,#f107a3);color:#fff;text-decoration:none;border-radius:50px;font-weight:bold">Ir al sitio original</a></div></body></html>';}catch(e){}
+  return;
 }
+var _wmBusy=false;
 function _mkWm(){var w=document.createElement("a");w.id="xwm";w.href=_URL;w.target="_blank";w.rel="noopener";w.textContent="Hecho por Detalles mágicos";return w;}
-function _ensureWm(){var cur=document.getElementById("xwm");if(!cur){document.body.appendChild(_mkWm());return;}if(cur.parentNode!==document.body){document.body.appendChild(cur);}cur.setAttribute("href",_URL);cur.textContent="Hecho por Detalles mágicos";cur.removeAttribute("style");cur.id="xwm";}
+function _ensureWm(){
+  if(_wmBusy)return;
+  _wmBusy=true;
+  try{
+    var cur=document.getElementById("xwm");
+    if(!cur){document.body.appendChild(_mkWm());}
+    else if(cur.parentNode!==document.body){document.body.appendChild(cur);}
+    if(cur){cur.setAttribute("href",_URL);cur.textContent="Hecho por Detalles mágicos";}
+  }catch(e){}
+  _wmBusy=false;
+}
 _ensureWm();
-try{var _ob=new MutationObserver(function(){_ensureWm();});_ob.observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:["id","style","class","href"]});}catch(e){}
-setInterval(_ensureWm,800);
-window.addEventListener("beforeunload",function(){_ensureWm();});
+try{
+  var _ob=new MutationObserver(function(){setTimeout(_ensureWm,0);});
+  _ob.observe(document.body,{childList:true,subtree:true});
+}catch(e){}
+setInterval(_ensureWm,1500);
 var _0x="Guau guau!|Soy un pug hermoso!|Tengo hambre, dame comida!|Quiero jugar contigo!|Te amo mucho!|Eres mi humano favorito!|Pug life!|Sácame a pasear!|Dame un abrazo!|Eres lo mejor que me ha pasado!|Un besito en la nariz!|Hazme cariñitos!|Te extraño cuando no estás!|Eres mi persona favorita!|Dame galletitas por favor!|Eres mi mejor amigo!|¡Qué guapo eres hoy!|Amo cuando me rascas la panza!|Eres mi sol!|Dame muchos besitos!|Eres mi razón de sonreír!|Contigo soy feliz!|Eres mi todo!|Te quiero con todo mi corazón!".split("|");
 var _1=document.getElementById("pug"),_2=document.getElementById("bubble"),_3=document.getElementById("jaw"),_4=document.getElementById("tongue");
 var _5=document.getElementById("bm"),_6=document.getElementById("bw"),_7=document.getElementById("bp");
@@ -107,14 +120,9 @@ function _e(t){var a=Math.sin(t*2.7+.5),b=Math.sin(t*4.3+2.1),c=Math.max(0,(a+b)
 function _f(){_c.t+=_b;_c.target=_d?_e(_c.t):0;var a=-_9*(_c.pos-_c.target)-_a*_c.vel;_c.vel+=a;_c.pos+=_c.vel;var b=Math.max(0,_c.pos);_3.style.transform="translateY("+(b*8)+"px) scaleY("+(1+b*.55)+")";_4.style.transform="scaleY("+b+")";requestAnimationFrame(_f)}
 _f();
 function _g(){_d=false;_1.classList.remove("talking")}
-_1.addEventListener("click",function(){var t=_0x[Math.floor(Math.random()*_0x.length)];_2.textContent=t;_2.classList.add("show");clearTimeout(_1._bt);_1._bt=setTimeout(function(){_2.classList.remove("show")},2500);_d=true;_c.t=0;_1.classList.add("talking");if("speechSynthesis"in window){speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang="es-MX";u.pitch=1.7;u.rate=1.05;u.onend=_g;u.onerror=_g;speechSynthesis.speak(u);clearTimeout(_1._tt);_1._tt=setTimeout(_g,4500)}else{clearTimeout(_1._tt);_1._tt=setTimeout(_g,2200)}});
+_1.addEventListener("click",function(){var t=_0x[Math.floor(Math.random()*_0x.length)];_2.textContent=t;_2.classList.add("show");clearTimeout(_1._bt);_1._bt=setTimeout(function(){_2.classList.remove("show")},2500);_d=true;_c.t=0;_1.classList.add("talking");if("speechSynthesis"in window){try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang="es-MX";u.pitch=1.7;u.rate=1.05;u.onend=_g;u.onerror=_g;speechSynthesis.speak(u);}catch(e){}}clearTimeout(_1._tt);_1._tt=setTimeout(_g,4500);});
 document.addEventListener("contextmenu",function(e){e.preventDefault()});
-document.addEventListener("selectstart",function(e){e.preventDefault()});
-document.addEventListener("dragstart",function(e){e.preventDefault()});
-document.addEventListener("keydown",function(e){var k=e.key||"",kc=e.keyCode||0;if(kc===123||k==="F12"){e.preventDefault();return false}if(e.ctrlKey&&e.shiftKey&&(k==="I"||k==="i"||k==="J"||k==="j"||k==="C"||k==="c")){e.preventDefault();return false}if(e.ctrlKey&&(k==="U"||k==="u"||k==="S"||k==="s"||k==="P"||k==="p")){e.preventDefault();return false}if(e.metaKey&&e.altKey&&(k==="I"||k==="i"||k==="J"||k==="j"||k==="C"||k==="c")){e.preventDefault();return false}});
-var _h=function(){var t=performance.now();(function(){}).constructor("debugger")();if(performance.now()-t>120){try{window.location.href=_URL}catch(e){}}};
-setInterval(_h,1500);
-try{Object.defineProperty(window,"console",{get:function(){return{log:function(){},warn:function(){},error:function(){},info:function(){}}},set:function(){}})}catch(e){}
+document.addEventListener("keydown",function(e){var k=e.key||"",kc=e.keyCode||0;if(kc===123||k==="F12"){e.preventDefault();return false}if(e.ctrlKey&&e.shiftKey&&(k==="I"||k==="i"||k==="J"||k==="j"||k==="C"||k==="c")){e.preventDefault();return false}if(e.ctrlKey&&(k==="U"||k==="u"||k==="S"||k==="s"||k==="P"||k==="p")){e.preventDefault();return false}});
 })();
 </script>
 </body></html>
