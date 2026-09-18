@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -13,7 +11,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{width:100%;min-height:100dvh;background:radial-gradient(ellipse at top,#0a1830 0%,#010102 70%);font-family:'Inter',sans-serif;color:#fff;overflow-x:hidden}
-#editor{position:relative;z-index:10;max-width:560px;margin:0 auto;padding:24px 18px 180px}
+#editor{position:relative;z-index:10;max-width:560px;margin:0 auto;padding:24px 18px 260px}
 .hero{text-align:center;margin-bottom:22px;margin-top:16px}
 .hero h1{font-family:'Permanent Marker',cursive;font-size:clamp(1.8rem,7vw,2.6rem);line-height:1.05;background:linear-gradient(90deg,#7dd3fc,#a78bfa,#c084fc,#fde68a);background-size:300% 300%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:flow 5s infinite;letter-spacing:1px;filter:drop-shadow(0 0 30px rgba(125,211,252,.55))}
 @keyframes flow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
@@ -80,7 +78,114 @@ html,body{width:100%;min-height:100dvh;background:radial-gradient(ellipse at top
 #preview-modal .preview-bar span{color:#a7f3d0;font-weight:700;font-size:14px}
 #close-preview{background:linear-gradient(135deg,#a7f3d0,#7dd3fc);color:#020610;border:none;padding:9px 18px;border-radius:20px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit}
 #preview-frame{flex:1;width:100%;border:0;background:#000}
+
+/* ============ BOTÓN MORADO "💌 Envíalo" ============ */
+#share-personalized{
+  position:fixed;
+  bottom:calc(96px + env(safe-area-inset-bottom,0));
+  right:16px;
+  z-index:950;
+  height:54px;
+  padding:0 22px 0 18px;
+  border-radius:27px;
+  background:linear-gradient(135deg,#7dd3fc,#a78bfa,#c084fc);
+  color:#05021a;
+  border:2px solid #e0e7ff;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  cursor:pointer;
+  touch-action:manipulation;
+  font-family:inherit;
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:.2px;
+  white-space:nowrap;
+  box-shadow:0 10px 30px rgba(167,139,250,.55),0 4px 10px rgba(0,0,0,.5);
+  transition:transform .2s ease;
+  animation:spPulse 2.4s ease-in-out infinite;
+}
+#share-personalized svg{width:22px;height:22px;fill:#05021a;flex-shrink:0}
+#share-personalized:active{transform:scale(.95)}
+#share-personalized .sp-txt{position:relative;z-index:1}
+@keyframes spPulse{
+  0%,100%{box-shadow:0 10px 30px rgba(167,139,250,.55),0 4px 10px rgba(0,0,0,.5),0 0 0 0 rgba(167,139,250,.6)}
+  50%{box-shadow:0 10px 30px rgba(167,139,250,.75),0 4px 10px rgba(0,0,0,.5),0 0 0 14px rgba(167,139,250,0)}
+}
+
+/* ============ BOTÓN VERDE WhatsApp ============ */
+#share-float{
+  position:fixed;
+  bottom:calc(160px + env(safe-area-inset-bottom,0));
+  right:16px;
+  z-index:950;
+  width:54px;height:54px;border-radius:50%;
+  background:linear-gradient(135deg,#25D366,#128C7E);
+  color:#fff;border:none;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;touch-action:manipulation;
+  box-shadow:0 10px 30px rgba(37,211,102,.55),0 4px 10px rgba(0,0,0,.5);
+  transition:transform .2s ease;
+}
+#share-float svg{width:32px;height:32px;fill:#fff}
+#share-float:active{transform:scale(.92)}
 </style>
+
+<!-- ========== PERI SECURITY PACK v1 · Dedicatorias Mágicas ========== -->
+<script>
+(function(){
+  'use strict';
+  var BRAND = '© Dedicatorias Mágicas · c4rlo53305-lgtm';
+
+  document.addEventListener('contextmenu', function(e){ e.preventDefault(); return false; }, {passive:false});
+
+  document.addEventListener('keydown', function(e){
+    var k = (e.key || '').toLowerCase();
+    if (e.key === 'F12'){ e.preventDefault(); return false; }
+    if (e.ctrlKey  && e.shiftKey && (k==='i'||k==='j'||k==='c')){ e.preventDefault(); return false; }
+    if (e.metaKey  && e.altKey   && (k==='i'||k==='j'||k==='c')){ e.preventDefault(); return false; }
+    if ((e.ctrlKey || e.metaKey) && k==='u'){ e.preventDefault(); return false; }
+    if ((e.ctrlKey || e.metaKey) && k==='s'){ e.preventDefault(); return false; }
+  });
+
+  document.addEventListener('selectstart', function(e){ e.preventDefault(); });
+  document.addEventListener('dragstart',   function(e){ e.preventDefault(); });
+
+  try {
+    console.log('%c⚠️ CONTENIDO PROTEGIDO', 'color:#ff4444;font-size:22px;font-weight:bold');
+    console.log('%c' + BRAND, 'color:#7dd3fc;font-size:13px');
+    console.log('%cSi ves esto, respeta el trabajo ajeno 🙏', 'color:#a78bfa;font-size:11px');
+  } catch(_){}
+
+  var devOpen = false, THRESHOLD = 170;
+  setInterval(function(){
+    var wDelta = window.outerWidth  - window.innerWidth;
+    var hDelta = window.outerHeight - window.innerHeight;
+    var open = (wDelta > THRESHOLD || hDelta > THRESHOLD);
+    if (open && !devOpen){
+      devOpen = true;
+      try {
+        document.body.innerHTML =
+          '<div style="position:fixed;inset:0;background:#000;color:#7dd3fc;' +
+          'display:flex;align-items:center;justify-content:center;flex-direction:column;' +
+          'font-family:sans-serif;font-size:1.1rem;text-align:center;padding:24px;gap:12px">' +
+          '<div style="font-size:48px">🔒</div>' +
+          '<div><b>Contenido protegido</b></div>' +
+          '<div style="opacity:.7;font-size:.85rem">' + BRAND + '</div>' +
+          '</div>';
+      } catch(_){}
+    } else if (!open){
+      devOpen = false;
+    }
+  }, 1200);
+
+  window.addEventListener('load', function(){
+    try { document.documentElement.setAttribute('data-brand', BRAND); } catch(_){}
+  });
+})();
+</script>
+<!-- ========== /PERI SECURITY PACK v1 ========== -->
+
 </head>
 <body>
 
@@ -163,6 +268,19 @@ html,body{width:100%;min-height:100dvh;background:radial-gradient(ellipse at top
   <button id="btn-view" class="btn btn-ghost">👁️ Visualizar</button>
   <button id="btn-generate" class="btn btn-primary">💾 Descargar</button>
 </div>
+
+<!-- BOTÓN MORADO -->
+<button id="share-personalized" aria-label="Envíalo" title="Envíalo personalizado">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+  <span class="sp-txt">💌 Envíalo</span>
+</button>
+
+<!-- BOTÓN VERDE -->
+<button id="share-float" aria-label="Compartir">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+  </svg>
+</button>
 
 <div id="premium-modal">
   <div id="premium-box">
@@ -383,7 +501,6 @@ async function buildNeuralHTML(){
     '}'
   ].join('\n');
 
-  // NODE VERTEX — TAMAÑO GRANDE cuando forma frase
   var NODE_VERTEX = [
     'uniform float uTime;',
     'uniform float uMorph;',
@@ -434,14 +551,12 @@ async function buildNeuralHTML(){
     '  float pulseSize = baseSize * (1.0 + vPulseIntensity * 2.0);',
     '  vGlow = 0.5 + 0.5 * sin(uTime * 0.5 + distanceFromRoot * 0.2);',
     '  vec4 mvPosition = modelViewMatrix * vec4(finalPos, 1.0);',
-    // *** CLAVE 1: sizeFactor de 60 → 380 en modo frase + clamp hasta 6px ***
     '  float sizeFactor = mix(1000.0, 380.0, uMorph);',
     '  gl_PointSize = clamp(pulseSize * uBaseNodeSize * (sizeFactor / -mvPosition.z), 1.2, 6.0);',
     '  gl_Position = projectionMatrix * mvPosition;',
     '}'
   ].join('\n');
 
-  // NODE FRAGMENT — alpha 1.0 y color reforzado en modo frase
   var NODE_FRAGMENT = [
     'uniform float uTime;',
     'uniform vec3 uPulseColors[3];',
@@ -472,7 +587,6 @@ async function buildNeuralHTML(){
     '  float coreN = smoothstep(0.55, 0.0, dist);',
     '  colorN += vec3(1.0) * coreN * 0.5;',
     '  float alphaN = glowStrengthN * (1.0 - 0.22 * dist);',
-    // *** CLAVE 2: punto sólido, alpha 1.0, color reforzado 1.35x + brillo extra ***
     '  vec3 colorP = baseColor * 1.35 + vec3(0.08);',
     '  float alphaP = (dist < 0.7) ? 1.0 : 0.0;',
     '  vec3 finalColor = mix(colorN, colorP, vMorph);',
@@ -574,7 +688,6 @@ async function buildNeuralHTML(){
     '}'
   ].join('\n');
 
-  // FILLER VERTEX — TAMAÑO GRANDE en modo frase
   var FILLER_VERTEX = [
     'uniform float uTime;',
     'uniform float uMorph;',
@@ -595,13 +708,11 @@ async function buildNeuralHTML(){
     '  vAlpha = (0.15 + uMorph * 0.85) * activeMod;',
     '  vec4 mvPos = modelViewMatrix * vec4(finalPos, 1.0);',
     '  gl_Position = projectionMatrix * mvPos;',
-    // *** CLAVE 3: filler sizeFactor de 40 → 240 en modo frase, clamp hasta 5px ***
     '  float sizeFactor = mix(250.0, 240.0, uMorph);',
     '  gl_PointSize = clamp((1.15 + aRand.y * 0.55) * (sizeFactor / -mvPos.z), 1.0, 5.0);',
     '}'
   ].join('\n');
 
-  // FILLER FRAGMENT — alpha 1.0 y color reforzado en modo frase
   var FILLER_FRAGMENT = [
     'varying vec3 vColor;',
     'varying float vMorph;',
@@ -613,7 +724,6 @@ async function buildNeuralHTML(){
     '  float alphaN = smoothstep(0.5, 0.15, d);',
     '  float coreN = smoothstep(0.18, 0.0, d);',
     '  vec3 colorN = vColor * 0.85 + vec3(1.0) * coreN * 0.2;',
-    // *** CLAVE 4: punto sólido, alpha 1.0, color reforzado 1.3x ***
     '  float alphaP = (d < 0.6) ? 1.0 : 0.0;',
     '  vec3 colorP = vColor * 1.3 + vec3(0.05);',
     '  float alpha = mix(alphaN, alphaP, vMorph);',
@@ -623,7 +733,6 @@ async function buildNeuralHTML(){
     '}'
   ].join('\n');
 
-  // SPARKLE VERTEX — más grandes en modo frase para que brillen alrededor
   var SPARKLE_VERTEX = [
     'uniform float uTime;',
     'uniform float uMorph;',
@@ -827,7 +936,6 @@ const isPremium = CONFIG.isPremium;
 const pal = CONFIG.palettes[CONFIG.palette] || CONFIG.palettes.quantum;
 const palColors = pal.colors.map(c => new THREE.Color(c));
 
-// ===== AUDIO =====
 const audio = document.getElementById('audio');
 const musicBtn = document.getElementById('music-btn');
 const musicPanel = document.getElementById('music-panel');
@@ -876,7 +984,6 @@ if (CONFIG.startDate) {
   } catch(e){}
 }
 
-// ===== THREE SCENE =====
 const canvasElement = document.getElementById('neural-canvas');
 const scene = new THREE.Scene();
 scene.fog = new THREE.FogExp2(0x000000, 0.002);
@@ -931,7 +1038,6 @@ controls.maxDistance = 120;
 controls.autoRotate = true;
 controls.autoRotateSpeed = 0.2;
 
-// *** Bloom: moderado en red, ligero en frase (0.15) para que las letras brillen ***
 const BASE_BLOOM = isPremium ? 1.8 : 1.5;
 const PHRASE_BLOOM = 0.15;
 
@@ -961,7 +1067,6 @@ const FILLER_FS = ${FILLER_FS_JSON};
 const SPARKLE_VS = ${SPARKLE_VS_JSON};
 const SPARKLE_FS = ${SPARKLE_FS_JSON};
 
-// ====== NETWORK ======
 class Node {
   constructor(position, level = 0, type = 0) {
     this.position = position;
@@ -1111,7 +1216,6 @@ function bakePhrase(text) {
   const textH = Math.max(1, maxY - minY);
   const aspect = textW / textH;
 
-  // *** TEXTO MÁS GRANDE ***
   const maxW = 24;
   const maxH = 12;
   let WORLD_W, WORLD_H;
@@ -1147,7 +1251,6 @@ function updatePhraseTargets(phrase) {
   const total = phrasePositions.length;
   if (!total) return;
 
-  // *** CLAVE 5: jitter mínimo (0.04) para letras nítidas ***
   if (nodesMesh) {
     const attr = nodesMesh.geometry.attributes.targetPosition;
     const arr = attr.array;
@@ -1161,7 +1264,6 @@ function updatePhraseTargets(phrase) {
     attr.needsUpdate = true;
   }
 
-  // *** CLAVE 6: 40% de fillers van a la frase (antes 15%) → mucha más densidad ***
   if (fillerMesh) {
     const attr = fillerMesh.geometry.attributes.targetPosition;
     const activeAttr = fillerMesh.geometry.attributes.aActive;
@@ -1392,7 +1494,6 @@ function buildVisualization() {
   updatePhraseTargets(CONFIG.phrases[phraseIdx]);
 }
 
-// ===== INTERACTION =====
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
 const interactionPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
@@ -1446,7 +1547,6 @@ function triggerPhrase() {
 
   savedDistance = camera.position.length();
   const needed = computeNeededDistance();
-  // *** SIEMPRE encuadra bien la frase ***
   targetCamDist = needed * 1.08;
   frontCamPos.set(0, 0, targetCamDist);
 
@@ -1511,7 +1611,6 @@ window.addEventListener('resize', () => {
   bloomPass.resolution.set(window.innerWidth, window.innerHeight);
 });
 
-// ===== INTRO =====
 const intro = document.getElementById('intro');
 const iBtn = document.getElementById('iBtn');
 iBtn.addEventListener('click', function(){
@@ -1644,6 +1743,56 @@ async function download(){
   }
 }
 
+/* ============================================================
+   BOTÓN MORADO — 💌 Envíalo
+   ============================================================ */
+async function sharePersonalized(){
+  readInputs();
+  showLoading(true, "Preparando tu red neuronal...");
+  try {
+    var html = await buildNeuralHTML();
+    var nombreArchivo = "red-neuronal-para-" + slugify(state.name) + ".html";
+    var blob = new Blob([html], { type: "text/html;charset=utf-8" });
+    var shareText = "✨ Te hice una red neuronal estelar personalizada ✨\nÁbrela y descubre las frases que forman las estrellas 💫";
+
+    try {
+      var file = new File([blob], nombreArchivo, { type: "text/html" });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], title: "Red Neuronal para " + state.name, text: shareText });
+        showLoading(false);
+        showStatus("¡Compartido! ✨");
+        return;
+      }
+    } catch(err) {
+      if (err && err.name === "AbortError"){ showLoading(false); return; }
+    }
+
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = nombreArchivo; a.rel = "noopener"; a.style.display = "none";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 60000);
+
+    var waText = shareText + "\n\n📎 Se descargó el archivo " + nombreArchivo + ". Adjúntalo aquí en WhatsApp y envíalo 💌";
+    window.open("https://wa.me/?text=" + encodeURIComponent(waText), "_blank");
+    showLoading(false);
+    showStatus("Archivo listo. Adjúntalo en WhatsApp 📎");
+  } catch(err) {
+    console.error(err);
+    showLoading(false);
+    showStatus("Error: " + err.message, false);
+  }
+}
+
+/* ============================================================
+   BOTÓN VERDE — Compartir link del editor
+   ============================================================ */
+function shareEditorLink(){
+  var url = window.location.href.split("#")[0].split("?")[0];
+  var texto = "✨ Estoy creando una Red Neuronal Estelar en Dedicatorias Mágicas ✨\nCrea la tuya gratis:\n" + url;
+  window.open("https://wa.me/?text=" + encodeURIComponent(texto), "_blank");
+}
+
 function initEditor(){
   $("i-music").addEventListener("change", function(e){
     if (!isPremium){ e.target.value = ""; return; }
@@ -1666,6 +1815,8 @@ function initEditor(){
     $(id).addEventListener("input", readInputs);
   });
   $("i-phrases").addEventListener("input", function(){ enforcePhrasesLimit(); readInputs(); });
+  $("share-personalized").addEventListener("click", sharePersonalized);
+  $("share-float").addEventListener("click", shareEditorLink);
   renderPalettes();
   initPremium();
   applyPremiumState();
