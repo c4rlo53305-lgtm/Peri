@@ -497,6 +497,15 @@ var PREMIUM_KEY = "peri_premium_activated";
     cats.forEach(function(cat){
       var list = PLANTILLAS.getPlantillas(cat.id);
       if (!list.length) return;
+
+      // ✅ ORDENAR: más nuevas primero (por createdAt DESC)
+      list = list.slice().sort(function(a, b){
+        var ta = a.createdAt || 0;
+        var tb = b.createdAt || 0;
+        if (ta !== tb) return tb - ta;
+        return 0;
+      });
+
       var sec = document.createElement("section");
       sec.className = "categoria-section reveal";
       sec.dataset.cat = cat.id;
