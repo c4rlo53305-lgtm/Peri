@@ -11,7 +11,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{width:100%;min-height:100dvh;background:radial-gradient(ellipse at top,#2a1c00 0%,#0a0600 60%,#010102 100%);font-family:'Inter',sans-serif;color:#fff;overflow-x:hidden}
-#editor{position:relative;z-index:10;max-width:560px;margin:0 auto;padding:24px 18px 180px}
+#editor{position:relative;z-index:10;max-width:560px;margin:0 auto;padding:24px 18px 260px}
 .hero{text-align:center;margin-bottom:22px;margin-top:16px}
 .hero h1{font-family:'Permanent Marker',cursive;font-size:clamp(1.8rem,7vw,2.6rem);line-height:1.05;background:linear-gradient(90deg,#FFD700,#FFA000,#FFEB3B,#FFC107);background-size:300% 300%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:flow 5s infinite;letter-spacing:1px;filter:drop-shadow(0 0 30px rgba(255,193,7,.65))}
 @keyframes flow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
@@ -78,7 +78,114 @@ html,body{width:100%;min-height:100dvh;background:radial-gradient(ellipse at top
 #preview-modal .preview-bar span{color:#FFD700;font-weight:700;font-size:14px}
 #close-preview{background:linear-gradient(135deg,#FFD700,#FF9800);color:#3b1f00;border:none;padding:9px 18px;border-radius:20px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit}
 #preview-frame{flex:1;width:100%;border:0;background:#000}
+
+/* ============ BOTÓN MORADO "💌 Envíalo" ============ */
+#share-personalized{
+  position:fixed;
+  bottom:calc(96px + env(safe-area-inset-bottom,0));
+  right:16px;
+  z-index:950;
+  height:54px;
+  padding:0 22px 0 18px;
+  border-radius:27px;
+  background:linear-gradient(135deg,#7dd3fc,#a78bfa,#c084fc);
+  color:#05021a;
+  border:2px solid #e0e7ff;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  cursor:pointer;
+  touch-action:manipulation;
+  font-family:inherit;
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:.2px;
+  white-space:nowrap;
+  box-shadow:0 10px 30px rgba(167,139,250,.55),0 4px 10px rgba(0,0,0,.5);
+  transition:transform .2s ease;
+  animation:spPulse 2.4s ease-in-out infinite;
+}
+#share-personalized svg{width:22px;height:22px;fill:#05021a;flex-shrink:0}
+#share-personalized:active{transform:scale(.95)}
+#share-personalized .sp-txt{position:relative;z-index:1}
+@keyframes spPulse{
+  0%,100%{box-shadow:0 10px 30px rgba(167,139,250,.55),0 4px 10px rgba(0,0,0,.5),0 0 0 0 rgba(167,139,250,.6)}
+  50%{box-shadow:0 10px 30px rgba(167,139,250,.75),0 4px 10px rgba(0,0,0,.5),0 0 0 14px rgba(167,139,250,0)}
+}
+
+/* ============ BOTÓN VERDE WhatsApp ============ */
+#share-float{
+  position:fixed;
+  bottom:calc(160px + env(safe-area-inset-bottom,0));
+  right:16px;
+  z-index:950;
+  width:54px;height:54px;border-radius:50%;
+  background:linear-gradient(135deg,#25D366,#128C7E);
+  color:#fff;border:none;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;touch-action:manipulation;
+  box-shadow:0 10px 30px rgba(37,211,102,.55),0 4px 10px rgba(0,0,0,.5);
+  transition:transform .2s ease;
+}
+#share-float svg{width:32px;height:32px;fill:#fff}
+#share-float:active{transform:scale(.92)}
 </style>
+
+<!-- ========== PERI SECURITY PACK v1 · Dedicatorias Mágicas ========== -->
+<script>
+(function(){
+  'use strict';
+  var BRAND = '© Dedicatorias Mágicas · c4rlo53305-lgtm';
+
+  document.addEventListener('contextmenu', function(e){ e.preventDefault(); return false; }, {passive:false});
+
+  document.addEventListener('keydown', function(e){
+    var k = (e.key || '').toLowerCase();
+    if (e.key === 'F12'){ e.preventDefault(); return false; }
+    if (e.ctrlKey  && e.shiftKey && (k==='i'||k==='j'||k==='c')){ e.preventDefault(); return false; }
+    if (e.metaKey  && e.altKey   && (k==='i'||k==='j'||k==='c')){ e.preventDefault(); return false; }
+    if ((e.ctrlKey || e.metaKey) && k==='u'){ e.preventDefault(); return false; }
+    if ((e.ctrlKey || e.metaKey) && k==='s'){ e.preventDefault(); return false; }
+  });
+
+  document.addEventListener('selectstart', function(e){ e.preventDefault(); });
+  document.addEventListener('dragstart',   function(e){ e.preventDefault(); });
+
+  try {
+    console.log('%c⚠️ CONTENIDO PROTEGIDO', 'color:#ff4444;font-size:22px;font-weight:bold');
+    console.log('%c' + BRAND, 'color:#7dd3fc;font-size:13px');
+    console.log('%cSi ves esto, respeta el trabajo ajeno 🙏', 'color:#a78bfa;font-size:11px');
+  } catch(_){}
+
+  var devOpen = false, THRESHOLD = 170;
+  setInterval(function(){
+    var wDelta = window.outerWidth  - window.innerWidth;
+    var hDelta = window.outerHeight - window.innerHeight;
+    var open = (wDelta > THRESHOLD || hDelta > THRESHOLD);
+    if (open && !devOpen){
+      devOpen = true;
+      try {
+        document.body.innerHTML =
+          '<div style="position:fixed;inset:0;background:#000;color:#7dd3fc;' +
+          'display:flex;align-items:center;justify-content:center;flex-direction:column;' +
+          'font-family:sans-serif;font-size:1.1rem;text-align:center;padding:24px;gap:12px">' +
+          '<div style="font-size:48px">🔒</div>' +
+          '<div><b>Contenido protegido</b></div>' +
+          '<div style="opacity:.7;font-size:.85rem">' + BRAND + '</div>' +
+          '</div>';
+      } catch(_){}
+    } else if (!open){
+      devOpen = false;
+    }
+  }, 1200);
+
+  window.addEventListener('load', function(){
+    try { document.documentElement.setAttribute('data-brand', BRAND); } catch(_){}
+  });
+})();
+</script>
+<!-- ========== /PERI SECURITY PACK v1 ========== -->
+
 </head>
 <body>
 
@@ -161,6 +268,19 @@ html,body{width:100%;min-height:100dvh;background:radial-gradient(ellipse at top
   <button id="btn-view" class="btn btn-ghost">👁️ Visualizar</button>
   <button id="btn-generate" class="btn btn-primary">💾 Descargar</button>
 </div>
+
+<!-- BOTÓN MORADO -->
+<button id="share-personalized" aria-label="Envíalo" title="Envíalo personalizado">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+  <span class="sp-txt">💌 Envíalo</span>
+</button>
+
+<!-- BOTÓN VERDE -->
+<button id="share-float" aria-label="Compartir">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+  </svg>
+</button>
 
 <div id="premium-modal">
   <div id="premium-box">
@@ -333,7 +453,6 @@ async function buildGalaxyHTML(){
   var customMusicJSON = JSON.stringify(state.customMusic || null);
   var isPremiumJSON = JSON.stringify(isPremium);
 
-  // ---- Vertex/Fragment shaders compartidos ----
   var NOISE_FN = [
 'vec3 mod289(vec3 x){return x - floor(x*(1.0/289.0))*289.0;}',
 'vec4 mod289(vec4 x){return x - floor(x*(1.0/289.0))*289.0;}',
@@ -609,7 +728,6 @@ NOISE_FN,
   var SPARKLE_VS_J = JSON.stringify(SPARKLE_VS);
   var SPARKLE_FS_J = JSON.stringify(SPARKLE_FS);
 
-  // Snoopy SVG (inlinado)
   var SNOOPY_SVG = '<svg viewBox="0 0 340 400" xmlns="http://www.w3.org/2000/svg">' +
 '<defs>' +
 '<radialGradient id="snoopyGlow" cx="50%" cy="55%"><stop offset="0%" stop-color="#FFD700" stop-opacity="0.35"/><stop offset="100%" stop-color="#FFD700" stop-opacity="0"/></radialGradient>' +
@@ -626,12 +744,8 @@ NOISE_FN,
 '<path d="M 212 362 L 238 362 M 238 362 L 264 362" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>' +
 '<path d="M 128 218 Q 108 290 118 355 L 232 355 Q 242 290 222 218 Z" fill="#ffffff" stroke="#1a1a1a" stroke-width="4" stroke-linejoin="round"/>' +
 '<ellipse cx="72" cy="140" rx="54" ry="102" fill="#1a1a1a" transform="rotate(-9 72 140)"/>' +
-'<ellipse cx="54" cy="88" rx="10" ry="24" fill="#ffffff" opacity="0.38" transform="rotate(-14 54 88)"/>' +
-'<ellipse cx="86" cy="180" rx="6" ry="16" fill="#ffffff" opacity="0.22" transform="rotate(-8 86 180)"/>' +
-'<ellipse cx="60" cy="130" rx="4" ry="10" fill="#ffffff" opacity="0.28" transform="rotate(-12 60 130)"/>' +
 '<ellipse cx="198" cy="115" rx="120" ry="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="4" transform="rotate(-4 198 115)"/>' +
 '<ellipse cx="262" cy="98" rx="24" ry="16" fill="#1a1a1a"/>' +
-'<ellipse cx="255" cy="93" rx="6" ry="4" fill="#ffffff" opacity="0.28"/>' +
 '<path d="M 188 64 Q 206 58 220 68" stroke="#1a1a1a" stroke-width="4" fill="none" stroke-linecap="round"/>' +
 '<path d="M 214 148 Q 236 154 256 145" stroke="#1a1a1a" stroke-width="3.5" fill="none" stroke-linecap="round"/>' +
 '<circle cx="228" cy="158" r="3" fill="#1a1a1a"/>' +
@@ -643,26 +757,15 @@ NOISE_FN,
 '<path d="M 218 200 Q 200 170 188 142" stroke="#4a7c2a" stroke-width="4.5" fill="none" stroke-linecap="round"/>' +
 '<path d="M 218 200 L 210 138" stroke="#4a7c2a" stroke-width="4.5" fill="none" stroke-linecap="round"/>' +
 '<path d="M 218 200 Q 240 170 250 145" stroke="#4a7c2a" stroke-width="4.5" fill="none" stroke-linecap="round"/>' +
-'<path d="M 218 200 Q 205 175 200 158" stroke="#4a7c2a" stroke-width="4.5" fill="none" stroke-linecap="round"/>' +
-'<path d="M 218 200 Q 230 175 235 158" stroke="#4a7c2a" stroke-width="4.5" fill="none" stroke-linecap="round"/>' +
-'<g transform="rotate(-42 182 180)"><ellipse cx="182" cy="180" rx="17" ry="7" fill="#6BA83E"/><path d="M 166 180 L 198 180" stroke="#4a7c2a" stroke-width="0.8"/></g>' +
-'<g transform="rotate(42 246 180)"><ellipse cx="246" cy="180" rx="17" ry="7" fill="#6BA83E"/><path d="M 230 180 L 262 180" stroke="#4a7c2a" stroke-width="0.8"/></g>' +
 '<g transform="translate(186 138)">' +
 '<g fill="url(#petalGrad)"><ellipse cx="0" cy="-24" rx="7.5" ry="12"/><ellipse cx="17" cy="-17" rx="7.5" ry="12" transform="rotate(45 0 0)"/><ellipse cx="24" cy="0" rx="7.5" ry="12" transform="rotate(90 0 0)"/><ellipse cx="17" cy="17" rx="7.5" ry="12" transform="rotate(135 0 0)"/><ellipse cx="0" cy="24" rx="7.5" ry="12"/><ellipse cx="-17" cy="17" rx="7.5" ry="12" transform="rotate(-135 0 0)"/><ellipse cx="-24" cy="0" rx="7.5" ry="12" transform="rotate(-90 0 0)"/><ellipse cx="-17" cy="-17" rx="7.5" ry="12" transform="rotate(-45 0 0)"/></g>' +
-'<g fill="url(#petalGrad2)"><ellipse cx="0" cy="-16" rx="5" ry="9"/><ellipse cx="11.3" cy="-11.3" rx="5" ry="9" transform="rotate(45 0 0)"/><ellipse cx="16" cy="0" rx="5" ry="9" transform="rotate(90 0 0)"/><ellipse cx="11.3" cy="11.3" rx="5" ry="9" transform="rotate(135 0 0)"/><ellipse cx="0" cy="16" rx="5" ry="9"/><ellipse cx="-11.3" cy="11.3" rx="5" ry="9" transform="rotate(-135 0 0)"/><ellipse cx="-16" cy="0" rx="5" ry="9" transform="rotate(-90 0 0)"/><ellipse cx="-11.3" cy="-11.3" rx="5" ry="9" transform="rotate(-45 0 0)"/></g>' +
-'<circle r="13" fill="url(#centerGrad)"/><circle r="9" fill="#2a1400" opacity="0.7"/>' +
-'<circle cx="-3" cy="-2" r="1.3" fill="#5a2e00"/><circle cx="4" cy="3" r="1.3" fill="#5a2e00"/><circle cx="3" cy="-4" r="1.3" fill="#5a2e00"/><circle cx="-4" cy="3" r="1.3" fill="#5a2e00"/><circle cx="0" cy="0" r="1.3" fill="#5a2e00"/>' +
+'<circle r="13" fill="url(#centerGrad)"/>' +
 '</g>' +
 '<g transform="translate(252 142)">' +
 '<g fill="url(#petalGrad)"><ellipse cx="0" cy="-21" rx="7" ry="11"/><ellipse cx="14.8" cy="-14.8" rx="7" ry="11" transform="rotate(45 0 0)"/><ellipse cx="21" cy="0" rx="7" ry="11" transform="rotate(90 0 0)"/><ellipse cx="14.8" cy="14.8" rx="7" ry="11" transform="rotate(135 0 0)"/><ellipse cx="0" cy="21" rx="7" ry="11"/><ellipse cx="-14.8" cy="14.8" rx="7" ry="11" transform="rotate(-135 0 0)"/><ellipse cx="-21" cy="0" rx="7" ry="11" transform="rotate(-90 0 0)"/><ellipse cx="-14.8" cy="-14.8" rx="7" ry="11" transform="rotate(-45 0 0)"/></g>' +
-'<g fill="url(#petalGrad2)"><ellipse cx="0" cy="-14" rx="4.5" ry="8"/><ellipse cx="9.9" cy="-9.9" rx="4.5" ry="8" transform="rotate(45 0 0)"/><ellipse cx="14" cy="0" rx="4.5" ry="8" transform="rotate(90 0 0)"/><ellipse cx="9.9" cy="9.9" rx="4.5" ry="8" transform="rotate(135 0 0)"/><ellipse cx="0" cy="14" rx="4.5" ry="8"/><ellipse cx="-9.9" cy="9.9" rx="4.5" ry="8" transform="rotate(-135 0 0)"/><ellipse cx="-14" cy="0" rx="4.5" ry="8" transform="rotate(-90 0 0)"/><ellipse cx="-9.9" cy="-9.9" rx="4.5" ry="8" transform="rotate(-45 0 0)"/></g>' +
-'<circle r="11" fill="url(#centerGrad)"/><circle r="7.5" fill="#2a1400" opacity="0.7"/>' +
-'<circle cx="-2" cy="-2" r="1.2" fill="#5a2e00"/><circle cx="3" cy="2" r="1.2" fill="#5a2e00"/><circle cx="2" cy="-3" r="1.2" fill="#5a2e00"/><circle cx="-3" cy="2" r="1.2" fill="#5a2e00"/>' +
+'<circle r="11" fill="url(#centerGrad)"/>' +
 '</g>' +
-'<g transform="translate(218 132)"><circle r="21" fill="url(#roseGrad)"/><path d="M -12 -9 Q 0 -16 12 -9 Q 17 -1 9 8 Q 0 14 -9 8 Q -17 -1 -12 -9 Z" fill="#FBC02D" opacity="0.8"/><path d="M -7 -5 Q 0 -9 7 -5 Q 10 0 6 5 Q 0 8 -6 5 Q -10 0 -7 -5 Z" fill="#F9A825"/><path d="M -3 -2 Q 0 -4 3 -2 Q 4 0 2 2 Q 0 3 -2 2 Q -4 0 -3 -2 Z" fill="#E65100"/><circle r="1.5" fill="#8B0000"/></g>' +
-'<g transform="translate(202 158)"><circle r="13" fill="url(#roseGrad)"/><path d="M -7 -5 Q 0 -9 7 -5 Q 9 0 5 5 Q 0 7 -5 5 Q -9 0 -7 -5 Z" fill="#FBC02D"/><circle r="2" fill="#E65100"/></g>' +
-'<g transform="translate(238 158)"><circle r="12" fill="url(#roseGrad)"/><path d="M -6 -4 Q 0 -8 6 -4 Q 8 0 4 4 Q 0 6 -4 4 Q -8 0 -6 -4 Z" fill="#FBC02D"/><circle r="2" fill="#E65100"/></g>' +
-'<g transform="translate(220 168)"><circle r="10" fill="url(#roseGrad)"/><path d="M -5 -3 Q 0 -7 5 -3 Q 7 0 3 3 Q 0 5 -3 3 Q -7 0 -5 -3 Z" fill="#FBC02D"/><circle r="1.5" fill="#E65100"/></g>' +
+'<g transform="translate(218 132)"><circle r="21" fill="url(#roseGrad)"/><path d="M -12 -9 Q 0 -16 12 -9 Q 17 -1 9 8 Q 0 14 -9 8 Q -17 -1 -12 -9 Z" fill="#FBC02D" opacity="0.8"/><path d="M -7 -5 Q 0 -9 7 -5 Q 10 0 6 5 Q 0 8 -6 5 Q -10 0 -7 -5 Z" fill="#F9A825"/><circle r="2" fill="#E65100"/></g>' +
 '</g>' +
 '<g class="hearts-svg">' +
 '<path d="M 302 128 C 294 118 281 118 276 128 C 271 140 285 152 302 166 C 319 152 333 140 328 128 C 323 118 310 118 302 128 Z" fill="#e53935" stroke="#1a1a1a" stroke-width="3.5" stroke-linejoin="round"/>' +
@@ -670,7 +773,6 @@ NOISE_FN,
 '</g>' +
 '</svg>';
 
-  // Convertimos el SVG a string seguro para inyectar en JS
   var SNOOPY_SVG_JSON = JSON.stringify(SNOOPY_SVG);
 
   return '<!DOCTYPE html>\n' +
@@ -703,7 +805,7 @@ NOISE_FN,
 '.intro-infinity{font-size:34px;line-height:1;text-shadow:0 0 22px rgba(255,215,0,.85);animation:infPulse 3s ease-in-out infinite}\n' +
 '@keyframes infPulse{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.15);opacity:1}}\n' +
 '.intro-love{font-family:"Cormorant Garamond",serif;font-size:11px;letter-spacing:6px;color:#FFE082;font-weight:600;margin-top:-4px}\n' +
-'.intro-title{font-family:"Cormorant Garamond",serif;font-weight:700;font-size:clamp(2.2rem,9vw,3.4rem);color:#FFF3C4;letter-spacing:1px;line-height:1.05;text-shadow:0 0 24px rgba(255,200,0,.75),0 0 55px rgba(255,180,0,.5),0 2px 0 rgba(120,70,0,.6);margin-top:4px}\n' +
+'.intro-title{font-family:"Cormorant Garamond",serif;font-weight:700;font-size:clamp(2.2rem,9vw,3.4rem);color:#FFF3C4;letter-spacing:1px;line-height:1.05;text-shadow:0 0 24px rgba(255,200,0,.75),0 0 55px rgba(255,180,0,.5);margin-top:4px}\n' +
 '.intro-subtitle{font-family:"Cormorant Garamond",serif;font-style:italic;font-weight:600;font-size:clamp(1.5rem,6vw,2.1rem);color:#FFC107;text-shadow:0 0 22px rgba(255,193,7,.75);margin-bottom:4px}\n' +
 '.intro-character{width:min(280px,72vw);height:min(330px,82vw);filter:drop-shadow(0 18px 42px rgba(255,193,7,.55)) drop-shadow(0 4px 14px rgba(0,0,0,.7));animation:snoopyFloat 3.4s ease-in-out infinite;transform-origin:center bottom;margin:2px 0 6px;position:relative}\n' +
 '.intro-character svg{width:100%;height:100%;display:block;overflow:visible}\n' +
@@ -844,10 +946,8 @@ NOISE_FN,
 'const pal = CONFIG.palettes[CONFIG.palette] || CONFIG.palettes.dorado;\n' +
 'const palColors = pal.colors.map(c => new THREE.Color(c));\n' +
 '\n' +
-'// Insert Snoopy SVG\n' +
 'document.getElementById("intro-character").innerHTML = ' + SNOOPY_SVG_JSON + ';\n' +
 '\n' +
-'// Audio\n' +
 'const audio = document.getElementById("audio");\n' +
 'const musicBtn = document.getElementById("music-btn");\n' +
 'const musicPanel = document.getElementById("music-panel");\n' +
@@ -877,7 +977,6 @@ NOISE_FN,
 '\n' +
 'document.getElementById("btnFullscreen").onclick = (e) => { e.stopPropagation(); if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); };\n' +
 '\n' +
-'// Days counter\n' +
 'if (CONFIG.startDate) {\n' +
 '  try {\n' +
 '    const d0 = new Date(CONFIG.startDate);\n' +
@@ -886,7 +985,6 @@ NOISE_FN,
 '  } catch(e){}\n' +
 '}\n' +
 '\n' +
-'// Premium modal\n' +
 'const premiumModal = document.getElementById("premium-modal");\n' +
 'document.getElementById("btnPremium").onclick = (e) => { e.stopPropagation(); premiumModal.classList.add("show"); };\n' +
 'document.getElementById("premium-close").onclick = () => premiumModal.classList.remove("show");\n' +
@@ -894,7 +992,6 @@ NOISE_FN,
 'premiumModal.onclick = (e) => { if (e.target === premiumModal) premiumModal.classList.remove("show"); };\n' +
 'document.getElementById("premium-upgrade").onclick = () => window.open("https://c4rlo53305-lgtm.github.io/Peri/premium.html", "_blank");\n' +
 '\n' +
-'// Three scene\n' +
 'const canvas = document.getElementById("galaxy-canvas");\n' +
 'const scene = new THREE.Scene();\n' +
 'scene.fog = new THREE.FogExp2(0x000000, 0.0022);\n' +
@@ -906,7 +1003,6 @@ NOISE_FN,
 'renderer.setClearColor(0x050300);\n' +
 'renderer.outputColorSpace = THREE.SRGBColorSpace;\n' +
 '\n' +
-'// Starfield\n' +
 'function createStarfield() {\n' +
 '  const count = isPremium ? 14000 : 7000;\n' +
 '  const positions = [], colors = [], sizes = [];\n' +
@@ -937,7 +1033,6 @@ NOISE_FN,
 'const starField = createStarfield();\n' +
 'scene.add(starField);\n' +
 '\n' +
-'// Controls\n' +
 'const controls = new OrbitControls(camera, renderer.domElement);\n' +
 'controls.enableDamping = true;\n' +
 'controls.dampingFactor = 0.06;\n' +
@@ -950,7 +1045,6 @@ NOISE_FN,
 'controls.autoRotate = true;\n' +
 'controls.autoRotateSpeed = 0.25;\n' +
 '\n' +
-'// Bloom\n' +
 'const BASE_BLOOM = isPremium ? 2.0 : 1.7;\n' +
 'const PHRASE_BLOOM = 0.25;\n' +
 'const composer = new EffectComposer(renderer);\n' +
@@ -978,7 +1072,6 @@ NOISE_FN,
 'const SPARKLE_VS = ' + SPARKLE_VS_J + ';\n' +
 'const SPARKLE_FS = ' + SPARKLE_FS_J + ';\n' +
 '\n' +
-'// Sunflower texture\n' +
 'function makeSunflowerTexture() {\n' +
 '  const size = 128;\n' +
 '  const c = document.createElement("canvas");\n' +
@@ -1019,7 +1112,6 @@ NOISE_FN,
 '}\n' +
 'const sunflowerGroup = makeSunflowers();\n' +
 '\n' +
-'// Network\n' +
 'class Node {\n' +
 '  constructor(pos, level=0, type=0){\n' +
 '    this.position = pos; this.connections = []; this.level = level; this.type = type;\n' +
@@ -1576,6 +1668,56 @@ async function download(){
   }
 }
 
+/* ============================================================
+   BOTÓN MORADO — 💌 Envíalo
+   ============================================================ */
+async function sharePersonalized(){
+  readInputs();
+  showLoading(true, "Preparando tus flores...");
+  try {
+    var html = await buildGalaxyHTML();
+    var nombreArchivo = "flores-amarillas-para-" + slugify(state.name) + ".html";
+    var blob = new Blob([html], { type: "text/html;charset=utf-8" });
+    var shareText = "🌻 Te hice flores amarillas virtuales 💛\nÁbrelas y descubre la sorpresa ✨";
+
+    try {
+      var file = new File([blob], nombreArchivo, { type: "text/html" });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], title: "Flores para " + state.name, text: shareText });
+        showLoading(false);
+        showStatus("¡Compartido! 🌻");
+        return;
+      }
+    } catch(err) {
+      if (err && err.name === "AbortError"){ showLoading(false); return; }
+    }
+
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = nombreArchivo; a.rel = "noopener"; a.style.display = "none";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 60000);
+
+    var waText = shareText + "\n\n📎 Se descargó el archivo " + nombreArchivo + ". Adjúntalo aquí en WhatsApp y envíalo 💌";
+    window.open("https://wa.me/?text=" + encodeURIComponent(waText), "_blank");
+    showLoading(false);
+    showStatus("Archivo listo. Adjúntalo en WhatsApp 📎");
+  } catch(err) {
+    console.error(err);
+    showLoading(false);
+    showStatus("Error: " + err.message, false);
+  }
+}
+
+/* ============================================================
+   BOTÓN VERDE — Compartir link del editor
+   ============================================================ */
+function shareEditorLink(){
+  var url = window.location.href.split("#")[0].split("?")[0];
+  var texto = "🌻 Estoy creando Flores Amarillas en Dedicatorias Mágicas ✨\nCrea las tuyas gratis:\n" + url;
+  window.open("https://wa.me/?text=" + encodeURIComponent(texto), "_blank");
+}
+
 function initEditor(){
   $("i-music").addEventListener("change", function(e){
     if (!isPremium){ e.target.value = ""; return; }
@@ -1598,6 +1740,8 @@ function initEditor(){
     $(id).addEventListener("input", readInputs);
   });
   $("i-phrases").addEventListener("input", function(){ enforcePhrasesLimit(); readInputs(); });
+  $("share-personalized").addEventListener("click", sharePersonalized);
+  $("share-float").addEventListener("click", shareEditorLink);
   renderPalettes();
   initPremium();
   applyPremiumState();
