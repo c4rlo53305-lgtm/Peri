@@ -128,7 +128,7 @@ header .logout{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,25
     <button class="btn btn-gold" id="btnExport">⬇ Exportar plantillas.js</button>
   </div>
 
-  <div class="section-title">Tus plantillas</div>
+  <div class="section-title">Tus plantillas (más nuevas arriba)</div>
   <div id="listContainer"></div>
 
   <div class="section-title">Cómo subir a GitHub</div>
@@ -348,6 +348,7 @@ header .logout{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,25
       head.innerHTML = '<span class="emo">' + cat.emoji + '</span><span class="name">' + cat.name + '</span><span class="count">' + items.length + '</span>';
       group.appendChild(head);
 
+      // items ya vienen en orden del array (más nuevas arriba)
       items.forEach(function(tpl){
         var row = document.createElement("div");
         row.className = "tpl-row";
@@ -443,7 +444,6 @@ header .logout{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,25
     reader.onload = function(ev){
       var img = new Image();
       img.onload = function(){
-        // Redimensionar siempre a 600px max
         var maxW = 600;
         var s = Math.min(1, maxW / img.width);
         var w = Math.round(img.width * s), h = Math.round(img.height * s);
@@ -481,6 +481,7 @@ header .logout{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,25
     };
 
     if (state.editingId){
+      // Editar: mantener la posición original
       for (var i = 0; i < state.plantillas.length; i++){
         if (state.plantillas[i].id === state.editingId){
           state.plantillas[i] = tpl;
@@ -489,8 +490,9 @@ header .logout{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,25
       }
       toast("Plantilla actualizada");
     } else {
-      state.plantillas.push(tpl);
-      toast("Plantilla agregada");
+      // NUEVA: se agrega AL PRINCIPIO para que aparezca arriba
+      state.plantillas.unshift(tpl);
+      toast("Plantilla agregada arriba");
     }
 
     save();
@@ -509,11 +511,15 @@ header .logout{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,25
   }
 
   function exportFile(){
+    // El array ya está ordenado con las más nuevas al inicio.
+    // JSON.stringify respeta ese orden, así que el archivo exportado
+    // mantiene las plantillas nuevas arriba y las viejas abajo.
     var content =
       "/* ============================================================\n" +
       "   PLANTILLAS — Generado desde el panel admin\n" +
       "   Fecha: " + new Date().toLocaleString("es-MX") + "\n" +
       "   Total: " + state.plantillas.length + " plantillas\n" +
+      "   Orden: más nuevas arriba, más viejas abajo\n" +
       "   ============================================================ */\n\n" +
       "var PLANTILLAS = {\n" +
       "  categorias: " + JSON.stringify(state.categorias, null, 2) + ",\n\n" +
