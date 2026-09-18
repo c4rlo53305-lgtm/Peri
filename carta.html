@@ -12,8 +12,7 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{width:100%;min-height:100dvh;overflow-x:hidden;font-family:'Inter',system-ui,sans-serif;background:#0a0a0f;color:#fff;line-height:1.5}
 
-/* ============ EDITOR ============ */
-#editor{position:relative;z-index:10;min-height:100dvh;padding:20px 18px 200px;background:radial-gradient(ellipse at top,#1a0a10 0%,#0a0a0f 70%)}
+#editor{position:relative;z-index:10;min-height:100dvh;padding:20px 18px 220px;background:radial-gradient(ellipse at top,#1a0a10 0%,#0a0a0f 70%)}
 .editor-head{max-width:520px;margin:40px auto 20px;text-align:center;width:100%}
 .editor-head h1{font-family:'Great Vibes',cursive;font-size:clamp(2rem,7vw,3rem);background:linear-gradient(90deg,#ff4d6d,#ff8fa3,#ff4d6d);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;animation:flowGradient 4s ease infinite}
 @keyframes flowGradient{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
@@ -32,7 +31,6 @@ html,body{width:100%;min-height:100dvh;overflow-x:hidden;font-family:'Inter',sys
 .opt-btn .emoji{font-size:1.5rem}
 .opt-btn.locked{opacity:.5}
 
-/* ============ BOTONES PRINCIPALES ============ */
 .botones-accion{max-width:520px;margin:20px auto 0;width:100%;display:flex;flex-direction:column;gap:10px}
 .botones-accion button{width:100%;padding:15px;border-radius:14px;border:none;font-weight:800;font-size:.95rem;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .15s;color:#fff}
 .botones-accion button:active{transform:scale(.97)}
@@ -41,7 +39,6 @@ html,body{width:100%;min-height:100dvh;overflow-x:hidden;font-family:'Inter',sys
 .btn-vista{background:linear-gradient(135deg,#00d4ff,#7b2ff7);box-shadow:0 8px 24px rgba(0,212,255,.4)}
 .btn-descarga{background:linear-gradient(135deg,#ff4d6d,#c9184a);box-shadow:0 8px 24px rgba(255,77,109,.4)}
 
-/* ============ MODAL COMPARTIR ============ */
 #share-modal{position:fixed;inset:0;z-index:1500;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);display:none;align-items:flex-end;justify-content:center}
 #share-modal.show{display:flex;animation:fadeIn .25s ease-out}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -63,7 +60,6 @@ html,body{width:100%;min-height:100dvh;overflow-x:hidden;font-family:'Inter',sys
 #share-modal .share-option-title{font-size:16px;font-weight:600;margin-bottom:2px}
 #share-modal .share-option-subtitle{font-size:13px;color:#94a3b8}
 
-/* ============ MODAL PREMIUM ============ */
 #premium-modal{position:fixed;inset:0;z-index:1600;background:rgba(0,0,0,.88);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:20px}
 #premium-modal.show{display:flex;animation:fadeIn .3s}
 #premium-box{width:100%;max-width:400px;background:linear-gradient(160deg,#1a1207,#0a0a15);border:2px solid rgba(255,209,102,.5);border-radius:22px;padding:28px 24px;text-align:center;box-shadow:0 0 80px rgba(255,180,40,.35);position:relative}
@@ -80,14 +76,106 @@ html,body{width:100%;min-height:100dvh;overflow-x:hidden;font-family:'Inter',sys
 #premium-box .btn-later{background:transparent;border:1px solid rgba(255,209,102,.3);color:#c9a76a;padding:12px;border-radius:12px;width:100%;cursor:pointer;font-family:inherit;font-size:.85rem}
 #premium-box .close-x{position:absolute;top:14px;right:16px;background:transparent;border:none;color:#c9a76a;font-size:24px;cursor:pointer;line-height:1}
 
-/* Toast */
 #toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);background:#22c55e;color:#fff;padding:12px 24px;border-radius:30px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:all .3s;z-index:2000;box-shadow:0 4px 15px rgba(34,197,94,.4)}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* =========================================================
+   BOTÓN MORADO "💌 Envíalo"
+   ========================================================= */
+#share-personalized{
+  position:fixed;
+  bottom:calc(96px + env(safe-area-inset-bottom,0));
+  right:16px;
+  z-index:950;
+  height:54px;
+  padding:0 22px 0 18px;
+  border-radius:27px;
+  background:linear-gradient(135deg,#7dd3fc,#a78bfa,#c084fc);
+  color:#05021a;
+  border:2px solid #e0e7ff;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  cursor:pointer;
+  touch-action:manipulation;
+  font-family:inherit;
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:.2px;
+  white-space:nowrap;
+  box-shadow:0 10px 30px rgba(167,139,250,.55),0 4px 10px rgba(0,0,0,.5);
+  transition:transform .2s ease;
+  animation:spPulse 2.4s ease-in-out infinite;
+}
+#share-personalized:active{transform:scale(.95)}
+#share-personalized .sp-txt{position:relative;z-index:1}
+@keyframes spPulse{
+  0%,100%{box-shadow:0 10px 30px rgba(167,139,250,.55),0 4px 10px rgba(0,0,0,.5),0 0 0 0 rgba(167,139,250,.6)}
+  50%{box-shadow:0 10px 30px rgba(167,139,250,.75),0 4px 10px rgba(0,0,0,.5),0 0 0 14px rgba(167,139,250,0)}
+}
+#share-float{position:fixed;bottom:calc(160px + env(safe-area-inset-bottom,0));right:16px;z-index:950;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation;box-shadow:0 10px 30px rgba(37,211,102,.55),0 4px 10px rgba(0,0,0,.5);transition:transform .2s ease,box-shadow .2s ease}
+#share-float svg{width:32px;height:32px;fill:#fff}
+#share-float:active{transform:scale(.92)}
 </style>
+
+<!-- ========== PERI SECURITY PACK v1 · Dedicatorias Mágicas ========== -->
+<script>
+(function(){
+  'use strict';
+  var BRAND = '© Dedicatorias Mágicas · c4rlo53305-lgtm';
+
+  document.addEventListener('contextmenu', function(e){ e.preventDefault(); return false; }, {passive:false});
+
+  document.addEventListener('keydown', function(e){
+    var k = (e.key || '').toLowerCase();
+    if (e.key === 'F12'){ e.preventDefault(); return false; }
+    if (e.ctrlKey  && e.shiftKey && (k==='i'||k==='j'||k==='c')){ e.preventDefault(); return false; }
+    if (e.metaKey  && e.altKey   && (k==='i'||k==='j'||k==='c')){ e.preventDefault(); return false; }
+    if ((e.ctrlKey || e.metaKey) && k==='u'){ e.preventDefault(); return false; }
+    if ((e.ctrlKey || e.metaKey) && k==='s'){ e.preventDefault(); return false; }
+  });
+
+  document.addEventListener('selectstart', function(e){ e.preventDefault(); });
+  document.addEventListener('dragstart',   function(e){ e.preventDefault(); });
+
+  try {
+    console.log('%c⚠️ CONTENIDO PROTEGIDO', 'color:#ff4444;font-size:22px;font-weight:bold');
+    console.log('%c' + BRAND, 'color:#7dd3fc;font-size:13px');
+    console.log('%cSi ves esto, respeta el trabajo ajeno 🙏', 'color:#a78bfa;font-size:11px');
+  } catch(_){}
+
+  var devOpen = false, THRESHOLD = 170;
+  setInterval(function(){
+    var wDelta = window.outerWidth  - window.innerWidth;
+    var hDelta = window.outerHeight - window.innerHeight;
+    var open = (wDelta > THRESHOLD || hDelta > THRESHOLD);
+    if (open && !devOpen){
+      devOpen = true;
+      try {
+        document.body.innerHTML =
+          '<div style="position:fixed;inset:0;background:#000;color:#7dd3fc;' +
+          'display:flex;align-items:center;justify-content:center;flex-direction:column;' +
+          'font-family:sans-serif;font-size:1.1rem;text-align:center;padding:24px;gap:12px">' +
+          '<div style="font-size:48px">🔒</div>' +
+          '<div><b>Contenido protegido</b></div>' +
+          '<div style="opacity:.7;font-size:.85rem">' + BRAND + '</div>' +
+          '</div>';
+      } catch(_){}
+    } else if (!open){
+      devOpen = false;
+    }
+  }, 1200);
+
+  window.addEventListener('load', function(){
+    try { document.documentElement.setAttribute('data-brand', BRAND); } catch(_){}
+  });
+})();
+</script>
+<!-- ========== /PERI SECURITY PACK v1 ========== -->
+
 </head>
 <body>
 
-<!-- ============ EDITOR ============ -->
 <div id="editor">
   <div class="editor-head">
     <h1>Una confesión para ti</h1>
@@ -112,7 +200,6 @@ html,body{width:100%;min-height:100dvh;overflow-x:hidden;font-family:'Inter',sys
     </div>
   </div>
 
-  <!-- 3 BOTONES: COMPARTIR, VISTA, DESCARGAR -->
   <div class="botones-accion">
     <button class="btn-compartir" id="btn-compartir">
       <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
@@ -123,7 +210,19 @@ html,body{width:100%;min-height:100dvh;overflow-x:hidden;font-family:'Inter',sys
   </div>
 </div>
 
-<!-- ============ MODAL COMPARTIR ============ -->
+<!-- BOTÓN MORADO -->
+<button id="share-personalized" aria-label="Envíalo" title="Envíalo personalizado">
+  <svg viewBox="0 0 24 24" width="22" height="22" fill="#05021a" aria-hidden="true"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+  <span class="sp-txt">💌 Envíalo</span>
+</button>
+
+<!-- BOTÓN VERDE -->
+<button id="share-float" aria-label="Compartir">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+  </svg>
+</button>
+
 <div id="share-modal">
   <div class="modal-box">
     <div class="modal-head">
@@ -166,7 +265,6 @@ html,body{width:100%;min-height:100dvh;overflow-x:hidden;font-family:'Inter',sys
   </div>
 </div>
 
-<!-- ============ MODAL PREMIUM ============ -->
 <div id="premium-modal">
   <div id="premium-box">
     <button class="close-x" id="premium-close">×</button>
@@ -184,7 +282,6 @@ html,body{width:100%;min-height:100dvh;overflow-x:hidden;font-family:'Inter',sys
 <div id="toast"></div>
 
 <script>
-// ================== ESTADO ==================
 var isPremium = (localStorage.getItem("peri_premium_activated") === "1");
 var data = {
   nombre: "Mi amor",
@@ -192,7 +289,6 @@ var data = {
   tipoBroma: "risa"
 };
 
-// ================== PREMIUM ==================
 function showPremium(feature){
   var msgs = {
     mensaje: "<b>Mensaje personalizado:</b> Los usuarios Premium pueden editar el mensaje falso que aparece antes de la broma.",
@@ -206,7 +302,6 @@ document.getElementById("premium-later").onclick = function(){ document.getEleme
 document.getElementById("premium-upgrade").onclick = function(){ window.location.href = "premium.html"; };
 document.getElementById("premium-modal").onclick = function(e){ if(e.target === this) this.classList.remove("show"); };
 
-// ================== EDITOR ==================
 document.getElementById("in-nombre").addEventListener("input", function(e){
   data.nombre = e.target.value || "Mi amor";
 });
@@ -234,7 +329,6 @@ document.querySelectorAll("#tipo-broma .opt-btn").forEach(function(btn){
   });
 });
 
-// ================== TOAST ==================
 function mostrarToast(msg, ok){
   var t = document.getElementById("toast");
   t.textContent = msg;
@@ -243,7 +337,6 @@ function mostrarToast(msg, ok){
   setTimeout(function(){ t.classList.remove("show"); }, 2500);
 }
 
-// ================== COMPARTIR ==================
 var shareModal = document.getElementById("share-modal");
 document.getElementById("btn-compartir").addEventListener("click", function(){
   shareModal.classList.add("show");
@@ -296,13 +389,11 @@ document.getElementById("share-more").addEventListener("click", function(){
   } else { fallbackCopiar(url); }
 });
 
-// ================== CONSTRUIR HTML DEL REGALO ==================
 function buildRegaloHTML(){
   var nombre = data.nombre;
   var mensaje = data.mensaje;
   var tipo = data.tipoBroma;
 
-  // Contenido según tipo de broma
   var bromaTitulo, bromaTexto, bromaEmoji;
   if(tipo === "susto"){
     bromaTitulo = "¡BUUUU! 👻";
@@ -330,7 +421,6 @@ function buildRegaloHTML(){
 *{margin:0;padding:0;box-sizing:border-box}
 body{width:100%;min-height:100dvh;overflow-x:hidden;font-family:'Inter',sans-serif;background:#0a0a0f;color:#fff}
 
-/* PANTALLA SERIA */
 #serio{position:fixed;inset:0;background:radial-gradient(ellipse at top,#1a0a10 0%,#0a0a0f 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px 20px;text-align:center;z-index:10;transition:opacity .8s,transform .8s}
 #serio.out{opacity:0;transform:scale(1.05);pointer-events:none}
 .corazon{font-size:70px;animation:latido 1.8s ease-in-out infinite;filter:drop-shadow(0 0 30px #ff4d6d)}
@@ -344,7 +434,6 @@ body{width:100%;min-height:100dvh;overflow-x:hidden;font-family:'Inter',sans-ser
 .btn:active{transform:scale(.95)}
 @keyframes brillo{0%,100%{box-shadow:0 10px 40px rgba(255,77,109,.5)}50%{box-shadow:0 10px 50px rgba(255,77,109,.9)}}
 
-/* BROMA */
 #broma{position:fixed;inset:0;background:linear-gradient(135deg,#ff006e,#ffbe0b,#fb5607,#ff006e);background-size:400% 400%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px 20px;text-align:center;z-index:5;opacity:0;transform:scale(.8);transition:all .5s;pointer-events:none;animation:grad 4s ease infinite}
 #broma.show{opacity:1;transform:scale(1);pointer-events:auto}
 @keyframes grad{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
@@ -403,7 +492,6 @@ function lanzarConfeti(){
 </html>`;
 }
 
-// ================== VISTA PREVIA ==================
 document.getElementById("btn-vista").addEventListener("click", function(){
   try {
     var html = buildRegaloHTML();
@@ -416,7 +504,6 @@ document.getElementById("btn-vista").addEventListener("click", function(){
   } catch(err){ mostrarToast("Error: " + err.message, false); }
 });
 
-// ================== DESCARGAR ==================
 document.getElementById("btn-descarga").addEventListener("click", function(){
   try {
     var html = buildRegaloHTML();
@@ -432,6 +519,54 @@ document.getElementById("btn-descarga").addEventListener("click", function(){
     setTimeout(function(){ URL.revokeObjectURL(url); }, 5000);
     mostrarToast("¡Descargado! ✓");
   } catch(err){ mostrarToast("Error: " + err.message, false); }
+});
+
+/* ============================================================
+   BOTÓN MORADO — 💌 Envíalo (comparte el HTML personalizado)
+   ============================================================ */
+async function sharePersonalized(){
+  try {
+    mostrarToast("Preparando tu broma...");
+    var html = buildRegaloHTML();
+    var nombreArchivo = "broma-para-" + data.nombre.replace(/[^a-z0-9]+/gi, "-").toLowerCase() + ".html";
+    var blob = new Blob([html], { type: "text/html;charset=utf-8" });
+    var shareText = "😂 Te mandé una confesión... ábrela y descubre qué es 👀💌";
+
+    try {
+      var file = new File([blob], nombreArchivo, { type: "text/html" });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], title: "Una confesión para " + data.nombre, text: shareText });
+        mostrarToast("¡Compartido! 💌");
+        return;
+      }
+    } catch(err) {
+      if (err && err.name === "AbortError") return;
+    }
+
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url; a.download = nombreArchivo; a.rel = "noopener"; a.style.display = "none";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 60000);
+
+    var waText = shareText + "\n\n📎 Se descargó el archivo " + nombreArchivo + ". Adjúntalo aquí en WhatsApp y envíalo 💌";
+    window.open("https://wa.me/?text=" + encodeURIComponent(waText), "_blank");
+    mostrarToast("Archivo listo. Adjúntalo en WhatsApp 📎");
+  } catch(err) {
+    console.error(err);
+    mostrarToast("Error: " + err.message, false);
+  }
+}
+
+document.getElementById("share-personalized").addEventListener("click", sharePersonalized);
+
+/* ============================================================
+   BOTÓN VERDE — Compartir link del editor por WhatsApp
+   ============================================================ */
+document.getElementById("share-float").addEventListener("click", function(){
+  var url = window.location.href.split("#")[0].split("?")[0];
+  var texto = "😂 Mira este editor de bromas románticas. Crea la tuya:\n" + url;
+  window.open("https://wa.me/?text=" + encodeURIComponent(texto), "_blank");
 });
 </script>
 
