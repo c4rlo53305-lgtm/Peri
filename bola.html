@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#0a0218">
+<title>Bola de Nieve Hyperrealista 🔮❄️</title>
+<style>
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
+  html,body{height:100%;overflow:hidden;background:#04010a;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    user-select:none;-webkit-user-select:none;touch-action:none;color:#f0e0ff}
+
+  /* ═══════════ CUSTOMIZER ═══════════ */
+  #customizer{position:fixed;inset:0;z-index:100000;
+    background:
+      radial-gradient(circle at 20% 10%,rgba(180,80,220,0.32) 0%,transparent 45%),
+      radial-gradient(circle at 80% 80%,rgba(80,150,255,0.24) 0%,transparent 45%),
+      radial-gradient(circle at 50% 50%,rgba(255,120,200,0.10) 0%,transparent 60%),
+      linear-gradient(180deg,#1a0838 0%,#0a0218 100%);
+    display:flex;align-items:flex-start;justify-content:center;
+    padding:16px;overflow-y:auto;-webkit-overflow-scrolling:touch;
+    transition:opacity .8s,visibility .8s,transform .8s}
+  #customizer.hide{opacity:0;visibility:hidden;transform:scale(1.05);pointer-events:none}
+
+  .card{width:100%;max-width:440px;padding:26px 24px;margin:auto;
+    background:linear-gradient(160deg,rgba(60,30,110,0.55) 0%,rgba(30,15,60,0.72) 100%);
+    -webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);
+    border:1.5px solid rgba(200,150,255,0.28);border-radius:24px;
+    box-shadow:0 30px 80px rgba(120,40,200,0.45),
+      inset 0 1px 0 rgba(255,220,255,0.15);
+    position:relative}
+  .card h1{margin:0 0 6px;font-size:22px;font-weight:900;
+    background:linear-gradient(135deg,#ffd4f0 0%,#ff9be0 40%,#c8a0ff 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+    filter:drop-shadow(0 0 16px rgba(255,150,220,0.55))}
+  .card .sub{margin:0 0 22px;font-size:12.5px;color:#b8a0d8;font-weight:600;line-height:1.55}
+
+  .field{margin-bottom:13px}
+  .field label{display:block;font-size:10.5px;font-weight:800;text-transform:uppercase;
+    letter-spacing:1.4px;color:#c8a0ff;margin-bottom:6px;opacity:.85}
+  .field label .opt{text-transform:none;letter-spacing:.3px;color:#8060a0;
+    font-weight:600;font-size:10px;margin-left:4px}
+  .field input{width:100%;padding:12px 15px;background:rgba(20,8,45,0.7);
+    border:1.5px solid rgba(160,120,220,0.35);border-radius:14px;
+    color:#f0e0ff;font-family:inherit;font-size:14.5px;font-weight:600;
+    transition:all .25s;outline:none}
+  .field input::placeholder{color:#7050a0;font-weight:500;font-size:13px}
+  .field input:focus{border-color:rgba(255,150,220,0.7);
+    background:rgba(30,15,60,0.85);
+    box-shadow:0 0 0 3px rgba(255,120,200,0.15),0 0 24px rgba(255,100,200,0.25)}
+
+  .sectionTitle{font-size:10.5px;font-weight:800;text-transform:uppercase;
+    letter-spacing:1.4px;color:#c8a0ff;margin:20px 0 10px;opacity:.85;
+    display:flex;align-items:center;gap:8px}
+  .badgeFree{padding:2px 7px;border-radius:6px;font-size:8.5px;
+    background:rgba(80,240,150,0.18);color:#60e890;font-weight:900;
+    letter-spacing:1px;border:1px solid rgba(80,240,150,0.3)}
+  .badgePrem{padding:2px 7px;border-radius:6px;font-size:8.5px;
+    background:linear-gradient(135deg,#ffd070,#ff9020);color:#3a1a00;
+    font-weight:900;letter-spacing:1px;box-shadow:0 2px 8px rgba(255,150,40,0.5)}
+
+  .photo-row{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+  .photo-opt{aspect-ratio:1;border-radius:14px;border:2px solid transparent;
+    cursor:pointer;position:relative;overflow:hidden;padding:0;
+    background-size:cover;background-position:center;
+    transition:all .28s cubic-bezier(.34,1.4,.64,1)}
+  .photo-opt.active{transform:translateY(-3px) scale(1.04);
+    box-shadow:0 12px 26px rgba(0,0,0,0.55),0 0 0 2px rgba(255,220,255,0.9)}
+  .photo-opt .check{position:absolute;top:4px;right:4px;width:16px;height:16px;
+    border-radius:50%;background:#fff;color:#8020d0;font-size:11px;font-weight:900;
+    display:flex;align-items:center;justify-content:center;
+    opacity:0;transition:opacity .25s}
+  .photo-opt.active .check{opacity:1}
+  .photo-opt::after{content:'';position:absolute;inset:0;
+    background:linear-gradient(transparent 60%,rgba(0,0,0,0.7));
+    pointer-events:none}
+
+  .theme-row{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+  .theme{aspect-ratio:1;border-radius:14px;border:2px solid transparent;
+    cursor:pointer;position:relative;overflow:hidden;padding:0;
+    display:flex;align-items:flex-end;justify-content:center;
+    transition:all .28s cubic-bezier(.34,1.4,.64,1)}
+  .theme.active{transform:translateY(-3px) scale(1.04);
+    box-shadow:0 12px 26px rgba(0,0,0,0.55),0 0 0 2px rgba(255,220,255,0.9)}
+  .theme .check{position:absolute;top:4px;right:4px;width:16px;height:16px;
+    border-radius:50%;background:#fff;color:#8020d0;font-size:11px;font-weight:900;
+    display:flex;align-items:center;justify-content:center;
+    opacity:0;transition:opacity .25s;z-index:3}
+  .theme.active .check{opacity:1}
+  .theme .name{font-size:8.5px;font-weight:800;color:#fff;padding:4px 2px;
+    text-shadow:0 1px 3px rgba(0,0,0,0.85);letter-spacing:.3px;
+    position:relative;z-index:2;width:100%;text-align:center;
+    background:linear-gradient(transparent,rgba(0,0,0,0.6))}
+  .theme.locked{opacity:.68}
+  .theme.locked::before{content:'';position:absolute;inset:0;
+    background:rgba(0,0,0,0.55);backdrop-filter:blur(2px);
+    -webkit-backdrop-filter:blur(2px);z-index:1}
+  .theme .lockIcon{position:absolute;top:50%;left:50%;
+    transform:translate(-50%,-50%);font-size:22px;z-index:2;
+    filter:drop-shadow(0 2px 6px rgba(0,0,0,0.9));
+    animation:shake 3s ease-in-out infinite}
+  @keyframes shake{0%,90%,100%{transform:translate(-50%,-50%) rotate(0)}
+    92%{transform:translate(-50%,-50%) rotate(-10deg)}
+    94%{transform:translate(-50%,-50%) rotate(10deg)}
+    96%{transform:translate(-50%,-50%) rotate(-8deg)}
+    98%{transform:translate(-50%,-50%) rotate(8deg)}}
+
+  .toggleRow{display:flex;flex-direction:column;gap:9px}
+  .toggle{display:flex;align-items:center;justify-content:space-between;
+    padding:12px 14px;border-radius:14px;background:rgba(20,8,45,0.6);
+    border:1.5px solid rgba(160,120,220,0.28);position:relative;overflow:hidden}
+  .toggle.locked{opacity:.65}
+  .toggle.locked::after{content:'';position:absolute;inset:0;
+    background:rgba(0,0,0,0.32);backdrop-filter:blur(1.5px);
+    -webkit-backdrop-filter:blur(1.5px);pointer-events:none}
+  .toggle .info{display:flex;align-items:center;gap:10px;z-index:1}
+  .toggle .info .ico{font-size:18px}
+  .toggle .info .txt{display:flex;flex-direction:column}
+  .toggle .info .txt b{font-size:12.5px;color:#f0e0ff;font-weight:800}
+  .toggle .info .txt span{font-size:10px;color:#9070b0;font-weight:600;margin-top:1px}
+  .toggle .lockBadge{z-index:1;padding:3px 8px;border-radius:8px;font-size:9px;
+    font-weight:900;letter-spacing:.6px;
+    background:linear-gradient(135deg,#ffd070,#ff9020);color:#3a1a00;
+    box-shadow:0 2px 8px rgba(255,150,40,0.5)}
+  .switch{width:42px;height:24px;border-radius:999px;
+    background:rgba(80,40,140,0.6);position:relative;z-index:1;
+    transition:background .3s}
+  .switch::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;
+    border-radius:50%;background:#c8a0ff;transition:transform .3s}
+  .switch.on{background:rgba(80,220,140,0.5)}
+  .switch.on::after{transform:translateX(18px);background:#e0ffe8}
+
+  #createBtn{width:100%;margin-top:22px;padding:17px;border:0;cursor:pointer;
+    border-radius:16px;font-family:inherit;font-size:16.5px;font-weight:900;
+    letter-spacing:.5px;color:#fff;
+    background:linear-gradient(135deg,#c060ff 0%,#8020d0 50%,#5010a0 100%);
+    box-shadow:0 16px 44px rgba(140,60,240,0.55),0 0 60px rgba(180,100,255,0.35),
+      inset 0 1px 0 rgba(255,255,255,0.35);
+    transition:transform .15s;position:relative;overflow:hidden}
+  #createBtn::after{content:'';position:absolute;inset:0;
+    background:linear-gradient(115deg,transparent 30%,rgba(255,220,255,0.35) 50%,transparent 70%);
+    transform:translateX(-120%);animation:shineBtn 3.6s ease-in-out infinite;pointer-events:none}
+  #createBtn:active{transform:scale(.97)}
+  @keyframes shineBtn{0%{transform:translateX(-120%)}60%,100%{transform:translateX(120%)}}
+
+  #premiumCTA{margin-top:18px;padding:16px 18px;border-radius:16px;
+    background:linear-gradient(135deg,rgba(255,180,60,0.18),rgba(255,120,30,0.12));
+    border:1.5px solid rgba(255,180,80,0.45);position:relative;overflow:hidden;
+    text-align:center}
+  #premiumCTA::before{content:'';position:absolute;top:-50%;left:-50%;
+    width:200%;height:200%;
+    background:conic-gradient(from 0deg,transparent 0%,rgba(255,220,120,0.15) 20%,transparent 40%);
+    animation:rotateCTA 6s linear infinite;pointer-events:none}
+  @keyframes rotateCTA{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+  #premiumCTA .pTitle{font-size:14.5px;font-weight:900;color:#ffd070;
+    margin-bottom:4px;position:relative;z-index:1;
+    text-shadow:0 0 12px rgba(255,180,60,0.6)}
+  #premiumCTA .pSub{font-size:11px;color:#e0b870;font-weight:600;
+    margin-bottom:12px;line-height:1.5;position:relative;z-index:1}
+  #premiumBtn{display:inline-flex;align-items:center;gap:8px;position:relative;z-index:1;
+    padding:12px 24px;border-radius:999px;text-decoration:none;
+    font-size:14px;font-weight:900;color:#3a1a00;
+    background:linear-gradient(135deg,#ffd070,#ff9020,#e05010);
+    box-shadow:0 10px 28px rgba(255,140,30,0.55),
+      inset 0 1px 0 rgba(255,255,255,0.6);transition:transform .15s}
+  #premiumBtn:active{transform:scale(.95)}
+
+  /* ═══════════ ESCENA ═══════════ */
+  #scene{position:fixed;inset:0;z-index:1;display:flex;
+    align-items:center;justify-content:center;
+    opacity:0;transition:opacity 1s ease .2s;pointer-events:none}
+  #scene.visible{opacity:1;pointer-events:auto}
+
+  /* Fondo cinematográfico de la app */
+  #bgAmbient{position:fixed;inset:0;z-index:0;
+    background:
+      radial-gradient(ellipse at 50% 30%,rgba(90,40,180,0.4) 0%,transparent 60%),
+      radial-gradient(ellipse at 20% 80%,rgba(200,60,160,0.25) 0%,transparent 55%),
+      radial-gradient(ellipse at 80% 70%,rgba(60,120,220,0.2) 0%,transparent 55%),
+      radial-gradient(circle at 50% 50%,#1a0838 0%,#0a0218 60%,#04010a 100%)}
+  #bgGrain{position:fixed;inset:0;z-index:0;opacity:.35;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='3'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.06 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+    pointer-events:none}
+
+  .globe-stage{position:relative;z-index:2;
+    display:flex;flex-direction:column;align-items:center;
+    transform:translateY(-30px)}
+
+  /* ─── ESFERA ─── */
+  .globe-wrap{position:relative;
+    width:var(--globe-size);height:var(--globe-size);
+    filter:drop-shadow(0 40px 60px rgba(120,40,200,0.5))
+           drop-shadow(0 20px 30px rgba(0,0,0,0.6))}
+
+  .globe{position:absolute;inset:0;border-radius:50%;overflow:hidden;
+    background:#050018;isolation:isolate}
+
+  /* Foto real de fondo — filtrada para dar sensación de "dentro del agua" */
+  .scene-photo{position:absolute;inset:-4%;
+    width:108%;height:108%;object-fit:cover;
+    filter:blur(1.2px) saturate(1.35) brightness(1.05) contrast(1.1);
+    transform:scale(1.06);
+    will-change:transform}
+
+  /* Segunda copia desenfocada para el efecto de profundidad */
+  .scene-photo-blur{position:absolute;inset:-4%;
+    width:108%;height:108%;object-fit:cover;
+    filter:blur(6px) brightness(0.65) saturate(1.5);
+    opacity:0.6;
+    transform:scale(1.15)}
+
+  /* Canvas de nieve */
+  .snow-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:5;
+    pointer-events:none}
+
+  /* SVG con reflejos del cristal (14 capas) */
+  .glass-svg{position:absolute;inset:0;width:100%;height:100%;z-index:10;
+    pointer-events:none}
+
+  /* Rim exterior — el borde físico del cristal */
+  .glass-rim{position:absolute;inset:0;border-radius:50%;z-index:11;
+    pointer-events:none;
+    box-shadow:
+      /* Fresnel externo */
+      inset 0 0 0 1px rgba(255,255,255,0.28),
+      inset 0 0 0 2px rgba(180,200,255,0.12),
+      inset 0 0 8px rgba(255,220,255,0.15),
+      /* Sombra interior profunda */
+      inset -8px -12px 30px rgba(0,0,0,0.55),
+      inset 8px 6px 24px rgba(120,60,180,0.18),
+      /* Borde exterior brillante */
+      0 0 0 1px rgba(255,255,255,0.06),
+      0 0 30px rgba(180,120,255,0.35)}
+
+  /* ─── BASE ─── */
+  .base{position:relative;
+    width:calc(var(--globe-size) * 1.08);
+    height:calc(var(--globe-size) * 0.22);
+    margin-top:calc(var(--globe-size) * -0.03);
+    z-index:1}
+
+  .base-marble{position:absolute;inset:0;
+    clip-path:polygon(4% 0%, 96% 0%, 92% 100%, 8% 100%);
+    background:
+      /* Vetas oscuras */
+      radial-gradient(ellipse 60% 30% at 30% 60%, rgba(60,40,30,0.5) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 25% at 75% 40%, rgba(80,55,40,0.55) 0%, transparent 55%),
+      radial-gradient(ellipse 50% 40% at 50% 80%, rgba(40,25,20,0.4) 0%, transparent 65%),
+      /* Vetas claras */
+      radial-gradient(ellipse 30% 15% at 20% 30%, rgba(255,245,235,0.85) 0%, transparent 60%),
+      radial-gradient(ellipse 25% 12% at 70% 25%, rgba(255,240,230,0.7) 0%, transparent 60%),
+      radial-gradient(ellipse 35% 20% at 55% 70%, rgba(250,240,230,0.5) 0%, transparent 65%),
+      /* Base */
+      linear-gradient(180deg,
+        #f0e2d2 0%,
+        #d8c8b8 15%,
+        #b8a898 45%,
+        #8a7a6a 75%,
+        #4a3a2a 100%);
+    box-shadow:
+      inset 0 2px 4px rgba(255,255,255,0.5),
+      inset 0 -12px 24px rgba(0,0,0,0.7),
+      0 20px 40px rgba(0,0,0,0.7),
+      0 8px 20px rgba(120,40,200,0.35)}
+
+  /* Ruido del mármol */
+  .base-marble::after{content:'';position:absolute;inset:0;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='m'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' seed='11'/><feColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.28 0 0 0 0 0.22 0 0 0 0.4 0'/></filter><rect width='300' height='300' filter='url(%23m)'/></svg>");
+    mix-blend-mode:overlay;opacity:.7;pointer-events:none}
+
+  /* Reflejo superior en la base */
+  .base-marble::before{content:'';position:absolute;
+    top:0;left:8%;right:8%;height:6px;
+    background:linear-gradient(180deg,rgba(255,250,240,0.75),transparent);
+    border-radius:50%;filter:blur(1px)}
+
+  /* ─── PLACA DORADA ─── */
+  .gold-plate{position:absolute;left:50%;top:50%;
+    transform:translate(-50%,-50%);
+    width:72%;height:66%;
+    border-radius:6px;
+    background:
+      linear-gradient(180deg,
+        #fff4c8 0%,
+        #ffd970 12%,
+        #e8b040 30%,
+        #c89028 55%,
+        #a07018 78%,
+        #704810 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255,250,220,0.95),
+      inset 0 -2px 4px rgba(90,50,10,0.7),
+      inset 2px 0 3px rgba(255,240,180,0.4),
+      inset -2px 0 3px rgba(80,45,10,0.5),
+      0 4px 12px rgba(0,0,0,0.6),
+      0 0 20px rgba(255,200,80,0.35);
+    display:flex;align-items:center;justify-content:center;
+    padding:6% 4%;
+    overflow:hidden;
+    z-index:2}
+  .gold-plate::before{content:'';position:absolute;inset:0;
+    background:
+      radial-gradient(ellipse 80% 30% at 50% 10%, rgba(255,255,240,0.6) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 80% at 15% 50%, rgba(255,240,180,0.25) 0%, transparent 55%),
+      radial-gradient(ellipse 40% 80% at 85% 50%, rgba(80,40,10,0.3) 0%, transparent 55%);
+    pointer-events:none}
+  /* Borde interior grabado */
+  .gold-plate::after{content:'';position:absolute;inset:5px;
+    border:1px solid rgba(120,70,20,0.5);
+    border-radius:3px;
+    box-shadow:
+      inset 0 1px 0 rgba(255,240,180,0.55),
+      0 1px 0 rgba(255,240,180,0.35);
+    pointer-events:none}
+
+  .plate-content{position:relative;z-index:2;text-align:center;
+    width:100%;line-height:1.2}
+  .plate-line{color:#3a1c00;
+    font-weight:800;letter-spacing:.3px}
+  .plate-name{font-size:clamp(8px,2.5vw,11px);
+    font-weight:800;text-transform:uppercase;letter-spacing:1.6px;
+    color:#5a2c00;margin-bottom:2px;
+    text-shadow:
+      0 1px 0 rgba(255,240,180,0.6),
+      0 -1px 0 rgba(80,40,0,0.5)}
+  .plate-main{font-family:Georgia,"Times New Roman",serif;
+    font-style:italic;font-weight:900;
+    font-size:clamp(13px,4vw,19px);
+    color:#2e1600;letter-spacing:.2px;
+    text-shadow:
+      0 1px 0 rgba(255,250,220,0.7),
+      0 -1px 1px rgba(60,30,0,0.55),
+      0 2px 3px rgba(40,20,0,0.35);
+    margin:1px 0}
+  .plate-extra{font-size:clamp(7px,2.2vw,9.5px);
+    font-weight:700;color:#5a2c00;letter-spacing:.4px;margin-top:2px;
+    text-shadow:
+      0 1px 0 rgba(255,240,180,0.55),
+      0 -1px 0 rgba(80,40,0,0.45)}
+
+  .plate-stars{position:absolute;top:50%;transform:translateY(-50%);
+    font-size:clamp(8px,2.4vw,11px);color:rgba(100,55,10,0.75);
+    text-shadow:0 1px 0 rgba(255,240,180,0.6)}
+  .plate-stars.left{left:6%}
+  .plate-stars.right{right:6%}
+
+  /* Sombra proyectada de la bola */
+  .globe-shadow{position:absolute;
+    left:50%;transform:translateX(-50%);
+    bottom:calc(var(--globe-size) * -0.02);
+    width:calc(var(--globe-size) * 0.95);
+    height:calc(var(--globe-size) * 0.10);
+    background:radial-gradient(ellipse at center,
+      rgba(0,0,0,0.7) 0%,
+      rgba(0,0,0,0.4) 40%,
+      transparent 75%);
+    filter:blur(10px);z-index:0}
+
+  /* ═══ UI SUPERPUESTA ═══ */
+  #hint{position:fixed;left:50%;
+    top:calc(env(safe-area-inset-top,0px) + 78px);
+    transform:translateX(-50%);
+    color:#f0e0ff;background:rgba(30,10,60,0.72);
+    -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+    padding:10px 20px;border-radius:999px;
+    font-size:12px;font-weight:700;letter-spacing:.4px;
+    border:1px solid rgba(200,160,255,0.35);
+    box-shadow:0 8px 26px rgba(120,60,200,0.35);
+    transition:opacity .9s;pointer-events:none;z-index:50;
+    white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis;
+    opacity:0}
+  #hint.show{opacity:1}
+
+  #editBtn{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);
+    left:12px;padding:9px 14px;border-radius:999px;
+    background:rgba(30,10,60,0.75);
+    -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+    border:1.5px solid rgba(180,140,255,0.4);
+    color:#e0c8ff;font-family:inherit;
+    font-size:11px;font-weight:800;letter-spacing:.6px;
+    cursor:pointer;z-index:9999;
+    display:flex;align-items:center;gap:6px;opacity:0;
+    transition:opacity .3s,transform .15s}
+  #editBtn.show{opacity:1}
+  #editBtn:active{transform:scale(.94)}
+
+  #wm{position:fixed!important;
+    top:calc(env(safe-area-inset-top,0px) + 12px)!important;
+    right:12px!important;left:auto!important;
+    padding:9px 15px!important;border-radius:13px!important;
+    background:linear-gradient(135deg,
+      rgba(255,235,175,.95),rgba(255,200,90,.92),rgba(212,158,50,.95))!important;
+    border:2px solid rgba(255,238,180,.95)!important;
+    box-shadow:0 8px 26px rgba(180,120,20,.45),
+      inset 0 1px 0 rgba(255,255,255,.7)!important;
+    font-size:12.5px!important;line-height:1.3!important;font-weight:800!important;
+    text-align:center!important;z-index:99999!important;
+    max-width:46vw!important;opacity:0;transition:opacity .6s ease .3s}
+  #wm.show{opacity:1!important}
+  #wm span{display:block!important;font-size:9px!important;font-weight:700!important;
+    letter-spacing:1.3px!important;text-transform:uppercase!important;
+    color:#6b3a05!important}
+  #wm a{color:#4a2400!important;text-decoration:none!important;
+    font-weight:900!important;font-size:12.5px!important}
+
+  #mensaje{position:fixed;left:50%;top:22%;
+    transform:translate(-50%,-16px) scale(.9);
+    padding:18px 32px;
+    background:linear-gradient(135deg,rgba(60,20,100,.94),rgba(120,50,160,.94));
+    -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+    border:2px solid rgba(220,180,255,.6);border-radius:22px;
+    color:#f8e8ff;font-size:19px;font-weight:900;
+    text-align:center;letter-spacing:.6px;
+    box-shadow:0 20px 60px rgba(180,80,240,.55);
+    text-shadow:0 0 16px rgba(220,180,255,.9);
+    z-index:99997;pointer-events:none;opacity:0;max-width:82vw;
+    transition:opacity .5s,transform .5s cubic-bezier(.34,1.56,.64,1)}
+  #mensaje.visible{opacity:1;transform:translate(-50%,0) scale(1)}
+  #mensaje .corazon{display:block;font-size:32px;margin-bottom:6px;
+    filter:drop-shadow(0 0 12px rgba(255,150,240,.9))}
+
+  #barra{position:fixed;left:0;right:0;
+    bottom:calc(env(safe-area-inset-bottom,0px) + 20px);
+    display:flex;justify-content:center;padding:0 16px;z-index:9998;
+    opacity:0;transition:opacity .6s ease .5s}
+  #barra.show{opacity:1}
+  #wa{display:inline-flex;align-items:center;justify-content:center;gap:11px;
+    border:0;cursor:pointer;padding:16px 30px;border-radius:999px;
+    font-size:16.5px;font-weight:900;letter-spacing:.4px;
+    color:#fff;font-family:inherit;
+    background:linear-gradient(135deg,#2ee06e 0%,#25D366 45%,#128C7E 100%);
+    box-shadow:0 12px 34px rgba(18,140,126,.5),
+      0 4px 0 rgba(0,90,80,.35),
+      inset 0 1px 0 rgba(255,255,255,.4);
+    transition:transform .15s;width:100%;max-width:340px;
+    position:relative;overflow:hidden;
+    animation:pw 2.6s ease-in-out infinite}
+  #wa::after{content:'';position:absolute;inset:0;
+    background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.42) 50%,transparent 70%);
+    transform:translateX(-120%);animation:sw 3.4s ease-in-out infinite;
+    pointer-events:none}
+  #wa:active{transform:scale(.94)}
+  #wa svg{width:22px;height:22px;fill:#fff;flex-shrink:0;z-index:1}
+  #wa span{position:relative;z-index:1}
+  @keyframes pw{0%,100%{box-shadow:0 12px 34px rgba(18,140,126,.5),0 4px 0 rgba(0,90,80,.35),inset 0 1px 0 rgba(255,255,255,.4)}
+    50%{box-shadow:0 12px 42px rgba(37,211,102,.75),0 4px 0 rgba(0,90,80,.35),inset 0 1px 0 rgba(255,255,255,.4)}}
+  @keyframes sw{0%{transform:translateX(-120%)}60%,100%{transform:translateX(120%)}}
+</style>
+</head>
+<body>
+
+<div id="bgAmbient"></div>
+<div id="bgGrain"></div>
+
+<!-- ═══════════ CUSTOMIZER ═══════════ -->
+<div id="customizer">
+  <div class="card">
+    <h1>✨ Diseña tu bola mágica ✨</h1>
+    <p class="sub">Un regalo único con fotografía real, nieve física y cristal hyperrealista.</p>
+
+    <div class="field">
+      <label>Para quién es</label>
+      <input id="inp-nombre" type="text" placeholder="Ej: Mi amor" maxlength="18" autocomplete="off">
+    </div>
+
+    <div class="field">
+      <label>Frase principal</label>
+      <input id="inp-frase1" type="text" placeholder="Ej: Te amo más que ayer" maxlength="26" autocomplete="off">
+    </div>
+
+    <div class="field">
+      <label>Frase 2 <span class="opt">(opcional)</span></label>
+      <input id="inp-frase2" type="text" placeholder="Ej: Eres mi deseo cumplido" maxlength="26" autocomplete="off">
+    </div>
+
+    <div class="sectionTitle">Escena <span class="badgeFree">GRATIS</span></div>
+    <div class="photo-row" id="photoRow"></div>
+
+    <div class="sectionTitle">Temas exclusivos <span class="badgePrem">PREMIUM</span></div>
+    <div class="theme-row" id="themeRowPrem"></div>
+
+    <div class="sectionTitle">Efectos <span class="badgePrem">PREMIUM</span></div>
+    <div class="toggleRow" id="toggleRow"></div>
+
+    <button id="createBtn" type="button">✨ Crear mi bola mágica ✨</button>
+
+    <div id="premiumCTA">
+      <div class="pTitle">💎 Desbloquea TODO Premium</div>
+      <div class="pSub">10 escenas exclusivas · Pétalos · Aurora boreal · Fuegos artificiales · Sonido y más</div>
+      <a id="premiumBtn" href="https://c4rlo53305-lgtm.github.io/Peri/" target="_blank" rel="noopener">
+        ⭐ Quiero ser Premium
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ ESCENA ═══════════ -->
+<div id="scene">
+  <div class="globe-stage">
+    <div class="globe-wrap" id="globeWrap">
+      <div class="globe">
+        <img class="scene-photo-blur" id="photoBlur" alt="" crossorigin="anonymous">
+        <img class="scene-photo" id="photo" alt="" crossorigin="anonymous">
+        <canvas class="snow-canvas" id="snowCanvas"></canvas>
+        <svg class="glass-svg" id="glassSvg" viewBox="0 0 400 400" preserveAspectRatio="none">
+          <defs>
+            <!-- Especular principal -->
+            <radialGradient id="hlTL" cx="32%" cy="24%" r="55%">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85"/>
+              <stop offset="18%" stop-color="#fff8f0" stop-opacity="0.55"/>
+              <stop offset="45%" stop-color="#f0e8ff" stop-opacity="0.18"/>
+              <stop offset="100%" stop-color="#f0e8ff" stop-opacity="0"/>
+            </radialGradient>
+            <!-- Especular secundario -->
+            <radialGradient id="hlTR" cx="78%" cy="26%" r="22%">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.7"/>
+              <stop offset="40%" stop-color="#ffe8ff" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#ffe8ff" stop-opacity="0"/>
+            </radialGradient>
+            <!-- Micro destello puntual -->
+            <radialGradient id="hlMicro" cx="22%" cy="18%" r="6%">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+              <stop offset="40%" stop-color="#ffffff" stop-opacity="0.4"/>
+              <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+            </radialGradient>
+            <!-- Rebote inferior -->
+            <radialGradient id="bounce" cx="50%" cy="92%" r="60%">
+              <stop offset="0%" stop-color="#ffd8f0" stop-opacity="0.5"/>
+              <stop offset="40%" stop-color="#c8a0ff" stop-opacity="0.18"/>
+              <stop offset="100%" stop-color="#c8a0ff" stop-opacity="0"/>
+            </radialGradient>
+            <!-- Fresnel -->
+            <radialGradient id="fresnel" cx="50%" cy="50%" r="50%">
+              <stop offset="85%" stop-color="#ffffff" stop-opacity="0"/>
+              <stop offset="94%" stop-color="#e0d0ff" stop-opacity="0.2"/>
+              <stop offset="100%" stop-color="#c8a0ff" stop-opacity="0.7"/>
+            </radialGradient>
+            <!-- Sombra interior -->
+            <radialGradient id="innerShadow" cx="50%" cy="50%" r="50%">
+              <stop offset="70%" stop-color="#000" stop-opacity="0"/>
+              <stop offset="100%" stop-color="#000" stop-opacity="0.55"/>
+            </radialGradient>
+            <!-- Aberración rosa -->
+            <radialGradient id="caPink" cx="50%" cy="50%" r="50%">
+              <stop offset="93%" stop-color="#ff60a0" stop-opacity="0"/>
+              <stop offset="100%" stop-color="#ff60a0" stop-opacity="0.35"/>
+            </radialGradient>
+            <!-- Aberración azul -->
+            <radialGradient id="caBlue" cx="50%" cy="50%" r="50%">
+              <stop offset="93%" stop-color="#60a0ff" stop-opacity="0"/>
+              <stop offset="100%" stop-color="#60a0ff" stop-opacity="0.35"/>
+            </radialGradient>
+            <!-- Filtro de grano -->
+            <filter id="grain" x="0" y="0" width="100%" height="100%">
+              <feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="2" seed="7"/>
+              <feColorMatrix values="0 0 0 0 1
+                                     0 0 0 0 1
+                                     0 0 0 0 1
+                                     0 0 0 0.05 0"/>
+            </filter>
+          </defs>
+          <!-- Capas de reflejos -->
+          <circle cx="200" cy="200" r="200" fill="url(#hlTL)" style="mix-blend-mode:screen"/>
+          <circle cx="200" cy="200" r="200" fill="url(#hlTR)" style="mix-blend-mode:screen"/>
+          <circle cx="200" cy="200" r="200" fill="url(#hlMicro)" style="mix-blend-mode:screen"/>
+          <circle cx="200" cy="200" r="200" fill="url(#bounce)" style="mix-blend-mode:screen"/>
+          <circle cx="200" cy="200" r="200" fill="url(#innerShadow)"/>
+          <circle cx="199" cy="199" r="200" fill="url(#caPink)" style="mix-blend-mode:screen"/>
+          <circle cx="201" cy="201" r="200" fill="url(#caBlue)" style="mix-blend-mode:screen"/>
+          <circle cx="200" cy="200" r="200" fill="url(#fresnel)" style="mix-blend-mode:screen"/>
+          <!-- Grano -->
+          <rect width="400" height="400" filter="url(#grain)" style="mix-blend-mode:overlay;opacity:0.7"/>
+        </svg>
+        <div class="glass-rim"></div>
+      </div>
+      <div class="globe-shadow"></div>
+    </div>
+
+    <div class="base">
+      <div class="base-marble">
+        <div class="gold-plate">
+          <div class="plate-content" id="plateContent">
+            <div class="plate-name" id="plateName"></div>
+            <div class="plate-main" id="plateMain">Te amo</div>
+            <div class="plate-extra" id="plateExtra"></div>
+          </div>
+          <div class="plate-stars left">✦</div>
+          <div class="plate-stars right">✦</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="hint">📱 Agita el teléfono · toca la bola ✨</div>
+<button id="editBtn" type="button">
+  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4">
+    <path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+  </svg>
+  Editar
+</button>
+<div id="mensaje"><span class="corazon">💖</span><span id="textoMensaje">Te amo</span></div>
+<div id="wm">
+  <span>✦ Creado por ✦</span>
+  <a href="https://c4rlo53305-lgtm.github.io/Peri/" target="_blank" rel="noopener">Creaciones Mágicas 💛</a>
+</div>
+<div id="barra">
+  <button id="wa" type="button">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+    <span>Enviar a mi amor 💖</span>
+  </button>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+/* ══════════════════════════════════════════════════
+   SEGURIDAD DE DOMINIO
+   ══════════════════════════════════════════════════ */
+var OFICIAL = 'c4rlo53305-lgtm.github.io';
+var PERMITIDOS = [OFICIAL, 'www.' + OFICIAL, 'localhost', '127.0.0.1'];
+(function(){
+  var h = location.hostname;
+  var ok = (location.protocol === 'file:') || PERMITIDOS.indexOf(h) !== -1;
+  if(!ok){
+    try{
+      document.documentElement.innerHTML =
+        '<body style="margin:0;background:#06111f;color:#c8a0ff;' +
+        'font:600 16px/1.6 sans-serif;display:flex;align-items:center;' +
+        'justify-content:center;height:100vh;text-align:center;padding:24px">' +
+        '⚠️ Contenido protegido.</body>';
+    }catch(e){}
+    throw new Error('x');
+  }
+})();
+var LINK_OFICIAL = 'https://c4rlo53305-lgtm.github.io/Peri/';
+
+/* ══════════════════════════════════════════════════
+   MARCA DE AGUA INMORTAL
+   ══════════════════════════════════════════════════ */
+function crearMarca(){
+  var d = document.createElement('div');
+  d.id = 'wm';
+  d.className = 'show';
+  d.setAttribute('style',
+    'position:fixed!important;top:calc(env(safe-area-inset-top,0px) + 12px)!important;' +
+    'right:12px!important;left:auto!important;padding:9px 15px!important;' +
+    'border-radius:13px!important;' +
+    'background:linear-gradient(135deg,rgba(255,235,175,.95),rgba(255,200,90,.92),rgba(212,158,50,.95))!important;' +
+    'border:2px solid rgba(255,238,180,.95)!important;' +
+    'box-shadow:0 8px 26px rgba(180,120,20,.45),inset 0 1px 0 rgba(255,255,255,.7)!important;' +
+    'font-size:12.5px!important;line-height:1.3!important;font-weight:800!important;' +
+    'text-align:center!important;z-index:99999!important;opacity:1!important;');
+  d.innerHTML = '<span>✦ Creado por ✦</span>' +
+    '<a href="' + LINK_OFICIAL + '" target="_blank" rel="noopener" ' +
+    'style="color:#4a2400;text-decoration:none;font-weight:900">Creaciones Mágicas 💛</a>';
+  return d;
+}
+var marca = crearMarca();
+function vigilar(){ if(!document.body.contains(marca)){ marca = crearMarca(); document.body.appendChild(marca); } }
+vigilar();
+setInterval(vigilar, 900);
+try{ new MutationObserver(vigilar).observe(document.documentElement, {childList:true, subtree:true}); }catch(e){}
+
+/* ══════════════════════════════════════════════════
+   FOTOS REALES (Unsplash)
+   ══════════════════════════════════════════════════ */
+var FOTOS = [
+  {
+    id:'cabin',
+    nombre:'Cabaña',
+    url:'https://images.unsplash.com/photo-1517299321609-52687d1bc55a?w=1400&q=85&auto=format&fit=crop',
+    fallback:'linear-gradient(180deg,#1a2848 0%,#2a3858 40%,#d8c8b8 100%)'
+  },
+  {
+    id:'mountain',
+    nombre:'Montaña',
+    url:'https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?w=1400&q=85&auto=format&fit=crop',
+    fallback:'linear-gradient(180deg,#0a1838 0%,#2a4878 50%,#e8e0d8 100%)'
+  },
+  {
+    id:'aurora',
+    nombre:'Aurora',
+    url:'https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=1400&q=85&auto=format&fit=crop',
+    fallback:'linear-gradient(180deg,#020a18 0%,#0a3858 50%,#10a070 100%)'
+  },
+  {
+    id:'forest',
+    nombre:'Bosque',
+    url:'https://images.unsplash.com/photo-1483664852095-d6cc6870702d?w=1400&q=85&auto=format&fit=crop',
+    fallback:'linear-gradient(180deg,#0a1810 0%,#1a3028 50%,#e8e8e0 100%)'
+  }
+];
+
+var TEMAS_PREMIUM = [
+  { id:'auroraT', nombre:'Aurora', preview:['#80ffa0','#40c090','#105040'] },
+  { id:'gold',    nombre:'Dorado', preview:['#ffe080','#d09030','#602810'] },
+  { id:'ocean',   nombre:'Océano', preview:['#80e8f0','#3090c0','#082040'] },
+  { id:'fire',    nombre:'Fuego',  preview:['#ff9060','#d03020','#501010'] }
+];
+
+var EFECTOS = [
+  { id:'aurora',       ico:'🌌', nombre:'Aurora boreal',     desc:'Luces danzantes sobre la escena', premium:true },
+  { id:'petalos',      ico:'🌸', nombre:'Pétalos de rosa',   desc:'Pétalos cayendo con la nieve', premium:true },
+  { id:'fuegos',       ico:'🎆', nombre:'Fuegos artificiales', desc:'Explosiones de color', premium:true },
+  { id:'luciernagas',  ico:'✨', nombre:'Luciérnagas mágicas', desc:'Puntos de luz vivos', premium:true }
+];
+
+/* ══════════════════════════════════════════════════
+   CONFIG
+   ══════════════════════════════════════════════════ */
+var CONFIG = {
+  nombre:'',
+  frase1:'Te amo',
+  frase2:'',
+  foto: FOTOS[0]
+};
+
+/* ══════════════════════════════════════════════════
+   CONSTRUIR UI
+   ══════════════════════════════════════════════════ */
+var photoRow = document.getElementById('photoRow');
+FOTOS.forEach(function(f, i){
+  var b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'photo-opt' + (i === 0 ? ' active' : '');
+  b.style.background = f.fallback;
+  b.style.backgroundImage = 'url(' + f.url + '), ' + f.fallback;
+  b.innerHTML = '<div class="check">✓</div>';
+  b.addEventListener('click', function(){
+    photoRow.querySelectorAll('.photo-opt').forEach(function(p){ p.classList.remove('active'); });
+    b.classList.add('active');
+    CONFIG.foto = f;
+  });
+  photoRow.appendChild(b);
+});
+
+var themeRowPrem = document.getElementById('themeRowPrem');
+TEMAS_PREMIUM.forEach(function(t){
+  var b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'theme locked';
+  b.style.background = 'linear-gradient(135deg,' + t.preview[0] + ',' + t.preview[1] + ' 55%,' + t.preview[2] + ')';
+  b.innerHTML = '<div class="lockIcon">🔒</div>' +
+    '<div class="check">✓</div>' +
+    '<div class="name">' + t.nombre + '</div>';
+  b.addEventListener('click', function(){ window.open(LINK_OFICIAL, '_blank'); });
+  themeRowPrem.appendChild(b);
+});
+
+var toggleRow = document.getElementById('toggleRow');
+EFECTOS.forEach(function(ef){
+  var div = document.createElement('div');
+  div.className = 'toggle locked';
+  div.innerHTML =
+    '<div class="info">' +
+      '<div class="ico">' + ef.ico + '</div>' +
+      '<div class="txt"><b>' + ef.nombre + '</b><span>' + ef.desc + '</span></div>' +
+    '</div>' +
+    '<div class="lockBadge">PREMIUM</div>';
+  div.addEventListener('click', function(){ window.open(LINK_OFICIAL, '_blank'); });
+  toggleRow.appendChild(div);
+});
+
+/* ══════════════════════════════════════════════════
+   CREAR LA BOLA
+   ══════════════════════════════════════════════════ */
+document.getElementById('createBtn').addEventListener('click', function(){
+  CONFIG.nombre = document.getElementById('inp-nombre').value.trim();
+  CONFIG.frase1 = document.getElementById('inp-frase1').value.trim() || 'Te amo';
+  CONFIG.frase2 = document.getElementById('inp-frase2').value.trim();
+
+  // Aplicar al DOM
+  document.getElementById('plateName').textContent = CONFIG.nombre ? 'Para ' + CONFIG.nombre : '';
+  document.getElementById('plateMain').textContent = CONFIG.frase1;
+  document.getElementById('plateExtra').textContent = CONFIG.frase2;
+
+  var photo = document.getElementById('photo');
+  var photoBlur = document.getElementById('photoBlur');
+  photo.src = CONFIG.foto.url;
+  photoBlur.src = CONFIG.foto.url;
+
+  document.getElementById('customizer').classList.add('hide');
+  setTimeout(function(){
+    document.getElementById('customizer').style.display = 'none';
+  }, 800);
+
+  setTimeout(function(){
+    document.getElementById('scene').classList.add('visible');
+    document.getElementById('editBtn').classList.add('show');
+    document.getElementById('barra').classList.add('show');
+    document.getElementById('hint').classList.add('show');
+    document.getElementById('wm').classList.add('show');
+
+    if(!window.__started){
+      window.__started = true;
+      initScene();
+    }
+
+    setTimeout(function(){ sacudidaTactil(0.8); }, 600);
+    setTimeout(function(){ mostrarFrase(); }, 1200);
+    setTimeout(function(){
+      document.getElementById('hint').classList.remove('show');
+    }, 8500);
+  }, 850);
+});
+
+document.getElementById('editBtn').addEventListener('click', function(){
+  document.getElementById('customizer').style.display = 'flex';
+  requestAnimationFrame(function(){
+    document.getElementById('customizer').classList.remove('hide');
+  });
+  document.getElementById('scene').classList.remove('visible');
+  document.getElementById('editBtn').classList.remove('show');
+  document.getElementById('barra').classList.remove('show');
+  document.getElementById('hint').classList.remove('show');
+  document.getElementById('inp-nombre').value = CONFIG.nombre;
+  document.getElementById('inp-frase1').value = CONFIG.frase1;
+  document.getElementById('inp-frase2').value = CONFIG.frase2;
+});
+
+/* ══════════════════════════════════════════════════
+   FRASES FLOTANTES
+   ══════════════════════════════════════════════════ */
+function mostrarFrase(){
+  var fr = [CONFIG.frase1];
+  if(CONFIG.frase2) fr.push(CONFIG.frase2);
+  fr.push('Te amo 💖', 'Pide un deseo ✨', 'Eres especial 💫');
+  var el = document.getElementById('textoMensaje');
+  var msg = document.getElementById('mensaje');
+  el.textContent = fr[(Math.random()*fr.length)|0];
+  msg.classList.add('visible');
+  clearTimeout(msg._t);
+  msg._t = setTimeout(function(){ msg.classList.remove('visible'); }, 2600);
+}
+
+/* ══════════════════════════════════════════════════
+   ESCENA — NIEVE Y FÍSICA
+   ══════════════════════════════════════════════════ */
+var canvas, ctx, W, H, DPR, TAMANO;
+var T = 0, TAU = Math.PI * 2;
+function rnd(a,b){ return a + Math.random()*(b-a); }
+function clamp(v,a,b){ return v<a?a:v>b?b:v; }
+
+var copos = [];
+var destellos = [];
+var corazones = [];
+var luciernagas = [];
+var shakeIntensity = 0;
+var shakeCooldown = 0;
+var tilt = { x:0, y:0 };
+var lastAcc = { x:0, y:0, z:0 };
+var hasLastAcc = false;
+
+function tamanoBola(){
+  var size = Math.min(window.innerWidth * 0.78, window.innerHeight * 0.55, 440);
+  TAMANO = size;
+  document.getElementById('globeWrap').style.setProperty('--globe-size', size + 'px');
+  var base = document.querySelector('.base');
+  base.style.width = (size * 1.08) + 'px';
+  base.style.height = (size * 0.22) + 'px';
+}
+
+function resizeCanvas(){
+  if(!canvas) return;
+  DPR = Math.min(window.devicePixelRatio || 1, 2);
+  var rect = canvas.getBoundingClientRect();
+  W = rect.width;
+  H = rect.height;
+  canvas.width = Math.round(W * DPR);
+  canvas.height = Math.round(H * DPR);
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  buildSnow();
+  buildLuciernagas();
+}
+
+/* Copo hyperrealista */
+function nuevoCopo(inicial){
+  var angle = Math.random() * TAU;
+  var rad = Math.sqrt(Math.random()) * 0.92;
+  var x, y;
+  if(inicial){
+    x = Math.cos(angle) * rad;
+    y = Math.sin(angle) * rad;
+  } else {
+    x = rnd(-0.9, 0.9);
+    y = -1.05;
+  }
+  // z determina profundidad: 0 = fondo, 1 = frente
+  var z = rnd(0, 1);
+  return {
+    x:x, y:y, z:z,
+    vx: rnd(-0.015, 0.015),
+    vy: rnd(0.02, 0.09),
+    size: 0.4 + Math.random() * 1.3,
+    rot: Math.random() * TAU,
+    rotV: rnd(-0.08, 0.08),
+    tipo: Math.floor(Math.random() * 4),
+    sparkle: 0,
+    alphaBase: 0.7 + Math.random() * 0.3,
+    fase: Math.random() * TAU,
+    wobble: rnd(0.3, 1.2)
+  };
+}
+
+function buildSnow(){
+  copos.length = 0;
+  var n = 200;
+  for(var i=0;i<n;i++) copos.push(nuevoCopo(true));
+}
+
+function buildLuciernagas(){
+  luciernagas.length = 0;
+  for(var i=0;i<8;i++){
+    luciernagas.push({
+      x: rnd(-0.7, 0.7),
+      y: rnd(-0.3, 0.6),
+      phase: Math.random()*TAU,
+      speed: rnd(0.3, 0.8),
+      radius: rnd(0.1, 0.3),
+      size: rnd(1.5, 3.2)
+    });
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   FÍSICA REAL DE LA NIEVE
+   ══════════════════════════════════════════════════ */
+function fisicaNieve(dt){
+  var k = dt * 60;
+
+  for(var i=0;i<copos.length;i++){
+    var c = copos[i];
+    // Gravedad proporcional a profundidad (los de fondo caen más lento)
+    var gravedad = 0.015 * (0.4 + c.z * 0.9);
+    c.vy += gravedad * k * 0.08;
+
+    // Viento oscilante (solo copos con z alto, los del fondo se ven más estáticos)
+    var wobbleAmount = c.wobble * (0.3 + c.z * 0.7);
+    c.vx += Math.sin(T * 0.7 + c.fase) * 0.008 * wobbleAmount * k;
+
+    // Drag real
+    var drag = Math.pow(0.992, k);
+    c.vx *= drag;
+    c.vy *= drag;
+
+    // Tilt del dispositivo
+    c.vx += tilt.x * 0.03 * c.z * k * 0.05;
+    c.vy += tilt.y * 0.015 * c.z * k * 0.05;
+
+    // Posición
+    c.x += c.vx * k;
+    c.y += c.vy * k;
+    c.rot += c.rotV * k;
+
+    // Sparkle decae
+    if(c.sparkle > 0) c.sparkle -= dt * 1.5;
+
+    // Respawn arriba cuando llega al fondo
+    if(c.y > 1.05){
+      var nuevo = nuevoCopo(false);
+      copos[i] = nuevo;
+      continue;
+    }
+    // Fuera por los lados
+    if(c.x < -1.05) c.x = 1.05;
+    if(c.x > 1.05) c.x = -1.05;
+
+    // Límite esférico por arriba
+    if(Math.sqrt(c.x*c.x + c.y*c.y) > 1.05 && c.y < 0){
+      c.y = -0.99;
+      c.vy = Math.abs(c.vy) * 0.3;
+    }
+  }
+}
+
+function aplicarSacudida(ax, ay, az, fuerza){
+  var esc = 0.001 + fuerza * 0.004;
+  for(var i=0;i<copos.length;i++){
+    var c = copos[i];
+    // Los copos cercanos (z alto) se mueven mucho más
+    var afecto = 0.4 + c.z * 1.2;
+    c.vx += (-ax * esc + rnd(-0.008, 0.008)) * afecto;
+    c.vy += (-ay * esc + rnd(-0.008, 0.008) - fuerza * 0.012) * afecto;
+    c.rotV += rnd(-0.4, 0.4) * afecto;
+    if(Math.random() < 0.6 * afecto) c.sparkle = 1;
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   UPDATE
+   ══════════════════════════════════════════════════ */
+function update(dt){
+  var k = dt * 60;
+  T += dt;
+  shakeIntensity *= Math.pow(0.94, k);
+  if(shakeCooldown > 0) shakeCooldown -= dt;
+
+  fisicaNieve(dt);
+
+  // Destellos
+  for(var d=destellos.length-1; d>=0; d--){
+    var de = destellos[d];
+    de.vida -= dt;
+    de.radio += 60 * k * 0.016;
+    if(de.vida <= 0) destellos.splice(d,1);
+  }
+
+  // Corazones
+  for(var h=corazones.length-1; h>=0; h--){
+    var co = corazones[h];
+    co.vy += 0.0008 * k * 0.016;
+    co.x += co.vx * k * 0.016;
+    co.y += co.vy * k * 0.016;
+    co.rot += co.rotV * k * 0.016;
+    co.vida -= dt;
+    if(co.vida <= 0) corazones.splice(h,1);
+  }
+
+  // Luciérnagas
+  for(var l=0;l<luciernagas.length;l++){
+    luciernagas[l].phase += dt * luciernagas[l].speed;
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   DIBUJO DE COPOS HIPERREALISTAS
+   ══════════════════════════════════════════════════ */
+function dibujarCopo(c){
+  // Coordenadas: c.x,c.y en rango -1..1
+  // Convertimos a píxeles dentro del canvas
+  var px = W/2 + c.x * W/2;
+  var py = H/2 + c.y * H/2;
+
+  // Tamaño basado en z (perspectiva)
+  var persp = 0.35 + c.z * 0.9;
+  var radius = c.size * 3.5 * persp * (W/400);
+
+  // Alpha basado en z
+  var alpha = c.alphaBase * (0.35 + c.z * 0.65);
+  if(c.sparkle > 0) alpha = Math.min(1, alpha + c.sparkle * 0.4);
+
+  // Copos del fondo: ligeramente difusos
+  var blur = (1 - c.z) * 1.2;
+  if(blur > 0.4) ctx.filter = 'blur(' + blur.toFixed(2) + 'px)';
+  else ctx.filter = 'none';
+
+  ctx.save();
+  ctx.translate(px, py);
+  ctx.rotate(c.rot);
+  ctx.globalAlpha = alpha;
+
+  // Halo suave
+  if(c.z > 0.5){
+    var glow = ctx.createRadialGradient(0, 0, 0, 0, 0, radius * 4);
+    glow.addColorStop(0, 'rgba(255,255,255,0.45)');
+    glow.addColorStop(0.5, 'rgba(230,240,255,0.15)');
+    glow.addColorStop(1, 'rgba(230,240,255,0)');
+    ctx.fillStyle = glow;
+    ctx.beginPath();
+    ctx.arc(0, 0, radius * 4, 0, TAU);
+    ctx.fill();
+  }
+
+  // Dibujamos el copo según tipo
+  if(c.tipo === 0){
+    // Estrella de 6 puntas con ramitas
+    ctx.strokeStyle = 'rgba(255,255,255,0.95)';
+    ctx.lineWidth = Math.max(0.5, radius * 0.22);
+    ctx.lineCap = 'round';
+    for(var a=0; a<6; a++){
+      var ang = a * Math.PI / 3;
+      var ex = Math.cos(ang) * radius * 1.6;
+      var ey = Math.sin(ang) * radius * 1.6;
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(ex, ey);
+      ctx.stroke();
+      // Ramitas
+      var perp = ang + Math.PI/2;
+      var br = radius * 0.55;
+      for(var b=0; b<2; b++){
+        var bx = Math.cos(ang) * radius * (0.55 + b*0.5);
+        var by = Math.sin(ang) * radius * (0.55 + b*0.5);
+        ctx.beginPath();
+        ctx.moveTo(bx, by);
+        ctx.lineTo(bx + Math.cos(perp) * br * (1-b*0.3), by + Math.sin(perp) * br * (1-b*0.3));
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(bx, by);
+        ctx.lineTo(bx - Math.cos(perp) * br * (1-b*0.3), by - Math.sin(perp) * br * (1-b*0.3));
+        ctx.stroke();
+      }
+    }
+    // Centro
+    ctx.fillStyle = 'rgba(255,255,255,0.9)';
+    ctx.beginPath();
+    ctx.arc(0, 0, radius * 0.3, 0, TAU);
+    ctx.fill();
+  } else if(c.tipo === 1){
+    // Hexágono
+    ctx.strokeStyle = 'rgba(240,250,255,0.9)';
+    ctx.lineWidth = Math.max(0.4, radius * 0.2);
+    ctx.beginPath();
+    for(var hh=0; hh<6; hh++){
+      var ha = hh * Math.PI/3 + Math.PI/6;
+      var hx = Math.cos(ha) * radius * 1.2;
+      var hy = Math.sin(ha) * radius * 1.2;
+      if(hh === 0) ctx.moveTo(hx, hy);
+      else ctx.lineTo(hx, hy);
+    }
+    ctx.closePath();
+    ctx.stroke();
+    ctx.fillStyle = 'rgba(255,255,255,0.25)';
+    ctx.fill();
+    // Centro
+    ctx.fillStyle = 'rgba(255,255,255,0.7)';
+    ctx.beginPath();
+    ctx.arc(0, 0, radius * 0.35, 0, TAU);
+    ctx.fill();
+  } else if(c.tipo === 2){
+    // Placa hexagonal con detalle interno
+    ctx.strokeStyle = 'rgba(255,255,255,0.85)';
+    ctx.lineWidth = Math.max(0.4, radius * 0.15);
+    ctx.beginPath();
+    for(var h2=0; h2<6; h2++){
+      var ha2 = h2 * Math.PI/3;
+      var hx2 = Math.cos(ha2) * radius * 1.1;
+      var hy2 = Math.sin(ha2) * radius * 1.1;
+      if(h2 === 0) ctx.moveTo(hx2, hy2);
+      else ctx.lineTo(hx2, hy2);
+    }
+    ctx.closePath();
+    ctx.stroke();
+    // Estrella interna
+    for(var s=0; s<3; s++){
+      var sa = s * Math.PI/3;
+      ctx.beginPath();
+      ctx.moveTo(Math.cos(sa) * radius * 1.1, Math.sin(sa) * radius * 1.1);
+      ctx.lineTo(Math.cos(sa + Math.PI) * radius * 1.1, Math.sin(sa + Math.PI) * radius * 1.1);
+      ctx.stroke();
+    }
+  } else {
+    // Punto con halo
+    var g = ctx.createRadialGradient(0, 0, 0, 0, 0, radius * 2);
+    g.addColorStop(0, 'rgba(255,255,255,0.95)');
+    g.addColorStop(0.4, 'rgba(230,240,255,0.5)');
+    g.addColorStop(1, 'rgba(230,240,255,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(0, 0, radius * 2, 0, TAU);
+    ctx.fill();
+  }
+
+  // Sparkle extra
+  if(c.sparkle > 0.05){
+    ctx.globalAlpha = c.sparkle * 0.6;
+    var sg = ctx.createRadialGradient(0, 0, 0, 0, 0, radius * 4);
+    sg.addColorStop(0, 'rgba(255,255,220,0.9)');
+    sg.addColorStop(1, 'rgba(255,255,220,0)');
+    ctx.fillStyle = sg;
+    ctx.beginPath();
+    ctx.arc(0, 0, radius * 4, 0, TAU);
+    ctx.fill();
+  }
+
+  ctx.restore();
+  ctx.filter = 'none';
+}
+
+function dibujarDestellos(){
+  for(var i=0;i<destellos.length;i++){
+    var de = destellos[i];
+    var a = Math.max(0, de.vida / de.vidaMax);
+    var px = W/2 + de.x * W/2;
+    var py = H/2 + de.y * H/2;
+    var g = ctx.createRadialGradient(px, py, 0, px, py, de.radio);
+    g.addColorStop(0, 'rgba(255,250,220,' + (a * 0.9) + ')');
+    g.addColorStop(0.4, 'rgba(255,230,180,' + (a * 0.35) + ')');
+    g.addColorStop(1, 'rgba(255,220,150,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(px, py, de.radio, 0, TAU);
+    ctx.fill();
+  }
+}
+
+function dibujarCorazones(){
+  for(var i=0;i<corazones.length;i++){
+    var c = corazones[i];
+    var a = Math.min(1, c.vida / c.vidaMax);
+    var px = W/2 + c.x * W/2;
+    var py = H/2 + c.y * H/2;
+    ctx.save();
+    ctx.translate(px, py);
+    ctx.rotate(c.rot);
+    ctx.globalAlpha = a * 0.9;
+    ctx.scale(c.size / 20, c.size / 20);
+    var g = ctx.createRadialGradient(-3,-6,0, 0,0,20);
+    g.addColorStop(0, 'hsla(' + c.hue + ',100%,82%,1)');
+    g.addColorStop(0.6, 'hsla(' + c.hue + ',92%,64%,1)');
+    g.addColorStop(1, 'hsla(' + c.hue + ',85%,48%,1)');
+    ctx.fillStyle = g;
+    ctx.shadowColor = 'hsla(' + c.hue + ',90%,60%,0.85)';
+    ctx.shadowBlur = 16;
+    ctx.beginPath();
+    ctx.moveTo(0, 6);
+    ctx.bezierCurveTo(-12, -4, -14, -14, -7, -14);
+    ctx.bezierCurveTo(-2, -14, 0, -10, 0, -8);
+    ctx.bezierCurveTo(0, -10, 2, -14, 7, -14);
+    ctx.bezierCurveTo(14, -14, 12, -4, 0, 6);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+function dibujarLuciernagas(){
+  ctx.save();
+  ctx.globalCompositeOperation = 'lighter';
+  for(var i=0;i<luciernagas.length;i++){
+    var lu = luciernagas[i];
+    var t = lu.phase;
+    var x = W/2 + (lu.x + Math.sin(t*1.3 + i)*lu.radius) * W/2;
+    var y = H/2 + (lu.y + Math.cos(t*1.1 + i*1.7)*lu.radius) * H/2;
+    var glow = 0.4 + 0.6 * (0.5 + 0.5*Math.sin(t*3));
+    var size = lu.size * (W/400);
+
+    var g = ctx.createRadialGradient(x, y, 0, x, y, size * 6 * glow);
+    g.addColorStop(0, 'rgba(255,255,200,' + (glow*0.9) + ')');
+    g.addColorStop(0.4, 'rgba(255,240,140,' + (glow*0.4) + ')');
+    g.addColorStop(1, 'rgba(255,240,140,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(x, y, size * 6 * glow, 0, TAU);
+    ctx.fill();
+
+    ctx.fillStyle = 'rgba(255,255,240,' + glow + ')';
+    ctx.beginPath();
+    ctx.arc(x, y, size, 0, TAU);
+    ctx.fill();
+  }
+  ctx.restore();
+}
+
+function dibujar(){
+  if(!ctx) return;
+  ctx.clearRect(0, 0, W, H);
+
+  // Capa de fondo (copos con z bajo)
+  for(var i=0;i<copos.length;i++){
+    if(copos[i].z < 0.4) dibujarCopo(copos[i]);
+  }
+
+  // Capa de luciérnagas (entre capas de nieve)
+  dibujarLuciernagas();
+
+  // Destellos
+  dibujarDestellos();
+
+  // Corazones
+  dibujarCorazones();
+
+  // Capa frontal (copos con z alto)
+  for(var j=0;j<copos.length;j++){
+    if(copos[j].z >= 0.4) dibujarCopo(copos[j]);
+  }
+}
+
+/* ══════════════════════════════════════════════════
+   SENSORES
+   ══════════════════════════════════════════════════ */
+function onMotion(e){
+  var a = e.accelerationIncludingGravity || e.acceleration;
+  if(!a || a.x === null) return;
+  tilt.x += (clamp(a.x/9.8, -1, 1) - tilt.x) * 0.06;
+  tilt.y += (clamp(a.y/9.8, -1, 1) - tilt.y) * 0.06;
+
+  if(!hasLastAcc){
+    lastAcc = { x:a.x, y:a.y, z:a.z };
+    hasLastAcc = true;
+    return;
+  }
+  var cambio = Math.abs(a.x-lastAcc.x) + Math.abs(a.y-lastAcc.y) + Math.abs(a.z-lastAcc.z);
+  lastAcc = { x:a.x, y:a.y, z:a.z };
+
+  if(cambio > 12 && shakeCooldown <= 0){
+    var fuerza = Math.min(1, cambio/55);
+    aplicarSacudida(a.x, a.y, a.z, fuerza);
+    shakeIntensity = Math.min(1.2, shakeIntensity + fuerza);
+    shakeCooldown = 0.05;
+
+    if(navigator.vibrate) navigator.vibrate(Math.round(8 + fuerza*30));
+
+    // Destellos
+    for(var i=0;i<3+Math.round(fuerza*5);i++){
+      var ang = Math.random()*TAU;
+      var rad = Math.sqrt(Math.random()) * 0.85;
+      destellos.push({
+        x: Math.cos(ang)*rad,
+        y: Math.sin(ang)*rad,
+        radio: (8 + fuerza*30) * (W/400),
+        vida: 0.6 + Math.random()*0.5,
+        vidaMax: 1.1
+      });
+    }
+
+    // Corazones si es fuerte
+    if(fuerza > 0.4){
+      for(var j=0;j<2+Math.round(fuerza*3);j++){
+        corazones.push({
+          x: rnd(-0.7, 0.7),
+          y: 0.6,
+          vx: rnd(-0.5, 0.5)*0.016,
+          vy: -rnd(0.4, 1.2)*0.016,
+          size: rnd(11, 20),
+          rot: rnd(-0.5, 0.5),
+          rotV: rnd(-0.03, 0.03),
+          vida: rnd(1.6, 2.8),
+          vidaMax: 2.8,
+          hue: rnd(330, 355)
+        });
+      }
+    }
+
+    if(Math.random() < 0.35) mostrarFrase();
+  }
+}
+
+function pedirPermisos(){
+  var np = typeof DeviceMotionEvent !== 'undefined' &&
+           typeof DeviceMotionEvent.requestPermission === 'function';
+  if(np){
+    DeviceMotionEvent.requestPermission().then(function(r){
+      if(r === 'granted') window.addEventListener('devicemotion', onMotion, {passive:true});
+    }).catch(function(){});
+  } else {
+    window.addEventListener('devicemotion', onMotion, {passive:true});
+  }
+}
+
+function sacudidaTactil(potencia){
+  var fuerza = clamp(potencia, 0.3, 1);
+  aplicarSacudida(rnd(-20,20), rnd(-20,20), rnd(-15,15), fuerza);
+  shakeIntensity = Math.min(1, shakeIntensity + fuerza*0.7);
+  if(navigator.vibrate) navigator.vibrate(Math.round(10 + fuerza*20));
+  for(var i=0;i<3+Math.round(fuerza*4);i++){
+    var ang = Math.random()*TAU;
+    var rad = Math.sqrt(Math.random())*0.85;
+    destellos.push({
+      x: Math.cos(ang)*rad,
+      y: Math.sin(ang)*rad,
+      radio: (10 + fuerza*25) * (W/400),
+      vida: 0.5 + Math.random()*0.5,
+      vidaMax: 1
+    });
+  }
+}
+
+var lastTap = 0;
+canvas = document.getElementById('snowCanvas');
+
+canvas.addEventListener('pointerdown', function(e){
+  sacudidaTactil(0.6);
+  var now = Date.now();
+  if(now - lastTap < 350){
+    sacudidaTactil(1);
+    mostrarFrase();
+  }
+  lastTap = now;
+}, {passive:true});
+
+document.getElementById('wa').addEventListener('click', function(){
+  var txt = '🔮✨ Te mando una bola de nieve mágica personalizada. ' +
+            'Agita tu teléfono y pide un deseo. ✨💖\n\n' +
+            'Ábrela aquí: ' + LINK_OFICIAL;
+  var wa = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(txt);
+  try{ window.open(wa, '_blank', 'noopener'); }
+  catch(e){ location.href = wa; }
+});
+
+/* ══════════════════════════════════════════════════
+   LOOP
+   ══════════════════════════════════════════════════ */
+var lastT = 0;
+function loop(now){
+  if(!lastT) lastT = now;
+  var dt = (now - lastT)/1000;
+  lastT = now;
+  if(dt > 0.05) dt = 0.05;
+  update(dt);
+  dibujar();
+  requestAnimationFrame(loop);
+}
+
+function initScene(){
+  canvas = document.getElementById('snowCanvas');
+  ctx = canvas.getContext('2d');
+  tamanoBola();
+  resizeCanvas();
+  pedirPermisos();
+  requestAnimationFrame(loop);
+}
+
+window.addEventListener('resize', function(){
+  tamanoBola();
+  setTimeout(resizeCanvas, 50);
+});
+window.addEventListener('orientationchange', function(){
+  setTimeout(function(){ tamanoBola(); resizeCanvas(); }, 300);
+});
+
+})();
+</script>
+</body>
+</html>
