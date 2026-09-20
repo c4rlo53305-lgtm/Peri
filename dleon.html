@@ -31,14 +31,13 @@
     display:block!important;visibility:visible!important;opacity:1!important;
     transform:none!important;filter:none!important;clip:auto!important;
     width:auto!important;height:auto!important;max-width:46vw!important;
-    text-shadow:0 1px 1px rgba(255,255,255,.55)!important;
-    -webkit-text-fill-color:inherit!important}
+    text-shadow:0 1px 1px rgba(255,255,255,.55)!important}
   #wm-magica span{display:block!important;font-size:9px!important;font-weight:700!important;
     letter-spacing:1.3px!important;text-transform:uppercase!important;
-    color:#6b3a05!important;opacity:.9!important;-webkit-text-fill-color:#6b3a05!important}
+    color:#6b3a05!important;opacity:.9!important}
   #wm-magica a{color:#4a2400!important;text-decoration:none!important;font-weight:900!important;
-    -webkit-text-fill-color:#4a2400!important;display:inline-block!important;
-    pointer-events:auto!important;font-size:12.5px!important;word-break:break-word!important}
+    display:inline-block!important;pointer-events:auto!important;
+    font-size:12.5px!important;word-break:break-word!important}
   #wishCount{position:fixed;top:calc(env(safe-area-inset-top,0px) + 14px);
     left:12px;right:auto;transform:none;background:rgba(255,255,255,.78);
     -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
@@ -102,8 +101,6 @@
     box-shadow:0 14px 34px rgba(214,60,120,.45),inset 0 1px 0 rgba(255,255,255,.4);
     transition:transform .15s ease;letter-spacing:.5px}
   #startBtn:active{transform:scale(.94)}
-
-  /* ══════════ PERSONALIZACIÓN ══════════ */
   #personalizacion{position:fixed;inset:0;z-index:100000;
     background:linear-gradient(135deg, #ffe4ec 0%, #ffd0e0 50%, #ffb8d0 100%);
     display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
@@ -117,8 +114,8 @@
   .form-group input, .form-group textarea{width:100%;padding:12px 16px;border-radius:14px;
     border:2px solid rgba(255,255,255,.8);background:rgba(255,255,255,.72);
     -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
-    font-size:14px;color:#a1235e;font-family:inherit;font-weight:600;
-    outline:none;transition:border-color .2s, box-shadow .2s}
+    font-size:14px;color:#a1235e;font-family:inherit;font-weight:600;outline:none;
+    transition:border-color .2s, box-shadow .2s}
   .form-group input:focus, .form-group textarea:focus{border-color:#e6398a;
     box-shadow:0 0 0 4px rgba(230,57,138,.12)}
   .form-group textarea{resize:vertical;min-height:64px;max-height:120px}
@@ -144,24 +141,22 @@
   .premium-badge .star{font-size:14px}
   .toggle-row{display:flex;align-items:center;justify-content:space-between;
     width:100%;max-width:380px;padding:12px 16px;background:rgba(255,255,255,.65);
-    border-radius:14px;border:2px solid rgba(255,255,255,.8);position:relative;
+    border-radius:14px;border:2px solid rgba(255,255,255,.8);
     transition:opacity .3s}
   .toggle-row.locked{opacity:.75}
-  .toggle-row.locked .info strong{color:#7a4a62}
   .toggle-row .info{text-align:left;flex:1;padding-right:10px}
   .toggle-row .info strong{display:block;font-size:13px;color:#a1235e;font-weight:700}
   .toggle-row .info small{font-size:11px;color:#9a4a72;font-weight:600}
   .toggle-switch{width:52px;height:30px;border-radius:999px;background:#ddd;
     position:relative;cursor:pointer;transition:background .3s;flex-shrink:0;
-    display:flex;align-items:center;justify-content:center;font-size:12px}
+    display:flex;align-items:center;justify-content:center}
   .toggle-switch.on{background:linear-gradient(135deg,#ff7aa8,#e6398a)}
   .toggle-switch.locked{background:#bbb;cursor:not-allowed}
   .toggle-switch::after{content:'';position:absolute;top:3px;left:3px;
     width:24px;height:24px;border-radius:50%;background:#fff;
     box-shadow:0 2px 6px rgba(0,0,0,.15);transition:transform .3s}
   .toggle-switch.on::after{transform:translateX(22px)}
-  .toggle-switch.locked::before{content:'🔒';position:absolute;
-    font-size:11px;z-index:2}
+  .toggle-switch.locked::before{content:'🔒';position:absolute;font-size:11px;z-index:2}
   .music-upload{width:100%;max-width:380px;padding:14px;background:rgba(255,255,255,.65);
     border-radius:14px;border:2px solid rgba(255,255,255,.8);text-align:center}
   .music-upload input[type="file"]{display:none}
@@ -193,50 +188,37 @@
     font-size:10px;font-weight:800;margin-left:6px;letter-spacing:.2px;vertical-align:middle}
   .separador{width:100%;max-width:380px;height:2px;
     background:linear-gradient(90deg,transparent,rgba(161,35,94,.2),transparent);margin:8px 0}
-
-  /* Estado premium activo */
   .premium-status{display:flex;align-items:center;justify-content:center;gap:8px;
     width:100%;max-width:380px;padding:10px 16px;border-radius:14px;
     background:linear-gradient(135deg,rgba(46,224,110,.15),rgba(37,211,102,.10));
-    border:2px solid rgba(46,224,110,.4);font-size:12px;font-weight:800;
-    color:#0a6a3a}
+    border:2px solid rgba(46,224,110,.4);font-size:12px;font-weight:800;color:#0a6a3a}
   .premium-status.inactive{background:linear-gradient(135deg,rgba(255,180,80,.15),rgba(255,140,40,.10));
     border-color:rgba(255,140,40,.4);color:#8a4a00}
-
-  /* Modal de bloqueo premium */
   #lockModal{position:fixed;inset:0;z-index:100001;
     background:rgba(0,0,0,.7);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
-    display:none;align-items:center;justify-content:center;padding:20px;
-    transition:opacity .3s}
+    display:none;align-items:center;justify-content:center;padding:20px}
   #lockModal.show{display:flex}
   #lockModal .box{width:100%;max-width:360px;background:#fff;border-radius:20px;
-    padding:26px 22px;text-align:center;
-    box-shadow:0 30px 80px rgba(0,0,0,.4);
+    padding:26px 22px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.4);
     animation:modalIn .35s cubic-bezier(.34,1.4,.64,1)}
   @keyframes modalIn{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
-  #lockModal .crown{font-size:52px;display:block;margin-bottom:8px;
-    filter:drop-shadow(0 4px 12px rgba(255,180,0,.5))}
+  #lockModal .crown{font-size:52px;display:block;margin-bottom:8px}
   #lockModal h3{margin:0 0 8px;font-size:20px;color:#a1235e;font-weight:900}
   #lockModal p{margin:0 0 18px;font-size:13.5px;color:#7a2a52;font-weight:600;line-height:1.5}
   #lockModal .btn-go{display:inline-flex;align-items:center;justify-content:center;gap:8px;
     width:100%;padding:14px;border-radius:999px;border:0;cursor:pointer;
     font-family:inherit;font-size:15px;font-weight:900;color:#fff;
     background:linear-gradient(135deg,#ffd700,#ffb700,#ff8c00);
-    box-shadow:0 10px 28px rgba(255,180,0,.4);
-    text-decoration:none;margin-bottom:8px;letter-spacing:.3px}
+    box-shadow:0 10px 28px rgba(255,180,0,.4);text-decoration:none;margin-bottom:8px}
   #lockModal .btn-close{width:100%;padding:12px;border-radius:999px;border:0;
     background:transparent;color:#9a4a72;font-family:inherit;font-size:13px;
     font-weight:700;cursor:pointer}
-  #lockModal .btn-close:active{opacity:.6}
-
-  /* Modal de activación por token */
   #tokenModal{position:fixed;inset:0;z-index:100002;
     background:rgba(0,0,0,.7);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
     display:none;align-items:center;justify-content:center;padding:20px}
   #tokenModal.show{display:flex}
   #tokenModal .box{width:100%;max-width:360px;background:#fff;border-radius:20px;
-    padding:26px 22px;text-align:center;
-    box-shadow:0 30px 80px rgba(0,0,0,.4);
+    padding:26px 22px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.4);
     animation:modalIn .35s cubic-bezier(.34,1.4,.64,1)}
   #tokenModal h3{margin:0 0 8px;font-size:20px;color:#a1235e;font-weight:900}
   #tokenModal p{margin:0 0 18px;font-size:13.5px;color:#7a2a52;font-weight:600;line-height:1.5}
@@ -256,6 +238,14 @@
   #tokenModal .msg.ok{color:#0a6a3a}
   #tokenModal .msg.err{color:#c00}
 
+  /* ⭐ INDICADOR DEBUG SENSOR (se muestra 3 segundos al agitar) */
+  #sensorDebug{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+    padding:14px 24px;border-radius:14px;background:rgba(0,0,0,.85);
+    color:#80ffa0;font-family:ui-monospace,Menlo,monospace;
+    font-size:14px;font-weight:900;z-index:999999;pointer-events:none;
+    opacity:0;transition:opacity .3s;letter-spacing:1px}
+  #sensorDebug.show{opacity:1}
+
   @media (max-height:560px){
     #loveMsg{bottom:calc(env(safe-area-inset-bottom,0px) + 108px);font-size:14px;padding:12px 20px}
     .hint{top:calc(env(safe-area-inset-top,0px) + 72px);font-size:11.5px;padding:8px 14px}
@@ -264,8 +254,6 @@
     #wm-magica a{font-size:11.5px!important}
     #wishCount{padding:7px 11px;font-size:11px}
     #momento{padding:6px 10px;font-size:10px;top:calc(env(safe-area-inset-top,0px) + 72px)}
-    #personalizacion{padding:16px;gap:10px}
-    #personalizacion h2{font-size:18px}
   }
 </style>
 </head>
@@ -273,10 +261,9 @@
 
 <canvas id="scene"></canvas>
 
-<!-- ══════════ PERSONALIZACIÓN ══════════ -->
 <div id="personalizacion">
   <div style="margin-top:env(safe-area-inset-top,0px)"></div>
-  <div class="bigHeart" style="font-size:42px;animation:beat 1.1s ease-in-out infinite;filter:drop-shadow(0 4px 12px rgba(214,60,120,.4))">✨</div>
+  <div style="font-size:42px;animation:beat 1.1s ease-in-out infinite;filter:drop-shadow(0 4px 12px rgba(214,60,120,.4))">✨</div>
   <h2>Personaliza tu Diente de León</h2>
   <p class="sub">Hazlo único para esa persona especial 💖</p>
 
@@ -284,25 +271,20 @@
     <label>💌 Nombre de tu amor</label>
     <input type="text" id="pNombre" placeholder="Ej: María, Mi Cielo, Princesa..." maxlength="30">
   </div>
-
   <div class="form-group">
-    <label>📝 Mensaje personal (aparece en la intro)</label>
-    <textarea id="pMensaje" placeholder="Escribe algo hermoso para tu persona especial..." maxlength="200"></textarea>
+    <label>📝 Mensaje personal</label>
+    <textarea id="pMensaje" placeholder="Escribe algo hermoso..." maxlength="200"></textarea>
     <small>Máximo 200 caracteres</small>
   </div>
-
   <div class="separador"></div>
-
   <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
     <span style="font-size:13px;font-weight:800;color:#a1235e">💬 Frases románticas</span>
     <span class="gratis-tag">GRATIS</span>
   </div>
   <div class="frases-list" id="frasesList"></div>
   <button class="btn-add-frase" id="btnAddFrase" onclick="agregarFrase()">+ Agregar frase (máx. 10)</button>
-
   <div class="separador"></div>
 
-  <!-- Estado premium -->
   <div id="premiumStatus" class="premium-status inactive">
     <span id="premiumIcon">🔒</span>
     <span id="premiumText">Modo gratuito</span>
@@ -314,96 +296,68 @@
   </div>
 
   <div class="toggle-row locked" id="rowDestellos">
-    <div class="info">
-      <strong>✨ Destellos mágicos</strong>
-      <small>Partículas doradas brillantes en el fondo</small>
-    </div>
-    <div class="toggle-switch locked" id="toggleDestellos" data-feature="destellos"></div>
+    <div class="info"><strong>✨ Destellos mágicos</strong><small>Partículas doradas</small></div>
+    <div class="toggle-switch locked" id="toggleDestellos"></div>
   </div>
-
   <div class="toggle-row locked" id="rowMusica">
-    <div class="info">
-      <strong>🎵 Tu música favorita</strong>
-      <small>Reproduce tu canción especial de fondo</small>
-    </div>
-    <div class="toggle-switch locked" id="toggleMusica" data-feature="musica"></div>
+    <div class="info"><strong>🎵 Tu música</strong><small>Reproduce tu canción</small></div>
+    <div class="toggle-switch locked" id="toggleMusica"></div>
   </div>
-
   <div class="music-upload" id="musicUpload" style="display:none">
     <input type="file" id="fileMusica" accept="audio/*" onchange="cargarMusica(this)">
-    <label for="fileMusica">
-      <span class="icon">🎶</span>
-      <strong>Toca para subir tu canción</strong>
-      <small>MP3, WAV u OGG (máx. 10MB)</small>
-    </label>
+    <label for="fileMusica"><span class="icon">🎶</span>
+      <strong>Toca para subir tu canción</strong><small>MP3, WAV u OGG</small></label>
     <div class="music-name" id="musicName"></div>
   </div>
-
   <div class="toggle-row locked" id="rowCorazones">
-    <div class="info">
-      <strong>💗 Lluvia de corazones</strong>
-      <small>Corazones cayendo constantemente</small>
-    </div>
-    <div class="toggle-switch locked" id="toggleCorazones" data-feature="corazones"></div>
+    <div class="info"><strong>💗 Lluvia de corazones</strong><small>Corazones cayendo</small></div>
+    <div class="toggle-switch locked" id="toggleCorazones"></div>
   </div>
-
   <div class="toggle-row locked" id="rowFuegos">
-    <div class="info">
-      <strong>🎆 Fuegos artificiales</strong>
-      <small>Explosiones de luz al hacer un deseo</small>
-    </div>
-    <div class="toggle-switch locked" id="toggleFuegos" data-feature="fuegos"></div>
+    <div class="info"><strong>🎆 Fuegos artificiales</strong><small>Explosiones al deseo</small></div>
+    <div class="toggle-switch locked" id="toggleFuegos"></div>
   </div>
-
   <div class="toggle-row locked" id="rowEfecto3D">
-    <div class="info">
-      <strong>🌊 Efecto 3D avanzado</strong>
-      <small>Profundidad y paralaje mejorado</small>
-    </div>
-    <div class="toggle-switch locked" id="toggleEfecto3D" data-feature="efecto3D"></div>
+    <div class="info"><strong>🌊 Efecto 3D</strong><small>Paralaje mejorado</small></div>
+    <div class="toggle-switch locked" id="toggleEfecto3D"></div>
   </div>
 
   <div style="height:6px"></div>
-
   <button class="btn-premium" id="btnActivarPremium" onclick="abrirTokenModal()">
     <span class="crown">👑</span>
     <span id="btnPremiumText">Ya pagué - Activar Premium</span>
   </button>
-
   <a href="https://c4rlo53305-lgtm.github.io/Peri/premium.html" class="btn-premium" target="_blank" rel="noopener" style="margin-top:4px">
-    <span class="crown">💳</span>
-    Comprar Premium
+    <span class="crown">💳</span> Comprar Premium
   </a>
-
   <button class="btn-continuar" id="btnContinuar" onclick="continuarAApp()">Continuar al Diente de León 💖</button>
   <div style="height:env(safe-area-inset-bottom,0px);min-height:12px"></div>
 </div>
 
-<!-- Modal de bloqueo -->
 <div id="lockModal">
   <div class="box">
     <span class="crown">👑</span>
     <h3>Función Premium</h3>
     <p>Esta función es exclusiva de usuarios Premium.<br>Actívala para desbloquear todos los efectos mágicos.</p>
-    <a href="https://c4rlo53305-lgtm.github.io/Peri/premium.html" target="_blank" rel="noopener" class="btn-go">
-      👑 Comprar Premium
-    </a>
+    <a href="https://c4rlo53305-lgtm.github.io/Peri/premium.html" target="_blank" rel="noopener" class="btn-go">👑 Comprar Premium</a>
     <button class="btn-close" onclick="cerrarLockModal()">Ya pagué - Activar con token</button>
     <button class="btn-close" onclick="document.getElementById('lockModal').classList.remove('show')">Cancelar</button>
   </div>
 </div>
 
-<!-- Modal de token -->
 <div id="tokenModal">
   <div class="box">
     <h3>🔑 Activar Premium</h3>
-    <p>Ingresa tu código de activación.<br>Lo recibiste después de tu compra.</p>
-    <input type="text" id="tokenInput" placeholder="PEGA-TU-CODIGO" maxlength="30">
-    <button class="btn-ok" onclick="verificarToken()">Activar</button>
+    <p>Ingresa tu código de activación.</p>
+    <input type="text" id="tokenInput" placeholder="PEGA-TU-CODIGO" maxlength="40">
+    <button class="btn-ok" onclick="verificarTokenManualUI()">Activar</button>
     <button class="btn-cancel" onclick="document.getElementById('tokenModal').classList.remove('show')">Cancelar</button>
     <div class="msg" id="tokenMsg"></div>
   </div>
 </div>
+
+<!-- Indicador visual de sacudida detectada -->
+<div id="sensorDebug">📳 ¡SACUDIDA!</div>
 
 <div id="intro">
   <div class="bigHeart">💖</div>
@@ -436,97 +390,91 @@
 'use strict';
 
 /* ══════════════════════════════════════════════════════════
-   SISTEMA PREMIUM CON TOKENS
+   SISTEMA PREMIUM CON HMAC (Web Crypto API)
    ══════════════════════════════════════════════════════════ */
-
-/* 🔑 TOKENS VÁLIDOS — Cámbialos por los que TÚ generes al vender */
-var TOKENS_VALIDOS = [
-  'DLEON-AMOR-2025',
-  'DLEON-PREMIUM-001',
-  'DLEON-VIP-001',
-  'C4RLO-PREMIUM-01',
-  'TEST-123'
-];
-
+var SECRET_KEY = 'C4rl0-Cr3ac10n3s-M4g1c4s-2025-XX';
 var STORAGE_KEY = 'dleon_premium_token';
 
-/* Verificar si el usuario es premium */
-function verificarPremiumGuardado(){
+async function firmar(clienteID){
   try{
-    var token = localStorage.getItem(STORAGE_KEY);
-    if(!token) return false;
-    return TOKENS_VALIDOS.indexOf(token.toUpperCase()) !== -1;
+    var enc = new TextEncoder();
+    var key = await crypto.subtle.importKey(
+      'raw', enc.encode(SECRET_KEY),
+      { name:'HMAC', hash:'SHA-256' }, false, ['sign']
+    );
+    var firma = await crypto.subtle.sign('HMAC', key, enc.encode(clienteID));
+    var bytes = Array.from(new Uint8Array(firma));
+    var num = BigInt('0x' + bytes.slice(0,8).map(function(b){
+      return b.toString(16).padStart(2,'0');
+    }).join(''));
+    return num.toString(36).toUpperCase().padStart(10,'0').slice(0,10);
+  }catch(e){ return ''; }
+}
+
+window.generarToken = async function(clienteID){
+  var id = clienteID.toUpperCase().replace(/[^A-Z0-9]/g,'');
+  var f = await firmar(id);
+  var tk = 'DLEON-' + id + '-' + f;
+  console.log('🔑 Token generado para "' + clienteID + '":');
+  console.log(tk);
+  return tk;
+};
+
+async function verificarToken(token){
+  try{
+    var partes = String(token).toUpperCase().trim().split('-');
+    if(partes.length !== 3) return false;
+    if(partes[0] !== 'DLEON') return false;
+    var id = partes[1], recibida = partes[2];
+    if(!id || !recibida) return false;
+    var esperada = await firmar(id);
+    if(!esperada) return false;
+    if(recibida.length !== esperada.length) return false;
+    var diff = 0;
+    for(var i=0;i<recibida.length;i++){
+      diff |= recibida.charCodeAt(i) ^ esperada.charCodeAt(i);
+    }
+    return diff === 0;
   }catch(e){ return false; }
 }
 
-/* Verificar token en URL (?premium=XXX) */
-function verificarTokenEnURL(){
+var esPremium = false;
+
+async function verificarPremiumInicial(){
+  // 1. URL ?premium=TOKEN
   try{
     var params = new URLSearchParams(location.search);
-    var token = params.get('premium');
-    if(!token) return false;
-    var tk = token.toUpperCase().trim();
-    if(TOKENS_VALIDOS.indexOf(tk) !== -1){
-      localStorage.setItem(STORAGE_KEY, tk);
-      // Limpiar URL
-      var url = location.pathname + location.hash;
-      history.replaceState({}, '', url);
-      return true;
+    var tk = params.get('premium');
+    if(tk){
+      var limpio = tk.trim().toUpperCase();
+      if(await verificarToken(limpio)){
+        try{ localStorage.setItem(STORAGE_KEY, limpio); }catch(e){}
+        try{ history.replaceState({}, '', location.pathname + location.hash); }catch(e){}
+        esPremium = true;
+        return;
+      }
     }
   }catch(e){}
-  return false;
-}
-
-/* Estado premium global */
-var esPremium = verificarTokenEnURL() || verificarPremiumGuardado();
-
-/* ══════════════════════════════════════════════════════════
-   PERSONALIZACIÓN
-   ══════════════════════════════════════════════════════════ */
-var personalizacion = {
-  nombre: '',
-  mensaje: '',
-  frases: [
-    'Te amo más que ayer 💕',
-    'Eres mi deseo cumplido ✨',
-    'Contigo todo es mágico 💖',
-    'Mi lugar favorito es a tu lado 🌹',
-    'Cada semilla lleva mi amor por ti 💌'
-  ],
-  premium: {
-    destellos: false,
-    musica: false,
-    corazones: false,
-    fuegos: false,
-    efecto3D: false
-  },
-  archivoMusica: null
-};
-
-/* Si es premium, activar defaults bonitos */
-if(esPremium){
-  personalizacion.premium.destellos = true;
-  personalizacion.premium.corazones = true;
-  personalizacion.premium.fuegos = true;
+  // 2. localStorage
+  try{
+    var g = localStorage.getItem(STORAGE_KEY);
+    if(g){
+      if(await verificarToken(g)){ esPremium = true; return; }
+      else localStorage.removeItem(STORAGE_KEY);
+    }
+  }catch(e){}
+  esPremium = false;
 }
 
 /* ══════════════════════════════════════════════════════════
    CANDADO DE DOMINIO
    ══════════════════════════════════════════════════════════ */
 var OFICIAL = 'c4rlo53305-lgtm.github.io';
-var PERMITIDOS = [OFICIAL, 'www.' + OFICIAL, 'localhost', '127.0.0.1'];
+var PERMITIDOS = [OFICIAL, 'www.'+OFICIAL, 'localhost', '127.0.0.1'];
 (function(){
-  var host = location.hostname;
-  var libre = (location.protocol === 'file:') || PERMITIDOS.indexOf(host) !== -1;
-  if(!libre){
-    try{
-      document.documentElement.innerHTML =
-        '<body style="margin:0;background:#06111f;color:#7fd4ff;font:600 16px/1.6 -apple-system,sans-serif;'+
-        'display:flex;align-items:center;justify-content:center;height:100vh;text-align:center;padding:24px">'+
-        '⚠️ Contenido protegido.</body>';
-    }catch(e){}
-    throw new Error('x');
-  }
+  var h = location.hostname;
+  var ok = (location.protocol === 'file:') || PERMITIDOS.indexOf(h) !== -1;
+  if(!ok){ throw new Error('x'); }
 })();
 
 /* ══════════════════════════════════════════════════════════
@@ -544,14 +492,23 @@ function crearMarca(){
 }
 var marca = document.getElementById('wm-magica') || crearMarca();
 function vigilarMarca(){
-  if(!document.body.contains(marca)){
-    marca = crearMarca();
-    document.body.appendChild(marca);
-  }
+  if(!document.body.contains(marca)){ marca = crearMarca(); document.body.appendChild(marca); }
 }
-vigilarMarca();
-setInterval(vigilarMarca, 900);
+vigilarMarca(); setInterval(vigilarMarca, 900);
 try{ new MutationObserver(vigilarMarca).observe(document.documentElement, {childList:true, subtree:true}); }catch(e){}
+
+/* ══════════════════════════════════════════════════════════
+   ESTADO PERSONALIZACIÓN
+   ══════════════════════════════════════════════════════════ */
+var personalizacion = {
+  nombre:'', mensaje:'',
+  frases: [
+    'Te amo más que ayer 💕','Eres mi deseo cumplido ✨','Contigo todo es mágico 💖',
+    'Mi lugar favorito es a tu lado 🌹','Cada semilla lleva mi amor por ti 💌'
+  ],
+  premium: { destellos:false, musica:false, corazones:false, fuegos:false, efecto3D:false },
+  archivoMusica: null
+};
 
 /* ══════════════════════════════════════════════════════════
    UI PREMIUM
@@ -561,44 +518,44 @@ function actualizarUIPremium(){
   var icon = document.getElementById('premiumIcon');
   var text = document.getElementById('premiumText');
   var btnText = document.getElementById('btnPremiumText');
+  var btnActiv = document.getElementById('btnActivarPremium');
 
   if(esPremium){
     status.classList.remove('inactive');
     icon.textContent = '👑';
-    text.textContent = '¡Premium activo! Todo desbloqueado';
+    text.textContent = '¡Premium activo!';
     btnText.textContent = 'Premium Activado ✓';
-    document.getElementById('btnActivarPremium').style.opacity = '.6';
-    document.getElementById('btnActivarPremium').style.pointerEvents = 'none';
+    btnActiv.style.opacity = '.6';
+    btnActiv.style.pointerEvents = 'none';
   } else {
     status.classList.add('inactive');
     icon.textContent = '🔒';
-    text.textContent = 'Modo gratuito - activa premium';
+    text.textContent = 'Modo gratuito';
     btnText.textContent = 'Ya pagué - Activar Premium';
-    document.getElementById('btnActivarPremium').style.opacity = '1';
-    document.getElementById('btnActivarPremium').style.pointerEvents = 'auto';
+    btnActiv.style.opacity = '1';
+    btnActiv.style.pointerEvents = 'auto';
   }
 
-  // Actualizar toggles
-  ['destellos','musica','corazones','fuegos','efecto3D'].forEach(function(f){
-    var toggle = document.getElementById('toggle' + f.charAt(0).toUpperCase() + f.slice(1));
-    var row = document.getElementById('row' + f.charAt(0).toUpperCase() + f.slice(1));
-    if(!toggle) return;
-
+  ['Destellos','Musica','Corazones','Fuegos','Efecto3D'].forEach(function(n){
+    var f = n.charAt(0).toLowerCase() + n.slice(1);
+    if(n === 'Efecto3D') f = 'efecto3D';
+    var t = document.getElementById('toggle'+n);
+    var r = document.getElementById('row'+n);
+    if(!t || !r) return;
     if(esPremium){
-      row.classList.remove('locked');
-      toggle.classList.remove('locked');
-      if(personalizacion.premium[f]) toggle.classList.add('on');
-      else toggle.classList.remove('on');
+      r.classList.remove('locked');
+      t.classList.remove('locked');
+      if(personalizacion.premium[f]) t.classList.add('on');
+      else t.classList.remove('on');
     } else {
-      row.classList.add('locked');
-      toggle.classList.add('locked');
-      toggle.classList.remove('on');
+      r.classList.add('locked');
+      t.classList.add('locked');
+      t.classList.remove('on');
     }
   });
 }
 
-/* Toggle premium: solo funciona si esPremium */
-window.togglePremium = function(el, feature){
+function togglePremium(el, feature){
   if(!esPremium){
     document.getElementById('lockModal').classList.add('show');
     return;
@@ -606,51 +563,39 @@ window.togglePremium = function(el, feature){
   el.classList.toggle('on');
   var activo = el.classList.contains('on');
   personalizacion.premium[feature] = activo;
-
-  if(feature === 'destellos'){ buildDestellos(); }
+  if(feature === 'destellos') buildDestellos();
   if(feature === 'musica'){
     document.getElementById('musicUpload').style.display = activo ? 'block' : 'none';
-    if(!activo){
-      document.getElementById('audioPlayer').pause();
-    } else if(personalizacion.archivoMusica){
-      var a = document.getElementById('audioPlayer');
-      a.src = personalizacion.archivoMusica;
-      a.volume = 0.4;
-      a.play().catch(function(){});
-    }
+    if(!activo) document.getElementById('audioPlayer').pause();
   }
-  if(feature === 'corazones'){ if(!activo) corazonesLluvia.length = 0; }
+  if(feature === 'corazones' && !activo) corazonesLluvia.length = 0;
   guardarPersonalizacion();
-};
+}
+window.togglePremium = togglePremium;
 
-window.abrirTokenModal = function(){
-  if(esPremium){
-    alert('Ya tienes Premium activado ✓');
-    return;
-  }
+function abrirTokenModal(){
+  if(esPremium){ alert('Ya tienes Premium ✓'); return; }
   document.getElementById('tokenModal').classList.add('show');
   document.getElementById('tokenInput').value = '';
   document.getElementById('tokenMsg').textContent = '';
   setTimeout(function(){ document.getElementById('tokenInput').focus(); }, 100);
-};
+}
+window.abrirTokenModal = abrirTokenModal;
 
-window.cerrarLockModal = function(){
+function cerrarLockModal(){
   document.getElementById('lockModal').classList.remove('show');
   document.getElementById('tokenModal').classList.add('show');
-};
+  setTimeout(function(){ document.getElementById('tokenInput').focus(); }, 100);
+}
+window.cerrarLockModal = cerrarLockModal;
 
-window.verificarToken = function(){
+async function verificarTokenManualUI(){
   var input = document.getElementById('tokenInput');
   var msg = document.getElementById('tokenMsg');
   var tk = (input.value || '').toUpperCase().trim();
-
-  if(!tk){
-    msg.className = 'msg err';
-    msg.textContent = 'Ingresa un código';
-    return;
-  }
-
-  if(TOKENS_VALIDOS.indexOf(tk) !== -1){
+  if(!tk){ msg.className = 'msg err'; msg.textContent = 'Ingresa un código'; return; }
+  var ok = await verificarToken(tk);
+  if(ok){
     try{ localStorage.setItem(STORAGE_KEY, tk); }catch(e){}
     esPremium = true;
     msg.className = 'msg ok';
@@ -667,7 +612,8 @@ window.verificarToken = function(){
     msg.className = 'msg err';
     msg.textContent = 'Código inválido ✗';
   }
-};
+}
+window.verificarTokenManualUI = verificarTokenManualUI;
 
 /* ══════════════════════════════════════════════════════════
    PERSONALIZACIÓN
@@ -678,44 +624,35 @@ var maxFrases = 10;
 function guardarPersonalizacion(){
   try{
     localStorage.setItem('dleonPersonalizacion', JSON.stringify({
-      nombre: personalizacion.nombre,
-      mensaje: personalizacion.mensaje,
-      frases: personalizacion.frases,
-      premium: personalizacion.premium
+      nombre: personalizacion.nombre, mensaje: personalizacion.mensaje,
+      frases: personalizacion.frases, premium: personalizacion.premium
     }));
   }catch(e){}
 }
 
 function initPersonalizacion(){
   frasesTemp = personalizacion.frases.slice();
-
-  var guardado = localStorage.getItem('dleonPersonalizacion');
-  if(guardado){
+  var g = localStorage.getItem('dleonPersonalizacion');
+  if(g){
     try{
-      var p = JSON.parse(guardado);
+      var p = JSON.parse(g);
       if(p.nombre) document.getElementById('pNombre').value = p.nombre;
       if(p.mensaje) document.getElementById('pMensaje').value = p.mensaje;
-      if(p.frases && p.frases.length){ frasesTemp = p.frases.slice(); }
+      if(p.frases && p.frases.length) frasesTemp = p.frases.slice();
       if(p.premium && esPremium){
-        Object.keys(p.premium).forEach(function(k){
-          if(p.premium[k]) personalizacion.premium[k] = true;
-        });
+        Object.keys(p.premium).forEach(function(k){ if(p.premium[k]) personalizacion.premium[k]=true; });
       }
     }catch(e){}
   }
-
   renderFrases();
   actualizarUIPremium();
 
-  // Toggles listeners
-  ['Destellos','Musica','Corazones','Fuegos','Efecto3D'].forEach(function(name){
-    var feature = name.charAt(0).toLowerCase() + name.slice(1);
-    if(feature === 'efecto3D') feature = 'efecto3D';
-    var el = document.getElementById('toggle' + name);
+  ['Destellos','Musica','Corazones','Fuegos','Efecto3D'].forEach(function(n){
+    var f = n.charAt(0).toLowerCase() + n.slice(1);
+    if(n === 'Efecto3D') f = 'efecto3D';
+    var el = document.getElementById('toggle'+n);
     if(el){
-      el.addEventListener('click', function(){
-        window.togglePremium(el, feature);
-      });
+      el.addEventListener('click', function(){ togglePremium(el, f); });
     }
   });
 }
@@ -731,9 +668,9 @@ function renderFrases(){
       'onchange="actualizarFrase('+i+', this.value)" maxlength="100">';
     list.appendChild(item);
   }
-  document.getElementById('btnAddFrase').disabled = frasesTemp.length >= maxFrases;
-  document.getElementById('btnAddFrase').textContent =
-    frasesTemp.length >= maxFrases ? 'Máximo 10 frases' : '+ Agregar frase (máx. 10)';
+  var b = document.getElementById('btnAddFrase');
+  b.disabled = frasesTemp.length >= maxFrases;
+  b.textContent = frasesTemp.length >= maxFrases ? 'Máximo 10 frases' : '+ Agregar frase (máx. 10)';
 }
 
 function esc(text){
@@ -742,42 +679,44 @@ function esc(text){
   return d.innerHTML;
 }
 
-window.agregarFrase = function(){
+function agregarFrase(){
   if(frasesTemp.length >= maxFrases) return;
   frasesTemp.push('Nueva frase romántica 💕');
   renderFrases();
-};
+}
+window.agregarFrase = agregarFrase;
 
-window.actualizarFrase = function(idx, val){
+function actualizarFrase(idx, val){
   frasesTemp[idx] = val.trim() || 'Frase ' + (idx+1);
-};
+}
+window.actualizarFrase = actualizarFrase;
 
-window.cargarMusica = function(input){
-  if(!esPremium){ return; }
+function cargarMusica(input){
+  if(!esPremium) return;
   var file = input.files[0];
   if(!file) return;
-  if(file.size > 10*1024*1024){
-    alert('El archivo es muy grande. Máximo 10MB.');
-    return;
-  }
+  if(file.size > 10*1024*1024){ alert('Máx. 10MB'); return; }
   var url = URL.createObjectURL(file);
   personalizacion.archivoMusica = url;
-  var audio = document.getElementById('audioPlayer');
-  audio.src = url;
-  audio.volume = 0.4;
-  var nameEl = document.getElementById('musicName');
-  nameEl.textContent = '🎵 ' + file.name;
-  nameEl.classList.add('show');
-};
+  document.getElementById('audioPlayer').src = url;
+  document.getElementById('audioPlayer').volume = 0.4;
+  var n = document.getElementById('musicName');
+  n.textContent = '🎵 ' + file.name;
+  n.classList.add('show');
+}
+window.cargarMusica = cargarMusica;
 
-window.continuarAApp = function(){
+function continuarAApp(){
   personalizacion.nombre = document.getElementById('pNombre').value.trim();
   personalizacion.mensaje = document.getElementById('pMensaje').value.trim();
   personalizacion.frases = frasesTemp.filter(function(f){ return f.trim(); });
   guardarPersonalizacion();
   aplicarPersonalizacion();
   document.getElementById('personalizacion').classList.add('hide');
-};
+  // ⭐ Pedir permisos de sensor al continuar
+  pedirPermisosSensor();
+}
+window.continuarAApp = continuarAApp;
 
 function aplicarPersonalizacion(){
   if(personalizacion.nombre){
@@ -786,16 +725,8 @@ function aplicarPersonalizacion(){
   if(personalizacion.mensaje){
     document.getElementById('introTexto').innerHTML = esc(personalizacion.mensaje).replace(/\n/g,'<br>');
   }
-  if(personalizacion.frases.length > 0){
-    FRASES = personalizacion.frases.slice();
-  }
+  if(personalizacion.frases.length > 0) FRASES = personalizacion.frases.slice();
   buildDestellos();
-  if(esPremium && personalizacion.premium.musica && personalizacion.archivoMusica){
-    var a = document.getElementById('audioPlayer');
-    a.src = personalizacion.archivoMusica;
-    a.volume = 0.4;
-    a.play().catch(function(){});
-  }
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -823,18 +754,15 @@ function mostrarFrase(){
 
 var wishCount = 0;
 var wcEl = document.getElementById('wc');
-function sumarDeseo(n){
-  wishCount += (n||1);
-  wcEl.textContent = wishCount;
-}
+function sumarDeseo(n){ wishCount += (n||1); wcEl.textContent = wishCount; }
 
 /* ══════════════════════════════════════════════════════════
    MOMENTO DEL DÍA
    ══════════════════════════════════════════════════════════ */
 var momentoDia = 'dia';
-function detectarMomentoDia(){
+function detectarMomento(){
   var t = new Date().getHours() + new Date().getMinutes()/60;
-  if(t >= 5 && t < 10)  return 'manana';
+  if(t >= 5 && t < 10) return 'manana';
   if(t >= 10 && t < 16) return 'dia';
   if(t >= 16 && t < 19.5) return 'tarde';
   return 'noche';
@@ -872,8 +800,8 @@ var PALETAS = {
 };
 
 function actualizarMomento(){
-  var nuevo = detectarMomentoDia();
-  if(nuevo !== momentoDia){ momentoDia = nuevo; buildEstrellas(); }
+  var n = detectarMomento();
+  if(n !== momentoDia){ momentoDia = n; buildEstrellas(); }
   var pal = PALETAS[momentoDia];
   var el = document.getElementById('momentoTexto');
   if(el) el.textContent = pal.etiqueta;
@@ -883,7 +811,7 @@ function actualizarMomento(){
     if(momentoDia === 'noche'){
       m.style.background = 'rgba(30,20,60,.85)';
       m.style.color = '#c8d0ff';
-    }else{
+    } else {
       m.style.background = 'rgba(255,255,255,.78)';
       m.style.color = '#7a2a52';
     }
@@ -895,11 +823,11 @@ function actualizarMomento(){
    ══════════════════════════════════════════════════════════ */
 var canvas = document.getElementById('scene');
 var ctx = canvas.getContext('2d', {alpha:false});
-var W=0, H=0, DPR=1, T=0;
-var HEAD = {x:0,y:0,r:0,grow:0};
+var W=0,H=0,DPR=1,T=0;
+var HEAD={x:0,y:0,r:0,grow:0};
 var attached=[], flying=[], motes=[], clouds=[], blades=[], sparks=[], hearts=[], estrellas=[];
 var destellos=[], fuegosArtificiales=[], corazonesLluvia=[];
-var wind=0, windTarget=0, windTimer=0, regrow=-1, shakeCooldown=0;
+var wind=0, windTarget=0, windTimer=0, regrow=-1;
 var tiltX=0, tiltY=0, tiltTargetX=0, tiltTargetY=0;
 
 function rnd(a,b){ return a + Math.random()*(b-a); }
@@ -954,13 +882,12 @@ function buildDestellos(){
 }
 function spawnFuegosArtificiales(x,y){
   if(!esPremium || !personalizacion.premium.fuegos) return;
-  var colores = [[255,200,50],[255,100,150],[100,200,255],[200,100,255],[100,255,150],[255,150,50]];
-  var color = colores[(Math.random()*colores.length)|0];
+  var cols=[[255,200,50],[255,100,150],[100,200,255],[200,100,255],[100,255,150],[255,150,50]];
+  var c = cols[(Math.random()*cols.length)|0];
   for(var i=0;i<30;i++){
-    var ang = Math.random()*TAU;
-    var sp = rnd(2,6);
+    var ang = Math.random()*TAU, sp = rnd(2,6);
     fuegosArtificiales.push({x:x,y:y,vx:Math.cos(ang)*sp,vy:Math.sin(ang)*sp,
-      r:rnd(1,3.5),a:1,color:color,life:0,maxLife:rnd(0.8,1.8)});
+      r:rnd(1,3.5),a:1,color:c,life:0,maxLife:rnd(0.8,1.8)});
   }
 }
 function spawnCorazonLluvia(){
@@ -999,7 +926,7 @@ function releaseSeeds(n,dirx,diry,power){
     var d = Math.sqrt(ox*ox+oy*oy)||1;
     var sp = 1.0+Math.random()*1.8+power*4.2;
     flying.push({
-      x:t.x,y:t.y,
+      x:t.x, y:t.y,
       vx:(ox/d)*sp + dirx*power*4.5 + rnd(-0.5,0.5),
       vy:(oy/d)*sp + diry*power*4.5 + rnd(-0.5,0.5) - 0.5,
       rot:Math.atan2(oy,ox), len:rnd(11,20), sz:rnd(0.7,1.25),
@@ -1021,110 +948,98 @@ function spawnHeart(x,y,power){
 }
 
 /* ══════════════════════════════════════════════════════════
-   SENSOR DE AGITACIÓN — VERSIÓN MEJORADA
+   ⭐⭐⭐ SENSOR DE AGITACIÓN — VERSIÓN ARREGLADA ⭐⭐⭐
+   ══════════════════════════════════════════════════════════
+   
+   Problema anterior:
+   · Umbral 15 era muy alto → la mayoría de celulares no llega
+   · Requería 2 lecturas consecutivas → muy estricto
+   · No se conectaba correctamente en algunos Android
+   
+   Solución:
+   · Umbral bajo (8) sobre la magnitud del vector de aceleración
+   · Detección directa, sin contadores intermedios
+   · Cooldown 200ms entre sacudidas
+   · Conecta el listener inmediatamente en Android
+   · Usa acceleration (sin gravedad) si está disponible
    ══════════════════════════════════════════════════════════ */
-var lastAcc = {x:0,y:0,z:0}, hasLast = false;
-var shakeThreshold = 15;    // umbral ajustable
-var shakeCounter = 0;        // contador de cambios consecutivos
+var shakeCooldown = 0;
 var lastShakeTime = 0;
-var shakeDetectDelay = 120;  // ms mínimo entre sacudidas
+var SHAKE_COOLDOWN_MS = 200;
+var lastAcc = {x:0,y:0,z:0};
+var hasLastAcc = false;
+var sensorAttached = false;
+var sensorDebug = document.getElementById('sensorDebug');
+var debugTimer = null;
+
+/* Debug visual: muestra "¡SACUDIDA!" por 1 segundo */
+function mostrarDebug(){
+  if(!sensorDebug) return;
+  sensorDebug.classList.add('show');
+  clearTimeout(debugTimer);
+  debugTimer = setTimeout(function(){
+    sensorDebug.classList.remove('show');
+  }, 1000);
+}
 
 function onMotion(e){
-  var a = e.accelerationIncludingGravity || e.acceleration;
-  if(!a || a.x === null || a.x === undefined) return;
-
-  // Actualizar tilt para el parallax
-  if(a.x !== undefined && a.y !== undefined){
-    tiltTargetX = Math.max(-1, Math.min(1, a.x/9.8));
-    tiltTargetY = Math.max(-1, Math.min(1, a.y/9.8));
-  }
-
-  if(!hasLast){ lastAcc = {x:a.x, y:a.y, z:a.z}; hasLast = true; return; }
-
-  var dx = Math.abs(a.x - lastAcc.x);
-  var dy = Math.abs(a.y - lastAcc.y);
-  var dz = Math.abs(a.z - lastAcc.z);
-  var d = dx + dy + dz;
-
-  lastAcc = {x:a.x, y:a.y, z:a.z};
-
-  // Detección robusta: contamos cambios significativos
-  if(d > shakeThreshold){
-    shakeCounter++;
-  } else {
-    shakeCounter = Math.max(0, shakeCounter - 1);
-  }
-
   var ahora = Date.now();
-  // Si acumula 2+ cambios rápidos, es una sacudida real
-  if(shakeCounter >= 2 && (ahora - lastShakeTime) > shakeDetectDelay){
-    var power = Math.min(1, d / 60);
+
+  /* ─── 1. Tilt para parallax (con gravedad) ─── */
+  var ag = e.accelerationIncludingGravity;
+  if(ag && ag.x !== null && ag.x !== undefined){
+    tiltTargetX = Math.max(-1, Math.min(1, ag.x/9.8));
+    tiltTargetY = Math.max(-1, Math.min(1, ag.y/9.8));
+  }
+
+  /* ─── 2. Detección de sacudida ─── */
+  var mag = 0;
+
+  // Opción A: usar acceleration (sin gravedad) si está disponible
+  var acc = e.acceleration;
+  if(acc && acc.x !== null && acc.x !== undefined && 
+     !(acc.x === 0 && acc.y === 0 && acc.z === 0)){
+    mag = Math.sqrt(acc.x*acc.x + acc.y*acc.y + acc.z*acc.z);
+  }
+  // Opción B: fallback → delta de accelerationIncludingGravity
+  else if(ag && ag.x !== null && ag.x !== undefined){
+    if(hasLastAcc){
+      var dx = ag.x - lastAcc.x;
+      var dy = ag.y - lastAcc.y;
+      var dz = ag.z - lastAcc.z;
+      mag = Math.sqrt(dx*dx + dy*dy + dz*dz);
+    }
+    lastAcc = {x:ag.x, y:ag.y, z:ag.z};
+    hasLastAcc = true;
+  }
+
+  /* ─── 3. Si supera el umbral, ¡sacudida! ─── */
+  if(mag > 8 && (ahora - lastShakeTime) > SHAKE_COOLDOWN_MS){
+    var power = Math.min(1, mag / 25);
     ejecutarSacudida(power);
     lastShakeTime = ahora;
-    shakeCounter = 0;
   }
 }
 
-/* Alias para compatibilidad */
-function onMotionCompat(e){ onMotion(e); }
-
 function ejecutarSacudida(power){
-  if(shakeCooldown > 0) return;
-  shakeCooldown = 0.15;
-
-  var rel = releaseSeeds(Math.round(8 + power*30), rnd(-0.5,0.5) + wind, -0.18, power);
+  // Libera muchas semillas — que se note el efecto
+  var cantidad = Math.round(10 + power*35);
+  var rel = releaseSeeds(cantidad, rnd(-0.6,0.6) + wind, -0.18, power);
   if(rel <= 0) return;
 
-  windTarget = 0.6 + power*1.2;
+  windTarget = 0.7 + power*1.3;
   sumarDeseo(rel);
-  if(Math.random() < 0.6) mostrarFrase();
+  if(Math.random() < 0.7) mostrarFrase();
 
-  for(var i=0;i<Math.round(3 + power*5);i++){
-    spawnHeart(HEAD.x+rnd(-HEAD.r,HEAD.r), HEAD.y+rnd(-HEAD.r*0.3,HEAD.r*0.5), 0.8+power);
+  for(var i=0;i<Math.round(4 + power*6);i++){
+    spawnHeart(HEAD.x+rnd(-HEAD.r,HEAD.r), HEAD.y+rnd(-HEAD.r*0.3,HEAD.r*0.5), 0.9+power);
   }
   if(esPremium && personalizacion.premium.fuegos){
     spawnFuegosArtificiales(HEAD.x, HEAD.y);
   }
-  if(navigator.vibrate) navigator.vibrate(Math.round(15+power*30));
+  if(navigator.vibrate) navigator.vibrate(Math.round(20+power*40));
   ocultarHint();
-}
-
-/* Pedir permisos correctamente — DEBE llamarse desde un gesto del usuario */
-var sensoresActivos = false;
-function pedirPermisos(){
-  if(sensoresActivos) return;
-  sensoresActivos = true;
-
-  var needsPerm = typeof DeviceMotionEvent !== 'undefined' &&
-                  typeof DeviceMotionEvent.requestPermission === 'function';
-
-  if(needsPerm){
-    // iOS 13+
-    DeviceMotionEvent.requestPermission().then(function(r){
-      if(r === 'granted'){
-        window.addEventListener('devicemotion', onMotion, {passive:true});
-      } else {
-        sensoresActivos = false;
-        console.warn('Permiso de movimiento denegado');
-      }
-    }).catch(function(err){
-      sensoresActivos = false;
-      console.warn('Error pidiendo permiso:', err);
-    });
-
-    if(typeof DeviceOrientationEvent !== 'undefined' &&
-       typeof DeviceOrientationEvent.requestPermission === 'function'){
-      DeviceOrientationEvent.requestPermission().then(function(r){
-        if(r === 'granted'){
-          window.addEventListener('deviceorientation', onOrientation, {passive:true});
-        }
-      }).catch(function(){});
-    }
-  } else if(typeof DeviceMotionEvent !== 'undefined'){
-    // Android y desktop
-    window.addEventListener('devicemotion', onMotion, {passive:true});
-    window.addEventListener('deviceorientation', onOrientation, {passive:true});
-  }
+  mostrarDebug();
 }
 
 function onOrientation(e){
@@ -1134,6 +1049,76 @@ function onOrientation(e){
     tiltTargetX = tx; tiltTargetY = ty;
   }
 }
+
+/* Pedir permisos — en iOS 13+ debe ser desde un gesto del usuario */
+var motionPermissionAsked = false;
+
+function pedirPermisosSensor(){
+  // Detectar iOS
+  var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+              (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+  var needsPerm = typeof DeviceMotionEvent !== 'undefined' &&
+                  typeof DeviceMotionEvent.requestPermission === 'function';
+
+  if(needsPerm){
+    // iOS: pedir permiso explícito
+    if(motionPermissionAsked) return;
+    motionPermissionAsked = true;
+
+    DeviceMotionEvent.requestPermission().then(function(r){
+      if(r === 'granted'){
+        if(!sensorAttached){
+          window.addEventListener('devicemotion', onMotion, {passive:true});
+          sensorAttached = true;
+        }
+      } else {
+        motionPermissionAsked = false;
+        console.warn('Permiso de movimiento denegado');
+      }
+    }).catch(function(err){
+      motionPermissionAsked = false;
+      console.warn('Error pidiendo permiso:', err);
+    });
+
+    // También orientación
+    if(typeof DeviceOrientationEvent !== 'undefined' &&
+       typeof DeviceOrientationEvent.requestPermission === 'function'){
+      DeviceOrientationEvent.requestPermission().then(function(r){
+        if(r === 'granted'){
+          window.addEventListener('deviceorientation', onOrientation, {passive:true});
+        }
+      }).catch(function(){});
+    }
+  } else if(typeof DeviceMotionEvent !== 'undefined'){
+    // Android y desktop: conectar directo
+    if(!sensorAttached){
+      window.addEventListener('devicemotion', onMotion, {passive:true});
+      window.addEventListener('deviceorientation', onOrientation, {passive:true});
+      sensorAttached = true;
+    }
+  }
+}
+window.pedirPermisosSensor = pedirPermisosSensor;
+
+/* 🔥 CONECTAR SENSOR INMEDIATAMENTE EN ANDROID */
+(function conectarSensorAutomatico(){
+  var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+              (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  var needsPerm = typeof DeviceMotionEvent !== 'undefined' &&
+                  typeof DeviceMotionEvent.requestPermission === 'function';
+  // En Android no necesita permiso → conectar ya
+  if(!needsPerm && typeof DeviceMotionEvent !== 'undefined' && !sensorAttached){
+    window.addEventListener('devicemotion', onMotion, {passive:true});
+    window.addEventListener('deviceorientation', onOrientation, {passive:true});
+    sensorAttached = true;
+  }
+  // En iOS, conectar el listener de orientation como backup (no requiere gesto)
+  if(needsPerm && typeof DeviceOrientationEvent !== 'undefined' &&
+     typeof DeviceOrientationEvent.requestPermission !== 'function'){
+    window.addEventListener('deviceorientation', onOrientation, {passive:true});
+  }
+})();
 
 /* ══════════════════════════════════════════════════════════
    INTERACCIÓN TÁCTIL
@@ -1155,7 +1140,7 @@ function blowFrom(px,py,power){
   }
 }
 canvas.addEventListener('pointerdown', function(e){
-  pedirPermisos(); // 🔑 IMPORTANTE: aquí se piden los permisos
+  pedirPermisosSensor();
   ocultarHint();
   pressing = true; lastPX = e.clientX; lastPY = e.clientY;
   blowFrom(e.clientX, e.clientY, 0.55);
@@ -1173,7 +1158,7 @@ canvas.addEventListener('pointermove', function(e){
 window.addEventListener('pointerup', function(){ pressing=false; }, {passive:true});
 window.addEventListener('pointercancel', function(){ pressing=false; }, {passive:true});
 var lastTap = 0;
-canvas.addEventListener('pointerup', function(e){
+canvas.addEventListener('pointerup', function(){
   var now = Date.now();
   if(now-lastTap < 300){
     for(var i=0;i<14;i++){
@@ -1191,8 +1176,8 @@ canvas.addEventListener('pointerup', function(e){
 }, {passive:true});
 
 document.getElementById('wa').addEventListener('click', function(){
-  var nombreAmor = personalizacion.nombre || 'mi amor';
-  var text = '💖✨ '+nombreAmor+', te mando un diente de león mágico. '+
+  var n = personalizacion.nombre || 'mi amor';
+  var text = '💖✨ '+n+', te mando un diente de león mágico. '+
              'Sacude tu teléfono, pide un deseo y recuerda que te amo. 🌬️💕\n\n'+
              'Ábrelo aquí: '+LINK_PLANTILLA;
   var wa = 'https://api.whatsapp.com/send?text='+encodeURIComponent(text);
@@ -1200,7 +1185,8 @@ document.getElementById('wa').addEventListener('click', function(){
 });
 
 document.getElementById('startBtn').addEventListener('click', function(){
-  pedirPermisos(); // 🔑 Pedir permisos al iniciar
+  // ⭐ Pedir permisos al iniciar
+  pedirPermisosSensor();
   document.getElementById('intro').classList.add('hide');
   setTimeout(function(){ document.getElementById('intro').style.display = 'none'; }, 900);
   setTimeout(function(){ mostrarFrase(); }, 900);
@@ -1237,9 +1223,9 @@ function update(dt){
 
   if(HEAD.grow < 1) HEAD.grow = Math.min(1, HEAD.grow+dt*0.85);
 
-  var paralajeMult = (esPremium && personalizacion.premium.efecto3D) ? 2.2 : 1;
-  HEAD.x = W*0.5 + Math.sin(T*0.7)*W*0.012 + tiltX*W*0.06*paralajeMult;
-  HEAD.y = H*0.44 + tiltY*H*0.02*paralajeMult;
+  var par = (esPremium && personalizacion.premium.efecto3D) ? 2.2 : 1;
+  HEAD.x = W*0.5 + Math.sin(T*0.7)*W*0.012 + tiltX*W*0.06*par;
+  HEAD.y = H*0.44 + tiltY*H*0.02*par;
 
   if(attached.length > 0 && Math.random() < 0.006*k){
     releaseSeeds(1, wind*0.6, -0.05, 0.15);
@@ -1314,8 +1300,7 @@ function update(dt){
       fu.x += fu.vx*k*0.5;
       fu.y += fu.vy*k*0.5;
       fu.vy += 0.15*k;
-      fu.vx *= 0.96;
-      fu.vy *= 0.96;
+      fu.vx *= 0.96; fu.vy *= 0.96;
       fu.life += dt;
       if(fu.life > fu.maxLife) fuegosArtificiales.splice(f,1);
     }
@@ -1377,28 +1362,23 @@ function drawSky(){
   ctx.fillRect(0,0,W,H);
 
   if(pal.solTipo === 'luna'){
-    var discoR = Math.min(W,H)*0.09;
-    var disco = ctx.createRadialGradient(solX,solY,0, solX,solY,discoR);
-    disco.addColorStop(0,'rgba(240,245,255,0.95)');
-    disco.addColorStop(0.7,'rgba(220,230,255,0.75)');
-    disco.addColorStop(1,'rgba(200,220,255,0)');
-    ctx.fillStyle = disco;
-    ctx.beginPath();
-    ctx.arc(solX, solY, discoR, 0, TAU);
-    ctx.fill();
+    var dr = Math.min(W,H)*0.09;
+    var d = ctx.createRadialGradient(solX,solY,0, solX,solY,dr);
+    d.addColorStop(0,'rgba(240,245,255,0.95)');
+    d.addColorStop(0.7,'rgba(220,230,255,0.75)');
+    d.addColorStop(1,'rgba(200,220,255,0)');
+    ctx.fillStyle = d;
+    ctx.beginPath(); ctx.arc(solX, solY, dr, 0, TAU); ctx.fill();
   }
 }
-
 function drawClouds(){
   var pal = PALETAS[momentoDia];
   for(var i=0;i<clouds.length;i++){
     var c = clouds[i];
     ctx.save();
-    var alphaNube = c.a * (momentoDia === 'noche' ? 0.5 : 1);
-    ctx.globalAlpha = alphaNube;
+    ctx.globalAlpha = c.a * (momentoDia === 'noche' ? 0.5 : 1);
     ctx.fillStyle = c.pink ? (momentoDia === 'noche' ? '#3a2860' : '#ffe4ee') : pal.nubeColor;
-    var cx = c.x - tiltX*30;
-    var cy = c.y - tiltY*14;
+    var cx = c.x - tiltX*30, cy = c.y - tiltY*14;
     ctx.beginPath();
     ctx.ellipse(cx, cy, c.r, c.r*0.40, 0, 0, TAU);
     ctx.ellipse(cx-c.r*0.58, cy+c.r*0.10, c.r*0.58, c.r*0.28, 0, 0, TAU);
@@ -1407,7 +1387,6 @@ function drawClouds(){
     ctx.restore();
   }
 }
-
 function drawGround(){
   var pal = PALETAS[momentoDia];
   var g = ctx.createLinearGradient(0,H*0.80,0,H);
@@ -1419,13 +1398,11 @@ function drawGround(){
   ctx.moveTo(0, H*0.90);
   ctx.quadraticCurveTo(W*0.5, H*0.845, W, H*0.90);
   ctx.lineTo(W, H); ctx.lineTo(0, H);
-  ctx.closePath();
-  ctx.fill();
+  ctx.closePath(); ctx.fill();
 }
-
 function drawGrass(front){
   var pal = PALETAS[momentoDia];
-  var groundY = H*0.925;
+  var gy = H*0.925;
   ctx.lineCap = 'round';
   for(var i=0;i<blades.length;i++){
     var b = blades[i];
@@ -1434,14 +1411,13 @@ function drawGrass(front){
     var hue = pal.pastoH + b.hueOffset;
     var lum = front ? pal.pastoFrontL : pal.pastoBackL;
     ctx.beginPath();
-    ctx.moveTo(b.x, groundY);
-    ctx.quadraticCurveTo(b.x+sw*0.5, groundY-b.h*0.6, b.x+sw, groundY-b.h);
+    ctx.moveTo(b.x, gy);
+    ctx.quadraticCurveTo(b.x+sw*0.5, gy-b.h*0.6, b.x+sw, gy-b.h);
     ctx.strokeStyle = 'hsla('+hue+','+pal.pastoS+'%,'+lum+'%,'+(front?0.62:0.36)+')';
     ctx.lineWidth = b.w;
     ctx.stroke();
   }
 }
-
 function drawMotes(){
   var pal = PALETAS[momentoDia];
   for(var i=0;i<motes.length;i++){
@@ -1454,47 +1430,39 @@ function drawMotes(){
   }
   ctx.globalAlpha = 1;
 }
-
 function drawStem(){
-  var baseX = W*0.5 + Math.sin(T*0.7)*W*0.008;
-  var baseY = H*0.925;
-  var topY = HEAD.y + HEAD.r*0.62*HEAD.grow;
-  var midX = (baseX+HEAD.x)/2 + Math.sin(T*0.7)*4;
-  var talloColor;
-  if(momentoDia === 'noche') talloColor = 'rgba(80,110,90,0.85)';
-  else if(momentoDia === 'tarde') talloColor = 'rgba(120,140,80,0.9)';
-  else if(momentoDia === 'manana') talloColor = 'rgba(110,150,90,0.9)';
-  else talloColor = 'rgba(96,152,84,0.92)';
-
+  var bx = W*0.5 + Math.sin(T*0.7)*W*0.008;
+  var by = H*0.925;
+  var ty = HEAD.y + HEAD.r*0.62*HEAD.grow;
+  var mx = (bx+HEAD.x)/2 + Math.sin(T*0.7)*4;
+  var col;
+  if(momentoDia === 'noche') col = 'rgba(80,110,90,0.85)';
+  else if(momentoDia === 'tarde') col = 'rgba(120,140,80,0.9)';
+  else if(momentoDia === 'manana') col = 'rgba(110,150,90,0.9)';
+  else col = 'rgba(96,152,84,0.92)';
   ctx.beginPath();
-  ctx.moveTo(baseX, baseY);
-  ctx.quadraticCurveTo(midX, (baseY+topY)/2, HEAD.x, topY);
-  ctx.strokeStyle = talloColor;
-  ctx.lineWidth = 3.2;
-  ctx.lineCap = 'round';
+  ctx.moveTo(bx, by);
+  ctx.quadraticCurveTo(mx, (by+ty)/2, HEAD.x, ty);
+  ctx.strokeStyle = col;
+  ctx.lineWidth = 3.2; ctx.lineCap = 'round';
   ctx.stroke();
-
   ctx.beginPath();
-  ctx.moveTo(baseX, baseY);
-  ctx.quadraticCurveTo(midX, (baseY+topY)/2, HEAD.x, topY);
+  ctx.moveTo(bx, by);
+  ctx.quadraticCurveTo(mx, (by+ty)/2, HEAD.x, ty);
   ctx.strokeStyle = momentoDia === 'noche' ? 'rgba(140,180,160,0.35)' : 'rgba(180,220,150,0.35)';
   ctx.lineWidth = 1.1;
   ctx.stroke();
-
   ctx.beginPath();
-  ctx.ellipse(HEAD.x, HEAD.y + HEAD.r*0.60*HEAD.grow,
-              HEAD.r*0.10, HEAD.r*0.07, 0, 0, TAU);
+  ctx.ellipse(HEAD.x, HEAD.y+HEAD.r*0.60*HEAD.grow, HEAD.r*0.10, HEAD.r*0.07, 0, 0, TAU);
   ctx.fillStyle = momentoDia === 'noche' ? 'rgba(100,130,110,0.9)' : 'rgba(130,158,96,0.9)';
   ctx.fill();
 }
-
 function drawHead(){
   if(attached.length === 0) return;
   var pal = PALETAS[momentoDia];
   var g = HEAD.grow;
   var cx = HEAD.x, cy = HEAD.y;
   var sway = Math.sin(T*0.9)*0.02 + wind*0.9 + tiltX*0.06;
-
   var halo = ctx.createRadialGradient(cx,cy,0, cx,cy,HEAD.r*1.85);
   halo.addColorStop(0, pal.haloTinte);
   halo.addColorStop(0.42, 'rgba(255,255,255,0.16)');
@@ -1503,10 +1471,7 @@ function drawHead(){
   ctx.beginPath();
   ctx.arc(cx, cy, HEAD.r*1.85, 0, TAU);
   ctx.fill();
-
-  var vilanoColor = momentoDia === 'noche'
-    ? 'rgba(200,220,255,0.72)' : 'rgba(255,255,255,0.88)';
-
+  var vc = momentoDia === 'noche' ? 'rgba(200,220,255,0.72)' : 'rgba(255,255,255,0.88)';
   var tips = new Float32Array(attached.length*4);
   ctx.beginPath();
   for(var i=0;i<attached.length;i++){
@@ -1515,43 +1480,38 @@ function drawHead(){
     var len = s.len * g;
     var tx = cx + Math.cos(ang)*len;
     var ty = cy + Math.sin(ang)*len;
-    tips[i*4] = tx; tips[i*4+1] = ty;
-    tips[i*4+2] = ang; tips[i*4+3] = s.sz;
+    tips[i*4]=tx; tips[i*4+1]=ty; tips[i*4+2]=ang; tips[i*4+3]=s.sz;
     ctx.moveTo(cx, cy);
     ctx.lineTo(tx, ty);
   }
   ctx.strokeStyle = momentoDia === 'noche' ? 'rgba(200,220,255,0.38)' : 'rgba(255,255,255,0.48)';
   ctx.lineWidth = 0.9;
   ctx.stroke();
-
   ctx.beginPath();
   for(var j=0;j<tips.length;j+=4){
     var px = tips[j], py = tips[j+1];
     var pa = tips[j+2], ps = tips[j+3];
     for(var h=0;h<7;h++){
-      var off = (h/6 - 0.5)*1.28;
+      var off = (h/6-0.5)*1.28;
       var ha = pa + off;
       var hl = 13*ps*g;
       ctx.moveTo(px, py);
       ctx.lineTo(px+Math.cos(ha)*hl, py+Math.sin(ha)*hl);
     }
   }
-  ctx.strokeStyle = vilanoColor;
+  ctx.strokeStyle = vc;
   ctx.lineWidth = 0.7;
   ctx.stroke();
 }
-
 function dibujarCorazon(cx,cy,size,rot,alpha,hue){
   ctx.save();
-  ctx.translate(cx,cy);
-  ctx.rotate(rot);
-  ctx.globalAlpha = alpha;
-  ctx.scale(size/20, size/20);
-  var grad = ctx.createRadialGradient(0,0,0, 0,0,18);
-  grad.addColorStop(0, 'hsla('+hue+',100%,78%,1)');
-  grad.addColorStop(0.6, 'hsla('+hue+',90%,62%,1)');
-  grad.addColorStop(1, 'hsla('+hue+',85%,48%,1)');
-  ctx.fillStyle = grad;
+  ctx.translate(cx,cy); ctx.rotate(rot);
+  ctx.globalAlpha = alpha; ctx.scale(size/20, size/20);
+  var g = ctx.createRadialGradient(0,0,0, 0,0,18);
+  g.addColorStop(0, 'hsla('+hue+',100%,78%,1)');
+  g.addColorStop(0.6, 'hsla('+hue+',90%,62%,1)');
+  g.addColorStop(1, 'hsla('+hue+',85%,48%,1)');
+  ctx.fillStyle = g;
   ctx.shadowColor = 'hsla('+hue+',90%,60%,0.6)';
   ctx.shadowBlur = 12;
   ctx.beginPath();
@@ -1569,13 +1529,11 @@ function dibujarCorazon(cx,cy,size,rot,alpha,hue){
   ctx.fill();
   ctx.restore();
 }
-
 function drawFlying(){
-  var semillaColor = momentoDia === 'noche'
-    ? 'rgba(210,225,255,0.80)' : 'rgba(255,255,255,0.80)';
+  var sc = momentoDia === 'noche' ? 'rgba(210,225,255,0.80)' : 'rgba(255,255,255,0.80)';
   for(var i=0;i<flying.length;i++){
     var p = flying[i];
-    if(p.heart){ dibujarCorazon(p.x, p.y, 12, p.rot, p.alpha*0.92, 340); continue; }
+    if(p.heart){ dibujarCorazon(p.x,p.y,12,p.rot,p.alpha*0.92,340); continue; }
     var a = p.rot;
     ctx.globalAlpha = Math.max(p.alpha, 0);
     ctx.beginPath();
@@ -1586,25 +1544,23 @@ function drawFlying(){
     ctx.stroke();
     ctx.beginPath();
     for(var h=0;h<9;h++){
-      var off = (h/8 - 0.5)*1.55;
+      var off = (h/8-0.5)*1.55;
       var ha = a + off;
-      ctx.moveTo(p.x, p.y);
+      ctx.moveTo(p.x,p.y);
       ctx.lineTo(p.x+Math.cos(ha)*p.len*0.92, p.y+Math.sin(ha)*p.len*0.92);
     }
-    ctx.strokeStyle = semillaColor;
+    ctx.strokeStyle = sc;
     ctx.lineWidth = 0.7;
     ctx.stroke();
   }
   ctx.globalAlpha = 1;
 }
-
 function drawHearts(){
   for(var i=0;i<hearts.length;i++){
     var h = hearts[i];
-    dibujarCorazon(h.x, h.y, h.size, h.rot, h.alpha*0.9, h.hue);
+    dibujarCorazon(h.x,h.y,h.size,h.rot,h.alpha*0.9,h.hue);
   }
 }
-
 function drawSparks(){
   for(var i=0;i<sparks.length;i++){
     var s = sparks[i];
@@ -1613,84 +1569,57 @@ function drawSparks(){
     g.addColorStop(0, 'rgba('+col+','+s.a+')');
     g.addColorStop(1, 'rgba('+col+',0)');
     ctx.fillStyle = g;
-    ctx.beginPath();
-    ctx.arc(s.x, s.y, s.r*4, 0, TAU);
-    ctx.fill();
+    ctx.beginPath(); ctx.arc(s.x, s.y, s.r*4, 0, TAU); ctx.fill();
   }
 }
-
 function drawDestellos(){
   if(!esPremium || !personalizacion.premium.destellos) return;
-  ctx.save();
-  ctx.globalCompositeOperation = 'lighter';
+  ctx.save(); ctx.globalCompositeOperation = 'lighter';
   for(var i=0;i<destellos.length;i++){
     var de = destellos[i];
-    var tw = 0.5 + 0.5*Math.sin(de.ph*de.tw);
-    var alpha = de.a * (0.4 + tw*0.6);
+    var tw = 0.5+0.5*Math.sin(de.ph*de.tw);
+    var a = de.a*(0.4+tw*0.6);
     var col = de.gold ? '255,220,120' : '255,255,255';
-    var g = ctx.createRadialGradient(de.x, de.y, 0, de.x, de.y, de.r*4);
-    g.addColorStop(0, 'rgba('+col+','+alpha+')');
-    g.addColorStop(0.4, 'rgba('+col+','+(alpha*0.4)+')');
+    var g = ctx.createRadialGradient(de.x,de.y,0, de.x,de.y,de.r*4);
+    g.addColorStop(0, 'rgba('+col+','+a+')');
+    g.addColorStop(0.4, 'rgba('+col+','+(a*0.4)+')');
     g.addColorStop(1, 'rgba('+col+',0)');
     ctx.fillStyle = g;
-    ctx.beginPath();
-    ctx.arc(de.x, de.y, de.r*4, 0, TAU);
-    ctx.fill();
-    ctx.fillStyle = 'rgba(255,255,255,'+alpha+')';
-    ctx.beginPath();
-    ctx.arc(de.x, de.y, de.r*0.5, 0, TAU);
-    ctx.fill();
-    if(de.r > 2){
-      ctx.strokeStyle = 'rgba('+col+','+(alpha*0.6)+')';
-      ctx.lineWidth = 0.8;
-      ctx.beginPath();
-      ctx.moveTo(de.x-de.r*3, de.y); ctx.lineTo(de.x+de.r*3, de.y);
-      ctx.moveTo(de.x, de.y-de.r*3); ctx.lineTo(de.x, de.y+de.r*3);
-      ctx.stroke();
-    }
+    ctx.beginPath(); ctx.arc(de.x,de.y,de.r*4,0,TAU); ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,'+a+')';
+    ctx.beginPath(); ctx.arc(de.x,de.y,de.r*0.5,0,TAU); ctx.fill();
   }
   ctx.restore();
 }
-
 function drawFuegosArtificiales(){
   if(!esPremium || !personalizacion.premium.fuegos) return;
-  ctx.save();
-  ctx.globalCompositeOperation = 'lighter';
+  ctx.save(); ctx.globalCompositeOperation = 'lighter';
   for(var i=0;i<fuegosArtificiales.length;i++){
     var fu = fuegosArtificiales[i];
-    var lifeRatio = 1 - (fu.life / fu.maxLife);
-    var alpha = lifeRatio * fu.a;
+    var a = (1 - fu.life/fu.maxLife) * fu.a;
     var c = fu.color;
-    var g = ctx.createRadialGradient(fu.x, fu.y, 0, fu.x, fu.y, fu.r*4);
-    g.addColorStop(0, 'rgba('+c[0]+','+c[1]+','+c[2]+','+alpha+')');
-    g.addColorStop(0.4, 'rgba('+c[0]+','+c[1]+','+c[2]+','+(alpha*0.6)+')');
+    var g = ctx.createRadialGradient(fu.x,fu.y,0, fu.x,fu.y,fu.r*4);
+    g.addColorStop(0, 'rgba('+c[0]+','+c[1]+','+c[2]+','+a+')');
+    g.addColorStop(0.4, 'rgba('+c[0]+','+c[1]+','+c[2]+','+(a*0.6)+')');
     g.addColorStop(1, 'rgba('+c[0]+','+c[1]+','+c[2]+',0)');
     ctx.fillStyle = g;
-    ctx.beginPath();
-    ctx.arc(fu.x, fu.y, fu.r*4, 0, TAU);
-    ctx.fill();
-    ctx.fillStyle = 'rgba(255,255,255,'+(alpha*0.9)+')';
-    ctx.beginPath();
-    ctx.arc(fu.x, fu.y, fu.r*0.8, 0, TAU);
-    ctx.fill();
+    ctx.beginPath(); ctx.arc(fu.x,fu.y,fu.r*4,0,TAU); ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,'+(a*0.9)+')';
+    ctx.beginPath(); ctx.arc(fu.x,fu.y,fu.r*0.8,0,TAU); ctx.fill();
   }
   ctx.restore();
 }
-
 function drawCorazonesLluvia(){
   if(!esPremium || !personalizacion.premium.corazones) return;
   for(var i=0;i<corazonesLluvia.length;i++){
     var c = corazonesLluvia[i];
-    dibujarCorazon(c.x, c.y, c.size, c.rot, c.a*0.85, c.hue);
+    dibujarCorazon(c.x,c.y,c.size,c.rot,c.a*0.85,c.hue);
   }
 }
-
 function drawTinte(){
-  var pal = PALETAS[momentoDia];
-  ctx.fillStyle = pal.tinte;
-  ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = PALETAS[momentoDia].tinte;
+  ctx.fillRect(0,0,W,H);
 }
-
 function draw(){
   drawSky();
   drawClouds();
@@ -1714,12 +1643,10 @@ function draw(){
    ══════════════════════════════════════════════════════════ */
 function resize(){
   DPR = Math.min(window.devicePixelRatio || 1, 2);
-  W = window.innerWidth;
-  H = window.innerHeight;
+  W = window.innerWidth; H = window.innerHeight;
   canvas.width = Math.round(W*DPR);
   canvas.height = Math.round(H*DPR);
-  canvas.style.width = W+'px';
-  canvas.style.height = H+'px';
+  canvas.style.width = W+'px'; canvas.style.height = H+'px';
   ctx.setTransform(DPR,0,0,DPR,0,0);
   layout();
   buildMotes(); buildClouds(); buildGrass(); buildEstrellas(); buildDestellos();
@@ -1741,14 +1668,24 @@ function loop(now){
 /* ══════════════════════════════════════════════════════════
    ARRANQUE
    ══════════════════════════════════════════════════════════ */
-resize();
-buildHead();
-HEAD.grow = 0;
-actualizarMomento();
-setInterval(actualizarMomento, 60000);
-initPersonalizacion();
-requestAnimationFrame(loop);
-setTimeout(ocultarHint, 7000);
+async function init(){
+  await verificarPremiumInicial();
+  if(esPremium){
+    personalizacion.premium.destellos = true;
+    personalizacion.premium.corazones = true;
+    personalizacion.premium.fuegos = true;
+  }
+  resize();
+  buildHead();
+  HEAD.grow = 0;
+  actualizarMomento();
+  setInterval(actualizarMomento, 60000);
+  initPersonalizacion();
+  requestAnimationFrame(loop);
+  setTimeout(ocultarHint, 7000);
+}
+
+init();
 
 })();
 </script>
