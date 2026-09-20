@@ -39,7 +39,6 @@
   #wm-magica a{color:#4a2400!important;text-decoration:none!important;font-weight:900!important;
     -webkit-text-fill-color:#4a2400!important;display:inline-block!important;
     pointer-events:auto!important;font-size:12.5px!important;word-break:break-word!important}
-  #wm-magica a:active{opacity:.75!important}
   #wishCount{position:fixed;top:calc(env(safe-area-inset-top,0px) + 14px);
     left:12px;right:auto;transform:none;background:rgba(255,255,255,.78);
     -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
@@ -63,17 +62,16 @@
     font-size:16.5px;font-weight:900;letter-spacing:.4px;color:#fff;
     background:linear-gradient(135deg,#2ee06e 0%,#25D366 45%,#128C7E 100%);
     box-shadow:0 12px 34px rgba(18,140,126,.5),0 4px 0 rgba(0,90,80,.35),inset 0 1px 0 rgba(255,255,255,.4);
-    text-decoration:none;font-family:inherit;transition:transform .15s ease,box-shadow .15s ease;
+    text-decoration:none;font-family:inherit;transition:transform .15s ease;
     width:100%;max-width:340px;position:relative;overflow:hidden;
     animation:pulseWa 2.6s ease-in-out infinite}
   .btn-wa::after{content:'';position:absolute;inset:0;
     background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.42) 50%,transparent 70%);
     transform:translateX(-120%);animation:shineWa 3.4s ease-in-out infinite;pointer-events:none}
-  .btn-wa:active{transform:scale(.94);box-shadow:0 6px 16px rgba(18,140,126,.4)}
+  .btn-wa:active{transform:scale(.94)}
   .btn-wa svg{width:22px;height:22px;fill:#fff;flex-shrink:0;z-index:1}
   .btn-wa span{position:relative;z-index:1}
-  @keyframes pulseWa{
-    0%,100%{box-shadow:0 12px 34px rgba(18,140,126,.5),0 4px 0 rgba(0,90,80,.35),inset 0 1px 0 rgba(255,255,255,.4)}
+  @keyframes pulseWa{0%,100%{box-shadow:0 12px 34px rgba(18,140,126,.5),0 4px 0 rgba(0,90,80,.35),inset 0 1px 0 rgba(255,255,255,.4)}
     50%{box-shadow:0 12px 42px rgba(37,211,102,.75),0 4px 0 rgba(0,90,80,.35),inset 0 1px 0 rgba(255,255,255,.4)}}
   @keyframes shineWa{0%{transform:translateX(-120%)}60%,100%{transform:translateX(120%)}}
   #loveMsg{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 128px);
@@ -104,16 +102,18 @@
     box-shadow:0 14px 34px rgba(214,60,120,.45),inset 0 1px 0 rgba(255,255,255,.4);
     transition:transform .15s ease;letter-spacing:.5px}
   #startBtn:active{transform:scale(.94)}
+
+  /* ══════════ PERSONALIZACIÓN ══════════ */
   #personalizacion{position:fixed;inset:0;z-index:100000;
     background:linear-gradient(135deg, #ffe4ec 0%, #ffd0e0 50%, #ffb8d0 100%);
     display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
     gap:14px;padding:24px;text-align:center;overflow-y:auto;-webkit-overflow-scrolling:touch;
     transition:opacity .6s ease, visibility .6s}
   #personalizacion.hide{opacity:0;visibility:hidden;pointer-events:none}
-  #personalizacion h2{margin:8px 0 4px;font-size:22px;color:#a1235e;font-weight:900;letter-spacing:.3px}
+  #personalizacion h2{margin:8px 0 4px;font-size:22px;color:#a1235e;font-weight:900}
   #personalizacion .sub{margin:0 0 10px;font-size:13px;color:#7a2a52;font-weight:600;opacity:.85}
   .form-group{width:100%;max-width:380px;text-align:left;margin-bottom:6px}
-  .form-group label{display:block;font-size:12.5px;font-weight:700;color:#7a2a52;margin-bottom:5px;letter-spacing:.2px}
+  .form-group label{display:block;font-size:12.5px;font-weight:700;color:#7a2a52;margin-bottom:5px}
   .form-group input, .form-group textarea{width:100%;padding:12px 16px;border-radius:14px;
     border:2px solid rgba(255,255,255,.8);background:rgba(255,255,255,.72);
     -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
@@ -135,7 +135,6 @@
   .btn-add-frase{width:100%;max-width:380px;padding:10px;border-radius:12px;
     border:2px dashed #e6398a;background:rgba(255,255,255,.45);color:#e6398a;
     font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;transition:all .2s}
-  .btn-add-frase:active{transform:scale(.97);background:rgba(255,255,255,.7)}
   .btn-add-frase:disabled{opacity:.5;cursor:not-allowed;border-style:solid}
   .premium-badge{display:inline-flex;align-items:center;gap:6px;
     padding:6px 14px;border-radius:999px;
@@ -145,17 +144,24 @@
   .premium-badge .star{font-size:14px}
   .toggle-row{display:flex;align-items:center;justify-content:space-between;
     width:100%;max-width:380px;padding:12px 16px;background:rgba(255,255,255,.65);
-    border-radius:14px;border:2px solid rgba(255,255,255,.8)}
-  .toggle-row .info{text-align:left}
+    border-radius:14px;border:2px solid rgba(255,255,255,.8);position:relative;
+    transition:opacity .3s}
+  .toggle-row.locked{opacity:.75}
+  .toggle-row.locked .info strong{color:#7a4a62}
+  .toggle-row .info{text-align:left;flex:1;padding-right:10px}
   .toggle-row .info strong{display:block;font-size:13px;color:#a1235e;font-weight:700}
   .toggle-row .info small{font-size:11px;color:#9a4a72;font-weight:600}
   .toggle-switch{width:52px;height:30px;border-radius:999px;background:#ddd;
-    position:relative;cursor:pointer;transition:background .3s;flex-shrink:0}
+    position:relative;cursor:pointer;transition:background .3s;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;font-size:12px}
   .toggle-switch.on{background:linear-gradient(135deg,#ff7aa8,#e6398a)}
+  .toggle-switch.locked{background:#bbb;cursor:not-allowed}
   .toggle-switch::after{content:'';position:absolute;top:3px;left:3px;
     width:24px;height:24px;border-radius:50%;background:#fff;
     box-shadow:0 2px 6px rgba(0,0,0,.15);transition:transform .3s}
   .toggle-switch.on::after{transform:translateX(22px)}
+  .toggle-switch.locked::before{content:'🔒';position:absolute;
+    font-size:11px;z-index:2}
   .music-upload{width:100%;max-width:380px;padding:14px;background:rgba(255,255,255,.65);
     border-radius:14px;border:2px solid rgba(255,255,255,.8);text-align:center}
   .music-upload input[type="file"]{display:none}
@@ -185,11 +191,71 @@
   .gratis-tag{display:inline-block;padding:4px 10px;border-radius:999px;
     background:linear-gradient(135deg,#2ee06e,#25D366);color:#fff;
     font-size:10px;font-weight:800;margin-left:6px;letter-spacing:.2px;vertical-align:middle}
-  .premium-tag{display:inline-block;padding:4px 10px;border-radius:999px;
-    background:linear-gradient(135deg,#ffd700,#ff8c00);color:#fff;
-    font-size:10px;font-weight:800;margin-left:6px;letter-spacing:.2px;vertical-align:middle}
   .separador{width:100%;max-width:380px;height:2px;
     background:linear-gradient(90deg,transparent,rgba(161,35,94,.2),transparent);margin:8px 0}
+
+  /* Estado premium activo */
+  .premium-status{display:flex;align-items:center;justify-content:center;gap:8px;
+    width:100%;max-width:380px;padding:10px 16px;border-radius:14px;
+    background:linear-gradient(135deg,rgba(46,224,110,.15),rgba(37,211,102,.10));
+    border:2px solid rgba(46,224,110,.4);font-size:12px;font-weight:800;
+    color:#0a6a3a}
+  .premium-status.inactive{background:linear-gradient(135deg,rgba(255,180,80,.15),rgba(255,140,40,.10));
+    border-color:rgba(255,140,40,.4);color:#8a4a00}
+
+  /* Modal de bloqueo premium */
+  #lockModal{position:fixed;inset:0;z-index:100001;
+    background:rgba(0,0,0,.7);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    display:none;align-items:center;justify-content:center;padding:20px;
+    transition:opacity .3s}
+  #lockModal.show{display:flex}
+  #lockModal .box{width:100%;max-width:360px;background:#fff;border-radius:20px;
+    padding:26px 22px;text-align:center;
+    box-shadow:0 30px 80px rgba(0,0,0,.4);
+    animation:modalIn .35s cubic-bezier(.34,1.4,.64,1)}
+  @keyframes modalIn{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+  #lockModal .crown{font-size:52px;display:block;margin-bottom:8px;
+    filter:drop-shadow(0 4px 12px rgba(255,180,0,.5))}
+  #lockModal h3{margin:0 0 8px;font-size:20px;color:#a1235e;font-weight:900}
+  #lockModal p{margin:0 0 18px;font-size:13.5px;color:#7a2a52;font-weight:600;line-height:1.5}
+  #lockModal .btn-go{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    width:100%;padding:14px;border-radius:999px;border:0;cursor:pointer;
+    font-family:inherit;font-size:15px;font-weight:900;color:#fff;
+    background:linear-gradient(135deg,#ffd700,#ffb700,#ff8c00);
+    box-shadow:0 10px 28px rgba(255,180,0,.4);
+    text-decoration:none;margin-bottom:8px;letter-spacing:.3px}
+  #lockModal .btn-close{width:100%;padding:12px;border-radius:999px;border:0;
+    background:transparent;color:#9a4a72;font-family:inherit;font-size:13px;
+    font-weight:700;cursor:pointer}
+  #lockModal .btn-close:active{opacity:.6}
+
+  /* Modal de activación por token */
+  #tokenModal{position:fixed;inset:0;z-index:100002;
+    background:rgba(0,0,0,.7);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    display:none;align-items:center;justify-content:center;padding:20px}
+  #tokenModal.show{display:flex}
+  #tokenModal .box{width:100%;max-width:360px;background:#fff;border-radius:20px;
+    padding:26px 22px;text-align:center;
+    box-shadow:0 30px 80px rgba(0,0,0,.4);
+    animation:modalIn .35s cubic-bezier(.34,1.4,.64,1)}
+  #tokenModal h3{margin:0 0 8px;font-size:20px;color:#a1235e;font-weight:900}
+  #tokenModal p{margin:0 0 18px;font-size:13.5px;color:#7a2a52;font-weight:600;line-height:1.5}
+  #tokenModal input{width:100%;padding:14px 16px;border-radius:12px;
+    border:2px solid #ffc8de;background:#fff5f9;font-family:ui-monospace,Menlo,monospace;
+    font-size:16px;color:#a1235e;font-weight:700;text-align:center;
+    outline:none;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+  #tokenModal input:focus{border-color:#e6398a;box-shadow:0 0 0 4px rgba(230,57,138,.12)}
+  #tokenModal .btn-ok{width:100%;padding:14px;border-radius:999px;border:0;
+    cursor:pointer;font-family:inherit;font-size:15px;font-weight:900;color:#fff;
+    background:linear-gradient(135deg,#2ee06e,#25D366);
+    box-shadow:0 10px 28px rgba(37,211,102,.4);margin-bottom:8px}
+  #tokenModal .btn-cancel{width:100%;padding:12px;border-radius:999px;border:0;
+    background:transparent;color:#9a4a72;font-family:inherit;font-size:13px;
+    font-weight:700;cursor:pointer}
+  #tokenModal .msg{margin-top:10px;font-size:12px;font-weight:700;min-height:18px}
+  #tokenModal .msg.ok{color:#0a6a3a}
+  #tokenModal .msg.err{color:#c00}
+
   @media (max-height:560px){
     #loveMsg{bottom:calc(env(safe-area-inset-bottom,0px) + 108px);font-size:14px;padding:12px 20px}
     .hint{top:calc(env(safe-area-inset-top,0px) + 72px);font-size:11.5px;padding:8px 14px}
@@ -200,14 +266,6 @@
     #momento{padding:6px 10px;font-size:10px;top:calc(env(safe-area-inset-top,0px) + 72px)}
     #personalizacion{padding:16px;gap:10px}
     #personalizacion h2{font-size:18px}
-    .form-group input, .form-group textarea{padding:10px 14px}
-  }
-  @media (max-width:340px){
-    #wm-magica{padding:7px 11px!important;font-size:11px!important}
-    #wm-magica a{font-size:11px!important}
-    #wm-magica span{font-size:8px!important}
-    #wishCount{font-size:10.5px;padding:6px 10px}
-    #wishCount b{font-size:11.5px}
   }
 </style>
 </head>
@@ -215,6 +273,7 @@
 
 <canvas id="scene"></canvas>
 
+<!-- ══════════ PERSONALIZACIÓN ══════════ -->
 <div id="personalizacion">
   <div style="margin-top:env(safe-area-inset-top,0px)"></div>
   <div class="bigHeart" style="font-size:42px;animation:beat 1.1s ease-in-out infinite;filter:drop-shadow(0 4px 12px rgba(214,60,120,.4))">✨</div>
@@ -243,25 +302,31 @@
 
   <div class="separador"></div>
 
-  <div class="premium-badge">
-    <span class="star">⭐</span>
-    FUNCIONES PREMIUM DESBLOQUEADAS
+  <!-- Estado premium -->
+  <div id="premiumStatus" class="premium-status inactive">
+    <span id="premiumIcon">🔒</span>
+    <span id="premiumText">Modo gratuito</span>
   </div>
 
-  <div class="toggle-row">
+  <div class="premium-badge">
+    <span class="star">⭐</span>
+    FUNCIONES PREMIUM
+  </div>
+
+  <div class="toggle-row locked" id="rowDestellos">
     <div class="info">
       <strong>✨ Destellos mágicos</strong>
       <small>Partículas doradas brillantes en el fondo</small>
     </div>
-    <div class="toggle-switch" id="toggleDestellos" onclick="togglePremium(this, 'destellos')"></div>
+    <div class="toggle-switch locked" id="toggleDestellos" data-feature="destellos"></div>
   </div>
 
-  <div class="toggle-row">
+  <div class="toggle-row locked" id="rowMusica">
     <div class="info">
       <strong>🎵 Tu música favorita</strong>
       <small>Reproduce tu canción especial de fondo</small>
     </div>
-    <div class="toggle-switch" id="toggleMusica" onclick="togglePremium(this, 'musica')"></div>
+    <div class="toggle-switch locked" id="toggleMusica" data-feature="musica"></div>
   </div>
 
   <div class="music-upload" id="musicUpload" style="display:none">
@@ -274,33 +339,70 @@
     <div class="music-name" id="musicName"></div>
   </div>
 
-  <div class="toggle-row">
+  <div class="toggle-row locked" id="rowCorazones">
     <div class="info">
       <strong>💗 Lluvia de corazones</strong>
       <small>Corazones cayendo constantemente</small>
     </div>
-    <div class="toggle-switch" id="toggleCorazones" onclick="togglePremium(this, 'corazones')"></div>
+    <div class="toggle-switch locked" id="toggleCorazones" data-feature="corazones"></div>
   </div>
 
-  <div class="toggle-row">
+  <div class="toggle-row locked" id="rowFuegos">
     <div class="info">
       <strong>🎆 Fuegos artificiales</strong>
       <small>Explosiones de luz al hacer un deseo</small>
     </div>
-    <div class="toggle-switch" id="toggleFuegos" onclick="togglePremium(this, 'fuegos')"></div>
+    <div class="toggle-switch locked" id="toggleFuegos" data-feature="fuegos"></div>
   </div>
 
-  <div class="toggle-row">
+  <div class="toggle-row locked" id="rowEfecto3D">
     <div class="info">
       <strong>🌊 Efecto 3D avanzado</strong>
       <small>Profundidad y paralaje mejorado</small>
     </div>
-    <div class="toggle-switch" id="toggleEfecto3D" onclick="togglePremium(this, 'efecto3D')"></div>
+    <div class="toggle-switch locked" id="toggleEfecto3D" data-feature="efecto3D"></div>
   </div>
 
   <div style="height:6px"></div>
+
+  <button class="btn-premium" id="btnActivarPremium" onclick="abrirTokenModal()">
+    <span class="crown">👑</span>
+    <span id="btnPremiumText">Ya pagué - Activar Premium</span>
+  </button>
+
+  <a href="https://c4rlo53305-lgtm.github.io/Peri/premium.html" class="btn-premium" target="_blank" rel="noopener" style="margin-top:4px">
+    <span class="crown">💳</span>
+    Comprar Premium
+  </a>
+
   <button class="btn-continuar" id="btnContinuar" onclick="continuarAApp()">Continuar al Diente de León 💖</button>
   <div style="height:env(safe-area-inset-bottom,0px);min-height:12px"></div>
+</div>
+
+<!-- Modal de bloqueo -->
+<div id="lockModal">
+  <div class="box">
+    <span class="crown">👑</span>
+    <h3>Función Premium</h3>
+    <p>Esta función es exclusiva de usuarios Premium.<br>Actívala para desbloquear todos los efectos mágicos.</p>
+    <a href="https://c4rlo53305-lgtm.github.io/Peri/premium.html" target="_blank" rel="noopener" class="btn-go">
+      👑 Comprar Premium
+    </a>
+    <button class="btn-close" onclick="cerrarLockModal()">Ya pagué - Activar con token</button>
+    <button class="btn-close" onclick="document.getElementById('lockModal').classList.remove('show')">Cancelar</button>
+  </div>
+</div>
+
+<!-- Modal de token -->
+<div id="tokenModal">
+  <div class="box">
+    <h3>🔑 Activar Premium</h3>
+    <p>Ingresa tu código de activación.<br>Lo recibiste después de tu compra.</p>
+    <input type="text" id="tokenInput" placeholder="PEGA-TU-CODIGO" maxlength="30">
+    <button class="btn-ok" onclick="verificarToken()">Activar</button>
+    <button class="btn-cancel" onclick="document.getElementById('tokenModal').classList.remove('show')">Cancelar</button>
+    <div class="msg" id="tokenMsg"></div>
+  </div>
 </div>
 
 <div id="intro">
@@ -334,35 +436,86 @@
 'use strict';
 
 /* ══════════════════════════════════════════════════════════
-   PERSONALIZACIÓN — PREMIUM YA DESBLOQUEADO
+   SISTEMA PREMIUM CON TOKENS
+   ══════════════════════════════════════════════════════════ */
+
+/* 🔑 TOKENS VÁLIDOS — Cámbialos por los que TÚ generes al vender */
+var TOKENS_VALIDOS = [
+  'DLEON-AMOR-2025',
+  'DLEON-PREMIUM-001',
+  'DLEON-VIP-001',
+  'C4RLO-PREMIUM-01',
+  'TEST-123'
+];
+
+var STORAGE_KEY = 'dleon_premium_token';
+
+/* Verificar si el usuario es premium */
+function verificarPremiumGuardado(){
+  try{
+    var token = localStorage.getItem(STORAGE_KEY);
+    if(!token) return false;
+    return TOKENS_VALIDOS.indexOf(token.toUpperCase()) !== -1;
+  }catch(e){ return false; }
+}
+
+/* Verificar token en URL (?premium=XXX) */
+function verificarTokenEnURL(){
+  try{
+    var params = new URLSearchParams(location.search);
+    var token = params.get('premium');
+    if(!token) return false;
+    var tk = token.toUpperCase().trim();
+    if(TOKENS_VALIDOS.indexOf(tk) !== -1){
+      localStorage.setItem(STORAGE_KEY, tk);
+      // Limpiar URL
+      var url = location.pathname + location.hash;
+      history.replaceState({}, '', url);
+      return true;
+    }
+  }catch(e){}
+  return false;
+}
+
+/* Estado premium global */
+var esPremium = verificarTokenEnURL() || verificarPremiumGuardado();
+
+/* ══════════════════════════════════════════════════════════
+   PERSONALIZACIÓN
    ══════════════════════════════════════════════════════════ */
 var personalizacion = {
   nombre: '',
   mensaje: '',
   frases: [
     'Te amo más que ayer 💕',
-    'Eres mi dese cumplido ✨',
+    'Eres mi deseo cumplido ✨',
     'Contigo todo es mágico 💖',
     'Mi lugar favorito es a tu lado 🌹',
     'Cada semilla lleva mi amor por ti 💌'
   ],
   premium: {
-    destellos: true,   // ⭐ DESBLOQUEADO POR DEFECTO
+    destellos: false,
     musica: false,
-    corazones: true,   // ⭐ DESBLOQUEADO POR DEFECTO
-    fuegos: true,      // ⭐ DESBLOQUEADO POR DEFECTO
-    efecto3D: true     // ⭐ DESBLOQUEADO POR DEFECTO
+    corazones: false,
+    fuegos: false,
+    efecto3D: false
   },
-  archivoMusica: null,
-  esPremium: true      // ⭐ USUARIO YA ES PREMIUM
+  archivoMusica: null
 };
+
+/* Si es premium, activar defaults bonitos */
+if(esPremium){
+  personalizacion.premium.destellos = true;
+  personalizacion.premium.corazones = true;
+  personalizacion.premium.fuegos = true;
+}
 
 /* ══════════════════════════════════════════════════════════
    CANDADO DE DOMINIO
    ══════════════════════════════════════════════════════════ */
 var OFICIAL = 'c4rlo53305-lgtm.github.io';
 var PERMITIDOS = [OFICIAL, 'www.' + OFICIAL, 'localhost', '127.0.0.1'];
-(function candado(){
+(function(){
   var host = location.hostname;
   var libre = (location.protocol === 'file:') || PERMITIDOS.indexOf(host) !== -1;
   if(!libre){
@@ -370,15 +523,14 @@ var PERMITIDOS = [OFICIAL, 'www.' + OFICIAL, 'localhost', '127.0.0.1'];
       document.documentElement.innerHTML =
         '<body style="margin:0;background:#06111f;color:#7fd4ff;font:600 16px/1.6 -apple-system,sans-serif;'+
         'display:flex;align-items:center;justify-content:center;height:100vh;text-align:center;padding:24px">'+
-        '⚠️ Contenido protegido.<br>Visita la versión oficial en<br>'+
-        '<span style="color:#fff">'+OFICIAL+'</span></body>';
+        '⚠️ Contenido protegido.</body>';
     }catch(e){}
-    throw new Error('Host no autorizado: ' + host);
+    throw new Error('x');
   }
 })();
 
 /* ══════════════════════════════════════════════════════════
-   MARCA DE AGUA INMORTAL
+   MARCA DE AGUA
    ══════════════════════════════════════════════════════════ */
 var LINK_OFICIAL = 'https://c4rlo53305-lgtm.github.io/Peri/';
 var LINK_PLANTILLA = 'https://c4rlo53305-lgtm.github.io/Peri/dleon.html';
@@ -386,70 +538,186 @@ var LINK_PLANTILLA = 'https://c4rlo53305-lgtm.github.io/Peri/dleon.html';
 function crearMarca(){
   var d = document.createElement('div');
   d.id = 'wm-magica';
-  d.setAttribute('style',
-    'position:fixed!important;top:calc(env(safe-area-inset-top,0px) + 12px)!important;'+
-    'right:12px!important;left:auto!important;bottom:auto!important;'+
-    'padding:9px 15px!important;border-radius:13px!important;'+
-    'background:linear-gradient(135deg,rgba(255,235,175,.95),rgba(255,200,90,.92),rgba(212,158,50,.95))!important;'+
-    'border:2px solid rgba(255,238,180,.95)!important;'+
-    'box-shadow:0 8px 26px rgba(180,120,20,.45),inset 0 1px 0 rgba(255,255,255,.7),inset 0 -2px 6px rgba(140,90,10,.28)!important;'+
-    'font-size:12.5px!important;line-height:1.3!important;font-weight:800!important;'+
-    'letter-spacing:.4px!important;text-align:center!important;'+
-    'z-index:99999!important;pointer-events:auto!important;'+
-    'display:block!important;visibility:visible!important;opacity:1!important;'+
-    'transform:none!important;filter:none!important;clip:auto!important;'+
-    'width:auto!important;height:auto!important;max-width:46vw!important;'+
-    'text-shadow:0 1px 1px rgba(255,255,255,.55)!important;');
   d.innerHTML = '<span>✦ Creado por ✦</span>'+
-    '<a href="'+LINK_OFICIAL+'" target="_blank" rel="noopener" '+
-    'style="color:#4a2400!important;text-decoration:none!important;font-weight:900!important">'+
-    'Creaciones Mágicas 💛</a>';
+    '<a href="'+LINK_OFICIAL+'" target="_blank" rel="noopener">Creaciones Mágicas 💛</a>';
   return d;
 }
-var marca = crearMarca();
-document.body.appendChild(marca);
+var marca = document.getElementById('wm-magica') || crearMarca();
 function vigilarMarca(){
   if(!document.body.contains(marca)){
     marca = crearMarca();
     document.body.appendChild(marca);
   }
 }
+vigilarMarca();
 setInterval(vigilarMarca, 900);
 try{ new MutationObserver(vigilarMarca).observe(document.documentElement, {childList:true, subtree:true}); }catch(e){}
 
 /* ══════════════════════════════════════════════════════════
-   FUNCIONES DE PERSONALIZACIÓN
+   UI PREMIUM
+   ══════════════════════════════════════════════════════════ */
+function actualizarUIPremium(){
+  var status = document.getElementById('premiumStatus');
+  var icon = document.getElementById('premiumIcon');
+  var text = document.getElementById('premiumText');
+  var btnText = document.getElementById('btnPremiumText');
+
+  if(esPremium){
+    status.classList.remove('inactive');
+    icon.textContent = '👑';
+    text.textContent = '¡Premium activo! Todo desbloqueado';
+    btnText.textContent = 'Premium Activado ✓';
+    document.getElementById('btnActivarPremium').style.opacity = '.6';
+    document.getElementById('btnActivarPremium').style.pointerEvents = 'none';
+  } else {
+    status.classList.add('inactive');
+    icon.textContent = '🔒';
+    text.textContent = 'Modo gratuito - activa premium';
+    btnText.textContent = 'Ya pagué - Activar Premium';
+    document.getElementById('btnActivarPremium').style.opacity = '1';
+    document.getElementById('btnActivarPremium').style.pointerEvents = 'auto';
+  }
+
+  // Actualizar toggles
+  ['destellos','musica','corazones','fuegos','efecto3D'].forEach(function(f){
+    var toggle = document.getElementById('toggle' + f.charAt(0).toUpperCase() + f.slice(1));
+    var row = document.getElementById('row' + f.charAt(0).toUpperCase() + f.slice(1));
+    if(!toggle) return;
+
+    if(esPremium){
+      row.classList.remove('locked');
+      toggle.classList.remove('locked');
+      if(personalizacion.premium[f]) toggle.classList.add('on');
+      else toggle.classList.remove('on');
+    } else {
+      row.classList.add('locked');
+      toggle.classList.add('locked');
+      toggle.classList.remove('on');
+    }
+  });
+}
+
+/* Toggle premium: solo funciona si esPremium */
+window.togglePremium = function(el, feature){
+  if(!esPremium){
+    document.getElementById('lockModal').classList.add('show');
+    return;
+  }
+  el.classList.toggle('on');
+  var activo = el.classList.contains('on');
+  personalizacion.premium[feature] = activo;
+
+  if(feature === 'destellos'){ buildDestellos(); }
+  if(feature === 'musica'){
+    document.getElementById('musicUpload').style.display = activo ? 'block' : 'none';
+    if(!activo){
+      document.getElementById('audioPlayer').pause();
+    } else if(personalizacion.archivoMusica){
+      var a = document.getElementById('audioPlayer');
+      a.src = personalizacion.archivoMusica;
+      a.volume = 0.4;
+      a.play().catch(function(){});
+    }
+  }
+  if(feature === 'corazones'){ if(!activo) corazonesLluvia.length = 0; }
+  guardarPersonalizacion();
+};
+
+window.abrirTokenModal = function(){
+  if(esPremium){
+    alert('Ya tienes Premium activado ✓');
+    return;
+  }
+  document.getElementById('tokenModal').classList.add('show');
+  document.getElementById('tokenInput').value = '';
+  document.getElementById('tokenMsg').textContent = '';
+  setTimeout(function(){ document.getElementById('tokenInput').focus(); }, 100);
+};
+
+window.cerrarLockModal = function(){
+  document.getElementById('lockModal').classList.remove('show');
+  document.getElementById('tokenModal').classList.add('show');
+};
+
+window.verificarToken = function(){
+  var input = document.getElementById('tokenInput');
+  var msg = document.getElementById('tokenMsg');
+  var tk = (input.value || '').toUpperCase().trim();
+
+  if(!tk){
+    msg.className = 'msg err';
+    msg.textContent = 'Ingresa un código';
+    return;
+  }
+
+  if(TOKENS_VALIDOS.indexOf(tk) !== -1){
+    try{ localStorage.setItem(STORAGE_KEY, tk); }catch(e){}
+    esPremium = true;
+    msg.className = 'msg ok';
+    msg.textContent = '¡Activado! 🎉';
+    personalizacion.premium.destellos = true;
+    personalizacion.premium.corazones = true;
+    personalizacion.premium.fuegos = true;
+    actualizarUIPremium();
+    setTimeout(function(){
+      document.getElementById('tokenModal').classList.remove('show');
+      buildDestellos();
+    }, 900);
+  } else {
+    msg.className = 'msg err';
+    msg.textContent = 'Código inválido ✗';
+  }
+};
+
+/* ══════════════════════════════════════════════════════════
+   PERSONALIZACIÓN
    ══════════════════════════════════════════════════════════ */
 var frasesTemp = [];
 var maxFrases = 10;
 
+function guardarPersonalizacion(){
+  try{
+    localStorage.setItem('dleonPersonalizacion', JSON.stringify({
+      nombre: personalizacion.nombre,
+      mensaje: personalizacion.mensaje,
+      frases: personalizacion.frases,
+      premium: personalizacion.premium
+    }));
+  }catch(e){}
+}
+
 function initPersonalizacion(){
   frasesTemp = personalizacion.frases.slice();
-  renderFrases();
 
-  // Aplicar toggles premium activos
-  if(personalizacion.premium.destellos) document.getElementById('toggleDestellos').classList.add('on');
-  if(personalizacion.premium.musica){
-    document.getElementById('toggleMusica').classList.add('on');
-    document.getElementById('musicUpload').style.display = 'block';
-  }
-  if(personalizacion.premium.corazones) document.getElementById('toggleCorazones').classList.add('on');
-  if(personalizacion.premium.fuegos) document.getElementById('toggleFuegos').classList.add('on');
-  if(personalizacion.premium.efecto3D) document.getElementById('toggleEfecto3D').classList.add('on');
-
-  // Cargar valores guardados si existen
   var guardado = localStorage.getItem('dleonPersonalizacion');
   if(guardado){
     try{
       var p = JSON.parse(guardado);
       if(p.nombre) document.getElementById('pNombre').value = p.nombre;
       if(p.mensaje) document.getElementById('pMensaje').value = p.mensaje;
-      if(p.frases && p.frases.length){
-        frasesTemp = p.frases.slice();
-        renderFrases();
+      if(p.frases && p.frases.length){ frasesTemp = p.frases.slice(); }
+      if(p.premium && esPremium){
+        Object.keys(p.premium).forEach(function(k){
+          if(p.premium[k]) personalizacion.premium[k] = true;
+        });
       }
     }catch(e){}
   }
+
+  renderFrases();
+  actualizarUIPremium();
+
+  // Toggles listeners
+  ['Destellos','Musica','Corazones','Fuegos','Efecto3D'].forEach(function(name){
+    var feature = name.charAt(0).toLowerCase() + name.slice(1);
+    if(feature === 'efecto3D') feature = 'efecto3D';
+    var el = document.getElementById('toggle' + name);
+    if(el){
+      el.addEventListener('click', function(){
+        window.togglePremium(el, feature);
+      });
+    }
+  });
 }
 
 function renderFrases(){
@@ -459,19 +727,19 @@ function renderFrases(){
     var item = document.createElement('div');
     item.className = 'frase-item';
     item.innerHTML = '<div class="num">'+(i+1)+'</div>'+
-      '<input type="text" value="'+escapeHtml(frasesTemp[i])+'" '+
+      '<input type="text" value="'+esc(frasesTemp[i])+'" '+
       'onchange="actualizarFrase('+i+', this.value)" maxlength="100">';
     list.appendChild(item);
   }
   document.getElementById('btnAddFrase').disabled = frasesTemp.length >= maxFrases;
-  document.getElementById('btnAddFrase').textContent = 
-    frasesTemp.length >= maxFrases ? 'Máximo 10 frases alcanzado' : '+ Agregar frase (máx. 10)';
+  document.getElementById('btnAddFrase').textContent =
+    frasesTemp.length >= maxFrases ? 'Máximo 10 frases' : '+ Agregar frase (máx. 10)';
 }
 
-function escapeHtml(text){
-  var div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
+function esc(text){
+  var d = document.createElement('div');
+  d.textContent = text;
+  return d.innerHTML;
 }
 
 window.agregarFrase = function(){
@@ -484,41 +752,8 @@ window.actualizarFrase = function(idx, val){
   frasesTemp[idx] = val.trim() || 'Frase ' + (idx+1);
 };
 
-/* ⭐ TOGGLE PREMIUM — AHORA SÍ DESBLOQUEA TODO */
-window.togglePremium = function(el, feature){
-  el.classList.toggle('on');
-  var activo = el.classList.contains('on');
-  personalizacion.premium[feature] = activo;
-
-  // ⭐ Activar/desactivar en tiempo real
-  if(feature === 'destellos'){
-    buildDestellos();
-  }
-  if(feature === 'musica'){
-    document.getElementById('musicUpload').style.display = activo ? 'block' : 'none';
-    if(!activo){
-      document.getElementById('audioPlayer').pause();
-    } else if(personalizacion.archivoMusica){
-      var audio = document.getElementById('audioPlayer');
-      audio.src = personalizacion.archivoMusica;
-      audio.volume = 0.4;
-      audio.play().catch(function(){});
-    }
-  }
-  if(feature === 'corazones'){
-    if(!activo) corazonesLluvia.length = 0;
-  }
-  if(feature === 'efecto3D'){
-    // Solo afecta el paralaje, no necesita rebuild
-  }
-
-  // Guardar
-  try{
-    localStorage.setItem('dleonPersonalizacion', JSON.stringify(personalizacion));
-  }catch(e){}
-};
-
 window.cargarMusica = function(input){
+  if(!esPremium){ return; }
   var file = input.files[0];
   if(!file) return;
   if(file.size > 10*1024*1024){
@@ -539,11 +774,7 @@ window.continuarAApp = function(){
   personalizacion.nombre = document.getElementById('pNombre').value.trim();
   personalizacion.mensaje = document.getElementById('pMensaje').value.trim();
   personalizacion.frases = frasesTemp.filter(function(f){ return f.trim(); });
-
-  try{
-    localStorage.setItem('dleonPersonalizacion', JSON.stringify(personalizacion));
-  }catch(e){}
-
+  guardarPersonalizacion();
   aplicarPersonalizacion();
   document.getElementById('personalizacion').classList.add('hide');
 };
@@ -553,19 +784,17 @@ function aplicarPersonalizacion(){
     document.getElementById('introTitulo').textContent = 'Un deseo para ' + personalizacion.nombre;
   }
   if(personalizacion.mensaje){
-    document.getElementById('introTexto').innerHTML = escapeHtml(personalizacion.mensaje).replace(/\n/g,'<br>');
+    document.getElementById('introTexto').innerHTML = esc(personalizacion.mensaje).replace(/\n/g,'<br>');
   }
   if(personalizacion.frases.length > 0){
     FRASES = personalizacion.frases.slice();
   }
-  // Rebuild de destellos según preferencia
   buildDestellos();
-  // Iniciar música si está activa
-  if(personalizacion.premium.musica && personalizacion.archivoMusica){
-    var audio = document.getElementById('audioPlayer');
-    audio.src = personalizacion.archivoMusica;
-    audio.volume = 0.4;
-    audio.play().catch(function(){});
+  if(esPremium && personalizacion.premium.musica && personalizacion.archivoMusica){
+    var a = document.getElementById('audioPlayer');
+    a.src = personalizacion.archivoMusica;
+    a.volume = 0.4;
+    a.play().catch(function(){});
   }
 }
 
@@ -600,12 +829,11 @@ function sumarDeseo(n){
 }
 
 /* ══════════════════════════════════════════════════════════
-   DETECCIÓN DEL MOMENTO DEL DÍA
+   MOMENTO DEL DÍA
    ══════════════════════════════════════════════════════════ */
 var momentoDia = 'dia';
 function detectarMomentoDia(){
-  var ahora = new Date();
-  var t = ahora.getHours() + ahora.getMinutes()/60;
+  var t = new Date().getHours() + new Date().getMinutes()/60;
   if(t >= 5 && t < 10)  return 'manana';
   if(t >= 10 && t < 16) return 'dia';
   if(t >= 16 && t < 19.5) return 'tarde';
@@ -616,39 +844,36 @@ var PALETAS = {
   manana:{etiqueta:'🌅 Mañana',
     coloresCielo:[[0,'#f0b8c8'],[0.35,'#ffd0c8'],[0.68,'#ffe0c0'],[1,'#fff0d8']],
     solX:0.5,solY:0.62,solTipo:'sol',solColor:[255,220,180],solHalo:0.85,
-    nubeColor:'#ffeae0',nubeBordeColor:'#f0d0c0',motas:'#fff0e0',motasPink:'#ffd0e0',
-    pastoH:90,pastoS:42,pastoL:55,pastoFrontL:48,pastoBackL:58,
+    nubeColor:'#ffeae0',motas:'#fff0e0',motasPink:'#ffd0e0',
+    pastoH:90,pastoS:42,pastoFrontL:48,pastoBackL:58,
     sueloTop:'rgba(180,200,160,0)',sueloMed:'rgba(160,190,140,0.35)',sueloBot:'rgba(120,160,110,0.75)',
     haloTinte:'rgba(255,220,200,0.55)',tinte:'rgba(255,180,160,0.06)'},
   dia:{etiqueta:'☀️ Día',
     coloresCielo:[[0,'#7ec8e8'],[0.4,'#a8d8ec'],[0.75,'#c8e8f0'],[1,'#ffeec8']],
     solX:0.78,solY:0.13,solTipo:'sol',solColor:[255,251,228],solHalo:0.95,
-    nubeColor:'#ffffff',nubeBordeColor:'#e8f0f8',motas:'#ffffff',motasPink:'#ffe8f0',
-    pastoH:100,pastoS:45,pastoL:45,pastoFrontL:40,pastoBackL:52,
+    nubeColor:'#ffffff',motas:'#ffffff',motasPink:'#ffe8f0',
+    pastoH:100,pastoS:45,pastoFrontL:40,pastoBackL:52,
     sueloTop:'rgba(168,206,150,0)',sueloMed:'rgba(140,190,120,0.42)',sueloBot:'rgba(96,158,88,0.80)',
     haloTinte:'rgba(255,245,220,0.58)',tinte:'rgba(255,250,220,0.04)'},
   tarde:{etiqueta:'🌇 Tarde',
     coloresCielo:[[0,'#c85878'],[0.35,'#f08868'],[0.7,'#ffc080'],[1,'#ffe0a0']],
     solX:0.85,solY:0.5,solTipo:'sol',solColor:[255,200,120],solHalo:0.95,
-    nubeColor:'#ffd0b0',nubeBordeColor:'#f0a880',motas:'#ffd8b0',motasPink:'#ffb8a0',
-    pastoH:40,pastoS:45,pastoL:42,pastoFrontL:38,pastoBackL:48,
+    nubeColor:'#ffd0b0',motas:'#ffd8b0',motasPink:'#ffb8a0',
+    pastoH:40,pastoS:45,pastoFrontL:38,pastoBackL:48,
     sueloTop:'rgba(220,180,130,0)',sueloMed:'rgba(200,150,100,0.40)',sueloBot:'rgba(140,90,60,0.78)',
     haloTinte:'rgba(255,200,150,0.55)',tinte:'rgba(255,180,120,0.08)'},
   noche:{etiqueta:'🌙 Noche',
     coloresCielo:[[0,'#08041a'],[0.4,'#150838'],[0.75,'#2a1058'],[1,'#3a1a68']],
     solX:0.78,solY:0.15,solTipo:'luna',solColor:[220,230,255],solHalo:0.75,
-    nubeColor:'#2a2050',nubeBordeColor:'#1a1040',motas:'#a0c0ff',motasPink:'#c8b0ff',
-    pastoH:220,pastoS:25,pastoL:22,pastoFrontL:18,pastoBackL:28,
+    nubeColor:'#2a2050',motas:'#a0c0ff',motasPink:'#c8b0ff',
+    pastoH:220,pastoS:25,pastoFrontL:18,pastoBackL:28,
     sueloTop:'rgba(30,40,80,0)',sueloMed:'rgba(40,60,110,0.38)',sueloBot:'rgba(20,30,70,0.82)',
     haloTinte:'rgba(180,200,255,0.45)',tinte:'rgba(100,120,200,0.10)'}
 };
 
 function actualizarMomento(){
   var nuevo = detectarMomentoDia();
-  if(nuevo !== momentoDia){
-    momentoDia = nuevo;
-    buildEstrellas();
-  }
+  if(nuevo !== momentoDia){ momentoDia = nuevo; buildEstrellas(); }
   var pal = PALETAS[momentoDia];
   var el = document.getElementById('momentoTexto');
   if(el) el.textContent = pal.etiqueta;
@@ -675,16 +900,14 @@ var HEAD = {x:0,y:0,r:0,grow:0};
 var attached=[], flying=[], motes=[], clouds=[], blades=[], sparks=[], hearts=[], estrellas=[];
 var destellos=[], fuegosArtificiales=[], corazonesLluvia=[];
 var wind=0, windTarget=0, windTimer=0, regrow=-1, shakeCooldown=0;
-var tiltX=0, tiltY=0, tiltTargetX=0, tiltTargetY=0, hasGyro=false, gyro={alpha:0,beta:0,gamma:0};
+var tiltX=0, tiltY=0, tiltTargetX=0, tiltTargetY=0;
 
 function rnd(a,b){ return a + Math.random()*(b-a); }
 var TAU = Math.PI*2;
 
 function layout(){
   HEAD.r = Math.min(W*0.27, H*0.185, 155);
-  HEAD.x = W*0.5;
-  HEAD.y = H*0.44;
-  HEAD.grow = 1;
+  HEAD.x = W*0.5; HEAD.y = H*0.44; HEAD.grow = 1;
 }
 function buildMotes(){
   motes.length = 0;
@@ -721,7 +944,7 @@ function buildEstrellas(){
 }
 function buildDestellos(){
   destellos.length = 0;
-  if(!personalizacion.premium.destellos) return;
+  if(!esPremium || !personalizacion.premium.destellos) return;
   var n = Math.round(Math.min(70, W*H/16000));
   for(var i=0;i<n;i++){
     destellos.push({x:Math.random()*W,y:Math.random()*H,r:rnd(0.5,3),a:rnd(0.3,1),
@@ -730,7 +953,7 @@ function buildDestellos(){
   }
 }
 function spawnFuegosArtificiales(x,y){
-  if(!personalizacion.premium.fuegos) return;
+  if(!esPremium || !personalizacion.premium.fuegos) return;
   var colores = [[255,200,50],[255,100,150],[100,200,255],[200,100,255],[100,255,150],[255,150,50]];
   var color = colores[(Math.random()*colores.length)|0];
   for(var i=0;i<30;i++){
@@ -741,7 +964,7 @@ function spawnFuegosArtificiales(x,y){
   }
 }
 function spawnCorazonLluvia(){
-  if(!personalizacion.premium.corazones) return;
+  if(!esPremium || !personalizacion.premium.corazones) return;
   corazonesLluvia.push({
     x:Math.random()*W, y:-20, vy:rnd(0.8,2),
     vx:rnd(-0.3,0.3), size:rnd(8,18), rot:rnd(-0.3,0.3),
@@ -798,68 +1021,122 @@ function spawnHeart(x,y,power){
 }
 
 /* ══════════════════════════════════════════════════════════
-   SENSORES
+   SENSOR DE AGITACIÓN — VERSIÓN MEJORADA
    ══════════════════════════════════════════════════════════ */
-var lastAcc={x:0,y:0,z:0}, hasLast=false;
+var lastAcc = {x:0,y:0,z:0}, hasLast = false;
+var shakeThreshold = 15;    // umbral ajustable
+var shakeCounter = 0;        // contador de cambios consecutivos
+var lastShakeTime = 0;
+var shakeDetectDelay = 120;  // ms mínimo entre sacudidas
+
 function onMotion(e){
   var a = e.accelerationIncludingGravity || e.acceleration;
   if(!a || a.x === null || a.x === undefined) return;
+
+  // Actualizar tilt para el parallax
   if(a.x !== undefined && a.y !== undefined){
     tiltTargetX = Math.max(-1, Math.min(1, a.x/9.8));
     tiltTargetY = Math.max(-1, Math.min(1, a.y/9.8));
   }
-  if(!hasLast){ lastAcc={x:a.x,y:a.y,z:a.z}; hasLast=true; return; }
-  var d = Math.abs(a.x-lastAcc.x) + Math.abs(a.y-lastAcc.y) + Math.abs(a.z-lastAcc.z);
-  lastAcc = {x:a.x,y:a.y,z:a.z};
-  if(d > 11 && shakeCooldown <= 0){
-    var power = Math.min(d/65,1);
-    var rel = releaseSeeds(Math.round(6+power*28), rnd(-0.5,0.5)+wind, -0.18, power);
-    if(rel > 0){
-      windTarget = 0.5+power*1.0;
-      shakeCooldown = 0.08;
-      sumarDeseo(rel);
-      if(Math.random()<0.55) mostrarFrase();
-      for(var i=0;i<Math.round(2+power*4);i++){
-        spawnHeart(HEAD.x+rnd(-HEAD.r,HEAD.r), HEAD.y+rnd(-HEAD.r*0.3,HEAD.r*0.5), 0.8+power);
-      }
-      if(personalizacion.premium.fuegos) spawnFuegosArtificiales(HEAD.x, HEAD.y);
-      if(navigator.vibrate) navigator.vibrate(Math.round(10+power*25));
-      ocultarHint();
-    }
+
+  if(!hasLast){ lastAcc = {x:a.x, y:a.y, z:a.z}; hasLast = true; return; }
+
+  var dx = Math.abs(a.x - lastAcc.x);
+  var dy = Math.abs(a.y - lastAcc.y);
+  var dz = Math.abs(a.z - lastAcc.z);
+  var d = dx + dy + dz;
+
+  lastAcc = {x:a.x, y:a.y, z:a.z};
+
+  // Detección robusta: contamos cambios significativos
+  if(d > shakeThreshold){
+    shakeCounter++;
+  } else {
+    shakeCounter = Math.max(0, shakeCounter - 1);
+  }
+
+  var ahora = Date.now();
+  // Si acumula 2+ cambios rápidos, es una sacudida real
+  if(shakeCounter >= 2 && (ahora - lastShakeTime) > shakeDetectDelay){
+    var power = Math.min(1, d / 60);
+    ejecutarSacudida(power);
+    lastShakeTime = ahora;
+    shakeCounter = 0;
   }
 }
-function onOrientation(e){
-  if(e.beta!==null && e.gamma!==null){
-    hasGyro = true;
-    gyro.alpha = e.alpha||0; gyro.beta = e.beta||0; gyro.gamma = e.gamma||0;
-    var tx = Math.max(-1, Math.min(1, gyro.gamma/45));
-    var ty = Math.max(-1, Math.min(1, gyro.beta/60));
-    tiltTargetX = tx; tiltTargetY = ty;
+
+/* Alias para compatibilidad */
+function onMotionCompat(e){ onMotion(e); }
+
+function ejecutarSacudida(power){
+  if(shakeCooldown > 0) return;
+  shakeCooldown = 0.15;
+
+  var rel = releaseSeeds(Math.round(8 + power*30), rnd(-0.5,0.5) + wind, -0.18, power);
+  if(rel <= 0) return;
+
+  windTarget = 0.6 + power*1.2;
+  sumarDeseo(rel);
+  if(Math.random() < 0.6) mostrarFrase();
+
+  for(var i=0;i<Math.round(3 + power*5);i++){
+    spawnHeart(HEAD.x+rnd(-HEAD.r,HEAD.r), HEAD.y+rnd(-HEAD.r*0.3,HEAD.r*0.5), 0.8+power);
   }
+  if(esPremium && personalizacion.premium.fuegos){
+    spawnFuegosArtificiales(HEAD.x, HEAD.y);
+  }
+  if(navigator.vibrate) navigator.vibrate(Math.round(15+power*30));
+  ocultarHint();
 }
+
+/* Pedir permisos correctamente — DEBE llamarse desde un gesto del usuario */
+var sensoresActivos = false;
 function pedirPermisos(){
+  if(sensoresActivos) return;
+  sensoresActivos = true;
+
   var needsPerm = typeof DeviceMotionEvent !== 'undefined' &&
                   typeof DeviceMotionEvent.requestPermission === 'function';
+
   if(needsPerm){
+    // iOS 13+
     DeviceMotionEvent.requestPermission().then(function(r){
-      if(r === 'granted') window.addEventListener('devicemotion', onMotion, {passive:true});
-    }).catch(function(){});
+      if(r === 'granted'){
+        window.addEventListener('devicemotion', onMotion, {passive:true});
+      } else {
+        sensoresActivos = false;
+        console.warn('Permiso de movimiento denegado');
+      }
+    }).catch(function(err){
+      sensoresActivos = false;
+      console.warn('Error pidiendo permiso:', err);
+    });
+
     if(typeof DeviceOrientationEvent !== 'undefined' &&
        typeof DeviceOrientationEvent.requestPermission === 'function'){
       DeviceOrientationEvent.requestPermission().then(function(r){
-        if(r === 'granted') window.addEventListener('deviceorientation', onOrientation, {passive:true});
+        if(r === 'granted'){
+          window.addEventListener('deviceorientation', onOrientation, {passive:true});
+        }
       }).catch(function(){});
     }
-  }else{
+  } else if(typeof DeviceMotionEvent !== 'undefined'){
+    // Android y desktop
     window.addEventListener('devicemotion', onMotion, {passive:true});
     window.addEventListener('deviceorientation', onOrientation, {passive:true});
   }
 }
-window.addEventListener('devicemotion', onMotion, {passive:true});
-window.addEventListener('deviceorientation', onOrientation, {passive:true});
+
+function onOrientation(e){
+  if(e.beta !== null && e.gamma !== null){
+    var tx = Math.max(-1, Math.min(1, (e.gamma||0)/45));
+    var ty = Math.max(-1, Math.min(1, (e.beta||0)/60));
+    tiltTargetX = tx; tiltTargetY = ty;
+  }
+}
 
 /* ══════════════════════════════════════════════════════════
-   INTERACCIÓN
+   INTERACCIÓN TÁCTIL
    ══════════════════════════════════════════════════════════ */
 var pressing=false, lastPX=0, lastPY=0;
 function ocultarHint(){
@@ -874,11 +1151,12 @@ function blowFrom(px,py,power){
     windTarget = 0.35+power*0.8;
     sumarDeseo(rel);
     if(Math.random()<0.7) spawnHeart(px+rnd(-20,20), py+rnd(-20,20), 0.6);
-    if(personalizacion.premium.fuegos && power > 0.4) spawnFuegosArtificiales(px, py);
+    if(esPremium && personalizacion.premium.fuegos && power > 0.4) spawnFuegosArtificiales(px, py);
   }
 }
 canvas.addEventListener('pointerdown', function(e){
-  pedirPermisos(); ocultarHint();
+  pedirPermisos(); // 🔑 IMPORTANTE: aquí se piden los permisos
+  ocultarHint();
   pressing = true; lastPX = e.clientX; lastPY = e.clientY;
   blowFrom(e.clientX, e.clientY, 0.55);
   if(Math.random()<0.5) mostrarFrase();
@@ -902,7 +1180,7 @@ canvas.addEventListener('pointerup', function(e){
       spawnHeart(HEAD.x+rnd(-HEAD.r*1.6,HEAD.r*1.6),
                  HEAD.y+rnd(-HEAD.r*1.4,HEAD.r*1.2), 1.2);
     }
-    if(personalizacion.premium.fuegos){
+    if(esPremium && personalizacion.premium.fuegos){
       spawnFuegosArtificiales(HEAD.x, HEAD.y);
       setTimeout(function(){ spawnFuegosArtificiales(HEAD.x-50, HEAD.y-30); }, 200);
       setTimeout(function(){ spawnFuegosArtificiales(HEAD.x+50, HEAD.y-30); }, 400);
@@ -913,29 +1191,27 @@ canvas.addEventListener('pointerup', function(e){
 }, {passive:true});
 
 document.getElementById('wa').addEventListener('click', function(){
-  var url = LINK_PLANTILLA;
   var nombreAmor = personalizacion.nombre || 'mi amor';
   var text = '💖✨ '+nombreAmor+', te mando un diente de león mágico. '+
              'Sacude tu teléfono, pide un deseo y recuerda que te amo. 🌬️💕\n\n'+
-             'Ábrelo aquí: '+url;
+             'Ábrelo aquí: '+LINK_PLANTILLA;
   var wa = 'https://api.whatsapp.com/send?text='+encodeURIComponent(text);
   try{ window.open(wa, '_blank', 'noopener'); }catch(e){ location.href = wa; }
 });
 
 document.getElementById('startBtn').addEventListener('click', function(){
-  pedirPermisos();
+  pedirPermisos(); // 🔑 Pedir permisos al iniciar
   document.getElementById('intro').classList.add('hide');
   setTimeout(function(){ document.getElementById('intro').style.display = 'none'; }, 900);
   setTimeout(function(){ mostrarFrase(); }, 900);
   setTimeout(function(){
     for(var i=0;i<10;i++) spawnHeart(W/2+rnd(-60,60), H/2+rnd(-40,40), 1.3);
   }, 400);
-  // Iniciar música si está configurada
-  if(personalizacion.premium.musica && personalizacion.archivoMusica){
-    var audio = document.getElementById('audioPlayer');
-    audio.src = personalizacion.archivoMusica;
-    audio.volume = 0.4;
-    audio.play().catch(function(){});
+  if(esPremium && personalizacion.premium.musica && personalizacion.archivoMusica){
+    var a = document.getElementById('audioPlayer');
+    a.src = personalizacion.archivoMusica;
+    a.volume = 0.4;
+    a.play().catch(function(){});
   }
 });
 
@@ -961,7 +1237,7 @@ function update(dt){
 
   if(HEAD.grow < 1) HEAD.grow = Math.min(1, HEAD.grow+dt*0.85);
 
-  var paralajeMult = personalizacion.premium.efecto3D ? 2.2 : 1;
+  var paralajeMult = (esPremium && personalizacion.premium.efecto3D) ? 2.2 : 1;
   HEAD.x = W*0.5 + Math.sin(T*0.7)*W*0.012 + tiltX*W*0.06*paralajeMult;
   HEAD.y = H*0.44 + tiltY*H*0.02*paralajeMult;
 
@@ -970,7 +1246,6 @@ function update(dt){
   }
   if(shakeCooldown > 0) shakeCooldown -= dt;
 
-  // Flying seeds
   for(var i=flying.length-1;i>=0;i--){
     var p = flying[i];
     var drift = wind*1.7 + tiltX*0.6;
@@ -986,7 +1261,6 @@ function update(dt){
     else if(p.life > 9) p.alpha -= 0.007*k;
     if(p.alpha <= 0) flying.splice(i,1);
   }
-  // Hearts
   for(var hi=hearts.length-1;hi>=0;hi--){
     var hh = hearts[hi];
     hh.vy += 0.012*k;
@@ -998,7 +1272,6 @@ function update(dt){
     if(r > 0.7) hh.alpha = Math.max(0, 1-(r-0.7)/0.3);
     if(hh.alpha <= 0 || hh.life > hh.maxLife) hearts.splice(hi,1);
   }
-  // Motes
   for(var m=0;m<motes.length;m++){
     var mo = motes[m];
     mo.x += (mo.vx+wind*0.5)*k;
@@ -1009,59 +1282,56 @@ function update(dt){
     if(mo.y < -20) mo.y = H+20;
     if(mo.y > H+20) mo.y = -20;
   }
-  // Sparks
   for(var s=sparks.length-1;s>=0;s--){
     sparks[s].a -= 0.022*k;
     sparks[s].r += 0.05*k;
     if(sparks[s].a <= 0) sparks.splice(s,1);
   }
-  // Clouds
   for(var c=0;c<clouds.length;c++){
     var cl = clouds[c];
     cl.x += (cl.sp+wind*0.7)*k*0.5;
     if(cl.x-cl.r*2 > W) cl.x = -cl.r*2;
     if(cl.x+cl.r*2 < 0) cl.x = W+cl.r*2;
   }
-  // Estrellas
   for(var e=0;e<estrellas.length;e++) estrellas[e].ph += 0.02*k;
 
-  // ⭐ PREMIUM: Destellos
-  for(var dI=0;dI<destellos.length;dI++){
-    var de = destellos[dI];
-    de.ph += 0.03*k;
-    de.x += (de.vx + wind*0.3)*k;
-    de.y += de.vy*k;
-    if(de.x > W+20) de.x = -20;
-    if(de.x < -20) de.x = W+20;
-    if(de.y < -20) de.y = H+20;
-    if(de.y > H+20) de.y = -20;
+  if(esPremium && personalizacion.premium.destellos){
+    for(var dI=0;dI<destellos.length;dI++){
+      var de = destellos[dI];
+      de.ph += 0.03*k;
+      de.x += (de.vx + wind*0.3)*k;
+      de.y += de.vy*k;
+      if(de.x > W+20) de.x = -20;
+      if(de.x < -20) de.x = W+20;
+      if(de.y < -20) de.y = H+20;
+      if(de.y > H+20) de.y = -20;
+    }
   }
 
-  // ⭐ PREMIUM: Fuegos artificiales
-  for(var f=fuegosArtificiales.length-1;f>=0;f--){
-    var fu = fuegosArtificiales[f];
-    fu.x += fu.vx*k*0.5;
-    fu.y += fu.vy*k*0.5;
-    fu.vy += 0.15*k;
-    fu.vx *= 0.96;
-    fu.vy *= 0.96;
-    fu.life += dt;
-    if(fu.life > fu.maxLife) fuegosArtificiales.splice(f,1);
+  if(esPremium && personalizacion.premium.fuegos){
+    for(var f=fuegosArtificiales.length-1;f>=0;f--){
+      var fu = fuegosArtificiales[f];
+      fu.x += fu.vx*k*0.5;
+      fu.y += fu.vy*k*0.5;
+      fu.vy += 0.15*k;
+      fu.vx *= 0.96;
+      fu.vy *= 0.96;
+      fu.life += dt;
+      if(fu.life > fu.maxLife) fuegosArtificiales.splice(f,1);
+    }
   }
 
-  // ⭐ PREMIUM: Lluvia de corazones
-  if(personalizacion.premium.corazones && Math.random() < 0.03*k){
-    spawnCorazonLluvia();
-  }
-  for(var clI=corazonesLluvia.length-1;clI>=0;clI--){
-    var co = corazonesLluvia[clI];
-    co.y += co.vy*k;
-    co.x += co.vx*k + Math.sin(T*1.5+clI)*0.3*k;
-    co.rot += co.rotV*k;
-    if(co.y > H+30) corazonesLluvia.splice(clI,1);
+  if(esPremium && personalizacion.premium.corazones){
+    if(Math.random() < 0.03*k) spawnCorazonLluvia();
+    for(var clI=corazonesLluvia.length-1;clI>=0;clI--){
+      var co = corazonesLluvia[clI];
+      co.y += co.vy*k;
+      co.x += co.vx*k + Math.sin(T*1.5+clI)*0.3*k;
+      co.rot += co.rotV*k;
+      if(co.y > H+30) corazonesLluvia.splice(clI,1);
+    }
   }
 
-  // Regeneración
   if(attached.length === 0 && flying.length < 45){
     if(regrow < 0) regrow = 2.2;
     regrow -= dt;
@@ -1116,13 +1386,6 @@ function drawSky(){
     ctx.beginPath();
     ctx.arc(solX, solY, discoR, 0, TAU);
     ctx.fill();
-    ctx.save();
-    ctx.globalAlpha = 0.15;
-    ctx.fillStyle = '#90a0c0';
-    ctx.beginPath(); ctx.arc(solX-discoR*0.25, solY-discoR*0.15, discoR*0.18, 0, TAU); ctx.fill();
-    ctx.beginPath(); ctx.arc(solX+discoR*0.2, solY+discoR*0.25, discoR*0.14, 0, TAU); ctx.fill();
-    ctx.beginPath(); ctx.arc(solX+discoR*0.05, solY-discoR*0.35, discoR*0.10, 0, TAU); ctx.fill();
-    ctx.restore();
   }
 }
 
@@ -1197,7 +1460,6 @@ function drawStem(){
   var baseY = H*0.925;
   var topY = HEAD.y + HEAD.r*0.62*HEAD.grow;
   var midX = (baseX+HEAD.x)/2 + Math.sin(T*0.7)*4;
-
   var talloColor;
   if(momentoDia === 'noche') talloColor = 'rgba(80,110,90,0.85)';
   else if(momentoDia === 'tarde') talloColor = 'rgba(120,140,80,0.9)';
@@ -1357,9 +1619,8 @@ function drawSparks(){
   }
 }
 
-/* ⭐ PREMIUM: Destellos dorados */
 function drawDestellos(){
-  if(!personalizacion.premium.destellos) return;
+  if(!esPremium || !personalizacion.premium.destellos) return;
   ctx.save();
   ctx.globalCompositeOperation = 'lighter';
   for(var i=0;i<destellos.length;i++){
@@ -1367,7 +1628,6 @@ function drawDestellos(){
     var tw = 0.5 + 0.5*Math.sin(de.ph*de.tw);
     var alpha = de.a * (0.4 + tw*0.6);
     var col = de.gold ? '255,220,120' : '255,255,255';
-    // Halo
     var g = ctx.createRadialGradient(de.x, de.y, 0, de.x, de.y, de.r*4);
     g.addColorStop(0, 'rgba('+col+','+alpha+')');
     g.addColorStop(0.4, 'rgba('+col+','+(alpha*0.4)+')');
@@ -1376,29 +1636,24 @@ function drawDestellos(){
     ctx.beginPath();
     ctx.arc(de.x, de.y, de.r*4, 0, TAU);
     ctx.fill();
-    // Núcleo
     ctx.fillStyle = 'rgba(255,255,255,'+alpha+')';
     ctx.beginPath();
     ctx.arc(de.x, de.y, de.r*0.5, 0, TAU);
     ctx.fill();
-    // Cruz de destello para los más grandes
     if(de.r > 2){
       ctx.strokeStyle = 'rgba('+col+','+(alpha*0.6)+')';
       ctx.lineWidth = 0.8;
       ctx.beginPath();
-      ctx.moveTo(de.x-de.r*3, de.y);
-      ctx.lineTo(de.x+de.r*3, de.y);
-      ctx.moveTo(de.x, de.y-de.r*3);
-      ctx.lineTo(de.x, de.y+de.r*3);
+      ctx.moveTo(de.x-de.r*3, de.y); ctx.lineTo(de.x+de.r*3, de.y);
+      ctx.moveTo(de.x, de.y-de.r*3); ctx.lineTo(de.x, de.y+de.r*3);
       ctx.stroke();
     }
   }
   ctx.restore();
 }
 
-/* ⭐ PREMIUM: Fuegos artificiales */
 function drawFuegosArtificiales(){
-  if(!personalizacion.premium.fuegos) return;
+  if(!esPremium || !personalizacion.premium.fuegos) return;
   ctx.save();
   ctx.globalCompositeOperation = 'lighter';
   for(var i=0;i<fuegosArtificiales.length;i++){
@@ -1414,7 +1669,6 @@ function drawFuegosArtificiales(){
     ctx.beginPath();
     ctx.arc(fu.x, fu.y, fu.r*4, 0, TAU);
     ctx.fill();
-    // Núcleo blanco
     ctx.fillStyle = 'rgba(255,255,255,'+(alpha*0.9)+')';
     ctx.beginPath();
     ctx.arc(fu.x, fu.y, fu.r*0.8, 0, TAU);
@@ -1423,9 +1677,8 @@ function drawFuegosArtificiales(){
   ctx.restore();
 }
 
-/* ⭐ PREMIUM: Lluvia de corazones */
 function drawCorazonesLluvia(){
-  if(!personalizacion.premium.corazones) return;
+  if(!esPremium || !personalizacion.premium.corazones) return;
   for(var i=0;i<corazonesLluvia.length;i++){
     var c = corazonesLluvia[i];
     dibujarCorazon(c.x, c.y, c.size, c.rot, c.a*0.85, c.hue);
@@ -1442,7 +1695,7 @@ function draw(){
   drawSky();
   drawClouds();
   drawMotes();
-  drawDestellos();      // ⭐ PREMIUM detrás de todo
+  drawDestellos();
   drawGround();
   drawGrass(false);
   drawStem();
@@ -1450,9 +1703,9 @@ function draw(){
   drawSparks();
   drawFlying();
   drawHearts();
-  drawCorazonesLluvia(); // ⭐ PREMIUM
+  drawCorazonesLluvia();
   drawGrass(true);
-  drawFuegosArtificiales(); // ⭐ PREMIUM encima de todo
+  drawFuegosArtificiales();
   drawTinte();
 }
 
@@ -1469,11 +1722,7 @@ function resize(){
   canvas.style.height = H+'px';
   ctx.setTransform(DPR,0,0,DPR,0,0);
   layout();
-  buildMotes();
-  buildClouds();
-  buildGrass();
-  buildEstrellas();
-  buildDestellos();
+  buildMotes(); buildClouds(); buildGrass(); buildEstrellas(); buildDestellos();
 }
 window.addEventListener('resize', resize);
 window.addEventListener('orientationchange', function(){ setTimeout(resize, 250); });
