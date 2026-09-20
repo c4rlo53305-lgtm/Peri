@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#ffe4ec">
 <title>Diente de León Mágico ✨💖</title>
-
-<!-- ⭐ CONFIG INICIAL — Se reemplaza al compartir -->
 <script id="config-inicial" type="application/json">__DLEON_CONFIG__</script>
 
 <style>
@@ -78,11 +76,15 @@
     50%{box-shadow:0 12px 42px rgba(37,211,102,.75),0 4px 0 rgba(0,90,80,.35),inset 0 1px 0 rgba(255,255,255,.4)}}
   @keyframes shineWa{0%{transform:translateX(-120%)}60%,100%{transform:translateX(120%)}}
 
-  #btnSharePlantilla{position:fixed;right:20px;
+  /* ⭐⭐⭐ BOTÓN MORADO DE COMPARTIR ⭐⭐⭐ */
+  #btnSharePlantilla{
+    position:fixed;
+    right:20px;
     bottom:calc(env(safe-area-inset-bottom,0px) + 84px);
     display:inline-flex;align-items:center;justify-content:center;gap:9px;
-    border:0;cursor:pointer;padding:13px 22px;border-radius:999px;
-    font-size:14px;font-weight:900;letter-spacing:.3px;
+    border:0;cursor:pointer;
+    padding:14px 22px;border-radius:999px;
+    font-size:14.5px;font-weight:900;letter-spacing:.3px;
     color:#fff;font-family:inherit;
     background:linear-gradient(135deg,#c060ff 0%,#8020d0 50%,#5010a0 100%);
     box-shadow:0 12px 30px rgba(140,60,240,.55),
@@ -93,10 +95,12 @@
     animation:pulseMorado 2.8s ease-in-out infinite;
     opacity:0;pointer-events:none}
   #btnSharePlantilla.show{opacity:1;pointer-events:auto}
-  #btnSharePlantilla::after{content:'';position:absolute;inset:0;
+  #btnSharePlantilla::after{
+    content:'';position:absolute;inset:0;
     background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);
     transform:translateX(-120%);
-    animation:shineMorado 3.6s ease-in-out infinite;pointer-events:none}
+    animation:shineMorado 3.6s ease-in-out infinite;
+    pointer-events:none}
   #btnSharePlantilla:active{transform:scale(.94)}
   #btnSharePlantilla svg{width:20px;height:20px;fill:#fff;flex-shrink:0;z-index:1}
   #btnSharePlantilla span{position:relative;z-index:1}
@@ -247,19 +251,22 @@
     font-weight:700;cursor:pointer}
 
   /* ══════════════════════════════════════════════════════════
-     ⭐⭐ MODO AUTOMÁTICO — Cuando el HTML trae config embebida
-     ══════════════════════════════════════════════════════════
-     Si el `<html>` tiene la clase `dleon-auto`, se oculta TODO
-     el flujo del personalizador y se muestra directo la escena.
-     Esta clase la aplica el script inline al inicio del body.
+     ⭐ MODO AUTO — Cuando la plantilla viene personalizada
      ══════════════════════════════════════════════════════════ */
   html.dleon-auto #personalizacion{display:none !important}
   html.dleon-auto #intro{display:none !important}
-  html.dleon-auto #btnSharePlantilla{opacity:1 !important;pointer-events:auto !important}
-  html.dleon-auto #hint{opacity:1 !important}
 
-  /* En modo editor, el botón morado empieza oculto hasta que se continúe */
-  html.dleon-editor #btnSharePlantilla{opacity:0;pointer-events:none}
+  /* El botón morado SIEMPRE visible en modo auto */
+  html.dleon-auto #btnSharePlantilla{
+    opacity:1 !important;
+    pointer-events:auto !important;
+    visibility:visible !important;
+    display:inline-flex !important}
+
+  /* Y también cuando el personalizador se completó en modo editor */
+  html.dleon-editor #personalizacion.hide ~ #btnSharePlantilla,
+  html.dleon-editor #btnSharePlantilla.show{
+    opacity:1 !important;pointer-events:auto !important}
 
   @media (max-height:560px){
     #loveMsg{bottom:calc(env(safe-area-inset-bottom,0px) + 108px);font-size:14px;padding:12px 20px}
@@ -275,27 +282,25 @@
 </head>
 <body>
 
-<!-- ⭐⭐⭐ SCRIPT CLAVE — Detecta config ANTES de pintar el personalizador ⭐⭐⭐ -->
+<!-- ⭐ SCRIPT CLAVE — Detecta modo auto ANTES de pintar -->
 <script>
 (function(){
   try{
     var cfg = document.getElementById('config-inicial');
-    if(!cfg) { document.documentElement.classList.add('dleon-editor'); return; }
+    if(!cfg){ document.documentElement.classList.add('dleon-editor'); return; }
     var txt = (cfg.textContent || '').trim();
     if(!txt || txt === '__DLEON_CONFIG__' || txt === '{}' || txt.charAt(0) !== '{'){
-      document.documentElement.classList.add('dleon-editor');
-      return;
+      document.documentElement.classList.add('dleon-editor'); return;
     }
     var parsed = JSON.parse(txt);
     if(parsed && (parsed.nombre || parsed.mensaje || 
        (parsed.frases && parsed.frases.length) || parsed.archivoMusica)){
       document.documentElement.classList.add('dleon-auto');
-      console.log('✅ Modo AUTO detectado. Personalizador omitido.');
+      console.log('✅ Modo AUTO detectado');
     } else {
       document.documentElement.classList.add('dleon-editor');
     }
   }catch(e){
-    console.warn('Error detectando config:', e);
     document.documentElement.classList.add('dleon-editor');
   }
 })();
@@ -399,15 +404,18 @@
   <a href="https://c4rlo53305-lgtm.github.io/Peri/" target="_blank" rel="noopener">Creaciones Mágicas 💛</a>
 </div>
 
-<button id="btnSharePlantilla" type="button">
-  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-  <span>Enviar plantilla</span>
+<!-- ⭐⭐⭐ BOTÓN MORADO DE COMPARTIR ⭐⭐⭐ -->
+<button id="btnSharePlantilla" type="button" aria-label="Compartir por WhatsApp">
+  <svg viewBox="0 0 24 24">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+  </svg>
+  <span>Compartir</span>
 </button>
 
 <div class="bar">
   <button class="btn-wa" id="wa" type="button">
     <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-    <span>Enviar a mi amor 💖</span>
+    <span>Enviar mensaje 💖</span>
   </button>
 </div>
 
@@ -418,7 +426,7 @@
 'use strict';
 
 /* ══════════════════════════════════════════════════════════
-   ⭐ SISTEMA PREMIUM — simple como corarojo
+   SISTEMA PREMIUM
    ══════════════════════════════════════════════════════════ */
 var isPremium = (localStorage.getItem("peri_premium_activated") === "1");
 console.log("⭐ Premium:", isPremium);
@@ -487,7 +495,6 @@ var personalizacion = {
   nombreMusica: ''
 };
 
-/* Aplicar config inicial */
 if(configInicial){
   if(configInicial.nombre) personalizacion.nombre = configInicial.nombre;
   if(configInicial.mensaje) personalizacion.mensaje = configInicial.mensaje;
@@ -505,7 +512,6 @@ function actualizarUIPremium(){
   var icon = document.getElementById('premiumIcon');
   var text = document.getElementById('premiumText');
   if(!status) return;
-
   if(isPremium){
     status.classList.remove('inactive');
     icon.textContent = '👑';
@@ -515,7 +521,6 @@ function actualizarUIPremium(){
     icon.textContent = '🔒';
     text.textContent = 'Modo gratuito';
   }
-
   ['Destellos','Musica','Corazones','Fuegos','Efecto3D'].forEach(function(n){
     var f = n.charAt(0).toLowerCase() + n.slice(1);
     if(n === 'Efecto3D') f = 'efecto3D';
@@ -552,11 +557,6 @@ function togglePremium(el, feature){
   guardarPersonalizacion();
 }
 window.togglePremium = togglePremium;
-
-function cerrarLockModal(){
-  document.getElementById('lockModal').classList.remove('show');
-}
-window.cerrarLockModal = cerrarLockModal;
 
 /* ══════════════════════════════════════════════════════════
    PERSONALIZACIÓN
@@ -668,7 +668,7 @@ function cargarMusica(input){
   var file = input.files[0];
   if(!file) return;
   if(file.size > 3*1024*1024){
-    alert('Máximo 3MB. Para que el HTML no se vuelva gigante al enviarlo por WhatsApp.');
+    alert('Máximo 3MB. Para que el HTML no se vuelva gigante al enviarlo.');
     return;
   }
   var reader = new FileReader();
@@ -714,7 +714,7 @@ function aplicarPersonalizacion(){
 }
 
 /* ══════════════════════════════════════════════════════════
-   ⭐⭐⭐ GENERAR PLANTILLA PERSONALIZADA ⭐⭐⭐
+   GENERAR PLANTILLA PERSONALIZADA
    ══════════════════════════════════════════════════════════ */
 function construirConfigJSON(){
   return JSON.stringify({
@@ -729,86 +729,47 @@ function construirConfigJSON(){
   }).replace(/</g, '\\u003c').replace(/>/g, '\\u003e');
 }
 
-/* 🔧 CLAVE: limpiar el DOM clonado para que el HTML resultante sea el BASE */
 function obtenerHTMLBase(){
   var clone = document.documentElement.cloneNode(true);
-
-  // 1. Resetear clase del <html>
   clone.classList.remove('dleon-auto');
   clone.classList.remove('dleon-editor');
 
-  // 2. Resetear el script config-inicial AL PLACEHOLDER
   var cfgEl = clone.querySelector('#config-inicial');
-  if(cfgEl){
-    cfgEl.textContent = '__DLEON_CONFIG__';
-  }
+  if(cfgEl) cfgEl.textContent = '__DLEON_CONFIG__';
 
-  // 3. Resetear personalizador
   var pers = clone.querySelector('#personalizacion');
-  if(pers){
-    pers.classList.remove('hide');
-    pers.style.display = '';
-    pers.style.opacity = '';
-    pers.style.visibility = '';
-  }
+  if(pers){ pers.classList.remove('hide'); pers.style.display=''; pers.style.opacity=''; pers.style.visibility=''; }
 
-  // 4. Resetear intro
   var intro = clone.querySelector('#intro');
-  if(intro){
-    intro.classList.remove('hide');
-    intro.style.display = '';
-    intro.style.opacity = '';
-    intro.style.visibility = '';
-  }
+  if(intro){ intro.classList.remove('hide'); intro.style.display=''; intro.style.opacity=''; intro.style.visibility=''; }
 
-  // 5. Ocultar botón morado
   var btnShare = clone.querySelector('#btnSharePlantilla');
-  if(btnShare){
-    btnShare.classList.remove('show');
-    btnShare.classList.remove('loading');
-  }
+  if(btnShare){ btnShare.classList.remove('show'); btnShare.classList.remove('loading'); }
 
-  // 6. Quitar marcas de agua duplicadas
   var marcas = clone.querySelectorAll('#wm-magica');
-  for(var i = 1; i < marcas.length; i++){
-    marcas[i].parentNode.removeChild(marcas[i]);
-  }
+  for(var i = 1; i < marcas.length; i++){ marcas[i].parentNode.removeChild(marcas[i]); }
 
-  // 7. Resetear intro textos
   var introTitulo = clone.querySelector('#introTitulo');
   if(introTitulo) introTitulo.textContent = 'Un deseo para ti';
   var introTexto = clone.querySelector('#introTexto');
   if(introTexto) introTexto.innerHTML = 'Sacude el teléfono, sopla las semillas y pide un deseo.<br><br>Como un diente de león, mi amor viaja contigo a donde vayas. 🌬️';
 
-  // 8. Resetear contador y mensaje
   var wc = clone.querySelector('#wc');
   if(wc) wc.textContent = '0';
   var loveMsg = clone.querySelector('#loveMsg');
   if(loveMsg) loveMsg.classList.remove('show');
 
-  // 9. Resetear toggles premium
   ['Destellos','Musica','Corazones','Fuegos','Efecto3D'].forEach(function(n){
     var t = clone.querySelector('#toggle'+n);
     if(t) t.classList.remove('on');
   });
 
-  // 10. Resetear canvas
   var cv = clone.querySelector('#scene');
-  if(cv){
-    cv.removeAttribute('width');
-    cv.removeAttribute('height');
-    cv.style.width = '';
-    cv.style.height = '';
-  }
+  if(cv){ cv.removeAttribute('width'); cv.removeAttribute('height'); cv.style.width=''; cv.style.height=''; }
 
-  // 11. Resetear audio
   var audio = clone.querySelector('#audioPlayer');
-  if(audio){
-    audio.removeAttribute('src');
-    if(audio.pause) try{ audio.pause(); }catch(e){}
-  }
+  if(audio){ audio.removeAttribute('src'); if(audio.pause) try{audio.pause();}catch(e){} }
 
-  // 12. Resetear estado premium
   var premStatus = clone.querySelector('#premiumStatus');
   if(premStatus) premStatus.classList.add('inactive');
   var premIcon = clone.querySelector('#premiumIcon');
@@ -816,7 +777,6 @@ function obtenerHTMLBase(){
   var premText = clone.querySelector('#premiumText');
   if(premText) premText.textContent = 'Modo gratuito';
 
-  // 13. Resetear inputs
   var pN = clone.querySelector('#pNombre');
   if(pN) pN.value = '';
   var pM = clone.querySelector('#pMensaje');
@@ -826,19 +786,15 @@ function obtenerHTMLBase(){
   var mu = clone.querySelector('#musicUpload');
   if(mu) mu.style.display = 'none';
 
-  // 14. Resetear lista de frases
   var frList = clone.querySelector('#frasesList');
   if(frList) frList.innerHTML = '';
 
-  // 15. Resetear hint
   var hint = clone.querySelector('#hint');
   if(hint) hint.classList.remove('hide');
 
-  // 16. Resetear momento
   var mt = clone.querySelector('#momentoTexto');
   if(mt) mt.textContent = '—';
 
-  // 17. Resetear título
   var title = clone.querySelector('title');
   if(title) title.textContent = 'Diente de León Mágico ✨💖';
 
@@ -848,20 +804,17 @@ function obtenerHTMLBase(){
 function generarHTMLPersonalizado(){
   var html = obtenerHTMLBase();
   var json = construirConfigJSON();
-
-  // Reemplazar el placeholder por el JSON
   var regex = /(<script id="config-inicial" type="application\/json">)\s*__DLEON_CONFIG__\s*(<\/script>)/;
   if(regex.test(html)){
     html = html.replace(regex, '$1' + json + '$2');
   } else {
-    // Fallback: buscar cualquier script con id config-inicial
     var regex2 = /(<script\s+id="config-inicial"[^>]*>)[\s\S]*?(<\/script>)/;
     html = html.replace(regex2, '$1' + json + '$2');
   }
-
   return html;
 }
 
+/* ⭐ BOTÓN MORADO — Compartir plantilla */
 document.getElementById('btnSharePlantilla').addEventListener('click', async function(){
   var btn = this;
   var spanEl = btn.querySelector('span');
@@ -884,9 +837,9 @@ document.getElementById('btnSharePlantilla').addEventListener('click', async fun
 
     var blob = new Blob([htmlFinal], { type: 'text/html;charset=utf-8' });
     var file = new File([blob], nombreArchivo, { type: 'text/html' });
-    console.log('📦 HTML generado:', nombreArchivo, '·', (blob.size/1024/1024).toFixed(2) + 'MB');
+    console.log('📦 HTML generado:', nombreArchivo, '·', (blob.size/1024).toFixed(0) + 'KB');
 
-    // ¿Puede compartir archivos? (Android Chrome, iOS Safari 15+)
+    // ⭐ 1. Intento con Web Share API (adjunta el archivo directo)
     var puedeCompartir = false;
     try{
       puedeCompartir = navigator.canShare && navigator.canShare({ files: [file] });
@@ -897,7 +850,7 @@ document.getElementById('btnSharePlantilla').addEventListener('click', async fun
         await navigator.share({
           files: [file],
           title: 'Diente de León Mágico ✨💖',
-          text: '✨ Te mando un diente de león mágico personalizado. Ábrelo, sacude tu teléfono y pide un deseo 💖'
+          text: '✨ Te mando un diente de león mágico personalizado. Ábrelo y sacude tu teléfono 💖'
         });
         btn.classList.remove('loading');
         spanEl.textContent = textoOriginal;
@@ -908,11 +861,11 @@ document.getElementById('btnSharePlantilla').addEventListener('click', async fun
           spanEl.textContent = textoOriginal;
           return;
         }
-        console.warn('Share falló:', err);
+        console.warn('Share falló, usando fallback:', err);
       }
     }
 
-    // Fallback: descargar archivo + abrir WhatsApp
+    // ⭐ 2. Fallback: descargar + abrir WhatsApp con mensaje
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
     a.href = url;
@@ -923,10 +876,7 @@ document.getElementById('btnSharePlantilla').addEventListener('click', async fun
     setTimeout(function(){ URL.revokeObjectURL(url); }, 3000);
 
     var mensaje = '💖✨ Te mando un *Diente de León Mágico* personalizado solo para ti.\n\n' +
-                  '📱 *Cómo abrirlo:*\n' +
-                  '1. Abre el archivo *' + nombreArchivo + '* que te envié\n' +
-                  '2. Sacude tu teléfono y pide un deseo 🌬️\n\n' +
-                  '💫 Hecho con amor.';
+                  '📱 Abre el archivo *' + nombreArchivo + '* que te acabo de enviar y sacude tu teléfono 🌬️';
     var wa = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(mensaje);
     setTimeout(function(){
       try{ window.open(wa, '_blank', 'noopener'); }
@@ -1239,9 +1189,7 @@ function pedirPermisosSensor(){
           window.addEventListener('devicemotion', onMotion, {passive:true});
           sensorAttached = true;
         }
-      } else {
-        motionPermissionAsked = false;
-      }
+      } else { motionPermissionAsked = false; }
     }).catch(function(){ motionPermissionAsked = false; });
     if(typeof DeviceOrientationEvent !== 'undefined' &&
        typeof DeviceOrientationEvent.requestPermission === 'function'){
@@ -1823,47 +1771,30 @@ function init(){
   setInterval(actualizarMomento, 60000);
   initPersonalizacion();
 
-  /* ⭐⭐ MODO AUTO — Si es plantilla enviada, saltar TODO y arrancar directo */
   if(modoAuto){
     console.log('🚀 Modo AUTO: saltando personalizador');
-    
-    // Ocultar personalizador e intro forzadamente (por si acaso CSS falla)
     var pers = document.getElementById('personalizacion');
     if(pers){ pers.style.display = 'none'; pers.classList.add('hide'); }
-    
     var intro = document.getElementById('intro');
     if(intro){ intro.style.display = 'none'; intro.classList.add('hide'); }
-    
-    // Aplicar personalización
     aplicarPersonalizacion();
-    
-    // Mostrar botón morado
     var btn = document.getElementById('btnSharePlantilla');
     if(btn) btn.classList.add('show');
-    
-    // Marcar como iniciado
     window.__started = true;
-    
-    // Reproducir música (puede fallar por autoplay policy)
     if(personalizacion.archivoMusica){
       var a = document.getElementById('audioPlayer');
       a.src = personalizacion.archivoMusica;
       a.volume = 0.4;
-      a.play().catch(function(){
-        console.log('Autoplay bloqueado, espera al primer toque');
-      });
+      a.play().catch(function(){});
     }
-    
-    // Bienvenida
     setTimeout(function(){ mostrarFrase(); }, 500);
     setTimeout(function(){ 
       for(var i=0;i<12;i++) spawnHeart(W/2+rnd(-80,80), H/2+rnd(-60,60), 1.3);
     }, 800);
-    setTimeout(ocultarHint, 7000);
   }
 
   requestAnimationFrame(loop);
-  if(!modoAuto) setTimeout(ocultarHint, 7000);
+  setTimeout(ocultarHint, 7000);
 }
 
 init();
