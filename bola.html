@@ -3,174 +3,201 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="theme-color" content="#0a0218">
-<title>Zoom Infinito 🔎✨</title>
+<meta name="theme-color" content="#000000">
+<title>Zoom Cinematográfico 🎬</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   html,body{height:100%;overflow:hidden;background:#000;
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-    user-select:none;-webkit-user-select:none;touch-action:none;color:#fff}
+    user-select:none;-webkit-user-select:none;
+    touch-action:none;color:#fff}
 
-  #viewport{position:fixed;inset:0;overflow:hidden;
-    background:radial-gradient(circle at 50% 50%,#0a0218 0%,#000 100%);
-    cursor:zoom-in}
+  #viewport{position:fixed;inset:0;overflow:hidden;background:#000;
+    cursor:grab;touch-action:none}
+  #viewport:active{cursor:grabbing}
 
-  #world{position:absolute;top:0;left:0;
+  #camera{position:absolute;top:0;left:0;
     width:800px;height:800px;
     transform-origin:0 0;
-    will-change:transform}
+    will-change:transform;
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+    transform:translate3d(0,0,0)}
 
   .scene{position:absolute;top:0;left:0;
-    width:800px;height:800px;overflow:hidden}
-  .scene svg{display:block;width:100%;height:100%}
+    width:800px;height:800px;overflow:hidden;
+    transform-origin:0 0;
+    will-change:transform}
+  .scene svg{display:block;width:100%;height:100%;pointer-events:none}
 
-  .hotspot{position:absolute;cursor:zoom-in;z-index:10;
-    transition:box-shadow .3s}
-  .hotspot::after{content:'';position:absolute;inset:0;
-    border:2px dashed rgba(255,255,255,0);
-    border-radius:8px;
-    transition:border-color .3s, background .3s;
-    pointer-events:none}
-  .hotspot:hover::after{border-color:rgba(255,200,100,0.9);
-    background:rgba(255,200,100,0.08)}
-  .hotspot:active::after{border-color:rgba(255,220,140,1);
-    background:rgba(255,220,140,0.15)}
+  .hotspot{position:absolute;overflow:hidden;z-index:5}
+  .hotspot.enter-next{cursor:zoom-in}
+  .hotspot > .scene{transform-origin:0 0}
 
-  /* Pista visual: lupa pulsante en hotspots */
-  .hotspot .lens{position:absolute;top:50%;left:50%;
-    transform:translate(-50%,-50%);
-    width:26px;height:26px;border-radius:50%;
-    border:2.5px solid rgba(255,220,140,0.95);
-    background:rgba(255,200,80,0.15);
-    box-shadow:0 0 20px rgba(255,200,80,0.7),
-               inset 0 0 8px rgba(255,220,140,0.4);
-    pointer-events:none;
-    animation:pulseLens 2s ease-in-out infinite}
-  .hotspot .lens::after{content:'';position:absolute;
-    bottom:-7px;right:-7px;width:10px;height:2.5px;
-    background:rgba(255,220,140,0.95);
-    transform:rotate(45deg);transform-origin:left center;
-    border-radius:2px;box-shadow:0 0 8px rgba(255,200,80,0.8)}
-  @keyframes pulseLens{
-    0%,100%{transform:translate(-50%,-50%) scale(1);
-      box-shadow:0 0 20px rgba(255,200,80,0.7),
-                 inset 0 0 8px rgba(255,220,140,0.4)}
-    50%{transform:translate(-50%,-50%) scale(1.15);
-      box-shadow:0 0 32px rgba(255,220,140,1),
-                 inset 0 0 12px rgba(255,240,180,0.6)}}
+  /* ═══ CAPAS CINEMATOGRÁFICAS ═══ */
+  #vignette{position:fixed;inset:0;pointer-events:none;z-index:50;
+    background:radial-gradient(ellipse at center,
+      transparent 35%,
+      rgba(0,0,0,0.35) 70%,
+      rgba(0,0,0,0.75) 100%);
+    transition:background .5s ease}
 
-  /* ══ UI ══ */
+  #grain{position:fixed;inset:0;pointer-events:none;z-index:51;
+    opacity:.13;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' seed='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.6 0'/></filter><rect width='220' height='220' filter='url(%23n)'/></svg>");
+    animation:grainShift .4s steps(3) infinite}
+  @keyframes grainShift{
+    0%{background-position:0 0}
+    33%{background-position:-60px -30px}
+    66%{background-position:40px 20px}
+    100%{background-position:0 0}}
+
+  /* Letterbox cinematográfico */
+  .bar{position:fixed;left:0;right:0;height:9vh;background:#000;
+    z-index:52;pointer-events:none;
+    transition:transform .6s cubic-bezier(.65,0,.35,1)}
+  #barTop{top:0;transform:translateY(-100%)}
+  #barBot{bottom:0;transform:translateY(100%)}
+  .bar.show{transform:translateY(0)}
+
+  /* Flash de transición */
+  #flash{position:fixed;inset:0;background:#000;
+    opacity:0;pointer-events:none;z-index:53;
+    transition:opacity .25s ease}
+  #flash.on{opacity:1}
+
+  /* Motion blur durante transición */
+  #camera.blur{filter:blur(3px)}
+
+  /* Aberración cromática sutil */
+  #viewport::after{content:'';position:absolute;inset:0;pointer-events:none;
+    z-index:49;
+    background:
+      radial-gradient(circle at 25% 30%,rgba(255,80,80,0.05),transparent 40%),
+      radial-gradient(circle at 75% 70%,rgba(80,120,255,0.05),transparent 40%);
+    mix-blend-mode:screen}
+
+  /* ═══ UI ═══ */
   #hud{position:fixed;top:calc(env(safe-area-inset-top,0px) + 14px);
     left:50%;transform:translateX(-50%);
-    background:rgba(20,8,45,0.82);
+    background:rgba(8,4,20,0.72);
     -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
-    padding:9px 18px;border-radius:999px;
-    font-size:12px;font-weight:800;letter-spacing:.6px;
-    color:#e0d0ff;border:1.5px solid rgba(180,140,255,0.4);
-    box-shadow:0 6px 24px rgba(120,60,200,0.4);
-    z-index:100;pointer-events:none;
-    white-space:nowrap;max-width:90vw;overflow:hidden;
-    text-overflow:ellipsis;
-    text-transform:uppercase}
-  #hud .dot{display:inline-block;width:6px;height:6px;
-    border-radius:50%;background:#80ffa0;margin-right:8px;
-    box-shadow:0 0 10px #80ffa0;vertical-align:middle}
-
-  #backBtn{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);
-    left:12px;padding:10px 16px;border-radius:999px;
-    background:rgba(20,8,45,0.82);
-    -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
-    border:1.5px solid rgba(180,140,255,0.4);
-    color:#e0d0ff;font-family:inherit;
-    font-size:12px;font-weight:800;letter-spacing:.6px;
-    cursor:pointer;z-index:100;
-    display:flex;align-items:center;gap:7px;
-    opacity:0;pointer-events:none;
-    transition:opacity .3s,transform .15s}
-  #backBtn.show{opacity:1;pointer-events:auto}
-  #backBtn:active{transform:scale(.94)}
-  #backBtn svg{width:14px;height:14px;
-    stroke:currentColor;fill:none;stroke-width:2.5}
-
-  #resetBtn{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);
-    right:12px;padding:10px 14px;border-radius:999px;
-    background:rgba(20,8,45,0.82);
-    -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
-    border:1.5px solid rgba(180,140,255,0.4);
-    color:#e0d0ff;font-family:inherit;
-    font-size:12px;font-weight:800;
-    cursor:pointer;z-index:100;
-    display:flex;align-items:center;gap:6px;
-    transition:transform .15s}
-  #resetBtn:active{transform:scale(.94)}
-  #resetBtn svg{width:14px;height:14px;
-    stroke:currentColor;fill:none;stroke-width:2.5}
+    padding:8px 16px;border-radius:999px;
+    font-size:10.5px;font-weight:800;letter-spacing:1.4px;
+    color:#e0d0ff;border:1px solid rgba(180,140,255,0.28);
+    z-index:60;pointer-events:none;
+    text-transform:uppercase;
+    white-space:nowrap;
+    transition:opacity .4s ease}
+  #hud .dot{display:inline-block;width:5px;height:5px;
+    border-radius:50%;background:#80ffa0;margin-right:6px;
+    box-shadow:0 0 8px #80ffa0;vertical-align:middle;
+    animation:blink 2s ease-in-out infinite}
+  @keyframes blink{50%{opacity:.4}}
 
   #hint{position:fixed;left:50%;
     bottom:calc(env(safe-area-inset-bottom,0px) + 22px);
     transform:translateX(-50%);
-    padding:11px 22px;border-radius:999px;
-    background:rgba(20,8,45,0.82);
+    padding:12px 24px;border-radius:999px;
+    background:rgba(8,4,20,0.78);
     -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
-    border:1.5px solid rgba(180,140,255,0.4);
+    border:1px solid rgba(180,140,255,0.3);
     color:#e0d0ff;font-size:12px;font-weight:700;
-    letter-spacing:.4px;z-index:100;
-    white-space:nowrap;max-width:92vw;overflow:hidden;
+    letter-spacing:.4px;z-index:60;
+    white-space:nowrap;max-width:90vw;overflow:hidden;
     text-overflow:ellipsis;
-    box-shadow:0 8px 28px rgba(0,0,0,0.5);
-    transition:opacity .7s;pointer-events:none}
+    box-shadow:0 8px 28px rgba(0,0,0,0.6);
+    transition:opacity .7s;pointer-events:none;
+    display:flex;align-items:center;gap:10px}
   #hint.hide{opacity:0}
+  #hint .icn{font-size:16px;filter:drop-shadow(0 0 8px rgba(255,200,120,0.6))}
 
   #wm{position:fixed!important;
-    bottom:calc(env(safe-area-inset-bottom,0px) + 70px)!important;
-    top:auto!important;right:12px!important;left:auto!important;
-    padding:9px 15px!important;border-radius:13px!important;
+    top:calc(env(safe-area-inset-top,0px) + 14px)!important;
+    right:12px!important;left:auto!important;bottom:auto!important;
+    padding:8px 13px!important;border-radius:12px!important;
     background:linear-gradient(135deg,
       rgba(255,235,175,.95),rgba(255,200,90,.92),rgba(212,158,50,.95))!important;
     border:2px solid rgba(255,238,180,.95)!important;
     box-shadow:0 8px 26px rgba(180,120,20,.45),
       inset 0 1px 0 rgba(255,255,255,.7)!important;
-    font-size:12px!important;line-height:1.3!important;
+    font-size:11px!important;line-height:1.25!important;
     font-weight:800!important;text-align:center!important;
-    z-index:99999!important;max-width:60vw!important}
-  #wm span{display:block!important;font-size:8.5px!important;
-    font-weight:700!important;letter-spacing:1.3px!important;
+    z-index:99999!important;max-width:44vw!important;
+    transition:opacity .4s ease}
+  #wm span{display:block!important;font-size:8px!important;
+    font-weight:700!important;letter-spacing:1.2px!important;
     text-transform:uppercase!important;color:#6b3a05!important}
   #wm a{color:#4a2400!important;text-decoration:none!important;
-    font-weight:900!important;font-size:12px!important}
+    font-weight:900!important;font-size:11px!important}
+
+  /* Progreso de zoom */
+  #progress{position:fixed;left:0;right:0;top:0;height:2px;
+    z-index:60;pointer-events:none;opacity:0;
+    transition:opacity .4s}
+  #progress.on{opacity:1}
+  #progressFill{height:100%;width:0%;
+    background:linear-gradient(90deg,#c060ff,#ff60a0,#ffd070);
+    box-shadow:0 0 12px rgba(200,100,255,0.8);
+    transition:width .1s linear}
+
+  /* Indicador de nivel alcanzado */
+  #levelBadge{position:fixed;left:50%;top:50%;
+    transform:translate(-50%,-50%) scale(.6);
+    padding:16px 32px;border-radius:16px;
+    background:rgba(8,4,20,0.88);
+    -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+    border:1.5px solid rgba(220,180,255,0.5);
+    color:#f0e0ff;font-size:15px;font-weight:900;
+    letter-spacing:1.2px;text-transform:uppercase;
+    z-index:58;pointer-events:none;
+    opacity:0;
+    transition:opacity .5s ease, transform .5s cubic-bezier(.34,1.4,.64,1);
+    box-shadow:0 20px 60px rgba(140,60,240,0.55);
+    text-shadow:0 0 20px rgba(220,180,255,0.7)}
+  #levelBadge.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  #levelBadge .num{display:block;font-size:11px;
+    color:#c8a0ff;letter-spacing:2.5px;margin-bottom:4px;
+    font-weight:800}
 
   /* Intro */
-  #intro{position:fixed;inset:0;z-index:200;
+  #intro{position:fixed;inset:0;z-index:100000;
     background:radial-gradient(circle at 50% 40%,#1a0838 0%,#0a0218 70%,#000 100%);
     display:flex;flex-direction:column;
     align-items:center;justify-content:center;
     gap:18px;padding:32px;text-align:center;
-    transition:opacity .7s,visibility .7s}
+    transition:opacity .8s,visibility .8s}
   #intro.hide{opacity:0;visibility:hidden;pointer-events:none}
   #intro h1{margin:0;font-size:26px;font-weight:900;
+    letter-spacing:.5px;
     background:linear-gradient(135deg,#ffd4f0,#ff9be0 40%,#c8a0ff);
     -webkit-background-clip:text;background-clip:text;
     -webkit-text-fill-color:transparent;
-    filter:drop-shadow(0 0 22px rgba(255,150,220,0.6));
-    letter-spacing:.5px}
-  #intro p{margin:0;font-size:14.5px;color:#b8a0d8;
+    filter:drop-shadow(0 0 22px rgba(255,150,220,0.6))}
+  #intro p{margin:0;font-size:14px;color:#b8a0d8;
     font-weight:600;line-height:1.7;max-width:340px}
-  #intro .lens-big{width:70px;height:70px;border-radius:50%;
-    border:4px solid rgba(255,220,140,0.9);
+  #intro .gesture{position:relative;width:120px;height:100px;margin-bottom:6px}
+  #intro .finger{position:absolute;width:34px;height:34px;
+    border-radius:50%;
     background:radial-gradient(circle at 35% 35%,
-      rgba(255,240,180,0.5),rgba(255,180,60,0.2));
-    box-shadow:0 0 40px rgba(255,200,80,0.7),
-      inset 0 0 20px rgba(255,220,140,0.4);
-    position:relative;
-    animation:floatLens 3s ease-in-out infinite}
-  #intro .lens-big::after{content:'';position:absolute;
-    bottom:-14px;right:-14px;width:22px;height:5px;
-    background:rgba(255,220,140,0.95);
-    transform:rotate(45deg);transform-origin:left center;
-    border-radius:3px;box-shadow:0 0 12px rgba(255,200,80,0.9)}
-  @keyframes floatLens{
-    0%,100%{transform:translateY(0) scale(1)}
-    50%{transform:translateY(-12px) scale(1.08)}}
+      rgba(255,240,200,0.9),rgba(255,160,80,0.6));
+    box-shadow:0 0 20px rgba(255,200,120,0.8)}
+  #intro .finger.f1{left:10px;top:10px;animation:pinch1 2.6s ease-in-out infinite}
+  #intro .finger.f2{right:10px;bottom:10px;animation:pinch2 2.6s ease-in-out infinite}
+  @keyframes pinch1{
+    0%,100%{transform:translate(0,0)}
+    50%{transform:translate(35px,35px) scale(0.85)}}
+  @keyframes pinch2{
+    0%,100%{transform:translate(0,0)}
+    50%{transform:translate(-35px,-35px) scale(0.85)}}
+  #intro .arrow{position:absolute;left:50%;top:50%;
+    transform:translate(-50%,-50%);
+    font-size:22px;color:rgba(255,220,140,0.9);
+    animation:pulseArrow 2.6s ease-in-out infinite;
+    filter:drop-shadow(0 0 12px rgba(255,200,80,0.8))}
+  @keyframes pulseArrow{
+    0%,100%{opacity:.5;transform:translate(-50%,-50%) scale(.9)}
+    50%{opacity:1;transform:translate(-50%,-50%) scale(1.2)}}
   #startBtn{margin-top:8px;padding:16px 42px;
     border:0;cursor:pointer;border-radius:999px;
     font-family:inherit;font-size:16px;font-weight:900;
@@ -185,22 +212,28 @@
 <body>
 
 <div id="viewport">
-  <div id="world"></div>
+  <div id="camera"></div>
 </div>
+
+<div id="vignette"></div>
+<div id="grain"></div>
+<div id="barTop" class="bar"></div>
+<div id="barBot" class="bar"></div>
+<div id="flash"></div>
+
+<div id="progress"><div id="progressFill"></div></div>
 
 <div id="hud"><span class="dot"></span><span id="hudText">Nivel 1 / 5</span></div>
 
-<button id="backBtn">
-  <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-  Atrás
-</button>
+<div id="levelBadge">
+  <span class="num" id="badgeNum">NIVEL 1</span>
+  <span id="badgeName">Valle</span>
+</div>
 
-<button id="resetBtn">
-  <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><polyline points="3 3 3 8 8 8"/></svg>
-  Inicio
-</button>
-
-<div id="hint">🔎 Toca la lupa para hacer zoom infinito</div>
+<div id="hint">
+  <span class="icn">👐</span>
+  <span>Pellizca con dos dedos para hacer zoom</span>
+</div>
 
 <div id="wm">
   <span>✦ Creado por ✦</span>
@@ -208,17 +241,21 @@
 </div>
 
 <div id="intro">
-  <div class="lens-big"></div>
-  <h1>Zoom Infinito</h1>
-  <p>Una imagen que se abre en otra imagen, y otra, y otra... hasta el infinito.</p>
-  <button id="startBtn">Explorar 🔎</button>
+  <div class="gesture">
+    <div class="finger f1"></div>
+    <div class="finger f2"></div>
+    <div class="arrow">↔</div>
+  </div>
+  <h1>Zoom Cinematográfico</h1>
+  <p>Pellizca con dos dedos y adéntrate cada vez más profundo.</p>
+  <button id="startBtn">Comenzar 🎬</button>
 </div>
 
 <script>
 (function(){
 'use strict';
 
-/* ═══════════════ SEGURIDAD DOMINIO ═══════════════ */
+/* ═══════════════ SEGURIDAD ═══════════════ */
 var OFICIAL = 'c4rlo53305-lgtm.github.io';
 var PERMITIDOS = [OFICIAL,'www.'+OFICIAL,'localhost','127.0.0.1'];
 (function(){
@@ -233,14 +270,14 @@ function crearMarca(){
   var d = document.createElement('div');
   d.id = 'wm';
   d.setAttribute('style',
-    'position:fixed!important;bottom:calc(env(safe-area-inset-bottom,0px) + 70px)!important;'+
-    'top:auto!important;right:12px!important;left:auto!important;'+
-    'padding:9px 15px!important;border-radius:13px!important;'+
+    'position:fixed!important;top:calc(env(safe-area-inset-top,0px) + 14px)!important;'+
+    'right:12px!important;left:auto!important;bottom:auto!important;'+
+    'padding:8px 13px!important;border-radius:12px!important;'+
     'background:linear-gradient(135deg,rgba(255,235,175,.95),rgba(255,200,90,.92),rgba(212,158,50,.95))!important;'+
     'border:2px solid rgba(255,238,180,.95)!important;'+
     'box-shadow:0 8px 26px rgba(180,120,20,.45),inset 0 1px 0 rgba(255,255,255,.7)!important;'+
-    'font-size:12px!important;font-weight:800!important;text-align:center!important;'+
-    'z-index:99999!important;max-width:60vw!important');
+    'font-size:11px!important;font-weight:800!important;text-align:center!important;'+
+    'z-index:99999!important;max-width:44vw!important');
   d.innerHTML = '<span>✦ Creado por ✦</span>'+
     '<a href="'+LINK_OFICIAL+'" target="_blank" rel="noopener" '+
     'style="color:#4a2400;text-decoration:none;font-weight:900">Creaciones Mágicas 💛</a>';
@@ -251,686 +288,1241 @@ function vigilar(){ if(!document.body.contains(marca)){ marca = crearMarca(); do
 vigilar(); setInterval(vigilar, 900);
 try{ new MutationObserver(vigilar).observe(document.documentElement,{childList:true,subtree:true}); }catch(e){}
 
-/* ═══════════════ NIVELES ═══════════════ */
-var WORLD_SIZE = 800;
+/* ═══════════════════════════════════════════════════════════
+   ESCENAS — SVG pintados con detalle
+   ═══════════════════════════════════════════════════════════ */
+var WORLD = 800;
 
+/* ESCENA 0: Valle al atardecer con cabaña */
+var SVG_0 = `
+<svg viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="s0sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1a1a4a"/>
+      <stop offset="0.25" stop-color="#3a2a5a"/>
+      <stop offset="0.5" stop-color="#7a4a70"/>
+      <stop offset="0.7" stop-color="#c86a60"/>
+      <stop offset="0.85" stop-color="#ffa860"/>
+      <stop offset="1" stop-color="#ffd090"/>
+    </linearGradient>
+    <radialGradient id="s0sun" cx="0.65" cy="0.7" r="0.6">
+      <stop offset="0" stop-color="#fff8d0" stop-opacity="1"/>
+      <stop offset="0.25" stop-color="#ffd070" stop-opacity="0.7"/>
+      <stop offset="0.6" stop-color="#ff8040" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#ff5020" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="s0far" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5a4a7a"/>
+      <stop offset="1" stop-color="#4a3a68"/>
+    </linearGradient>
+    <linearGradient id="s0mid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a2a4a"/>
+      <stop offset="1" stop-color="#2a1a38"/>
+    </linearGradient>
+    <linearGradient id="s0near" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1a1028"/>
+      <stop offset="1" stop-color="#0a0510"/>
+    </linearGradient>
+    <linearGradient id="s0lake" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8a5060"/>
+      <stop offset="0.4" stop-color="#5a3a5a"/>
+      <stop offset="1" stop-color="#2a1a3a"/>
+    </linearGradient>
+    <radialGradient id="s0glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffd890" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#ffd890" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="800" fill="url(#s0sky)"/>
+
+  <!-- Nubes altas -->
+  <g opacity="0.55">
+    <ellipse cx="180" cy="140" rx="130" ry="14" fill="#6a4a78"/>
+    <ellipse cx="240" cy="155" rx="90" ry="9" fill="#8a5a80"/>
+    <ellipse cx="620" cy="180" rx="150" ry="16" fill="#8a5a70"/>
+    <ellipse cx="580" cy="200" rx="100" ry="10" fill="#a86a70"/>
+  </g>
+
+  <!-- Sol / halo -->
+  <circle cx="520" cy="560" r="280" fill="url(#s0sun)"/>
+  <circle cx="520" cy="560" r="42" fill="#fff8d0"/>
+  <circle cx="520" cy="560" r="58" fill="#fff0b0" opacity="0.6"/>
+
+  <!-- Montañas lejanas (atmosféricas) -->
+  <path d="M0,540 L100,440 L180,490 L260,410 L360,480 L440,430 L540,490 L640,450 L740,500 L800,470 L800,600 L0,600 Z" fill="url(#s0far)" opacity="0.85"/>
+  <!-- Nieves lejanas -->
+  <path d="M100,440 L120,462 L95,462 Z M260,410 L280,438 L248,438 Z M440,430 L458,450 L428,450 Z M640,450 L658,468 L626,468 Z" fill="#c8b0d0" opacity="0.6"/>
+
+  <!-- Montañas medias -->
+  <path d="M0,600 L80,520 L160,570 L240,500 L340,570 L420,510 L520,580 L620,520 L720,580 L800,540 L800,680 L0,680 Z" fill="url(#s0mid)"/>
+  <!-- Nieves medias -->
+  <path d="M80,520 L100,545 L62,545 Z M240,500 L260,528 L222,528 Z M420,510 L440,536 L402,536 Z M620,520 L640,546 L602,546 Z" fill="#e0d0e8" opacity="0.85"/>
+
+  <!-- Montañas cercanas -->
+  <path d="M0,660 L120,570 L220,630 L320,560 L440,640 L540,580 L660,650 L760,600 L800,630 L800,720 L0,720 Z" fill="url(#s0near)"/>
+
+  <!-- Lago reflejando el sol -->
+  <path d="M0,700 Q200,690 400,700 T800,700 L800,800 L0,800 Z" fill="url(#s0lake)"/>
+  <!-- Reflejo del sol en el agua -->
+  <ellipse cx="520" cy="740" rx="40" ry="6" fill="#ffd890" opacity="0.7"/>
+  <ellipse cx="520" cy="760" rx="28" ry="4" fill="#ffd890" opacity="0.5"/>
+  <ellipse cx="520" cy="780" rx="18" ry="3" fill="#ffd890" opacity="0.35"/>
+  <!-- Ondas -->
+  <path d="M100,720 Q150,716 200,720 T300,720" stroke="#a86a70" stroke-width="1" fill="none" opacity="0.5"/>
+  <path d="M400,745 Q450,741 500,745 T600,745" stroke="#a86a70" stroke-width="1" fill="none" opacity="0.5"/>
+  <path d="M250,770 Q300,766 350,770 T450,770" stroke="#a86a70" stroke-width="1" fill="none" opacity="0.4"/>
+
+  <!-- Árboles silueta cerca del agua -->
+  <g fill="#0a0510">
+    <path d="M120,700 L128,660 L124,660 L132,620 L128,620 L136,580 L144,620 L140,620 L148,660 L144,660 L152,700 Z"/>
+    <path d="M160,705 L166,670 L162,670 L170,635 L166,635 L174,600 L182,635 L178,635 L186,670 L182,670 L188,705 Z"/>
+    <path d="M600,700 L608,660 L604,660 L612,620 L608,620 L616,580 L624,620 L620,620 L628,660 L624,660 L632,700 Z"/>
+    <path d="M650,705 L656,670 L652,670 L660,635 L656,635 L664,600 L672,635 L668,635 L676,670 L672,670 L678,705 Z"/>
+  </g>
+
+  <!-- CABAÑA -->
+  <g transform="translate(400 640)">
+    <!-- Sombra base -->
+    <ellipse cx="0" cy="32" rx="80" ry="8" fill="#000" opacity="0.4"/>
+    <!-- Cuerpo de madera -->
+    <rect x="-55" y="-30" width="110" height="60" fill="#3a2418"/>
+    <rect x="-55" y="-30" width="110" height="60" fill="none" stroke="#1a0e08" stroke-width="1.5"/>
+    <!-- Vetas de madera -->
+    <g stroke="#20140a" stroke-width="0.8" opacity="0.7">
+      <line x1="-55" y1="-22" x2="55" y2="-22"/>
+      <line x1="-55" y1="-14" x2="55" y2="-14"/>
+      <line x1="-55" y1="-6" x2="55" y2="-6"/>
+      <line x1="-55" y1="2" x2="55" y2="2"/>
+      <line x1="-55" y1="10" x2="55" y2="10"/>
+      <line x1="-55" y1="18" x2="55" y2="18"/>
+    </g>
+    <!-- Sombra lateral derecha -->
+    <rect x="20" y="-30" width="35" height="60" fill="#000" opacity="0.3"/>
+    <!-- Techo -->
+    <path d="M-72,-30 L0,-78 L72,-30 Z" fill="#5a3020"/>
+    <path d="M-72,-30 L0,-78 L72,-30 Z" fill="none" stroke="#1a0e08" stroke-width="1.5"/>
+    <!-- Sombra del techo derecha -->
+    <path d="M0,-78 L72,-30 L20,-30 Z" fill="#000" opacity="0.25"/>
+    <!-- Cúpula de nieve en el techo -->
+    <path d="M-70,-31 Q-30,-58 0,-77 Q30,-58 70,-31 L70,-26 Q40,-50 0,-74 Q-40,-50 -70,-26 Z" fill="#e8e0f0" opacity="0.9"/>
+    <!-- Chimenea -->
+    <rect x="30" y="-70" width="14" height="32" fill="#2a1810"/>
+    <rect x="28" y="-72" width="18" height="5" fill="#e8e0f0"/>
+    <!-- Ventana iluminada (HOTSPOT) -->
+    <rect x="-40" y="-12" width="40" height="34" fill="#ffd890"/>
+    <!-- Cruz de la ventana -->
+    <line x1="-20" y1="-12" x2="-20" y2="22" stroke="#2a1810" stroke-width="2"/>
+    <line x1="-40" y1="5" x2="0" y2="5" stroke="#2a1810" stroke-width="2"/>
+    <rect x="-40" y="-12" width="40" height="34" fill="none" stroke="#2a1810" stroke-width="2.5"/>
+    <!-- Halo de la ventana -->
+    <ellipse cx="-20" cy="10" rx="55" ry="30" fill="url(#s0glow)" opacity="0.5"/>
+    <!-- Puerta -->
+    <path d="M15,30 L15,0 Q25,-6 35,0 L35,30 Z" fill="#1a0e08"/>
+    <circle cx="30" cy="16" r="1.2" fill="#c89050"/>
+  </g>
+
+  <!-- Pájaros en el cielo -->
+  <g stroke="#1a1028" stroke-width="1.2" fill="none" opacity="0.6">
+    <path d="M150,220 Q155,215 160,220 Q165,215 170,220"/>
+    <path d="M180,235 Q184,230 188,235 Q192,230 196,235"/>
+    <path d="M210,225 Q214,220 218,225 Q222,220 226,225"/>
+  </g>
+</svg>`;
+
+/* ESCENA 1: Interior de la cabaña — muchacha leyendo */
+var SVG_1 = `
+<svg viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="s1wall" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a2014"/>
+      <stop offset="0.4" stop-color="#4a2818"/>
+      <stop offset="1" stop-color="#2a1408"/>
+    </linearGradient>
+    <radialGradient id="s1fire" cx="0.2" cy="0.75" r="0.55">
+      <stop offset="0" stop-color="#ffd890" stop-opacity="0.9"/>
+      <stop offset="0.4" stop-color="#ff9040" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#a03010" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="s1warm" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffe0a0" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#ffe0a0" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="s1phone" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a0e0ff"/>
+      <stop offset="1" stop-color="#40a0e0"/>
+    </linearGradient>
+    <linearGradient id="s1skin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f0c090"/>
+      <stop offset="1" stop-color="#c09070"/>
+    </linearGradient>
+    <linearGradient id="s1hair" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a2010"/>
+      <stop offset="1" stop-color="#1a0a04"/>
+    </linearGradient>
+    <linearGradient id="s1dress" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c04080"/>
+      <stop offset="1" stop-color="#601840"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="800" fill="url(#s1wall)"/>
+
+  <!-- Vigas de madera horizontal -->
+  <g fill="#2a1408" opacity="0.6">
+    <rect x="0" y="60" width="800" height="8"/>
+    <rect x="0" y="180" width="800" height="8"/>
+    <rect x="0" y="300" width="800" height="8"/>
+    <rect x="0" y="420" width="800" height="8"/>
+  </g>
+
+  <!-- Suelo de tablones -->
+  <rect y="620" width="800" height="180" fill="#2a1810"/>
+  <g stroke="#1a0a04" stroke-width="1.5" opacity="0.8">
+    <line x1="0" y1="640" x2="800" y2="640"/>
+    <line x1="0" y1="680" x2="800" y2="680"/>
+    <line x1="0" y1="730" x2="800" y2="730"/>
+    <line x1="0" y1="780" x2="800" y2="780"/>
+  </g>
+  <!-- Tablones verticales -->
+  <g stroke="#1a0a04" stroke-width="1" opacity="0.5">
+    <line x1="100" y1="620" x2="100" y2="800"/>
+    <line x1="250" y1="620" x2="250" y2="800"/>
+    <line x1="400" y1="620" x2="400" y2="800"/>
+    <line x1="550" y1="620" x2="550" y2="800"/>
+    <line x1="700" y1="620" x2="700" y2="800"/>
+  </g>
+
+  <!-- Alfombra -->
+  <ellipse cx="400" cy="700" rx="260" ry="45" fill="#7a2018"/>
+  <ellipse cx="400" cy="700" rx="240" ry="38" fill="none" stroke="#a06030" stroke-width="2"/>
+  <ellipse cx="400" cy="700" rx="200" ry="30" fill="none" stroke="#a06030" stroke-width="1.5" opacity="0.6"/>
+  <ellipse cx="400" cy="700" rx="150" ry="22" fill="none" stroke="#a06030" stroke-width="1" opacity="0.4"/>
+
+  <!-- Chimenea a la izquierda -->
+  <g transform="translate(80 480)">
+    <rect x="-70" y="-120" width="140" height="220" fill="#2a1810"/>
+    <rect x="-80" y="-135" width="160" height="20" fill="#1a0a04"/>
+    <rect x="-70" y="-120" width="140" height="220" fill="none" stroke="#1a0a04" stroke-width="2"/>
+    <!-- Fuego -->
+    <ellipse cx="0" cy="30" rx="55" ry="18" fill="#1a0808"/>
+    <path d="M-30,30 Q-40,-10 -20,-40 Q-15,-20 -5,-50 Q5,-20 15,-45 Q25,-15 30,30 Z" fill="#ff8030" opacity="0.9"/>
+    <path d="M-20,30 Q-25,0 -10,-20 Q-5,0 0,-25 Q5,5 15,30 Z" fill="#ffd070"/>
+    <path d="M-10,30 Q-12,10 -3,-5 Q0,5 8,30 Z" fill="#fff0b0"/>
+    <!-- Chispas -->
+    <g fill="#ffd070" opacity="0.8">
+      <circle cx="-15" cy="-60" r="1.5"/>
+      <circle cx="10" cy="-70" r="1"/>
+      <circle cx="-5" cy="-80" r="1.2"/>
+      <circle cx="20" cy="-55" r="1"/>
+    </g>
+    <!-- Halo del fuego -->
+    <ellipse cx="0" cy="30" rx="200" ry="120" fill="url(#s1fire)"/>
+  </g>
+
+  <!-- Cuadro en la pared -->
+  <g transform="translate(580 200)">
+    <rect x="-60" y="-50" width="120" height="100" fill="#1a0e04" stroke="#c89050" stroke-width="4"/>
+    <rect x="-54" y="-44" width="108" height="88" fill="#3a5a80"/>
+    <circle cx="20" cy="-10" r="15" fill="#ffd070"/>
+    <path d="M-54,20 Q0,-5 54,20 L54,44 L-54,44 Z" fill="#2a4a30"/>
+  </g>
+
+  <!-- Ventana que da al exterior (arriba centro) -->
+  <g transform="translate(400 180)">
+    <rect x="-90" y="-100" width="180" height="160" fill="#0a0a30"/>
+    <rect x="-90" y="-100" width="180" height="160" fill="#1a1a4a" opacity="0.9"/>
+    <!-- Montañas al fondo -->
+    <path d="M-90,30 L-40,-10 L0,20 L50,-20 L90,20 L90,60 L-90,60 Z" fill="#2a2a5a"/>
+    <path d="M-40,-10 L-28,2 L-52,2 Z" fill="#e0d0f0" opacity="0.8"/>
+    <path d="M50,-20 L62,-6 L38,-6 Z" fill="#e0d0f0" opacity="0.8"/>
+    <!-- Luna -->
+    <circle cx="60" cy="-60" r="16" fill="#f0f0e8"/>
+    <circle cx="55" cy="-64" r="4" fill="#d0d0c8" opacity="0.5"/>
+    <circle cx="66" cy="-56" r="3" fill="#d0d0c8" opacity="0.5"/>
+    <!-- Cruz de la ventana -->
+    <line x1="0" y1="-100" x2="0" y2="60" stroke="#1a0e04" stroke-width="8"/>
+    <line x1="-90" y1="-20" x2="90" y2="-20" stroke="#1a0e04" stroke-width="8"/>
+    <rect x="-90" y="-100" width="180" height="160" fill="none" stroke="#1a0e04" stroke-width="10"/>
+  </g>
+
+  <!-- MUCHACHA sentada en la cama, leyendo -->
+  <g transform="translate(430 620)">
+    <!-- Cama base -->
+    <rect x="-180" y="-20" width="360" height="20" fill="#5a3020"/>
+    <rect x="-180" y="-40" width="360" height="24" fill="#c06080"/>
+    <!-- Sábanas -->
+    <ellipse cx="0" cy="-20" rx="180" ry="18" fill="#e8d0c0"/>
+    <ellipse cx="-100" cy="-24" rx="80" ry="12" fill="#f0e0d0"/>
+    <!-- Almohada -->
+    <ellipse cx="-140" cy="-40" rx="60" ry="22" fill="#f8f0e8"/>
+    <ellipse cx="-140" cy="-40" rx="60" ry="22" fill="none" stroke="#d0b8a0" stroke-width="1"/>
+
+    <!-- Cuerpo de la muchacha (sentada) -->
+    <!-- Piernas -->
+    <path d="M-20,20 L20,20 L60,60 L30,60 Z" fill="url(#s1dress)"/>
+    <!-- Vestido/cuerpo -->
+    <ellipse cx="0" cy="-40" rx="55" ry="70" fill="url(#s1dress)"/>
+    <!-- Sombra del vestido -->
+    <path d="M0,-40 Q30,-10 30,30 L-30,30 Q-30,-10 0,-40 Z" fill="#000" opacity="0.2"/>
+
+    <!-- Cabeza -->
+    <ellipse cx="0" cy="-125" rx="42" ry="48" fill="url(#s1skin)"/>
+    <!-- Pelo largo -->
+    <path d="M-42,-125 Q-50,-180 0,-190 Q50,-180 42,-125 Q45,-80 50,-30 Q40,-40 35,-80 Q30,-130 0,-135 Q-30,-130 -35,-80 Q-40,-40 -50,-30 Q-45,-80 -42,-125 Z" fill="url(#s1hair)"/>
+    <!-- Flequillo -->
+    <path d="M-40,-135 Q-30,-165 -5,-170 Q20,-170 35,-155 Q20,-150 5,-148 Q-20,-146 -40,-135 Z" fill="#1a0a04"/>
+
+    <!-- Ojos mirando al celular -->
+    <ellipse cx="-14" cy="-130" rx="7" ry="4" fill="#fff"/>
+    <ellipse cx="14" cy="-130" rx="7" ry="4" fill="#fff"/>
+    <circle cx="-13" cy="-130" r="3.5" fill="#3a2010"/>
+    <circle cx="15" cy="-130" r="3.5" fill="#3a2010"/>
+    <circle cx="-14" cy="-131" r="1.2" fill="#fff"/>
+    <circle cx="14" cy="-131" r="1.2" fill="#fff"/>
+    <!-- Cejas -->
+    <path d="M-22,-140 Q-14,-143 -6,-140" stroke="#2a1408" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M6,-140 Q14,-143 22,-140" stroke="#2a1408" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <!-- Nariz -->
+    <path d="M0,-122 Q1,-118 -1,-116" stroke="#a07050" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    <!-- Boca (sonrisa leve) -->
+    <path d="M-8,-110 Q0,-106 8,-110" stroke="#a04040" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <!-- Mejillas -->
+    <ellipse cx="-24" cy="-120" rx="8" ry="5" fill="#e07060" opacity="0.45"/>
+    <ellipse cx="24" cy="-120" rx="8" ry="5" fill="#e07060" opacity="0.45"/>
+
+    <!-- Brazos sosteniendo el celular -->
+    <path d="M-35,-30 Q-60,-60 -55,-100 L-40,-105 Q-30,-80 -20,-60 Z" fill="url(#s1dress)"/>
+    <path d="M35,-30 Q60,-60 55,-100 L40,-105 Q30,-80 20,-60 Z" fill="url(#s1dress)"/>
+    <!-- Manos -->
+    <ellipse cx="-50" cy="-95" rx="12" ry="10" fill="url(#s1skin)"/>
+    <ellipse cx="50" cy="-95" rx="12" ry="10" fill="url(#s1skin)"/>
+
+    <!-- CELULAR (HOTSPOT) -->
+    <g transform="translate(0 -60)">
+      <rect x="-30" y="-45" width="60" height="90" rx="8" fill="#1a1a20"/>
+      <rect x="-27" y="-42" width="54" height="84" rx="4" fill="url(#s1phone)"/>
+      <!-- Reflejo -->
+      <path d="M-27,-42 L27,-42 L27,-15 L-27,-20 Z" fill="#fff" opacity="0.35"/>
+      <!-- Botón -->
+      <circle cx="0" cy="38" r="3" fill="#444"/>
+      <!-- Glow del celular -->
+      <ellipse cx="0" cy="0" rx="80" ry="100" fill="url(#s1warm)"/>
+    </g>
+  </g>
+
+  <!-- Luz cálida ambiental -->
+  <ellipse cx="400" cy="500" rx="600" ry="300" fill="url(#s1warm)" opacity="0.35" style="mix-blend-mode:screen"/>
+</svg>`;
+
+/* ESCENA 2: Pantalla del celular — playa al atardecer */
+var SVG_2 = `
+<svg viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="s2sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1a3a7a"/>
+      <stop offset="0.3" stop-color="#5a7ab0"/>
+      <stop offset="0.55" stop-color="#d09080"/>
+      <stop offset="0.75" stop-color="#ffb070"/>
+      <stop offset="1" stop-color="#ffe0a0"/>
+    </linearGradient>
+    <radialGradient id="s2sun" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#fff8d0"/>
+      <stop offset="0.3" stop-color="#ffd070" stop-opacity="0.8"/>
+      <stop offset="1" stop-color="#ff8040" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="s2sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5a80a0"/>
+      <stop offset="0.4" stop-color="#3a6090"/>
+      <stop offset="1" stop-color="#1a3060"/>
+    </linearGradient>
+    <linearGradient id="s2sand" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f8e0b0"/>
+      <stop offset="0.5" stop-color="#e8c890"/>
+      <stop offset="1" stop-color="#a08050"/>
+    </linearGradient>
+    <linearGradient id="s2skin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e8b090"/>
+      <stop offset="1" stop-color="#c08060"/>
+    </linearGradient>
+    <linearGradient id="s2bikini" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff4070"/>
+      <stop offset="1" stop-color="#a01040"/>
+    </linearGradient>
+    <linearGradient id="s2hair" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a1a08"/>
+      <stop offset="1" stop-color="#1a0804"/>
+    </linearGradient>
+    <radialGradient id="s2glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffe0a0" stop-opacity="0.7"/>
+      <stop offset="1" stop-color="#ffe0a0" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="800" fill="url(#s2sky)"/>
+
+  <!-- Nubes bajas rosadas -->
+  <ellipse cx="200" cy="200" rx="180" ry="18" fill="#d09080" opacity="0.6"/>
+  <ellipse cx="600" cy="180" rx="200" ry="14" fill="#c08080" opacity="0.5"/>
+  <ellipse cx="400" cy="260" rx="220" ry="12" fill="#ffb090" opacity="0.5"/>
+
+  <!-- Sol -->
+  <circle cx="400" cy="420" r="180" fill="url(#s2sun)"/>
+  <circle cx="400" cy="420" r="42" fill="#fff8d0"/>
+  <circle cx="400" cy="420" r="55" fill="#fff0b0" opacity="0.6"/>
+
+  <!-- Mar -->
+  <rect y="460" width="800" height="180" fill="url(#s2sea)"/>
+  <!-- Reflejo del sol en el mar -->
+  <ellipse cx="400" cy="480" rx="70" ry="6" fill="#ffd890" opacity="0.8"/>
+  <ellipse cx="400" cy="500" rx="55" ry="5" fill="#ffd890" opacity="0.6"/>
+  <ellipse cx="400" cy="525" rx="45" ry="4" fill="#ffd890" opacity="0.45"/>
+  <ellipse cx="400" cy="550" rx="35" ry="3" fill="#ffd890" opacity="0.35"/>
+  <ellipse cx="400" cy="575" rx="25" ry="2.5" fill="#ffd890" opacity="0.25"/>
+  <!-- Olas -->
+  <path d="M0,490 Q100,484 200,490 T400,490 T600,490 T800,490" stroke="#a8c8d8" stroke-width="1.2" fill="none" opacity="0.5"/>
+  <path d="M0,520 Q120,514 240,520 T480,520 T720,520 T800,520" stroke="#a8c8d8" stroke-width="1" fill="none" opacity="0.4"/>
+  <path d="M0,560 Q100,555 200,560 T400,560 T600,560 T800,560" stroke="#a8c8d8" stroke-width="0.8" fill="none" opacity="0.3"/>
+
+  <!-- Playa -->
+  <path d="M0,640 Q200,615 400,630 Q600,645 800,620 L800,800 L0,800 Z" fill="url(#s2sand)"/>
+  <!-- Sombra de la arena cerca del agua -->
+  <path d="M0,640 Q200,615 400,630 Q600,645 800,620" stroke="#c0a070" stroke-width="2" fill="none" opacity="0.6"/>
+
+  <!-- Palmera -->
+  <g transform="translate(120 630)">
+    <path d="M-8,0 Q-10,-100 -5,-220 L5,-220 Q10,-100 8,0 Z" fill="#5a3818"/>
+    <path d="M-6,-50 Q3,-40 5,-60" stroke="#3a2010" stroke-width="1.5" fill="none"/>
+    <path d="M-6,-90 Q3,-80 5,-100" stroke="#3a2010" stroke-width="1.5" fill="none"/>
+    <path d="M-7,-130 Q3,-120 6,-140" stroke="#3a2010" stroke-width="1.5" fill="none"/>
+    <!-- Hojas -->
+    <path d="M0,-220 Q-80,-240 -130,-260 Q-90,-230 -20,-215 Z" fill="#2a6a30"/>
+    <path d="M0,-220 Q-70,-200 -120,-180 Q-70,-205 -10,-215 Z" fill="#3a8040"/>
+    <path d="M0,-220 Q70,-240 130,-260 Q90,-230 20,-215 Z" fill="#2a6a30"/>
+    <path d="M0,-220 Q70,-200 120,-180 Q70,-205 10,-215 Z" fill="#3a8040"/>
+    <path d="M0,-220 Q-20,-260 -10,-300 Q10,-265 5,-220 Z" fill="#357035"/>
+    <path d="M0,-220 Q30,-260 30,-300 Q10,-265 5,-220 Z" fill="#357035"/>
+    <!-- Cocos -->
+    <circle cx="-8" cy="-205" r="7" fill="#5a3818"/>
+    <circle cx="6" cy="-208" r="6" fill="#4a2810"/>
+    <circle cx="-2" cy="-198" r="5" fill="#5a3818"/>
+  </g>
+
+  <!-- Toalla de playa -->
+  <ellipse cx="450" cy="700" rx="180" ry="35" fill="#e04060"/>
+  <ellipse cx="450" cy="700" rx="180" ry="35" fill="none" stroke="#a02040" stroke-width="3"/>
+  <ellipse cx="450" cy="700" rx="140" ry="24" fill="none" stroke="#ff80a0" stroke-width="2" opacity="0.7"/>
+  <ellipse cx="450" cy="700" rx="90" ry="14" fill="none" stroke="#ff80a0" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- MUCHACHA sentada en la toalla -->
+  <g transform="translate(450 660)">
+    <!-- Piernas extendidas -->
+    <path d="M-15,40 Q-40,60 -60,50 Q-55,70 -30,70 Q0,70 20,60 L20,45 Z" fill="url(#s2skin)"/>
+    <path d="M15,40 Q40,60 60,50 Q55,70 30,70 Q0,70 -20,60 L-20,45 Z" fill="url(#s2skin)" opacity="0.9"/>
+
+    <!-- Cuerpo -->
+    <ellipse cx="0" cy="0" rx="45" ry="60" fill="url(#s2skin)"/>
+    <!-- Bikini/traje de baño -->
+    <path d="M-30,-20 Q0,-35 30,-20 L28,10 Q0,25 -28,10 Z" fill="url(#s2bikini)"/>
+    <path d="M-25,-10 Q0,-20 25,-10 L23,5 Q0,15 -23,5 Z" fill="url(#s2bikini)"/>
+
+    <!-- Cabeza -->
+    <ellipse cx="0" cy="-90" rx="40" ry="45" fill="url(#s2skin)"/>
+    <!-- Pelo largo ondulado -->
+    <path d="M-40,-90 Q-55,-150 -30,-180 Q0,-195 30,-180 Q55,-150 40,-90 Q50,-50 55,-20 Q45,-30 40,-70 Q38,-130 0,-140 Q-38,-130 -40,-70 Q-45,-30 -55,-20 Q-50,-50 -40,-90 Z" fill="url(#s2hair)"/>
+    <!-- Flequillo hacia un lado -->
+    <path d="M-38,-105 Q-20,-140 15,-145 Q35,-140 40,-120 Q20,-125 -10,-122 Q-30,-118 -38,-105 Z" fill="#1a0804"/>
+
+    <!-- Ojos mirando al espectador -->
+    <ellipse cx="-14" cy="-95" rx="7" ry="9" fill="#fff"/>
+    <ellipse cx="14" cy="-95" rx="7" ry="9" fill="#fff"/>
+    <circle cx="-13" cy="-95" r="4" fill="#5a3010"/>
+    <circle cx="15" cy="-95" r="4" fill="#5a3010"/>
+    <circle cx="-13" cy="-95" r="2" fill="#1a0804"/>
+    <circle cx="15" cy="-95" r="2" fill="#1a0804"/>
+    <circle cx="-14" cy="-96" r="1.2" fill="#fff"/>
+    <circle cx="14" cy="-96" r="1.2" fill="#fff"/>
+    <!-- Cejas -->
+    <path d="M-24,-108 Q-15,-113 -5,-108" stroke="#2a1408" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M5,-108 Q15,-113 24,-108" stroke="#2a1408" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <!-- Pestañas -->
+    <path d="M-20,-100 L-22,-104 M-14,-103 L-14,-107 M-8,-100 L-6,-104" stroke="#1a0804" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    <path d="M8,-100 L6,-104 M14,-103 L14,-107 M20,-100 L22,-104" stroke="#1a0804" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    <!-- Nariz -->
+    <path d="M0,-85 Q1,-80 -2,-78" stroke="#a06040" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <!-- Sonrisa -->
+    <path d="M-10,-70 Q0,-63 10,-70" stroke="#a03040" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <!-- Labios inferiores (color) -->
+    <path d="M-10,-70 Q0,-66 10,-70 Q0,-67 -10,-70" fill="#c04060"/>
+    <!-- Mejillas -->
+    <ellipse cx="-24" cy="-82" rx="9" ry="6" fill="#e07060" opacity="0.45"/>
+    <ellipse cx="24" cy="-82" rx="9" ry="6" fill="#e07060" opacity="0.45"/>
+
+    <!-- Brazos -->
+    <path d="M-40,0 Q-70,-20 -75,-40 Q-60,-30 -40,-15 Z" fill="url(#s2skin)"/>
+    <path d="M40,0 Q70,-20 75,-40 Q60,-30 40,-15 Z" fill="url(#s2skin)"/>
+
+    <!-- COCO en la mano (HOTSPOT) -->
+    <g transform="translate(-75 -50)">
+      <circle cx="0" cy="0" r="26" fill="#2a1408"/>
+      <circle cx="-2" cy="-2" r="22" fill="#4a2810"/>
+      <!-- Fibras -->
+      <g stroke="#1a0a04" stroke-width="0.6" fill="none" opacity="0.6">
+        <path d="M-20,-10 Q-10,-5 0,-8"/>
+        <path d="M-18,5 Q-8,0 2,3"/>
+        <path d="M-15,15 Q-5,10 5,13"/>
+      </g>
+      <!-- Agujeros del coco -->
+      <ellipse cx="-6" cy="-6" rx="3.5" ry="4.5" fill="#000"/>
+      <ellipse cx="6" cy="-6" rx="3.5" ry="4.5" fill="#000"/>
+      <ellipse cx="0" cy="4" rx="5" ry="5" fill="#000"/>
+      <!-- Popote -->
+      <rect x="-1" y="-26" width="2" height="20" fill="#e0c090" transform="rotate(20 0 -16)"/>
+      <rect x="-1" y="-26" width="2" height="20" fill="#c0a070" transform="rotate(20 0 -16)"/>
+      <!-- Glow -->
+      <ellipse cx="0" cy="0" rx="50" ry="50" fill="url(#s2glow)"/>
+    </g>
+  </g>
+
+  <!-- Gaviotas -->
+  <g stroke="#1a1a3a" stroke-width="1.2" fill="none" opacity="0.7">
+    <path d="M180,180 Q185,175 190,180 Q195,175 200,180"/>
+    <path d="M220,200 Q224,196 228,200 Q232,196 236,200"/>
+    <path d="M640,160 Q645,155 650,160 Q655,155 660,160"/>
+  </g>
+
+  <!-- Reflejo cálido general -->
+  <ellipse cx="400" cy="400" rx="600" ry="500" fill="url(#s2glow)" opacity="0.25" style="mix-blend-mode:screen"/>
+</svg>`;
+
+/* ESCENA 3: Ojo de la muchacha */
+var SVG_3 = `
+<svg viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="s3skin" cx="0.5" cy="0.5" r="0.7">
+      <stop offset="0" stop-color="#e8b090"/>
+      <stop offset="0.7" stop-color="#c89070"/>
+      <stop offset="1" stop-color="#8a5840"/>
+    </radialGradient>
+    <radialGradient id="s3iris" cx="0.4" cy="0.4" r="0.6">
+      <stop offset="0" stop-color="#80c0d0"/>
+      <stop offset="0.4" stop-color="#5088a0"/>
+      <stop offset="0.75" stop-color="#2a4858"/>
+      <stop offset="1" stop-color="#1a2a34"/>
+    </radialGradient>
+    <radialGradient id="s3pupil" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#000"/>
+      <stop offset="0.8" stop-color="#000"/>
+      <stop offset="1" stop-color="#1a1a1a"/>
+    </radialGradient>
+    <radialGradient id="s3gloss" cx="0.35" cy="0.3" r="0.5">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.95"/>
+      <stop offset="0.5" stop-color="#fff" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="s3lid" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8a5840"/>
+      <stop offset="0.5" stop-color="#c89070"/>
+      <stop offset="1" stop-color="#e8b090"/>
+    </linearGradient>
+    <radialGradient id="s3shadow" cx="0.5" cy="0.5" r="0.7">
+      <stop offset="0" stop-color="#000" stop-opacity="0"/>
+      <stop offset="0.7" stop-color="#000" stop-opacity="0.15"/>
+      <stop offset="1" stop-color="#000" stop-opacity="0.5"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Piel alrededor del ojo -->
+  <rect width="800" height="800" fill="url(#s3skin)"/>
+  <!-- Textura de piel sutil -->
+  <g fill="none" stroke="#a07050" stroke-width="0.5" opacity="0.15">
+    <path d="M100,100 Q105,102 100,105"/>
+    <path d="M700,150 Q705,152 700,155"/>
+    <path d="M150,700 Q155,702 150,705"/>
+    <path d="M650,650 Q655,652 650,655"/>
+    <path d="M400,80 Q405,82 400,85"/>
+    <path d="M100,400 Q105,402 100,405"/>
+    <path d="M700,500 Q705,502 700,505"/>
+  </g>
+
+  <!-- Sombra superior (ceja/órbita) -->
+  <path d="M50,280 Q400,180 750,280 L750,220 Q400,120 50,220 Z" fill="#7a4830" opacity="0.4"/>
+
+  <!-- Forma del ojo (parpado superior) -->
+  <path d="M100,400 Q400,180 700,400 L700,420 Q400,240 100,420 Z" fill="#a06848" opacity="0.55"/>
+
+  <!-- Esclerótica (blanco del ojo) -->
+  <path d="M80,400 Q400,220 720,400 Q400,580 80,400 Z" fill="#f0e8e0"/>
+
+  <!-- Sombra del párpado sobre el ojo -->
+  <path d="M80,400 Q400,220 720,400 Q400,300 80,400 Z" fill="#3a2010" opacity="0.35"/>
+
+  <!-- Vasos sanguíneos sutiles -->
+  <g stroke="#c06060" stroke-width="0.8" fill="none" opacity="0.35">
+    <path d="M120,400 Q150,390 180,395"/>
+    <path d="M680,400 Q650,405 620,400"/>
+    <path d="M140,415 Q170,420 200,418"/>
+    <path d="M660,415 Q630,420 600,415"/>
+  </g>
+
+  <!-- IRIS -->
+  <circle cx="400" cy="400" r="150" fill="url(#s3iris)"/>
+
+  <!-- Fibras del iris (patrón radial) -->
+  <g stroke="#2a4858" stroke-width="1.2" fill="none" opacity="0.7">
+    <g transform="translate(400 400)">
+      <line x1="0" y1="40" x2="0" y2="145"/>
+      <line x1="28" y1="28" x2="100" y2="100"/>
+      <line x1="40" y1="0" x2="145" y2="0"/>
+      <line x1="28" y1="-28" x2="100" y2="-100"/>
+      <line x1="0" y1="-40" x2="0" y2="-145"/>
+      <line x1="-28" y1="-28" x2="-100" y2="-100"/>
+      <line x1="-40" y1="0" x2="-145" y2="0"/>
+      <line x1="-28" y1="28" x2="-100" y2="100"/>
+      <line x1="15" y1="37" x2="55" y2="135"/>
+      <line x1="37" y1="15" x2="135" y2="55"/>
+      <line x1="37" y1="-15" x2="135" y2="-55"/>
+      <line x1="15" y1="-37" x2="55" y2="-135"/>
+      <line x1="-15" y1="-37" x2="-55" y2="-135"/>
+      <line x1="-37" y1="-15" x2="-135" y2="-55"/>
+      <line x1="-37" y1="15" x2="-135" y2="55"/>
+      <line x1="-15" y1="37" x2="-55" y2="135"/>
+    </g>
+  </g>
+
+  <!-- Anillo oscuro del iris -->
+  <circle cx="400" cy="400" r="148" fill="none" stroke="#0a1a24" stroke-width="6"/>
+
+  <!-- Reflejos internos del iris (color) -->
+  <ellipse cx="370" cy="360" rx="60" ry="80" fill="#a0d8e8" opacity="0.25"/>
+  <ellipse cx="430" cy="440" rx="40" ry="50" fill="#2a4858" opacity="0.35"/>
+
+  <!-- PUPILA (HOTSPOT) -->
+  <circle cx="400" cy="400" r="60" fill="url(#s3pupil)"/>
+
+  <!-- Reflejos especulares sobre la pupila (ventana/punto de luz) -->
+  <circle cx="365" cy="360" r="22" fill="#fff" opacity="0.95"/>
+  <circle cx="375" cy="370" r="12" fill="#fff" opacity="0.7"/>
+  <circle cx="445" cy="440" r="10" fill="#fff" opacity="0.5"/>
+  <circle cx="455" cy="445" r="5" fill="#fff" opacity="0.35"/>
+
+  <!-- Sombra total del ojo (viñeta) -->
+  <rect width="800" height="800" fill="url(#s3shadow)"/>
+
+  <!-- Pestañas (parpado superior) -->
+  <g stroke="#1a0804" stroke-width="3" fill="none" stroke-linecap="round">
+    <path d="M120,395 Q100,380 85,375"/>
+    <path d="M160,375 Q140,355 130,348"/>
+    <path d="M210,355 Q195,335 190,325"/>
+    <path d="M270,338 Q258,318 255,308"/>
+    <path d="M330,325 Q322,305 320,295"/>
+    <path d="M400,320 Q398,300 400,290"/>
+    <path d="M470,325 Q478,305 480,295"/>
+    <path d="M530,338 Q542,318 545,308"/>
+    <path d="M590,355 Q605,335 610,325"/>
+    <path d="M640,375 Q660,355 670,348"/>
+    <path d="M680,395 Q700,380 715,375"/>
+  </g>
+
+  <!-- Brillo extra en el ojo (lágrima/mojado) -->
+  <path d="M140,410 Q160,405 180,410 Q160,412 140,410 Z" fill="#fff" opacity="0.3"/>
+  <path d="M620,410 Q640,405 660,410 Q640,412 620,410 Z" fill="#fff" opacity="0.25"/>
+</svg>`;
+
+/* ESCENA 4: Cosmos dentro de la pupila */
+var SVG_4 = `
+<svg viewBox="0 0 800 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="s4space" cx="0.5" cy="0.5" r="0.75">
+      <stop offset="0" stop-color="#3a1050"/>
+      <stop offset="0.35" stop-color="#1a0830"/>
+      <stop offset="0.7" stop-color="#0a0318"/>
+      <stop offset="1" stop-color="#000000"/>
+    </radialGradient>
+    <radialGradient id="s4neb1" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#e060ff" stop-opacity="0.55"/>
+      <stop offset="0.4" stop-color="#8030a0" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#401060" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="s4neb2" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#40c0ff" stop-opacity="0.5"/>
+      <stop offset="0.4" stop-color="#2060a0" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#102050" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="s4neb3" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ff80c0" stop-opacity="0.45"/>
+      <stop offset="0.5" stop-color="#a03060" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#500020" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="s4galaxy" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#fff8e0" stop-opacity="1"/>
+      <stop offset="0.2" stop-color="#ffd8a0" stop-opacity="0.6"/>
+      <stop offset="0.6" stop-color="#ff80c0" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#6020a0" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="s4planet" cx="0.35" cy="0.3" r="0.7">
+      <stop offset="0" stop-color="#a0e0ff"/>
+      <stop offset="0.4" stop-color="#4080c0"/>
+      <stop offset="0.75" stop-color="#1a4080"/>
+      <stop offset="1" stop-color="#0a2050"/>
+    </radialGradient>
+    <radialGradient id="s4sun" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#fff8e0"/>
+      <stop offset="0.5" stop-color="#ffd070" stop-opacity="0.7"/>
+      <stop offset="1" stop-color="#ff8040" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="800" fill="url(#s4space)"/>
+
+  <!-- Nebulosas -->
+  <ellipse cx="220" cy="280" rx="280" ry="200" fill="url(#s4neb1)"/>
+  <ellipse cx="580" cy="520" rx="300" ry="220" fill="url(#s4neb2)"/>
+  <ellipse cx="640" cy="200" rx="200" ry="160" fill="url(#s4neb3)"/>
+  <ellipse cx="180" cy="600" rx="220" ry="180" fill="url(#s4neb1)" opacity="0.6"/>
+
+  <!-- Galaxia espiral central -->
+  <g transform="translate(400 400) rotate(-30)">
+    <ellipse rx="240" ry="70" fill="url(#s4galaxy)"/>
+    <ellipse rx="180" ry="40" fill="#fff0c0" opacity="0.2"/>
+    <ellipse rx="120" ry="20" fill="#fff" opacity="0.15"/>
+    <circle r="30" fill="#fff8e0"/>
+    <circle r="50" fill="#ffe0a0" opacity="0.4"/>
+    <circle r="80" fill="#ffd070" opacity="0.15"/>
+  </g>
+
+  <!-- Estrellas (muchas) -->
+  <g fill="#ffffff">
+    <circle cx="80" cy="90" r="1.8" opacity="0.95"/>
+    <circle cx="160" cy="140" r="1.2" opacity="0.8"/>
+    <circle cx="240" cy="60" r="2" opacity="0.9"/>
+    <circle cx="340" cy="120" r="1.5" opacity="0.85"/>
+    <circle cx="420" cy="50" r="1.8" opacity="0.9"/>
+    <circle cx="520" cy="130" r="1.4" opacity="0.8"/>
+    <circle cx="620" cy="70" r="2.2" opacity="0.95"/>
+    <circle cx="720" cy="150" r="1.6" opacity="0.85"/>
+    <circle cx="60" cy="280" r="1.4" opacity="0.75"/>
+    <circle cx="180" cy="380" r="1.8" opacity="0.85"/>
+    <circle cx="300" cy="480" r="1.2" opacity="0.8"/>
+    <circle cx="480" cy="440" r="1.6" opacity="0.9"/>
+    <circle cx="600" cy="340" r="1.4" opacity="0.8"/>
+    <circle cx="720" cy="420" r="1.9" opacity="0.85"/>
+    <circle cx="100" cy="560" r="1.5" opacity="0.8"/>
+    <circle cx="220" cy="660" r="1.8" opacity="0.85"/>
+    <circle cx="380" cy="720" r="1.3" opacity="0.75"/>
+    <circle cx="520" cy="680" r="1.7" opacity="0.9"/>
+    <circle cx="680" cy="620" r="1.4" opacity="0.8"/>
+    <circle cx="760" cy="720" r="1.6" opacity="0.85"/>
+    <circle cx="40" cy="720" r="1.5" opacity="0.8"/>
+    <circle cx="380" cy="240" r="1" opacity="0.7"/>
+    <circle cx="480" cy="580" r="1.2" opacity="0.75"/>
+    <circle cx="260" cy="520" r="1" opacity="0.7"/>
+    <circle cx="560" cy="260" r="1.3" opacity="0.8"/>
+  </g>
+
+  <!-- Estrellas brillantes con cruz de difracción -->
+  <g fill="#fff">
+    <g transform="translate(180 220)">
+      <circle r="3"/>
+      <circle r="8" fill="#fff" opacity="0.3"/>
+      <path d="M-18,0 L18,0 M0,-18 L0,18" stroke="#fff" stroke-width="0.8" opacity="0.7"/>
+    </g>
+    <g transform="translate(620 320)">
+      <circle r="2.5"/>
+      <circle r="7" fill="#fff" opacity="0.3"/>
+      <path d="M-15,0 L15,0 M0,-15 L0,15" stroke="#fff" stroke-width="0.8" opacity="0.7"/>
+    </g>
+    <g transform="translate(340 640)">
+      <circle r="2.8"/>
+      <circle r="8" fill="#fff" opacity="0.3"/>
+      <path d="M-16,0 L16,0 M0,-16 L0,16" stroke="#fff" stroke-width="0.8" opacity="0.7"/>
+    </g>
+  </g>
+
+  <!-- Planeta azul con anillo -->
+  <g transform="translate(600 620)">
+    <circle r="50" fill="url(#s4planet)"/>
+    <!-- Continentes/sombra -->
+    <ellipse cx="-15" cy="-8" rx="18" ry="14" fill="#2a5a90" opacity="0.6"/>
+    <ellipse cx="15" cy="12" rx="22" ry="10" fill="#2a5a90" opacity="0.5"/>
+    <!-- Sombra inferior derecha -->
+    <path d="M-50,0 A50,50 0 0,0 50,0 L50,-2 A50,50 0 0,1 -50,-2 Z" fill="#000" opacity="0.35"/>
+    <!-- Anillo -->
+    <ellipse rx="80" ry="12" fill="none" stroke="#c8a070" stroke-width="5" opacity="0.85" transform="rotate(-20)"/>
+    <ellipse rx="95" ry="15" fill="none" stroke="#c8a070" stroke-width="3" opacity="0.5" transform="rotate(-20)"/>
+    <!-- Sombra del anillo detrás -->
+    <path d="M-85,0 A85,13 0 0,1 85,0" fill="none" stroke="#806040" stroke-width="3" opacity="0.4" transform="rotate(-20)"/>
+  </g>
+
+  <!-- Sol / estrella pequeña -->
+  <g transform="translate(140 480)">
+    <circle r="90" fill="url(#s4sun)"/>
+    <circle r="18" fill="#fff8e0"/>
+    <circle r="26" fill="#ffd070" opacity="0.7"/>
+  </g>
+
+  <!-- Cometa -->
+  <g transform="translate(700 180)">
+    <path d="M0,0 L80,-40 L90,-30 L10,10 Z" fill="#a0e0ff" opacity="0.85"/>
+    <path d="M80,-40 L120,-30 L90,-30 Z" fill="#a0e0ff" opacity="0.5"/>
+    <circle cx="10" cy="10" r="4" fill="#fff"/>
+  </g>
+
+  <!-- Puntos de luz lejanos (galaxias) -->
+  <g opacity="0.6">
+    <ellipse cx="220" cy="180" rx="35" ry="10" fill="#ffd0a0" opacity="0.35" transform="rotate(30 220 180)"/>
+    <ellipse cx="580" cy="700" rx="28" ry="8" fill="#a0d0ff" opacity="0.35" transform="rotate(-25 580 700)"/>
+  </g>
+
+  <!-- Polvo estelar (muchos puntitos) -->
+  <g fill="#fff" opacity="0.6">
+    <circle cx="130" cy="430" r="0.8"/>
+    <circle cx="250" cy="320" r="0.7"/>
+    <circle cx="350" cy="550" r="0.8"/>
+    <circle cx="450" cy="180" r="0.7"/>
+    <circle cx="550" cy="420" r="0.9"/>
+    <circle cx="670" cy="500" r="0.7"/>
+    <circle cx="90" cy="640" r="0.8"/>
+    <circle cx="320" cy="760" r="0.7"/>
+    <circle cx="500" cy="240" r="0.8"/>
+    <circle cx="720" cy="280" r="0.7"/>
+  </g>
+</svg>`;
+
+/* ═══════════════════════════════════════════════════════════
+   ESTRUCTURA DE NIVELES
+   ═══════════════════════════════════════════════════════════ */
 var LEVELS = [
-  // ─────── 0: CASA DE NOCHE ───────
   {
-    nombre: 'La casa',
-    hotspot: { x: 290, y: 300, w: 200, h: 200 },
-    svg: '<svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">'+
-      '<defs>'+
-        '<linearGradient id="sky0" x1="0" y1="0" x2="0" y2="1">'+
-          '<stop offset="0" stop-color="#050520"/>'+
-          '<stop offset="0.4" stop-color="#101038"/>'+
-          '<stop offset="0.7" stop-color="#28204a"/>'+
-          '<stop offset="1" stop-color="#402858"/>'+
-        '</linearGradient>'+
-        '<radialGradient id="moonGlow0" cx="0.5" cy="0.5" r="0.5">'+
-          '<stop offset="0" stop-color="#e0e8ff" stop-opacity="0.6"/>'+
-          '<stop offset="0.5" stop-color="#a0b0ff" stop-opacity="0.15"/>'+
-          '<stop offset="1" stop-color="#a0b0ff" stop-opacity="0"/>'+
-        '</radialGradient>'+
-      '</defs>'+
-      '<rect width="800" height="800" fill="url(#sky0)"/>'+
-      // estrellas
-      '<g fill="#fff" opacity="0.9">'+
-        '<circle cx="80" cy="60" r="1.5"/><circle cx="180" cy="120" r="1"/>'+
-        '<circle cx="240" cy="50" r="1.8"/><circle cx="340" cy="90" r="1.2"/>'+
-        '<circle cx="440" cy="40" r="1.5"/><circle cx="520" cy="130" r="1"/>'+
-        '<circle cx="620" cy="70" r="1.6"/><circle cx="720" cy="140" r="1.2"/>'+
-        '<circle cx="130" cy="180" r="1.1"/><circle cx="380" cy="170" r="1.4"/>'+
-        '<circle cx="580" cy="200" r="1.2"/><circle cx="700" cy="240" r="1"/>'+
-        '<circle cx="60" cy="260" r="1.3"/><circle cx="760" cy="60" r="1.5"/>'+
-        '<circle cx="300" cy="220" r="1"/><circle cx="480" cy="180" r="1.6"/>'+
-      '</g>'+
-      // luna con halo
-      '<circle cx="640" cy="130" r="130" fill="url(#moonGlow0)"/>'+
-      '<circle cx="640" cy="130" r="48" fill="#f4f4ec"/>'+
-      '<circle cx="628" cy="118" r="11" fill="#d4d4c8" opacity="0.55"/>'+
-      '<circle cx="655" cy="145" r="8" fill="#d4d4c8" opacity="0.5"/>'+
-      '<circle cx="650" cy="115" r="5" fill="#d4d4c8" opacity="0.45"/>'+
-      // montañas
-      '<path d="M0,560 L120,430 L220,500 L320,400 L440,510 L560,420 L680,490 L800,440 L800,600 L0,600 Z" fill="#1a1a3a"/>'+
-      '<path d="M0,590 L150,490 L280,550 L400,470 L540,560 L680,500 L800,560 L800,620 L0,620 Z" fill="#0e0e28"/>'+
-      // nieve suelo
-      '<rect y="600" width="800" height="200" fill="#c8d0e8"/>'+
-      '<path d="M0,610 Q200,590 400,610 Q600,630 800,600 L800,800 L0,800 Z" fill="#e0e6f4"/>'+
-      // casa
-      '<rect x="180" y="480" width="300" height="180" fill="#3a1e14"/>'+
-      '<polygon points="150,480 330,340 510,480" fill="#6a2e1c"/>'+
-      '<polygon points="150,480 330,340 510,480 500,495 330,360 160,495" fill="#f0f0f5"/>'+
-      // chimenea
-      '<rect x="400" y="360" width="35" height="90" fill="#2a1410"/>'+
-      '<rect x="395" y="355" width="45" height="14" fill="#f0f0f5"/>'+
-      // puerta
-      '<path d="M305,660 L305,570 Q330,555 355,570 L355,660 Z" fill="#1a0808"/>'+
-      // ventana (hotspot)
-      '<rect x="290" y="300" width="200" height="200" fill="#ffd878"/>'+
-      '<path d="M290,300 L490,300 L490,500 L290,500 Z" fill="#3a1e14" opacity="0"/>'+
-      '<rect x="290" y="300" width="200" height="200" fill="#ffd878"/>'+
-      '<rect x="290" y="300" width="200" height="200" fill="none" stroke="#2a1408" stroke-width="12"/>'+
-      '<line x1="390" y1="300" x2="390" y2="500" stroke="#2a1408" stroke-width="10"/>'+
-      '<line x1="290" y1="400" x2="490" y2="400" stroke="#2a1408" stroke-width="10"/>'+
-      // silueta de niño sentado frente a la ventana
-      '<ellipse cx="390" cy="455" rx="35" ry="22" fill="#3a2010" opacity="0.75"/>'+
-      '<circle cx="390" cy="430" r="22" fill="#3a2010" opacity="0.75"/>'+
-      // halo de luz
-      '<radialGradient id="glowWin0" cx="0.5" cy="0.5" r="0.5">'+
-        '<stop offset="0" stop-color="#ffd878" stop-opacity="0.7"/>'+
-        '<stop offset="1" stop-color="#ffd878" stop-opacity="0"/>'+
-      '</radialGradient>'+
-      '<ellipse cx="390" cy="680" rx="180" ry="60" fill="url(#glowWin0)" opacity="0.7"/>'+
-      // pinos
-      '<polygon points="80,600 100,540 120,600" fill="#0a2018"/>'+
-      '<polygon points="80,580 100,520 120,580" fill="#0a2018"/>'+
-      '<polygon points="95,540 105,500 115,540" fill="#e8f0ff" opacity="0.7"/>'+
-      '<polygon points="640,600 660,540 680,600" fill="#0a2018"/>'+
-      '<polygon points="640,580 660,520 680,580" fill="#0a2018"/>'+
-      '<polygon points="655,540 665,500 675,540" fill="#e8f0ff" opacity="0.7"/>'+
-    '</svg>'
+    nombre: 'Valle al atardecer',
+    svg: SVG_0,
+    // Hotspot: la ventana de la cabaña (posición en coords 0..800 de la escena)
+    hotspot: { x: 340, y: 622, w: 52, h: 44 }
   },
-  // ─────── 1: VENTANA — NIÑO CON CELULAR ───────
   {
-    nombre: 'El niño',
-    hotspot: { x: 370, y: 430, w: 130, h: 180 },  // el celular en la mano
-    svg: '<svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">'+
-      '<defs>'+
-        '<linearGradient id="wall1" x1="0" y1="0" x2="0" y2="1">'+
-          '<stop offset="0" stop-color="#5a3a20"/>'+
-          '<stop offset="0.5" stop-color="#4a2e18"/>'+
-          '<stop offset="1" stop-color="#2a1a08"/>'+
-        '</linearGradient>'+
-        '<linearGradient id="shirt1" x1="0" y1="0" x2="0" y2="1">'+
-          '<stop offset="0" stop-color="#3a80d0"/>'+
-          '<stop offset="1" stop-color="#1a4080"/>'+
-        '</linearGradient>'+
-      '</defs>'+
-      '<rect width="800" height="800" fill="url(#wall1)"/>'+
-      // marco de la ventana desde dentro
-      '<rect x="0" y="0" width="800" height="800" fill="#3a1e14" opacity="0.3"/>'+
-      // niño grande
-      '<ellipse cx="400" cy="620" rx="180" ry="220" fill="url(#shirt1)"/>'+
-      '<circle cx="400" cy="380" r="140" fill="#f0c090"/>'+
-      // pelo
-      '<path d="M260,380 Q260,240 400,230 Q540,240 540,380 Q520,280 400,270 Q280,280 260,380 Z" fill="#3a1a08"/>'+
-      // ojos
-      '<ellipse cx="350" cy="370" rx="14" ry="16" fill="#fff"/>'+
-      '<ellipse cx="450" cy="370" rx="14" ry="16" fill="#fff"/>'+
-      '<circle cx="352" cy="372" r="7" fill="#2a1a08"/>'+
-      '<circle cx="452" cy="372" r="7" fill="#2a1a08"/>'+
-      '<circle cx="354" cy="370" r="2.5" fill="#fff"/>'+
-      '<circle cx="454" cy="370" r="2.5" fill="#fff"/>'+
-      // cejas
-      '<path d="M330,345 Q350,338 370,345" stroke="#3a1a08" stroke-width="5" fill="none" stroke-linecap="round"/>'+
-      '<path d="M430,345 Q450,338 470,345" stroke="#3a1a08" stroke-width="5" fill="none" stroke-linecap="round"/>'+
-      // sonrisa
-      '<path d="M370,420 Q400,445 430,420" stroke="#8a3a20" stroke-width="5" fill="none" stroke-linecap="round"/>'+
-      // mejillas
-      '<ellipse cx="320" cy="400" rx="22" ry="14" fill="#e08060" opacity="0.5"/>'+
-      '<ellipse cx="480" cy="400" rx="22" ry="14" fill="#e08060" opacity="0.5"/>'+
-      // brazo izquierdo sosteniendo celular
-      '<ellipse cx="300" cy="620" rx="55" ry="180" fill="url(#shirt1)" transform="rotate(-20 300 620)"/>'+
-      '<circle cx="290" cy="740" r="45" fill="#f0c090"/>'+
-      // brazo derecho
-      '<ellipse cx="500" cy="640" rx="55" ry="180" fill="url(#shirt1)" transform="rotate(15 500 640)"/>'+
-      '<circle cx="510" cy="750" r="45" fill="#f0c090"/>'+
-      // CELULAR (hotspot) — tablet/celular grande en la mano
-      '<rect x="370" y="430" width="130" height="180" rx="14" fill="#1a1a20"/>'+
-      '<rect x="378" y="442" width="114" height="156" rx="6" fill="#6ac0ff"/>'+
-      // reflejo en el celular
-      '<path d="M378,442 L492,442 L492,500 L378,520 Z" fill="#ffffff" opacity="0.25"/>'+
-      // botón home
-      '<circle cx="435" cy="604" r="4" fill="#444"/>'+
-    '</svg>'
+    nombre: 'La cabaña',
+    svg: SVG_1,
+    // Hotspot: el celular (dentro de la transformación "translate(430 620) translate(0 -60)")
+    hotspot: { x: 400 - 30, y: 620 - 60 - 45, w: 60, h: 90 }
   },
-  // ─────── 2: PANTALLA DEL CELULAR — PLAYA ───────
   {
     nombre: 'La playa',
-    hotspot: { x: 340, y: 460, w: 200, h: 200 },  // donde está la muchacha
-    svg: '<svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">'+
-      '<defs>'+
-        '<linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1">'+
-          '<stop offset="0" stop-color="#80d0ff"/>'+
-          '<stop offset="0.6" stop-color="#ffd8a0"/>'+
-          '<stop offset="1" stop-color="#ffe8c0"/>'+
-        '</linearGradient>'+
-        '<linearGradient id="sea2" x1="0" y1="0" x2="0" y2="1">'+
-          '<stop offset="0" stop-color="#40a0d0"/>'+
-          '<stop offset="1" stop-color="#2070b0"/>'+
-        '</linearGradient>'+
-        '<linearGradient id="sand2" x1="0" y1="0" x2="0" y2="1">'+
-          '<stop offset="0" stop-color="#f8e8c0"/>'+
-          '<stop offset="1" stop-color="#e0c898"/>'+
-        '</linearGradient>'+
-      '</defs>'+
-      // cielo
-      '<rect width="800" height="500" fill="url(#sky2)"/>'+
-      // sol
-      '<circle cx="600" cy="150" r="70" fill="#fff2b0"/>'+
-      '<circle cx="600" cy="150" r="110" fill="#fff2b0" opacity="0.35"/>'+
-      '<circle cx="600" cy="150" r="160" fill="#fff2b0" opacity="0.15"/>'+
-      // mar
-      '<rect y="500" width="800" height="200" fill="url(#sea2)"/>'+
-      // olas
-      '<path d="M0,520 Q100,510 200,520 T400,520 T600,520 T800,520" fill="none" stroke="#a0d8f0" stroke-width="3" opacity="0.7"/>'+
-      '<path d="M0,545 Q120,535 240,545 T480,545 T720,545 T800,545" fill="none" stroke="#a0d8f0" stroke-width="2.5" opacity="0.5"/>'+
-      '<path d="M0,570 Q80,562 160,570 T320,570 T480,570 T640,570 T800,570" fill="none" stroke="#a0d8f0" stroke-width="2" opacity="0.35"/>'+
-      // arena
-      '<path d="M0,650 Q200,620 400,640 Q600,660 800,630 L800,800 L0,800 Z" fill="url(#sand2)"/>'+
-      // palmera izquierda
-      '<path d="M100,660 Q95,500 130,420 Q120,430 110,440 Q130,400 140,380 Q135,410 130,430 Q150,410 170,420 Q145,440 130,455 Q160,440 180,460 Q150,470 130,485 Q140,490 145,510 L115,510 Q118,485 125,470 L100,660 Z" fill="#7a4020"/>'+
-      '<path d="M140,380 Q100,400 80,430 Q110,410 140,395 Z" fill="#2a8040"/>'+
-      '<path d="M140,380 Q180,400 200,440 Q175,410 145,398 Z" fill="#2a8040"/>'+
-      '<path d="M140,380 Q140,420 130,460 Q145,420 145,385 Z" fill="#2a8040"/>'+
-      '<path d="M140,380 Q100,380 70,400 Q105,375 145,378 Z" fill="#3a9050"/>'+
-      '<path d="M140,380 Q180,375 210,395 Q175,368 138,378 Z" fill="#3a9050"/>'+
-      // muchacha (hotspot)
-      // toalla
-      '<ellipse cx="440" cy="690" rx="140" ry="20" fill="#e05070" opacity="0.85"/>'+
-      '<ellipse cx="440" cy="690" rx="140" ry="20" fill="none" stroke="#a02040" stroke-width="3"/>'+
-      // cuerpo de la muchacha
-      '<ellipse cx="440" cy="650" rx="65" ry="80" fill="#e08060"/>'+
-      // vestido/traje de baño
-      '<path d="M400,620 Q440,600 480,620 L485,690 Q440,720 395,690 Z" fill="#ff60a0"/>'+
-      // cabeza
-      '<circle cx="440" cy="540" r="48" fill="#f0b080"/>'+
-      // pelo largo
-      '<path d="M395,540 Q395,470 440,460 Q485,470 485,540 L490,620 L470,620 Q475,560 475,530 Q460,500 440,500 Q420,500 405,530 Q405,560 410,620 L390,620 Z" fill="#2a1410"/>'+
-      // ojos
-      '<ellipse cx="425" cy="545" rx="5" ry="6" fill="#1a1a1a"/>'+
-      '<ellipse cx="455" cy="545" rx="5" ry="6" fill="#1a1a1a"/>'+
-      '<circle cx="426" cy="543" r="1.5" fill="#fff"/>'+
-      '<circle cx="456" cy="543" r="1.5" fill="#fff"/>'+
-      // sonrisa
-      '<path d="M430,560 Q440,568 450,560" stroke="#8a2010" stroke-width="2.5" fill="none" stroke-linecap="round"/>'+
-      // brazos
-      '<path d="M395,630 Q350,660 340,700" stroke="#e08060" stroke-width="22" fill="none" stroke-linecap="round"/>'+
-      '<path d="M485,630 Q540,650 560,690" stroke="#e08060" stroke-width="22" fill="none" stroke-linecap="round"/>'+
-      // COCO en la mano derecha (área de hotspot)
-      '<circle cx="560" cy="700" r="38" fill="#3a2010"/>'+
-      '<circle cx="555" cy="695" r="32" fill="#5a3818"/>'+
-      '<ellipse cx="548" cy="680" rx="14" ry="10" fill="#f0f0e0"/>'+
-      '<rect x="500" y="640" width="8" height="40" fill="#e0d0a0" transform="rotate(25 504 660)"/>'+
-      // sombrilla
-      '<path d="M220,660 L230,560 L240,660 Z" fill="#8a4020"/>'+
-      '<path d="M160,560 Q230,520 300,560 Q230,570 160,560 Z" fill="#e05070"/>'+
-      '<path d="M160,560 Q230,555 300,560" stroke="#fff" stroke-width="3" fill="none" opacity="0.5"/>'+
-    '</svg>'
+    svg: SVG_2,
+    // Hotspot: el coco (dentro de "translate(450 660) translate(-75 -50)")
+    hotspot: { x: 450 - 75 - 26, y: 660 - 50 - 26, w: 52, h: 52 }
   },
-  // ─────── 3: MUCHACHA CON COCO (zoom al coco) ───────
   {
-    nombre: 'El coco',
-    hotspot: { x: 340, y: 300, w: 180, h: 180 },  // el agujero del coco
-    svg: '<svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">'+
-      '<defs>'+
-        '<radialGradient id="coco3" cx="0.35" cy="0.3" r="0.75">'+
-          '<stop offset="0" stop-color="#6a4428"/>'+
-          '<stop offset="0.6" stop-color="#3a2010"/>'+
-          '<stop offset="1" stop-color="#1a0a05"/>'+
-        '</radialGradient>'+
-      '</defs>'+
-      // fondo playa desenfocado
-      '<rect width="800" height="800" fill="#e8d0a0"/>'+
-      '<ellipse cx="400" cy="500" rx="550" ry="400" fill="#f0d8a8" opacity="0.6"/>'+
-      // coco gigante (zoom dentro del coco)
-      '<circle cx="400" cy="400" r="380" fill="url(#coco3)"/>'+
-      // fibras del coco
-      '<g stroke="#1a0a05" stroke-width="2" fill="none" opacity="0.6">'+
-        '<path d="M100,300 Q200,320 300,280"/>'+
-        '<path d="M150,450 Q280,470 400,440"/>'+
-        '<path d="M500,250 Q600,280 700,260"/>'+
-        '<path d="M550,500 Q650,520 720,500"/>'+
-        '<path d="M180,600 Q300,620 400,600"/>'+
-        '<path d="M480,650 Q600,670 700,640"/>'+
-      '</g>'+
-      // brillo superior
-      '<ellipse cx="280" cy="200" rx="180" ry="100" fill="#8a5838" opacity="0.5"/>'+
-      // TRES agujeros del coco (como en los cocos reales)
-      '<ellipse cx="330" cy="330" rx="26" ry="32" fill="#000"/>'+
-      '<ellipse cx="470" cy="330" rx="26" ry="32" fill="#000"/>'+
-      // AGUJERO GRANDE (hotspot) — el que se abre al universo
-      '<ellipse cx="400" cy="390" rx="90" ry="90" fill="#000"/>'+
-      // borde iluminado del agujero
-      '<ellipse cx="400" cy="390" rx="90" ry="90" fill="none" stroke="#e0b080" stroke-width="4" opacity="0.7"/>'+
-      // reflejo en el borde
-      '<path d="M310,390 Q310,300 400,300" stroke="#fff2c0" stroke-width="3" fill="none" opacity="0.6"/>'+
-      // gota de agua
-      '<ellipse cx="380" cy="330" rx="6" ry="10" fill="#a0d8f0" opacity="0.8"/>'+
-      '<circle cx="380" cy="332" r="2" fill="#fff" opacity="0.9"/>'+
-    '</svg>'
+    nombre: 'El ojo',
+    svg: SVG_3,
+    // Hotspot: la pupila (centrada en 400,400, radio 60)
+    hotspot: { x: 400 - 60, y: 400 - 60, w: 120, h: 120 }
   },
-  // ─────── 4: UNIVERSO DENTRO DEL COCO ───────
   {
     nombre: 'El universo',
-    hotspot: null,  // nivel final
-    svg: '<svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">'+
-      '<defs>'+
-        '<radialGradient id="space4" cx="0.5" cy="0.5" r="0.7">'+
-          '<stop offset="0" stop-color="#3a1050"/>'+
-          '<stop offset="0.5" stop-color="#1a0530"/>'+
-          '<stop offset="1" stop-color="#050010"/>'+
-        '</radialGradient>'+
-        '<radialGradient id="nebula4" cx="0.5" cy="0.5" r="0.5">'+
-          '<stop offset="0" stop-color="#c060ff" stop-opacity="0.6"/>'+
-          '<stop offset="0.5" stop-color="#6020a0" stop-opacity="0.2"/>'+
-          '<stop offset="1" stop-color="#6020a0" stop-opacity="0"/>'+
-        '</radialGradient>'+
-        '<radialGradient id="nebula4b" cx="0.5" cy="0.5" r="0.5">'+
-          '<stop offset="0" stop-color="#ff60a0" stop-opacity="0.5"/>'+
-          '<stop offset="0.5" stop-color="#a02060" stop-opacity="0.15"/>'+
-          '<stop offset="1" stop-color="#a02060" stop-opacity="0"/>'+
-        '</radialGradient>'+
-      '</defs>'+
-      '<rect width="800" height="800" fill="url(#space4)"/>'+
-      // nebulosas
-      '<ellipse cx="250" cy="300" rx="300" ry="200" fill="url(#nebula4)"/>'+
-      '<ellipse cx="600" cy="550" rx="280" ry="220" fill="url(#nebula4b)"/>'+
-      // estrellas (muchas)
-      '<g fill="#fff">'+
-        '<circle cx="80" cy="80" r="1.5" opacity="0.9"/>'+
-        '<circle cx="160" cy="180" r="1" opacity="0.7"/>'+
-        '<circle cx="240" cy="100" r="2" opacity="0.95"/>'+
-        '<circle cx="320" cy="200" r="1.2" opacity="0.8"/>'+
-        '<circle cx="420" cy="90" r="1.8" opacity="0.9"/>'+
-        '<circle cx="500" cy="160" r="1" opacity="0.7"/>'+
-        '<circle cx="600" cy="110" r="1.5" opacity="0.9"/>'+
-        '<circle cx="700" cy="200" r="1.2" opacity="0.8"/>'+
-        '<circle cx="760" cy="80" r="1.7" opacity="0.9"/>'+
-        '<circle cx="120" cy="300" r="1.3" opacity="0.8"/>'+
-        '<circle cx="220" cy="400" r="1" opacity="0.7"/>'+
-        '<circle cx="340" cy="500" r="1.5" opacity="0.9"/>'+
-        '<circle cx="460" cy="420" r="1.2" opacity="0.8"/>'+
-        '<circle cx="580" cy="500" r="1.8" opacity="0.9"/>'+
-        '<circle cx="700" cy="420" r="1" opacity="0.7"/>'+
-        '<circle cx="150" cy="550" r="1.4" opacity="0.85"/>'+
-        '<circle cx="250" cy="650" r="1.1" opacity="0.75"/>'+
-        '<circle cx="380" cy="600" r="1.6" opacity="0.9"/>'+
-        '<circle cx="520" cy="680" r="1.2" opacity="0.8"/>'+
-        '<circle cx="640" cy="600" r="1.5" opacity="0.9"/>'+
-        '<circle cx="740" cy="700" r="1.3" opacity="0.8"/>'+
-        '<circle cx="60" cy="700" r="1.2" opacity="0.8"/>'+
-        '<circle cx="200" cy="750" r="1" opacity="0.7"/>'+
-        '<circle cx="450" cy="750" r="1.4" opacity="0.85"/>'+
-      '</g>'+
-      // galaxia espiral en el centro
-      '<g transform="translate(400 400)">'+
-        '<ellipse rx="200" ry="60" fill="#80c0ff" opacity="0.15" transform="rotate(-25)"/>'+
-        '<ellipse rx="160" ry="45" fill="#ff80c0" opacity="0.2" transform="rotate(-25)"/>'+
-        '<ellipse rx="120" ry="30" fill="#fff0a0" opacity="0.3" transform="rotate(-25)"/>'+
-        '<circle r="20" fill="#fff8e0"/>'+
-        '<circle r="35" fill="#fff8e0" opacity="0.3"/>'+
-        '<circle r="60" fill="#fff8e0" opacity="0.1"/>'+
-      '</g>'+
-      // mini planeta
-      '<circle cx="180" cy="650" r="55" fill="#5a90d0"/>'+
-      '<ellipse cx="180" cy="650" rx="90" ry="14" fill="none" stroke="#c0a080" stroke-width="5" opacity="0.7" transform="rotate(-15 180 650)"/>'+
-      '<circle cx="165" cy="640" r="10" fill="#3a6090" opacity="0.6"/>'+
-      '<circle cx="195" cy="660" r="14" fill="#3a6090" opacity="0.5"/>'+
-      // mini cometa
-      '<path d="M650,280 Q670,260 690,290 Q680,300 660,300 Z" fill="#a0e0ff"/>'+
-      '<path d="M680,290 L700,310 L690,300 Z" fill="#a0e0ff" opacity="0.6"/>'+
-    '</svg>'
+    svg: SVG_4,
+    hotspot: null
   }
 ];
 
-/* ═══════════════ CONSTRUIR EL MUNDO ═══════════════ */
-var world = document.getElementById('world');
+/* ═══════════════════════════════════════════════════════════
+   CONSTRUIR EL MUNDO ANIDADO
+   ═══════════════════════════════════════════════════════════ */
+var camera = document.getElementById('camera');
 var viewport = document.getElementById('viewport');
-var hudText = document.getElementById('hudText');
-var backBtn = document.getElementById('backBtn');
-var resetBtn = document.getElementById('resetBtn');
-var hint = document.getElementById('hint');
-
-var currentDepth = 0;
-var currentTransform = { x: 0, y: 0, scale: 1 };
-var hotspotsStack = [];  // hotspots en la ruta actual
-var animando = false;
 
 function buildWorld(){
-  world.innerHTML = '';
-  let parent = world;
-  let scenDivs = [];
+  camera.innerHTML = '';
+  var parent = camera;
+  var scenes = [];
 
-  for(let i = 0; i < LEVELS.length; i++){
-    const level = LEVELS[i];
-    const sceneDiv = document.createElement('div');
+  for(var i = 0; i < LEVELS.length; i++){
+    var level = LEVELS[i];
+    var sceneDiv = document.createElement('div');
     sceneDiv.className = 'scene';
-    sceneDiv.dataset.level = i;
     sceneDiv.innerHTML = level.svg;
     parent.appendChild(sceneDiv);
-    scenDivs.push(sceneDiv);
+    scenes.push(sceneDiv);
 
-    if(parent !== world){
-      // Escalar la escena para encajar en el hotspot padre
-      const pw = parseFloat(parent.style.width) || 100;
-      const ph = parseFloat(parent.style.height) || 100;
-      const sc = pw / WORLD_SIZE;  // hotspots son cuadrados
+    // Si estamos anidados, escalar para encajar en el hotspot padre
+    if(i > 0){
+      var parentHotspot = parent;
+      var pw = parseFloat(parentHotspot.dataset.w);
+      var scale = pw / WORLD;
       sceneDiv.style.transformOrigin = '0 0';
-      sceneDiv.style.transform = 'scale(' + sc + ')';
+      sceneDiv.style.transform = 'scale(' + scale + ')';
     }
 
+    // Si hay siguiente nivel, crear hotspot
     if(level.hotspot && i < LEVELS.length - 1){
-      const hotspot = document.createElement('div');
-      hotspot.className = 'hotspot';
+      var hotspot = document.createElement('div');
+      hotspot.className = 'hotspot enter-next';
       hotspot.style.left = level.hotspot.x + 'px';
       hotspot.style.top = level.hotspot.y + 'px';
       hotspot.style.width = level.hotspot.w + 'px';
       hotspot.style.height = level.hotspot.h + 'px';
       hotspot.dataset.level = i;
-      hotspot.innerHTML = '<div class="lens"></div>';
-      hotspot.addEventListener('click', function(e){
-        e.stopPropagation();
-        if(animando) return;
-        focusOn(hotspot, i);
-      });
+      hotspot.dataset.w = level.hotspot.w;
+      hotspot.dataset.h = level.hotspot.h;
       sceneDiv.appendChild(hotspot);
       parent = hotspot;
     } else {
       break;
     }
   }
-
-  // Ajuste inicial: centrar y ajustar el mundo
-  fitWorld(false);
 }
 
-function fitWorld(animate){
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-  const padding = 40;
-  const scaleX = (vw - padding * 2) / WORLD_SIZE;
-  const scaleY = (vh - padding * 2 - 120) / WORLD_SIZE;  // margen inferior por la barra
-  const scale = Math.min(scaleX, scaleY);
+/* ═══════════════════════════════════════════════════════════
+   CÁMARA
+   ═══════════════════════════════════════════════════════════ */
+var cam = {
+  x: 0, y: 0, scale: 1,
+  baseScale: 1,
+  baseX: 0, baseY: 0
+};
+var animating = false;
+var anim = null;
+var currentLevel = 0;
+var hotspotsList = [];
 
-  const tx = (vw - WORLD_SIZE * scale) / 2;
-  const ty = (vh - WORLD_SIZE * scale) / 2 - 20;
+/* Ajusta la cámara al nivel actual */
+function setLevelFit(levelIdx, animate){
+  var targetScale, targetX, targetY;
 
-  currentTransform = { x: tx, y: ty, scale: scale };
-  applyTransform(animate);
-  currentDepth = 0;
-  hotspotsStack = [];
-  updateHUD();
-  updateBackBtn();
-}
-
-function updateHUD(){
-  hudText.textContent = 'Nivel ' + (currentDepth + 1) + ' / ' + LEVELS.length + ' — ' + LEVELS[currentDepth].nombre;
-}
-
-function updateBackBtn(){
-  if(currentDepth > 0) backBtn.classList.add('show');
-  else backBtn.classList.remove('show');
-}
-
-/* Calcular posición del hotspot en coordenadas del mundo */
-function getHotspotWorldRect(hotspot){
-  // Walk up accumulating position and scale
-  let chain = [];
-  let el = hotspot;
-  while(el && el !== world){
-    chain.unshift(el);
-    el = el.parentElement;
-  }
-
-  let cx = 0, cy = 0;
-  let cs = 1;
-
-  for(let i = 0; i < chain.length; i++){
-    const node = chain[i];
-    const style = getComputedStyle(node);
-
-    // Obtener left/top (para hotspots)
-    const left = parseFloat(style.left);
-    const top = parseFloat(style.top);
-
-    if(!isNaN(left) && !isNaN(top)){
-      cx += left * cs;
-      cy += top * cs;
-    }
-
-    // Obtener el scale del transform del nodo (si es .scene)
-    if(node.classList.contains('scene') && i > 0){
-      const tf = style.transform;
-      if(tf && tf !== 'none'){
-        const m = tf.match(/matrix\(([^)]+)\)/);
-        if(m){
-          const parts = m[1].split(',').map(parseFloat);
-          cs *= parts[0];
-        }
-      }
-    }
-  }
-
-  // Ahora (cx, cy) es la posición del hotspot en coords del mundo, cs es la escala acumulada
-  const hw = parseFloat(getComputedStyle(hotspot).width) * cs;
-  const hh = parseFloat(getComputedStyle(hotspot).height) * cs;
-
-  return { x: cx, y: cy, w: hw, h: hh, scale: cs };
-}
-
-function focusOn(hotspot, depth){
-  const rect = getHotspotWorldRect(hotspot);
-
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-
-  // Margen para que se vea un poquito del contexto
-  const margen = 0.94;
-  const sTarget = Math.min(vw / rect.w, vh / rect.h) * margen;
-
-  // Centro del hotspot en coords del mundo
-  const hcx = rect.x + rect.w / 2;
-  const hcy = rect.y + rect.h / 2;
-
-  // Para que el centro del hotspot quede en el centro del viewport:
-  const txTarget = vw / 2 - hcx * sTarget;
-  const tyTarget = vh / 2 - hcy * sTarget;
-
-  currentTransform = { x: txTarget, y: tyTarget, scale: sTarget };
-  currentDepth = depth + 1;
-  hotspotsStack = hotspotsStack.slice(0, depth);
-  hotspotsStack[depth] = hotspot;
-
-  animateTo(currentTransform, 900);
-  updateHUD();
-  updateBackBtn();
-  if(hint) hint.classList.add('hide');
-}
-
-function goBack(){
-  if(currentDepth === 0) return;
-  currentDepth--;
-  hotspotsStack.pop();
-  if(currentDepth === 0){
-    fitWorld(true);
+  if(levelIdx === 0){
+    // Ajustar el mundo 800x800 a la pantalla
+    var W = window.innerWidth;
+    var H = window.innerHeight;
+    var s = Math.min(W / WORLD, H / WORLD);
+    targetScale = s;
+    targetX = (W - WORLD * s) / 2;
+    targetY = (H - WORLD * s) / 2;
+    cam.baseScale = s;
+    cam.baseX = targetX;
+    cam.baseY = targetY;
   } else {
-    // Enfocar el hotspot anterior
-    const prev = hotspotsStack[currentDepth - 1];
-    if(prev){
-      const rect = getHotspotWorldRect(prev);
-      const vw = window.innerWidth, vh = window.innerHeight;
-      const margen = 0.94;
-      const sTarget = Math.min(vw / rect.w, vh / rect.h) * margen;
-      const hcx = rect.x + rect.w / 2;
-      const hcy = rect.y + rect.h / 2;
-      currentTransform = {
-        x: vw / 2 - hcx * sTarget,
-        y: vh / 2 - hcy * sTarget,
-        scale: sTarget
-      };
-      animateTo(currentTransform, 800);
-    } else {
-      fitWorld(true);
-    }
-    updateHUD();
-    updateBackBtn();
+    // Enfocar el hotspot del nivel anterior
+    var hotspot = hotspotsList[levelIdx - 1];
+    if(!hotspot) return;
+    var rect = getHotspotWorldRect(hotspot);
+    var W = window.innerWidth;
+    var H = window.innerHeight;
+    var pad = 0.98;
+    var s = Math.min(W / rect.w, H / rect.h) * pad;
+    var cx = rect.x + rect.w / 2;
+    var cy = rect.y + rect.h / 2;
+    targetScale = s;
+    targetX = W / 2 - cx * s;
+    targetY = H / 2 - cy * s;
+    cam.baseScale = s;
+    cam.baseX = targetX;
+    cam.baseY = targetY;
+  }
+
+  if(animate){
+    animateCamera(targetX, targetY, targetScale, 1100, 'cinematic');
+  } else {
+    cam.x = targetX;
+    cam.y = targetY;
+    cam.scale = targetScale;
+    applyCam();
   }
 }
 
-backBtn.addEventListener('click', function(e){
-  e.stopPropagation();
-  if(!animando) goBack();
-});
+/* Calcula el rect del hotspot en coordenadas del mundo (antes del transform de cámara) */
+function getHotspotWorldRect(hotspot){
+  var worldRect = camera.getBoundingClientRect();
+  var rect = hotspot.getBoundingClientRect();
+  // Invertir el transform de la cámara
+  var x = (rect.left - worldRect.left) / cam.scale;
+  var y = (rect.top - worldRect.top) / cam.scale;
+  var w = rect.width / cam.scale;
+  var h = rect.height / cam.scale;
+  return { x: x, y: y, w: w, h: h };
+}
 
-resetBtn.addEventListener('click', function(e){
-  e.stopPropagation();
-  if(!animando) fitWorld(true);
-});
+/* Aplicar transform de la cámara */
+function applyCam(){
+  camera.style.transform = 'translate3d(' + cam.x + 'px,' + cam.y + 'px,0) scale(' + cam.scale + ')';
+}
 
-/* ═══════════════ ANIMACIÓN ═══════════════ */
-var animStartTime = 0;
-var animStartTransform = null;
-var animEndTransform = null;
-var animDuration = 0;
+/* ═══════════════════════════════════════════════════════════
+   ANIMACIÓN DE CÁMARA
+   ═══════════════════════════════════════════════════════════ */
+function easeInOutCubic(t){
+  return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
+}
+function easeOutQuint(t){
+  return 1 - Math.pow(1 - t, 5);
+}
 
-function animateTo(target, duration){
-  animStartTransform = { ...currentTransform };
-  animEndTransform = { ...target };
-  animStartTime = performance.now();
-  animDuration = duration || 800;
-  animando = true;
+function animateCamera(toX, toY, toScale, dur, style){
+  anim = {
+    x0: cam.x, y0: cam.y, s0: cam.scale,
+    x1: toX, y1: toY, s1: toScale,
+    t0: performance.now(),
+    dur: dur,
+    ease: style === 'cinematic' ? easeInOutCubic : easeOutQuint
+  };
+  animating = true;
+  if(style === 'cinematic'){
+    camera.classList.add('blur');
+    document.getElementById('barTop').classList.add('show');
+    document.getElementById('barBot').classList.add('show');
+    document.getElementById('vignette').style.background =
+      'radial-gradient(ellipse at center, transparent 25%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.92) 100%)';
+  }
   requestAnimationFrame(animStep);
 }
 
-function easeInOutCubic(t){
-  return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-}
-
 function animStep(now){
-  const elapsed = now - animStartTime;
-  const t = Math.min(1, elapsed / animDuration);
-  const e = easeInOutCubic(t);
-
-  currentTransform.x = animStartTransform.x + (animEndTransform.x - animStartTransform.x) * e;
-  currentTransform.y = animStartTransform.y + (animEndTransform.y - animStartTransform.y) * e;
-  currentTransform.scale = animStartTransform.scale + (animEndTransform.scale - animStartTransform.scale) * e;
-
-  applyTransform(false);
-
+  if(!anim){ animating = false; return; }
+  var t = Math.min(1, (now - anim.t0) / anim.dur);
+  var e = anim.ease(t);
+  cam.x = anim.x0 + (anim.x1 - anim.x0) * e;
+  cam.y = anim.y0 + (anim.y1 - anim.y0) * e;
+  cam.scale = anim.s0 + (anim.s1 - anim.s0) * e;
+  applyCam();
   if(t < 1){
     requestAnimationFrame(animStep);
   } else {
-    animando = false;
+    animating = false;
+    anim = null;
+    camera.classList.remove('blur');
+    setTimeout(function(){
+      document.getElementById('barTop').classList.remove('show');
+      document.getElementById('barBot').classList.remove('show');
+      document.getElementById('vignette').style.background =
+        'radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.35) 70%, rgba(0,0,0,0.75) 100%)';
+    }, 400);
   }
 }
 
-function applyTransform(){
-  world.style.transform = 'translate(' + currentTransform.x + 'px,' + currentTransform.y + 'px) scale(' + currentTransform.scale + ')';
+/* ═══════════════════════════════════════════════════════════
+   ENTRAR A UN NIVEL
+   ═══════════════════════════════════════════════════════════ */
+function enterLevel(idx){
+  if(idx < 0 || idx >= LEVELS.length) return;
+  currentLevel = idx;
+  setLevelFit(idx, true);
+  updateHUD();
+  showLevelBadge(idx);
 }
 
-/* ═══════════════ INTERACCIÓN TÁCTIL (PAN/ZOOM MANUAL) ═══════════════ */
-var panActive = false;
-var panStart = { x: 0, y: 0, tx: 0, ty: 0 };
-var pinchActive = false;
-var pinchStartDist = 0;
-var pinchStartScale = 1;
-var lastTapTime = 0;
+function showLevelBadge(idx){
+  var badge = document.getElementById('levelBadge');
+  document.getElementById('badgeNum').textContent = 'NIVEL ' + (idx + 1);
+  document.getElementById('badgeName').textContent = LEVELS[idx].nombre;
+  badge.classList.add('on');
+  clearTimeout(badge._t);
+  badge._t = setTimeout(function(){ badge.classList.remove('on'); }, 1600);
+}
 
-viewport.addEventListener('pointerdown', function(e){
-  if(e.target.classList.contains('hotspot') || e.target.closest('.hotspot')) return;
-  if(animando) return;
-  panActive = true;
-  panStart.x = e.clientX;
-  panStart.y = e.clientY;
-  panStart.tx = currentTransform.x;
-  panStart.ty = currentTransform.y;
-  viewport.setPointerCapture(e.pointerId);
-});
+function updateHUD(){
+  document.getElementById('hudText').textContent =
+    'Nivel ' + (currentLevel + 1) + ' / ' + LEVELS.length + ' — ' + LEVELS[currentLevel].nombre;
+}
 
-viewport.addEventListener('pointermove', function(e){
-  if(!panActive || pinchActive) return;
-  const dx = e.clientX - panStart.x;
-  const dy = e.clientY - panStart.y;
-  currentTransform.x = panStart.tx + dx;
-  currentTransform.y = panStart.ty + dy;
-  applyTransform();
-});
+/* ═══════════════════════════════════════════════════════════
+   PINCH ZOOM
+   ═══════════════════════════════════════════════════════════ */
+var touchState = {
+  active: false,
+  startDist: 0,
+  startMidX: 0, startMidY: 0,
+  startScale: 1,
+  startCamX: 0, startCamY: 0,
+  worldFocusX: 0, worldFocusY: 0
+};
+var singleTouch = {
+  active: false,
+  x0: 0, y0: 0,
+  cx0: 0, cy0: 0
+};
 
-viewport.addEventListener('pointerup', function(e){
-  panActive = false;
-});
+var progressBar = document.getElementById('progress');
+var progressFill = document.getElementById('progressFill');
+var hintEl = document.getElementById('hint');
+var hintHidden = false;
 
-viewport.addEventListener('pointercancel', function(){
-  panActive = false;
-});
-
-/* Touch para pinch y doble tap */
 viewport.addEventListener('touchstart', function(e){
   if(e.touches.length === 2){
-    pinchActive = true;
-    panActive = false;
-    const dx = e.touches[0].clientX - e.touches[1].clientX;
-    const dy = e.touches[0].clientY - e.touches[1].clientY;
-    pinchStartDist = Math.sqrt(dx*dx + dy*dy);
-    pinchStartScale = currentTransform.scale;
-    // Punto medio para el zoom
-    const cx = (e.touches[0].clientX + e.touches[1].clientX) / 2;
-    const cy = (e.touches[0].clientY + e.touches[1].clientY) / 2;
-    pinchStart.x = cx;
-    pinchStart.y = cy;
-    pinchStart.tx = currentTransform.x;
-    pinchStart.ty = currentTransform.y;
-  } else if(e.touches.length === 1){
-    // Detectar doble tap
-    const now = Date.now();
-    if(now - lastTapTime < 320){
-      // Doble tap → reset
-      if(!animando) fitWorld(true);
-      lastTapTime = 0;
-    } else {
-      lastTapTime = now;
+    e.preventDefault();
+    if(animating) return;
+
+    touchState.active = true;
+    singleTouch.active = false;
+
+    var t1 = e.touches[0], t2 = e.touches[1];
+    var dx = t2.clientX - t1.clientX;
+    var dy = t2.clientY - t1.clientY;
+    touchState.startDist = Math.sqrt(dx*dx + dy*dy);
+    touchState.startMidX = (t1.clientX + t2.clientX) / 2;
+    touchState.startMidY = (t1.clientY + t2.clientY) / 2;
+    touchState.startScale = cam.scale;
+    touchState.startCamX = cam.x;
+    touchState.startCamY = cam.y;
+
+    // Coordenada del mundo bajo el punto medio
+    touchState.worldFocusX = (touchState.startMidX - cam.x) / cam.scale;
+    touchState.worldFocusY = (touchState.startMidY - cam.y) / cam.scale;
+
+    progressBar.classList.add('on');
+    if(!hintHidden){
+      hintEl.classList.add('hide');
+      hintHidden = true;
     }
+  } else if(e.touches.length === 1 && !touchState.active){
+    // Pan con un dedo
+    if(animating) return;
+    singleTouch.active = true;
+    singleTouch.x0 = e.touches[0].clientX;
+    singleTouch.y0 = e.touches[0].clientY;
+    singleTouch.cx0 = cam.x;
+    singleTouch.cy0 = cam.y;
   }
-}, {passive: true});
+}, {passive: false});
 
 viewport.addEventListener('touchmove', function(e){
-  if(pinchActive && e.touches.length === 2){
-    const dx = e.touches[0].clientX - e.touches[1].clientX;
-    const dy = e.touches[0].clientY - e.touches[1].clientY;
-    const dist = Math.sqrt(dx*dx + dy*dy);
-    const factor = dist / pinchStartDist;
-    const newScale = Math.max(0.3, Math.min(20, pinchStartScale * factor));
+  if(e.touches.length === 2 && touchState.active){
+    e.preventDefault();
+    var t1 = e.touches[0], t2 = e.touches[1];
+    var dx = t2.clientX - t1.clientX;
+    var dy = t2.clientY - t1.clientY;
+    var dist = Math.sqrt(dx*dx + dy*dy);
+    var midX = (t1.clientX + t2.clientX) / 2;
+    var midY = (t1.clientY + t2.clientY) / 2;
 
-    // Zoom alrededor del punto medio del pinch
-    // Coordenada mundial del punto de pinch al inicio:
-    const worldX = (pinchStart.x - pinchStart.tx) / pinchStartScale;
-    const worldY = (pinchStart.y - pinchStart.ty) / pinchStartScale;
+    var factor = dist / touchState.startDist;
+    var newScale = Math.max(0.4, Math.min(25, touchState.startScale * factor));
 
-    // Nueva posición de translate para mantener ese punto en el mismo lugar
-    currentTransform.scale = newScale;
-    currentTransform.x = pinchStart.x - worldX * newScale;
-    currentTransform.y = pinchStart.y - worldY * newScale;
+    // Zoom alrededor del punto de foco original
+    cam.scale = newScale;
+    cam.x = midX - touchState.worldFocusX * newScale;
+    cam.y = midY - touchState.worldFocusY * newScale;
 
-    applyTransform();
+    applyCam();
+
+    // Progreso de zoom
+    var ratio = newScale / cam.baseScale;
+    var pct = Math.min(100, Math.max(0, (ratio - 1) / 1.4 * 100));
+    progressFill.style.width = pct + '%';
+  } else if(e.touches.length === 1 && singleTouch.active){
+    var dx1 = e.touches[0].clientX - singleTouch.x0;
+    var dy1 = e.touches[0].clientY - singleTouch.y0;
+    cam.x = singleTouch.cx0 + dx1;
+    cam.y = singleTouch.cy0 + dy1;
+    applyCam();
   }
-}, {passive: true});
+}, {passive: false});
 
 viewport.addEventListener('touchend', function(e){
-  if(e.touches.length < 2) pinchActive = false;
+  if(e.touches.length < 2 && touchState.active){
+    touchState.active = false;
+    progressBar.classList.remove('on');
+
+    // Decidir: ¿entramos al siguiente nivel?
+    var ratio = cam.scale / cam.baseScale;
+    if(ratio > 1.55 && currentLevel < LEVELS.length - 1){
+      // Entrar al siguiente nivel
+      if(!hotspotsList[currentLevel]){
+        var hs = camera.querySelector('.hotspot[data-level="' + currentLevel + '"]');
+        if(hs) hotspotsList[currentLevel] = hs;
+      }
+      enterLevel(currentLevel + 1);
+    } else if(ratio > 0.7 && ratio < 1.55){
+      // Volver suavemente a la posición base
+      animateCamera(cam.baseX, cam.baseY, cam.baseScale, 500, 'ease');
+    } else if(ratio <= 0.7){
+      // Retroceder nivel
+      if(currentLevel > 0){
+        enterLevel(currentLevel - 1);
+      } else {
+        animateCamera(cam.baseX, cam.baseY, cam.baseScale, 500, 'ease');
+      }
+    }
+  }
+  if(e.touches.length === 0){
+    singleTouch.active = false;
+  }
 }, {passive: true});
 
-/* ═══════════════ RESIZE ═══════════════ */
-window.addEventListener('resize', function(){
-  if(animando) return;
-  // Mantener la vista actual pero reajustar si estamos en nivel 0
-  if(currentDepth === 0){
-    fitWorld(false);
+/* Drag con mouse para desktop */
+var mouseDown = false;
+var mouseStart = { x:0, y:0, cx:0, cy:0 };
+viewport.addEventListener('mousedown', function(e){
+  if(animating) return;
+  mouseDown = true;
+  mouseStart.x = e.clientX;
+  mouseStart.y = e.clientY;
+  mouseStart.cx = cam.x;
+  mouseStart.cy = cam.y;
+});
+window.addEventListener('mousemove', function(e){
+  if(!mouseDown) return;
+  cam.x = mouseStart.cx + (e.clientX - mouseStart.x);
+  cam.y = mouseStart.cy + (e.clientY - mouseStart.y);
+  applyCam();
+});
+window.addEventListener('mouseup', function(){ mouseDown = false; });
+
+/* Wheel zoom para desktop */
+viewport.addEventListener('wheel', function(e){
+  e.preventDefault();
+  if(animating) return;
+  var factor = e.deltaY > 0 ? 0.9 : 1.1;
+  var newScale = Math.max(0.4, Math.min(25, cam.scale * factor));
+  var worldX = (e.clientX - cam.x) / cam.scale;
+  var worldY = (e.clientY - cam.y) / cam.scale;
+  cam.scale = newScale;
+  cam.x = e.clientX - worldX * newScale;
+  cam.y = e.clientY - worldY * newScale;
+  applyCam();
+
+  var ratio = newScale / cam.baseScale;
+  if(ratio > 1.55 && currentLevel < LEVELS.length - 1){
+    if(!hotspotsList[currentLevel]){
+      var hs = camera.querySelector('.hotspot[data-level="' + currentLevel + '"]');
+      if(hs) hotspotsList[currentLevel] = hs;
+    }
+    setTimeout(function(){ enterLevel(currentLevel + 1); }, 250);
   }
+}, {passive: false});
+
+/* ═══════════════════════════════════════════════════════════
+   RESIZE
+   ═══════════════════════════════════════════════════════════ */
+window.addEventListener('resize', function(){
+  setTimeout(function(){
+    setLevelFit(currentLevel, false);
+  }, 100);
+});
+window.addEventListener('orientationchange', function(){
+  setTimeout(function(){
+    setLevelFit(currentLevel, false);
+  }, 350);
 });
 
-/* ═══════════════ INTRO ═══════════════ */
+/* ═══════════════════════════════════════════════════════════
+   INTRO
+   ═══════════════════════════════════════════════════════════ */
 document.getElementById('startBtn').addEventListener('click', function(){
   document.getElementById('intro').classList.add('hide');
   setTimeout(function(){
     var el = document.getElementById('intro');
     if(el) el.style.display = 'none';
   }, 800);
+  // Mostrar hint de gesto por más tiempo
+  setTimeout(function(){
+    if(!hintHidden) hintEl.classList.add('hide');
+  }, 8000);
 });
 
-/* ═══════════════ INIT ═══════════════ */
+/* ═══════════════════════════════════════════════════════════
+   INIT
+   ═══════════════════════════════════════════════════════════ */
 buildWorld();
+setLevelFit(0, false);
+updateHUD();
 
 })();
 </script>
