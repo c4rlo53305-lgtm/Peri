@@ -6,8 +6,8 @@
 <meta name="theme-color" content="#ffe4ec">
 <title>Diente de León Mágico ✨💖</title>
 
-<!-- ⭐ CONFIG INICIAL — Se reemplaza al compartir la plantilla -->
-<script id="config-inicial" type="application/json">{}</script>
+<!-- ⭐ CONFIG INICIAL — Aquí se inyecta la personalización al compartir -->
+<script id="config-inicial" type="application/json">__DLEON_CONFIG__</script>
 
 <style>
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -92,9 +92,8 @@
     box-shadow:0 12px 30px rgba(140,60,240,.55),
                0 4px 0 rgba(50,10,90,.5),
                inset 0 1px 0 rgba(255,255,255,.35);
-    transition:transform .15s ease, box-shadow .2s ease;
+    transition:transform .15s ease, box-shadow .2s ease, opacity .3s;
     z-index:9999;
-    position:fixed;
     overflow:hidden;
     animation:pulseMorado 2.8s ease-in-out infinite;
     opacity:0;
@@ -121,12 +120,8 @@
   @keyframes shineMorado{
     0%{transform:translateX(-120%)}
     60%,100%{transform:translateX(120%)}}
-
-  /* Estado de carga del botón morado */
   #btnSharePlantilla.loading{
-    animation:none;
-    opacity:.75;
-    pointer-events:none}
+    animation:none;opacity:.75;pointer-events:none}
 
   #loveMsg{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 128px);
     transform:translate(-50%, 8px) scale(.9);
@@ -354,7 +349,7 @@
   <div class="music-upload" id="musicUpload" style="display:none">
     <input type="file" id="fileMusica" accept="audio/*" onchange="cargarMusica(this)">
     <label for="fileMusica"><span class="icon">🎶</span>
-      <strong>Toca para subir tu canción</strong><small>MP3, WAV u OGG</small></label>
+      <strong>Toca para subir tu canción</strong><small>MP3, WAV u OGG (máx. 5MB)</small></label>
     <div class="music-name" id="musicName"></div>
   </div>
   <div class="toggle-row locked" id="rowCorazones">
@@ -421,7 +416,6 @@
   <a href="https://c4rlo53305-lgtm.github.io/Peri/" target="_blank" rel="noopener">Creaciones Mágicas 💛</a>
 </div>
 
-<!-- ⭐ BOTÓN MORADO — Enviar la plantilla personalizada -->
 <button id="btnSharePlantilla" type="button">
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
   <span>Enviar plantilla</span>
@@ -441,18 +435,27 @@
 'use strict';
 
 /* ══════════════════════════════════════════════════════════
-   ⭐ LEER CONFIG INICIAL (para plantillas personalizadas)
+   ⭐ CONFIG INICIAL — Detectar personalización embebida
    ══════════════════════════════════════════════════════════ */
+var CONFIG_PLACEHOLDER = '__DLEON_CONFIG__';
 var configInicial = null;
-try{
-  var elCfg = document.getElementById('config-inicial');
-  if(elCfg && elCfg.textContent.trim() && elCfg.textContent.trim() !== '{}'){
-    configInicial = JSON.parse(elCfg.textContent.trim());
+
+(function leerConfigInicial(){
+  try{
+    var elCfg = document.getElementById('config-inicial');
+    if(!elCfg) return;
+    var contenido = elCfg.textContent.trim();
+    // Si es el placeholder original o está vacío → sin config
+    if(!contenido || contenido === CONFIG_PLACEHOLDER || contenido === '{}') return;
+    configInicial = JSON.parse(contenido);
+    console.log('✅ Config inicial cargada:', configInicial);
+  }catch(e){
+    console.warn('Error parseando config inicial:', e);
   }
-}catch(e){}
+})();
 
 /* ══════════════════════════════════════════════════════════
-   SISTEMA PREMIUM CON HMAC
+   SISTEMA PREMIUM
    ══════════════════════════════════════════════════════════ */
 var SECRET_KEY = 'C4rl0-Cr3ac10n3s-M4g1c4s-2025-XX';
 var STORAGE_KEY = 'dleon_premium_token';
@@ -503,6 +506,14 @@ async function verificarToken(token){
 var esPremium = false;
 
 async function verificarPremiumInicial(){
+  // 1. Config inicial con token (caso del HTML personalizado)
+  if(configInicial && configInicial.token){
+    if(await verificarToken(configInicial.token)){
+      esPremium = true;
+      return;
+    }
+  }
+  // 2. URL ?premium=TOKEN
   try{
     var params = new URLSearchParams(location.search);
     var tk = params.get('premium');
@@ -516,6 +527,7 @@ async function verificarPremiumInicial(){
       }
     }
   }catch(e){}
+  // 3. localStorage
   try{
     var g = localStorage.getItem(STORAGE_KEY);
     if(g){
@@ -567,18 +579,18 @@ var personalizacion = {
     'Mi lugar favorito es a tu lado 🌹','Cada semilla lleva mi amor por ti 💌'
   ],
   premium: { destellos:false, musica:false, corazones:false, fuegos:false, efecto3D:false },
-  archivoMusica: null
+  archivoMusica: null,
+  nombreMusica: ''
 };
 
-/* ⭐ Si viene config inicial, aplicarla */
+/* ⭐ Aplicar config inicial si existe */
 if(configInicial){
   if(configInicial.nombre) personalizacion.nombre = configInicial.nombre;
   if(configInicial.mensaje) personalizacion.mensaje = configInicial.mensaje;
   if(configInicial.frases && configInicial.frases.length) personalizacion.frases = configInicial.frases.slice();
   if(configInicial.premium) personalizacion.premium = Object.assign(personalizacion.premium, configInicial.premium);
-  if(configInicial.token){
-    try{ localStorage.setItem(STORAGE_KEY, configInicial.token); }catch(e){}
-  }
+  if(configInicial.archivoMusica) personalizacion.archivoMusica = configInicial.archivoMusica;
+  if(configInicial.nombreMusica) personalizacion.nombreMusica = configInicial.nombreMusica;
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -704,7 +716,7 @@ function guardarPersonalizacion(){
 function initPersonalizacion(){
   frasesTemp = personalizacion.frases.slice();
 
-  /* ⭐ Si viene config inicial, prellenar inputs */
+  // Prellenar con config inicial
   if(configInicial){
     if(configInicial.nombre) document.getElementById('pNombre').value = configInicial.nombre;
     if(configInicial.mensaje) document.getElementById('pMensaje').value = configInicial.mensaje;
@@ -724,6 +736,20 @@ function initPersonalizacion(){
   }
   renderFrases();
   actualizarUIPremium();
+
+  // Restaurar música si existe
+  if(personalizacion.archivoMusica){
+    document.getElementById('audioPlayer').src = personalizacion.archivoMusica;
+    document.getElementById('audioPlayer').volume = 0.4;
+    if(personalizacion.nombreMusica){
+      var n = document.getElementById('musicName');
+      n.textContent = '🎵 ' + personalizacion.nombreMusica;
+      n.classList.add('show');
+    }
+    if(personalizacion.premium.musica){
+      document.getElementById('musicUpload').style.display = 'block';
+    }
+  }
 
   ['Destellos','Musica','Corazones','Fuegos','Efecto3D'].forEach(function(n){
     var f = n.charAt(0).toLowerCase() + n.slice(1);
@@ -769,18 +795,31 @@ function actualizarFrase(idx, val){
 }
 window.actualizarFrase = actualizarFrase;
 
+/* ⭐ Cargar música — Convertir a base64 para poder embeberla */
 function cargarMusica(input){
   if(!esPremium) return;
   var file = input.files[0];
   if(!file) return;
-  if(file.size > 10*1024*1024){ alert('Máx. 10MB'); return; }
-  var url = URL.createObjectURL(file);
-  personalizacion.archivoMusica = url;
-  document.getElementById('audioPlayer').src = url;
-  document.getElementById('audioPlayer').volume = 0.4;
-  var n = document.getElementById('musicName');
-  n.textContent = '🎵 ' + file.name;
-  n.classList.add('show');
+  if(file.size > 5*1024*1024){
+    alert('La canción es muy grande. Máximo 5MB.\n\nEsto es para que el archivo HTML no se vuelva gigante al enviarlo por WhatsApp.');
+    return;
+  }
+  var reader = new FileReader();
+  reader.onload = function(e){
+    personalizacion.archivoMusica = e.target.result; // data URL base64
+    personalizacion.nombreMusica = file.name;
+    var audio = document.getElementById('audioPlayer');
+    audio.src = e.target.result;
+    audio.volume = 0.4;
+    var n = document.getElementById('musicName');
+    n.textContent = '🎵 ' + file.name;
+    n.classList.add('show');
+    guardarPersonalizacion();
+  };
+  reader.onerror = function(){
+    alert('Error leyendo el archivo. Intenta con otro.');
+  };
+  reader.readAsDataURL(file);
 }
 window.cargarMusica = cargarMusica;
 
@@ -791,7 +830,6 @@ function continuarAApp(){
   guardarPersonalizacion();
   aplicarPersonalizacion();
   document.getElementById('personalizacion').classList.add('hide');
-  // Mostrar botón morado cuando la escena está visible
   setTimeout(function(){
     var btn = document.getElementById('btnSharePlantilla');
     if(btn) btn.classList.add('show');
@@ -812,66 +850,196 @@ function aplicarPersonalizacion(){
 }
 
 /* ══════════════════════════════════════════════════════════
-   ⭐ ENVIAR PLANTILLA PERSONALIZADA POR WHATSAPP
+   ⭐ GENERAR Y ENVIAR PLANTILLA PERSONALIZADA
    ══════════════════════════════════════════════════════════ */
-var htmlOriginalCache = null;
 
-/* Obtener el HTML original (sin estado runtime) */
-async function obtenerHTMLOriginal(){
-  if(htmlOriginalCache) return htmlOriginalCache;
-  try{
-    var respuesta = await fetch(location.pathname + '?nocache=' + Date.now());
-    htmlOriginalCache = await respuesta.text();
-    return htmlOriginalCache;
-  }catch(e){
-    console.warn('No se pudo obtener HTML original:', e);
-    return null;
-  }
+/* Escapar strings para JSON dentro de <script> */
+function escaparParaJSON(str){
+  if(!str) return '';
+  return String(str)
+    .replace(/\\/g, '\\\\')
+    .replace(/"/g, '\\"')
+    .replace(/\n/g, '\\n')
+    .replace(/\r/g, '\\r')
+    .replace(/\t/g, '\\t')
+    .replace(/</g, '\\u003c')
+    .replace(/>/g, '\\u003e');
 }
 
-/* Generar HTML personalizado */
-async function generarHTMLPersonalizado(){
-  var original = await obtenerHTMLOriginal();
-  if(!original){
-    // Fallback: usar el HTML actual del DOM (no perfecto pero funciona)
-    original = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-  }
-
-  // Construir config a inyectar
-  var config = {
+/* Construir el JSON de configuración */
+function construirConfigJSON(){
+  var token = null;
+  try{ token = localStorage.getItem(STORAGE_KEY); }catch(e){}
+  return JSON.stringify({
     nombre: personalizacion.nombre || '',
     mensaje: personalizacion.mensaje || '',
     frases: personalizacion.frases || [],
     premium: personalizacion.premium || {},
-    token: (function(){
-      try{ return localStorage.getItem(STORAGE_KEY) || null; }catch(e){ return null; }
-    })()
-  };
+    archivoMusica: personalizacion.archivoMusica || null,
+    nombreMusica: personalizacion.nombreMusica || '',
+    token: token,
+    fecha: new Date().toISOString()
+  }).replace(/</g, '\\u003c').replace(/>/g, '\\u003e');
+}
 
-  var jsonStr = JSON.stringify(config).replace(/</g, '\\u003c');
+/* Obtener el HTML base limpio */
+function obtenerHTMLBase(){
+  // Clonar el DOM actual
+  var clone = document.documentElement.cloneNode(true);
 
-  // Reemplazar el contenido del script config-inicial
-  var regex = /(<script id="config-inicial" type="application\/json">)[\s\S]*?(<\/script>)/;
-  if(regex.test(original)){
-    return original.replace(regex, '$1' + jsonStr + '$2');
+  // ─── Limpiar estado runtime ───
+  // 1. Resetear config-inicial
+  var cfgEl = clone.querySelector('#config-inicial');
+  if(cfgEl) cfgEl.textContent = CONFIG_PLACEHOLDER;
+
+  // 2. Resetear personalización a estado visible
+  var pers = clone.querySelector('#personalizacion');
+  if(pers){
+    pers.classList.remove('hide');
+    pers.style.display = '';
+    pers.style.opacity = '';
+    pers.style.visibility = '';
   }
-  // Fallback: insertar antes de </head>
-  return original.replace('</head>',
-    '<script id="config-inicial" type="application/json">' + jsonStr + '<\/script>\n</head>');
+
+  // 3. Resetear intro
+  var intro = clone.querySelector('#intro');
+  if(intro){
+    intro.classList.remove('hide');
+    intro.style.display = '';
+    intro.style.opacity = '';
+    intro.style.visibility = '';
+  }
+
+  // 4. Ocultar botón morado
+  var btnShare = clone.querySelector('#btnSharePlantilla');
+  if(btnShare){
+    btnShare.classList.remove('show');
+    btnShare.classList.remove('loading');
+  }
+
+  // 5. Quitar marcas de agua duplicadas
+  var marcas = clone.querySelectorAll('#wm-magica');
+  for(var i = 1; i < marcas.length; i++){
+    marcas[i].parentNode.removeChild(marcas[i]);
+  }
+
+  // 6. Resetear textos del intro a valores por defecto
+  var introTitulo = clone.querySelector('#introTitulo');
+  if(introTitulo) introTitulo.textContent = 'Un deseo para ti';
+  var introTexto = clone.querySelector('#introTexto');
+  if(introTexto) introTexto.innerHTML = 'Sacude el teléfono, sopla las semillas y pide un deseo.<br><br>Como un diente de león, mi amor viaja contigo a donde vayas. 🌬️';
+
+  // 7. Resetear contador y mensaje
+  var wc = clone.querySelector('#wc');
+  if(wc) wc.textContent = '0';
+  var loveMsg = clone.querySelector('#loveMsg');
+  if(loveMsg) loveMsg.classList.remove('show');
+
+  // 8. Quitar estados de los toggles
+  ['Destellos','Musica','Corazones','Fuegos','Efecto3D'].forEach(function(n){
+    var t = clone.querySelector('#toggle'+n);
+    if(t) t.classList.remove('on');
+  });
+
+  // 9. Resetear el canvas
+  var cv = clone.querySelector('#scene');
+  if(cv){
+    cv.removeAttribute('width');
+    cv.removeAttribute('height');
+    cv.style.width = '';
+    cv.style.height = '';
+  }
+
+  // 10. Resetear el estado del audio
+  var audio = clone.querySelector('#audioPlayer');
+  if(audio){
+    audio.removeAttribute('src');
+    audio.pause && audio.pause();
+  }
+
+  // 11. Resetear el badge premium
+  var premStatus = clone.querySelector('#premiumStatus');
+  if(premStatus){
+    premStatus.classList.add('inactive');
+  }
+  var premIcon = clone.querySelector('#premiumIcon');
+  if(premIcon) premIcon.textContent = '🔒';
+  var premText = clone.querySelector('#premiumText');
+  if(premText) premText.textContent = 'Modo gratuito';
+
+  // 12. Resetear campos del form
+  var pN = clone.querySelector('#pNombre');
+  if(pN) pN.value = '';
+  var pM = clone.querySelector('#pMensaje');
+  if(pM) pM.value = '';
+  var mn = clone.querySelector('#musicName');
+  if(mn){ mn.textContent = ''; mn.classList.remove('show'); }
+  var mu = clone.querySelector('#musicUpload');
+  if(mu) mu.style.display = 'none';
+
+  // 13. Resetear toggle premium button
+  var btnAct = clone.querySelector('#btnActivarPremium');
+  if(btnAct){
+    btnAct.style.opacity = '1';
+    btnAct.style.pointerEvents = 'auto';
+  }
+  var btnPremText = clone.querySelector('#btnPremiumText');
+  if(btnPremText) btnPremText.textContent = 'Ya pagué - Activar Premium';
+
+  // 14. Resetear frases
+  var frList = clone.querySelector('#frasesList');
+  if(frList) frList.innerHTML = '';
+
+  // 15. Resetear hint
+  var hint = clone.querySelector('#hint');
+  if(hint) hint.classList.remove('hide');
+
+  // 16. Resetear momento
+  var momentoTexto = clone.querySelector('#momentoTexto');
+  if(momentoTexto) momentoTexto.textContent = '—';
+
+  return '<!DOCTYPE html>\n' + clone.outerHTML;
+}
+
+/* Generar HTML personalizado final */
+function generarHTMLPersonalizado(){
+  var html = obtenerHTMLBase();
+  var json = construirConfigJSON();
+
+  // Reemplazar el placeholder
+  // Buscar el texto __DLEON_CONFIG__ (sin importar espacios)
+  var regex = /(<script id="config-inicial" type="application\/json">)\s*__DLEON_CONFIG__\s*(<\/script>)/;
+  if(regex.test(html)){
+    html = html.replace(regex, '$1' + json + '$2');
+  } else {
+    // Fallback: buscar cualquier script con id config-inicial
+    var regex2 = /(<script\s+id="config-inicial"[^>]*>)[\s\S]*?(<\/script>)/;
+    html = html.replace(regex2, '$1' + json + '$2');
+  }
+
+  return html;
 }
 
 /* Botón morado: enviar plantilla */
 document.getElementById('btnSharePlantilla').addEventListener('click', async function(){
   var btn = this;
+  var spanEl = btn.querySelector('span');
+  var textoOriginal = spanEl.textContent;
+
   btn.classList.add('loading');
-  btn.querySelector('span').textContent = 'Generando...';
+  spanEl.textContent = 'Generando...';
 
   try{
-    var htmlFinal = await generarHTMLPersonalizado();
+    // Generar HTML
+    var htmlFinal = generarHTMLPersonalizado();
+
+    // Nombre del archivo
     var nombreArchivo = 'diente-de-leon';
     if(personalizacion.nombre){
-      nombreArchivo += '-' + personalizacion.nombre.toLowerCase()
+      var nombreLimpio = personalizacion.nombre.toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
         .replace(/[^a-z0-9]/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'');
+      if(nombreLimpio) nombreArchivo += '-' + nombreLimpio;
     }
     nombreArchivo += '.html';
 
@@ -879,14 +1047,16 @@ document.getElementById('btnSharePlantilla').addEventListener('click', async fun
     var blob = new Blob([htmlFinal], { type: 'text/html;charset=utf-8' });
     var file = new File([blob], nombreArchivo, { type: 'text/html' });
 
-    // Verificar si el navegador soporta compartir archivos
-    var puedeCompartirArchivo = false;
+    var tamañoMB = (blob.size / 1024 / 1024).toFixed(2);
+    console.log('📦 HTML generado:', nombreArchivo, '·', tamañoMB + 'MB');
+
+    // Verificar si puede compartir archivo
+    var puedeCompartir = false;
     try{
-      puedeCompartirArchivo = navigator.canShare && navigator.canShare({ files: [file] });
+      puedeCompartir = navigator.canShare && navigator.canShare({ files: [file] });
     }catch(e){}
 
-    if(puedeCompartirArchivo){
-      // ⭐ Compartir el archivo HTML directamente por WhatsApp
+    if(puedeCompartir){
       try{
         await navigator.share({
           files: [file],
@@ -894,20 +1064,20 @@ document.getElementById('btnSharePlantilla').addEventListener('click', async fun
           text: '✨ Te mando un diente de león mágico personalizado. Ábrelo, sacude tu teléfono y pide un deseo 💖'
         });
         btn.classList.remove('loading');
-        btn.querySelector('span').textContent = 'Enviar plantilla';
+        spanEl.textContent = textoOriginal;
         return;
       }catch(err){
-        // El usuario canceló o falló → continuar al fallback
         if(err && err.name === 'AbortError'){
           btn.classList.remove('loading');
-          btn.querySelector('span').textContent = 'Enviar plantilla';
+          spanEl.textContent = textoOriginal;
           return;
         }
+        // Si falla, continuar al fallback
+        console.warn('Error compartiendo, usando fallback:', err);
       }
     }
 
-    // ─── FALLBACK: descargar + abrir WhatsApp con mensaje ───
-    // 1. Descargar el archivo
+    // Fallback: descargar + WhatsApp con mensaje
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
     a.href = url;
@@ -915,26 +1085,28 @@ document.getElementById('btnSharePlantilla').addEventListener('click', async fun
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    setTimeout(function(){ URL.revokeObjectURL(url); }, 2000);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 3000);
 
-    // 2. Abrir WhatsApp con un mensaje explicativo
-    var mensaje = '💖✨ Te mando un *Diente de León Mágico* personalizado para ti.\n\n' +
+    var mensaje = '💖✨ Te mando un *Diente de León Mágico* personalizado solo para ti.\n\n' +
                   '📱 *Cómo abrirlo:*\n' +
-                  '1. Abre el archivo que acabo de enviarte: *' + nombreArchivo + '*\n' +
-                  '2. Sacude tu teléfono y pide un deseo 🌬️\n\n' +
-                  '💫 Hecho con amor solo para ti.';
+                  '1. Te acabo de enviar el archivo *' + nombreArchivo + '*\n' +
+                  '2. Ábrelo con tu navegador\n' +
+                  '3. Sacude tu teléfono y pide un deseo 🌬️\n\n' +
+                  '💫 Hecho con amor.';
     var wa = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(mensaje);
-    try{ window.open(wa, '_blank', 'noopener'); }
-    catch(e){ location.href = wa; }
+    setTimeout(function(){
+      try{ window.open(wa, '_blank', 'noopener'); }
+      catch(e){ location.href = wa; }
+    }, 500);
 
     btn.classList.remove('loading');
-    btn.querySelector('span').textContent = 'Enviar plantilla';
+    spanEl.textContent = textoOriginal;
 
   }catch(err){
     console.error('Error generando plantilla:', err);
-    alert('No se pudo generar la plantilla. Intenta de nuevo.');
+    alert('No se pudo generar la plantilla: ' + err.message);
     btn.classList.remove('loading');
-    btn.querySelector('span').textContent = 'Enviar plantilla';
+    spanEl.textContent = textoOriginal;
   }
 });
 
@@ -1157,9 +1329,8 @@ function spawnHeart(x,y,power){
 }
 
 /* ══════════════════════════════════════════════════════════
-   SENSOR DE AGITACIÓN (sin debug visual)
+   SENSOR DE AGITACIÓN
    ══════════════════════════════════════════════════════════ */
-var shakeCooldown = 0;
 var lastShakeTime = 0;
 var SHAKE_COOLDOWN_MS = 200;
 var lastAcc = {x:0,y:0,z:0};
@@ -1287,6 +1458,14 @@ function blowFrom(px,py,power){
 }
 canvas.addEventListener('pointerdown', function(e){
   pedirPermisosSensor();
+  // Reproducir música tras primer gesto (iOS)
+  if(esPremium && personalizacion.premium.musica && personalizacion.archivoMusica){
+    var a = document.getElementById('audioPlayer');
+    if(a && a.paused && a.src){
+      a.volume = 0.4;
+      a.play().catch(function(){});
+    }
+  }
   ocultarHint();
   pressing = true; lastPX = e.clientX; lastPY = e.clientY;
   blowFrom(e.clientX, e.clientY, 0.55);
@@ -1337,10 +1516,10 @@ document.getElementById('startBtn').addEventListener('click', function(){
   setTimeout(function(){ mostrarFrase(); }, 900);
   setTimeout(function(){
     for(var i=0;i<10;i++) spawnHeart(W/2+rnd(-60,60), H/2+rnd(-40,40), 1.3);
-    /* ⭐ Mostrar botón morado */
     var btn = document.getElementById('btnSharePlantilla');
     if(btn) btn.classList.add('show');
   }, 400);
+  // Reproducir música
   if(esPremium && personalizacion.premium.musica && personalizacion.archivoMusica){
     var a = document.getElementById('audioPlayer');
     a.src = personalizacion.archivoMusica;
@@ -1373,7 +1552,6 @@ function update(dt){
   if(attached.length > 0 && Math.random() < 0.006*k){
     releaseSeeds(1, wind*0.6, -0.05, 0.15);
   }
-  if(shakeCooldown > 0) shakeCooldown -= dt;
   for(var i=flying.length-1;i>=0;i--){
     var p = flying[i];
     var drift = wind*1.7 + tiltX*0.6;
@@ -1463,7 +1641,7 @@ function update(dt){
 }
 
 /* ══════════════════════════════════════════════════════════
-   DIBUJO
+   DIBUJO (idéntico al anterior, sin cambios)
    ══════════════════════════════════════════════════════════ */
 function drawSky(){
   var pal = PALETAS[momentoDia];
@@ -1803,9 +1981,9 @@ function loop(now){
 async function init(){
   await verificarPremiumInicial();
   if(esPremium){
-    personalizacion.premium.destellos = true;
-    personalizacion.premium.corazones = true;
-    personalizacion.premium.fuegos = true;
+    personalizacion.premium.destellos = personalizacion.premium.destellos || true;
+    personalizacion.premium.corazones = personalizacion.premium.corazones || true;
+    personalizacion.premium.fuegos = personalizacion.premium.fuegos || true;
   }
   resize();
   buildHead();
@@ -1814,15 +1992,29 @@ async function init(){
   setInterval(actualizarMomento, 60000);
   initPersonalizacion();
 
-  /* ⭐ Si viene config inicial, saltar directo a la escena */
+  /* ⭐ Si viene config inicial → saltar directo a la escena */
   if(configInicial){
     document.getElementById('personalizacion').classList.add('hide');
     document.getElementById('personalizacion').style.display = 'none';
     setTimeout(function(){
       aplicarPersonalizacion();
+      // Ocultar intro y mostrar escena
+      document.getElementById('intro').classList.add('hide');
+      document.getElementById('intro').style.display = 'none';
       var btn = document.getElementById('btnSharePlantilla');
       if(btn) btn.classList.add('show');
-    }, 100);
+      // Auto-reproducir música si existe (requiere interacción)
+      if(personalizacion.archivoMusica){
+        var a = document.getElementById('audioPlayer');
+        a.src = personalizacion.archivoMusica;
+        a.volume = 0.4;
+        a.play().catch(function(){
+          console.log('Autoplay bloqueado, se reproducirá al primer toque');
+        });
+      }
+      // Bienvenida
+      setTimeout(function(){ mostrarFrase(); }, 500);
+    }, 150);
   }
 
   requestAnimationFrame(loop);
