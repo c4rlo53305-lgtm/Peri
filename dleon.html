@@ -12,8 +12,16 @@
   html,body{margin:0;padding:0;height:100%;overflow:hidden;background:#ffe4ec;
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
     user-select:none;-webkit-user-select:none;touch-action:none}
-  /* ⭐ FIX: canvas con dimensiones explícitas para que se vea siempre */
-  #scene{display:block;position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:1}
+  /* ⭐ FIX: canvas con fondo visible (nunca negro) + dimensiones forzadas */
+  #scene{
+    display:block;
+    position:fixed;
+    top:0; left:0;
+    width:100vw;
+    height:100vh;
+    background:#ffe4ec;
+    z-index:1;
+  }
   .hint{position:fixed;left:50%;top:calc(env(safe-area-inset-top,0px) + 78px);
     transform:translateX(-50%);color:#7a2a52;background:rgba(255,255,255,.68);
     -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
@@ -251,15 +259,12 @@
     background:transparent;color:#9a4a72;font-family:inherit;font-size:13px;
     font-weight:700;cursor:pointer}
 
-  /* ⭐ MODO AUTO — Cuando la plantilla viene personalizada */
+  /* ⭐ MODO AUTO */
   html.dleon-auto #personalizacion{display:none !important}
   html.dleon-auto #intro{display:none !important}
-
   html.dleon-auto #btnSharePlantilla{
-    opacity:1 !important;
-    pointer-events:auto !important;
-    visibility:visible !important;
-    display:inline-flex !important}
+    opacity:1 !important; pointer-events:auto !important;
+    visibility:visible !important; display:inline-flex !important}
 
   @media (max-height:560px){
     #loveMsg{bottom:calc(env(safe-area-inset-bottom,0px) + 108px);font-size:14px;padding:12px 20px}
@@ -275,7 +280,7 @@
 </head>
 <body>
 
-<!-- ⭐ SCRIPT CLAVE — Detecta modo auto ANTES de pintar -->
+<!-- ⭐ DETECCIÓN AUTO -->
 <script>
 (function(){
   try{
@@ -289,11 +294,12 @@
     if(parsed && (parsed.nombre || parsed.mensaje || 
        (parsed.frases && parsed.frases.length) || parsed.archivoMusica)){
       document.documentElement.classList.add('dleon-auto');
-      console.log('✅ Modo AUTO detectado');
+      console.log('✅ Modo AUTO');
     } else {
       document.documentElement.classList.add('dleon-editor');
     }
   }catch(e){
+    console.error('Config error:', e);
     document.documentElement.classList.add('dleon-editor');
   }
 })();
@@ -306,7 +312,6 @@
   <div style="font-size:42px;animation:beat 1.1s ease-in-out infinite;filter:drop-shadow(0 4px 12px rgba(214,60,120,.4))">✨</div>
   <h2>Personaliza tu Diente de León</h2>
   <p class="sub">Hazlo único para esa persona especial 💖</p>
-
   <div class="form-group">
     <label>💌 Nombre de tu amor</label>
     <input type="text" id="pNombre" placeholder="Ej: María, Mi Cielo, Princesa..." maxlength="30">
@@ -324,17 +329,11 @@
   <div class="frases-list" id="frasesList"></div>
   <button class="btn-add-frase" id="btnAddFrase" onclick="agregarFrase()">+ Agregar frase (máx. 10)</button>
   <div class="separador"></div>
-
   <div id="premiumStatus" class="premium-status inactive">
     <span id="premiumIcon">🔒</span>
     <span id="premiumText">Modo gratuito</span>
   </div>
-
-  <div class="premium-badge">
-    <span class="star">⭐</span>
-    FUNCIONES PREMIUM
-  </div>
-
+  <div class="premium-badge"><span class="star">⭐</span> FUNCIONES PREMIUM</div>
   <div class="toggle-row locked" id="rowDestellos">
     <div class="info"><strong>✨ Destellos mágicos</strong><small>Partículas doradas</small></div>
     <div class="toggle-switch locked" id="toggleDestellos"></div>
@@ -346,7 +345,7 @@
   <div class="music-upload" id="musicUpload" style="display:none">
     <input type="file" id="fileMusica" accept="audio/*" onchange="cargarMusica(this)">
     <label for="fileMusica"><span class="icon">🎶</span>
-      <strong>Toca para subir tu canción</strong><small>MP3, WAV u OGG (máx. 3MB)</small></label>
+      <strong>Toca para subir tu canción</strong><small>MP3, WAV u OGG (máx. 2MB)</small></label>
     <div class="music-name" id="musicName"></div>
   </div>
   <div class="toggle-row locked" id="rowCorazones">
@@ -361,7 +360,6 @@
     <div class="info"><strong>🌊 Efecto 3D</strong><small>Paralaje mejorado</small></div>
     <div class="toggle-switch locked" id="toggleEfecto3D"></div>
   </div>
-
   <div style="height:6px"></div>
   <a href="https://c4rlo53305-lgtm.github.io/Peri/premium.html" class="btn-premium" target="_blank" rel="noopener">
     <span class="crown">💳</span> Hacerme Premium
@@ -374,7 +372,7 @@
   <div class="box">
     <span class="crown">👑</span>
     <h3>Función Premium</h3>
-    <p>Esta función es exclusiva de usuarios Premium.<br>Actívala para desbloquear todos los efectos mágicos.</p>
+    <p>Esta función es exclusiva de usuarios Premium.</p>
     <a href="https://c4rlo53305-lgtm.github.io/Peri/premium.html" target="_blank" rel="noopener" class="btn-go">👑 Hacerme Premium</a>
     <button class="btn-close" onclick="document.getElementById('lockModal').classList.remove('show')">Cancelar</button>
   </div>
@@ -417,14 +415,20 @@
 (function(){
 'use strict';
 
-/* ══════════════════════════════════════════════════════════
-   SISTEMA PREMIUM
-   ══════════════════════════════════════════════════════════ */
+/* ⭐⭐⭐ FIX CRÍTICO: RED DE SEGURIDAD GLOBAL ⭐⭐⭐
+   Cualquier error en el loop principal NO detiene la animación */
+window.addEventListener('error', function(e){
+  console.error('💥 Error global:', e.message, e.filename, e.lineno);
+});
+window.addEventListener('unhandledrejection', function(e){
+  console.error('💥 Promesa rechazada:', e.reason);
+});
+
 var isPremium = (localStorage.getItem("peri_premium_activated") === "1");
 console.log("⭐ Premium:", isPremium);
 
 /* ══════════════════════════════════════════════════════════
-   LEER CONFIG INICIAL
+   CONFIG
    ══════════════════════════════════════════════════════════ */
 var CONFIG_PLACEHOLDER = '__DLEON_CONFIG__';
 var configInicial = null;
@@ -437,20 +441,20 @@ try{
     if(contenido && contenido !== CONFIG_PLACEHOLDER && contenido !== '{}' && contenido.charAt(0) === '{'){
       configInicial = JSON.parse(contenido);
       modoAuto = true;
-      console.log('✅ Config inicial:', configInicial);
+      console.log('✅ Config cargada');
     }
   }
 }catch(e){ console.warn('Error config:', e); }
 
 /* ══════════════════════════════════════════════════════════
-   CANDADO DE DOMINIO
+   DOMINIO
    ══════════════════════════════════════════════════════════ */
 var OFICIAL = 'c4rlo53305-lgtm.github.io';
 var PERMITIDOS = [OFICIAL, 'www.'+OFICIAL, 'localhost', '127.0.0.1'];
 (function(){
   var h = location.hostname;
   var ok = (location.protocol === 'file:') || PERMITIDOS.indexOf(h) !== -1;
-  if(!ok){ throw new Error('x'); }
+  if(!ok){ console.warn('Dominio no autorizado'); throw new Error('x'); }
 })();
 
 /* ══════════════════════════════════════════════════════════
@@ -474,7 +478,7 @@ vigilarMarca(); setInterval(vigilarMarca, 900);
 try{ new MutationObserver(vigilarMarca).observe(document.documentElement, {childList:true, subtree:true}); }catch(e){}
 
 /* ══════════════════════════════════════════════════════════
-   ESTADO PERSONALIZACIÓN
+   PERSONALIZACIÓN
    ══════════════════════════════════════════════════════════ */
 var personalizacion = {
   nombre:'', mensaje:'',
@@ -507,7 +511,7 @@ function actualizarUIPremium(){
   if(isPremium){
     status.classList.remove('inactive');
     icon.textContent = '👑';
-    text.textContent = '¡Premium activo! Todo desbloqueado';
+    text.textContent = '¡Premium activo!';
   } else {
     status.classList.add('inactive');
     icon.textContent = '🔒';
@@ -538,25 +542,18 @@ function togglePremium(el, feature){
     return;
   }
   el.classList.toggle('on');
-  var activo = el.classList.contains('on');
-  personalizacion.premium[feature] = activo;
+  personalizacion.premium[feature] = el.classList.contains('on');
   if(feature === 'destellos') buildDestellos();
   if(feature === 'musica'){
-    document.getElementById('musicUpload').style.display = activo ? 'block' : 'none';
-    if(!activo) document.getElementById('audioPlayer').pause();
+    document.getElementById('musicUpload').style.display = personalizacion.premium[feature] ? 'block' : 'none';
   }
-  if(feature === 'corazones' && !activo) corazonesLluvia.length = 0;
+  if(feature === 'corazones' && !personalizacion.premium[feature]) corazonesLluvia.length = 0;
   guardarPersonalizacion();
 }
 window.togglePremium = togglePremium;
 
-function cerrarLockModal(){
-  document.getElementById('lockModal').classList.remove('show');
-}
-window.cerrarLockModal = cerrarLockModal;
-
 /* ══════════════════════════════════════════════════════════
-   PERSONALIZACIÓN
+   FRASES
    ══════════════════════════════════════════════════════════ */
 var frasesTemp = [];
 var maxFrases = 10;
@@ -574,25 +571,8 @@ function initPersonalizacion(){
   frasesTemp = personalizacion.frases.slice();
   var pN = document.getElementById('pNombre');
   var pM = document.getElementById('pMensaje');
-  if(!pN || !pM) return;
-
-  if(configInicial){
-    if(configInicial.nombre) pN.value = configInicial.nombre;
-    if(configInicial.mensaje) pM.value = configInicial.mensaje;
-  } else {
-    var g = localStorage.getItem('dleonPersonalizacion');
-    if(g){
-      try{
-        var p = JSON.parse(g);
-        if(p.nombre) pN.value = p.nombre;
-        if(p.mensaje) pM.value = p.mensaje;
-        if(p.frases && p.frases.length) frasesTemp = p.frases.slice();
-        if(p.premium && isPremium){
-          Object.keys(p.premium).forEach(function(k){ if(p.premium[k]) personalizacion.premium[k]=true; });
-        }
-      }catch(e){}
-    }
-  }
+  if(pN && configInicial && configInicial.nombre) pN.value = configInicial.nombre;
+  if(pM && configInicial && configInicial.mensaje) pM.value = configInicial.mensaje;
   renderFrases();
   actualizarUIPremium();
 
@@ -602,8 +582,7 @@ function initPersonalizacion(){
     audio.volume = 0.4;
     if(personalizacion.nombreMusica){
       var n = document.getElementById('musicName');
-      n.textContent = '🎵 ' + personalizacion.nombreMusica;
-      n.classList.add('show');
+      if(n){ n.textContent = '🎵 ' + personalizacion.nombreMusica; n.classList.add('show'); }
     }
     if(personalizacion.premium.musica){
       document.getElementById('musicUpload').style.display = 'block';
@@ -614,9 +593,7 @@ function initPersonalizacion(){
     var f = n.charAt(0).toLowerCase() + n.slice(1);
     if(n === 'Efecto3D') f = 'efecto3D';
     var el = document.getElementById('toggle'+n);
-    if(el){
-      el.addEventListener('click', function(){ togglePremium(el, f); });
-    }
+    if(el) el.addEventListener('click', function(){ togglePremium(el, f); });
   });
 }
 
@@ -664,8 +641,8 @@ function cargarMusica(input){
   }
   var file = input.files[0];
   if(!file) return;
-  if(file.size > 3*1024*1024){
-    alert('Máximo 3MB. Para que el HTML no se vuelva gigante al enviarlo.');
+  if(file.size > 2*1024*1024){
+    alert('Máximo 2MB. Para que el HTML no se vuelva gigante.');
     return;
   }
   var reader = new FileReader();
@@ -676,8 +653,7 @@ function cargarMusica(input){
     audio.src = e.target.result;
     audio.volume = 0.4;
     var n = document.getElementById('musicName');
-    n.textContent = '🎵 ' + file.name;
-    n.classList.add('show');
+    if(n){ n.textContent = '🎵 ' + file.name; n.classList.add('show'); }
     guardarPersonalizacion();
   };
   reader.readAsDataURL(file);
@@ -692,7 +668,6 @@ function continuarAApp(){
   aplicarPersonalizacion();
   document.getElementById('personalizacion').classList.add('hide');
 
-  /* ⭐ Forzar resize y diente completo */
   HEAD.grow = 1;
   setTimeout(function(){
     try{ resize(); HEAD.grow = 1; }catch(e){}
@@ -718,7 +693,7 @@ function aplicarPersonalizacion(){
 }
 
 /* ══════════════════════════════════════════════════════════
-   GENERAR PLANTILLA PERSONALIZADA
+   GENERAR HTML PERSONALIZADO
    ══════════════════════════════════════════════════════════ */
 function construirConfigJSON(){
   return JSON.stringify({
@@ -818,6 +793,7 @@ function generarHTMLPersonalizado(){
   return html;
 }
 
+/* ⭐⭐⭐ BOTÓN MORADO CON TIMEOUT DE SEGURIDAD ⭐⭐⭐ */
 document.getElementById('btnSharePlantilla').addEventListener('click', async function(){
   var btn = this;
   var spanEl = btn.querySelector('span');
@@ -825,6 +801,13 @@ document.getElementById('btnSharePlantilla').addEventListener('click', async fun
 
   btn.classList.add('loading');
   spanEl.textContent = 'Generando...';
+
+  /* ⭐ RED DE SEGURIDAD: si algo se atora, resetea a los 8s */
+  var safetyTimer = setTimeout(function(){
+    btn.classList.remove('loading');
+    spanEl.textContent = textoOriginal;
+    console.warn('⚠️ Timeout: botón reseteado por seguridad');
+  }, 8000);
 
   try{
     var htmlFinal = generarHTMLPersonalizado();
@@ -840,7 +823,7 @@ document.getElementById('btnSharePlantilla').addEventListener('click', async fun
 
     var blob = new Blob([htmlFinal], { type: 'text/html;charset=utf-8' });
     var file = new File([blob], nombreArchivo, { type: 'text/html' });
-    console.log('📦 HTML generado:', nombreArchivo, '·', (blob.size/1024).toFixed(0) + 'KB');
+    console.log('📦 HTML:', nombreArchivo, '·', (blob.size/1024).toFixed(0) + 'KB');
 
     var puedeCompartir = false;
     try{
@@ -854,19 +837,21 @@ document.getElementById('btnSharePlantilla').addEventListener('click', async fun
           title: 'Diente de León Mágico ✨💖',
           text: '✨ Te mando un diente de león mágico personalizado. Ábrelo y sacude tu teléfono 💖'
         });
+        clearTimeout(safetyTimer);
         btn.classList.remove('loading');
         spanEl.textContent = textoOriginal;
         return;
       }catch(err){
         if(err && err.name === 'AbortError'){
+          clearTimeout(safetyTimer);
           btn.classList.remove('loading');
           spanEl.textContent = textoOriginal;
           return;
         }
-        console.warn('Share falló, usando fallback:', err);
       }
     }
 
+    /* Fallback: descargar + WhatsApp */
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
     a.href = url;
@@ -884,19 +869,21 @@ document.getElementById('btnSharePlantilla').addEventListener('click', async fun
       catch(e){ location.href = wa; }
     }, 500);
 
+    clearTimeout(safetyTimer);
     btn.classList.remove('loading');
     spanEl.textContent = textoOriginal;
 
   }catch(err){
     console.error('Error:', err);
-    alert('No se pudo generar: ' + err.message);
+    clearTimeout(safetyTimer);
+    try{ alert('Error: ' + err.message); }catch(e){}
     btn.classList.remove('loading');
     spanEl.textContent = textoOriginal;
   }
 });
 
 /* ══════════════════════════════════════════════════════════
-   FRASES
+   FRASES POOL
    ══════════════════════════════════════════════════════════ */
 var FRASES = [
   'Te amo más que ayer 💕','Eres mi deseo cumplido ✨','Contigo todo es mágico 💖',
@@ -967,7 +954,7 @@ var PALETAS = {
 
 function actualizarMomento(){
   var n = detectarMomento();
-  if(n !== momentoDia){ momentoDia = n; buildEstrellas(); }
+  if(n !== momentoDia){ momentoDia = n; try{ buildEstrellas(); }catch(e){} }
   var pal = PALETAS[momentoDia];
   var el = document.getElementById('momentoTexto');
   if(el) el.textContent = pal.etiqueta;
@@ -985,12 +972,17 @@ function actualizarMomento(){
 }
 
 /* ══════════════════════════════════════════════════════════
-   MOTOR
+   MOTOR — REFORZADO
    ══════════════════════════════════════════════════════════ */
 var canvas = document.getElementById('scene');
-var ctx = canvas.getContext('2d', {alpha:false});
+var ctx = null;
+try{
+  ctx = canvas.getContext('2d', {alpha:false});
+}catch(e){ console.error('Canvas context error:', e); }
+if(!ctx){ console.error('❌ No se pudo obtener contexto 2D'); }
+
 var W=0,H=0,DPR=1,T=0;
-var HEAD={x:0,y:0,r:0,grow:0};
+var HEAD={x:0,y:0,r:100,grow:1};
 var attached=[], flying=[], motes=[], clouds=[], blades=[], sparks=[], hearts=[], estrellas=[];
 var destellos=[], fuegosArtificiales=[], corazonesLluvia=[];
 var wind=0, windTarget=0, windTimer=0, regrow=-1;
@@ -1113,7 +1105,7 @@ function spawnHeart(x,y,power){
 }
 
 /* ══════════════════════════════════════════════════════════
-   SENSOR DE AGITACIÓN
+   SENSOR
    ══════════════════════════════════════════════════════════ */
 var lastShakeTime = 0;
 var SHAKE_COOLDOWN_MS = 200;
@@ -1169,9 +1161,8 @@ function ejecutarSacudida(power){
 
 function onOrientation(e){
   if(e.beta !== null && e.gamma !== null){
-    var tx = Math.max(-1, Math.min(1, (e.gamma||0)/45));
-    var ty = Math.max(-1, Math.min(1, (e.beta||0)/60));
-    tiltTargetX = tx; tiltTargetY = ty;
+    tiltTargetX = Math.max(-1, Math.min(1, (e.gamma||0)/45));
+    tiltTargetY = Math.max(-1, Math.min(1, (e.beta||0)/60));
   }
 }
 
@@ -1220,7 +1211,7 @@ window.pedirPermisosSensor = pedirPermisosSensor;
 })();
 
 /* ══════════════════════════════════════════════════════════
-   INTERACCIÓN TÁCTIL
+   INTERACCIÓN
    ══════════════════════════════════════════════════════════ */
 var pressing=false, lastPX=0, lastPY=0;
 function ocultarHint(){
@@ -1309,7 +1300,7 @@ document.getElementById('startBtn').addEventListener('click', function(){
 });
 
 /* ══════════════════════════════════════════════════════════
-   ACTUALIZACIÓN
+   UPDATE
    ══════════════════════════════════════════════════════════ */
 var tiempoUltimoChequeo = 0;
 function update(dt){
@@ -1421,10 +1412,10 @@ function update(dt){
 }
 
 /* ══════════════════════════════════════════════════════════
-   DIBUJO
+   DRAW
    ══════════════════════════════════════════════════════════ */
 function drawSky(){
-  var pal = PALETAS[momentoDia];
+  var pal = PALETAS[momentoDia] || PALETAS.dia;
   var sky = ctx.createLinearGradient(0,0,0,H);
   for(var i=0;i<pal.coloresCielo.length;i++){
     var p = pal.coloresCielo[i];
@@ -1465,7 +1456,7 @@ function drawSky(){
   }
 }
 function drawClouds(){
-  var pal = PALETAS[momentoDia];
+  var pal = PALETAS[momentoDia] || PALETAS.dia;
   for(var i=0;i<clouds.length;i++){
     var c = clouds[i];
     ctx.save();
@@ -1481,7 +1472,7 @@ function drawClouds(){
   }
 }
 function drawGround(){
-  var pal = PALETAS[momentoDia];
+  var pal = PALETAS[momentoDia] || PALETAS.dia;
   var g = ctx.createLinearGradient(0,H*0.80,0,H);
   g.addColorStop(0, pal.sueloTop);
   g.addColorStop(0.45, pal.sueloMed);
@@ -1494,7 +1485,7 @@ function drawGround(){
   ctx.closePath(); ctx.fill();
 }
 function drawGrass(front){
-  var pal = PALETAS[momentoDia];
+  var pal = PALETAS[momentoDia] || PALETAS.dia;
   var gy = H*0.925;
   ctx.lineCap = 'round';
   for(var i=0;i<blades.length;i++){
@@ -1512,7 +1503,7 @@ function drawGrass(front){
   }
 }
 function drawMotes(){
-  var pal = PALETAS[momentoDia];
+  var pal = PALETAS[momentoDia] || PALETAS.dia;
   for(var i=0;i<motes.length;i++){
     var m = motes[i];
     ctx.globalAlpha = m.a*(0.55+0.45*Math.sin(m.ph));
@@ -1552,7 +1543,7 @@ function drawStem(){
 }
 function drawHead(){
   if(attached.length === 0) return;
-  var pal = PALETAS[momentoDia];
+  var pal = PALETAS[momentoDia] || PALETAS.dia;
   var g = HEAD.grow;
   var cx = HEAD.x, cy = HEAD.y;
   var sway = Math.sin(T*0.9)*0.02 + wind*0.9 + tiltX*0.06;
@@ -1710,107 +1701,152 @@ function drawCorazonesLluvia(){
   }
 }
 function drawTinte(){
-  ctx.fillStyle = PALETAS[momentoDia].tinte;
+  var pal = PALETAS[momentoDia] || PALETAS.dia;
+  ctx.fillStyle = pal.tinte;
   ctx.fillRect(0,0,W,H);
 }
+
+/* ⭐⭐⭐ DRAW PRINCIPAL CON TRY/CATCH — NUNCA DEJA EL CANVAS NEGRO ⭐⭐⭐ */
 function draw(){
-  drawSky();
-  drawClouds();
-  drawMotes();
-  drawDestellos();
-  drawGround();
-  drawGrass(false);
-  drawStem();
-  drawHead();
-  drawSparks();
-  drawFlying();
-  drawHearts();
-  drawCorazonesLluvia();
-  drawGrass(true);
-  drawFuegosArtificiales();
-  drawTinte();
+  if(!ctx) return;
+  try{
+    drawSky();
+    drawClouds();
+    drawMotes();
+    drawDestellos();
+    drawGround();
+    drawGrass(false);
+    drawStem();
+    drawHead();
+    drawSparks();
+    drawFlying();
+    drawHearts();
+    drawCorazonesLluvia();
+    drawGrass(true);
+    drawFuegosArtificiales();
+    drawTinte();
+  }catch(e){
+    console.error('💥 Error en draw():', e);
+    /* ⭐ FALLBACK: pintar al menos el fondo rosa para no ver negro */
+    try{
+      ctx.fillStyle = '#ffe4ec';
+      ctx.fillRect(0, 0, W, H);
+    }catch(e2){}
+  }
 }
 
 function resize(){
-  DPR = Math.min(window.devicePixelRatio || 1, 2);
-  W = window.innerWidth; H = window.innerHeight;
-  canvas.width = Math.round(W*DPR);
-  canvas.height = Math.round(H*DPR);
-  canvas.style.width = W+'px'; canvas.style.height = H+'px';
-  ctx.setTransform(DPR,0,0,DPR,0,0);
-  layout();
-  buildMotes(); buildClouds(); buildGrass(); buildEstrellas(); buildDestellos();
+  try{
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth || document.documentElement.clientWidth || 320;
+    H = window.innerHeight || document.documentElement.clientHeight || 480;
+    if(W < 10) W = 320;
+    if(H < 10) H = 480;
+    canvas.width = Math.round(W*DPR);
+    canvas.height = Math.round(H*DPR);
+    canvas.style.width = W+'px';
+    canvas.style.height = H+'px';
+    if(ctx) ctx.setTransform(DPR,0,0,DPR,0,0);
+    layout();
+    buildMotes(); buildClouds(); buildGrass(); buildEstrellas(); buildDestellos();
+    console.log('📐 resize:', W, 'x', H, 'DPR:', DPR);
+  }catch(e){
+    console.error('💥 Error en resize():', e);
+  }
 }
 window.addEventListener('resize', resize);
 window.addEventListener('orientationchange', function(){ setTimeout(resize, 250); });
 
+/* ⭐⭐⭐ LOOP CON TRY/CATCH — NUNCA SE DETIENE ⭐⭐⭐ */
 var lastT = 0;
 function loop(now){
-  if(!lastT) lastT = now;
-  var dt = (now - lastT)/1000;
-  lastT = now;
-  if(dt > 0.05) dt = 0.05;
-  update(dt);
-  draw();
+  try{
+    if(!lastT) lastT = now;
+    var dt = (now - lastT)/1000;
+    lastT = now;
+    if(dt > 0.05) dt = 0.05;
+    if(dt < 0.001) dt = 0.001;
+    update(dt);
+    draw();
+  }catch(e){
+    console.error('💥 Error en loop:', e);
+  }
   requestAnimationFrame(loop);
 }
 
 /* ══════════════════════════════════════════════════════════
-   ARRANQUE
+   ARRANQUE — CON REINTENTOS
    ══════════════════════════════════════════════════════════ */
 function init(){
-  if(isPremium){
-    personalizacion.premium.destellos = personalizacion.premium.destellos || true;
-    personalizacion.premium.corazones = personalizacion.premium.corazones || true;
-    personalizacion.premium.fuegos = personalizacion.premium.fuegos || true;
-  }
-  resize();
-  buildHead();
-  /* ⭐ FIX: en modo auto el diente aparece completo desde el inicio */
-  HEAD.grow = modoAuto ? 1 : 0;
-  actualizarMomento();
-  setInterval(actualizarMomento, 60000);
-  initPersonalizacion();
-
-  if(modoAuto){
-    console.log('🚀 Modo AUTO: saltando personalizador');
-    var pers = document.getElementById('personalizacion');
-    if(pers){ pers.style.display = 'none'; pers.classList.add('hide'); }
-    var intro = document.getElementById('intro');
-    if(intro){ intro.style.display = 'none'; intro.classList.add('hide'); }
-    aplicarPersonalizacion();
-    var btn = document.getElementById('btnSharePlantilla');
-    if(btn) btn.classList.add('show');
-    window.__started = true;
-
-    /* ⭐ FIX: reintentos de resize por si el layout no estaba listo */
-    setTimeout(function(){
-      try{ resize(); HEAD.grow = 1; }catch(e){ console.warn(e); }
-    }, 80);
-    setTimeout(function(){
-      try{ resize(); HEAD.grow = 1; }catch(e){ console.warn(e); }
-    }, 400);
-    setTimeout(function(){
-      try{ resize(); HEAD.grow = 1; }catch(e){ console.warn(e); }
-    }, 1200);
-
-    if(personalizacion.archivoMusica){
-      var a = document.getElementById('audioPlayer');
-      a.src = personalizacion.archivoMusica;
-      a.volume = 0.4;
-      a.play().catch(function(){});
+  try{
+    if(isPremium){
+      personalizacion.premium.destellos = personalizacion.premium.destellos || true;
+      personalizacion.premium.corazones = personalizacion.premium.corazones || true;
+      personalizacion.premium.fuegos = personalizacion.premium.fuegos || true;
     }
-    setTimeout(function(){ mostrarFrase(); }, 500);
-    setTimeout(function(){
-      for(var i=0;i<12;i++) spawnHeart(W/2+rnd(-80,80), H/2+rnd(-60,60), 1.3);
-    }, 800);
-  }
+    resize();
+    buildHead();
+    /* ⭐ FIX: HEAD.grow = 1 en modo auto para que aparezca completo */
+    HEAD.grow = modoAuto ? 1 : 0;
+    actualizarMomento();
+    setInterval(actualizarMomento, 60000);
+    initPersonalizacion();
 
-  requestAnimationFrame(loop);
-  setTimeout(ocultarHint, 7000);
+    if(modoAuto){
+      console.log('🚀 Modo AUTO');
+      var pers = document.getElementById('personalizacion');
+      if(pers){ pers.style.display = 'none'; pers.classList.add('hide'); }
+      var intro = document.getElementById('intro');
+      if(intro){ intro.style.display = 'none'; intro.classList.add('hide'); }
+      aplicarPersonalizacion();
+      var btn = document.getElementById('btnSharePlantilla');
+      if(btn) btn.classList.add('show');
+      window.__started = true;
+
+      /* ⭐ MÚLTIPLES REINTENTOS DE RESIZE */
+      [80, 400, 1200, 2500].forEach(function(ms){
+        setTimeout(function(){
+          try{ resize(); HEAD.grow = 1; }catch(e){}
+        }, ms);
+      });
+
+      /* ⭐ MANTENER HEAD.grow=1 en modo auto (evita que se resetee) */
+      setInterval(function(){
+        if(modoAuto && HEAD.grow < 1) HEAD.grow = 1;
+      }, 500);
+
+      /* Música */
+      if(personalizacion.archivoMusica){
+        var a = document.getElementById('audioPlayer');
+        a.src = personalizacion.archivoMusica;
+        a.volume = 0.4;
+        a.play().catch(function(){});
+      }
+      setTimeout(function(){ mostrarFrase(); }, 500);
+      setTimeout(function(){
+        for(var i=0;i<12;i++) spawnHeart(W/2+rnd(-80,80), H/2+rnd(-60,60), 1.3);
+      }, 800);
+    }
+
+    /* ⭐ Dibujar una vez inmediatamente antes de arrancar el loop */
+    try{ draw(); }catch(e){ console.error('Primer draw error:', e); }
+
+    requestAnimationFrame(loop);
+    setTimeout(ocultarHint, 7000);
+    console.log('✅ Init completo. modoAuto:', modoAuto);
+  }catch(e){
+    console.error('💥 Error en init():', e);
+    /* Reintentar */
+    setTimeout(init, 500);
+  }
 }
 
-init();
+/* ⭐ ARRANCAR */
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
 
 })();
 </script>
