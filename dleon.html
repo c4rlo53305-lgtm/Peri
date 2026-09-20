@@ -12,7 +12,6 @@
   html,body{margin:0;padding:0;height:100%;overflow:hidden;background:#ffe4ec;
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
     user-select:none;-webkit-user-select:none;touch-action:none}
-  /* ⭐ FIX: canvas con fondo visible (nunca negro) + dimensiones forzadas */
   #scene{
     display:block;
     position:fixed;
@@ -85,7 +84,6 @@
     50%{box-shadow:0 12px 42px rgba(37,211,102,.75),0 4px 0 rgba(0,90,80,.35),inset 0 1px 0 rgba(255,255,255,.4)}}
   @keyframes shineWa{0%{transform:translateX(-120%)}60%,100%{transform:translateX(120%)}}
 
-  /* ⭐ BOTÓN MORADO DE COMPARTIR */
   #btnSharePlantilla{
     position:fixed;
     right:20px;
@@ -259,6 +257,29 @@
     background:transparent;color:#9a4a72;font-family:inherit;font-size:13px;
     font-weight:700;cursor:pointer}
 
+  /* ⭐ AVISO TAP SENSOR para iOS */
+  #tapSensor{
+    position:fixed;
+    left:50%;top:50%;
+    transform:translate(-50%,-50%);
+    padding:16px 26px;
+    border-radius:18px;
+    background:rgba(255,255,255,.97);
+    color:#a1235e;
+    font-weight:900;
+    font-size:15px;
+    z-index:999999;
+    box-shadow:0 20px 60px rgba(214,60,120,.5),inset 0 1px 0 rgba(255,255,255,.9);
+    text-align:center;
+    animation:pulseTap 1.8s ease-in-out infinite;
+    display:none;
+    max-width:80vw;
+    line-height:1.4}
+  @keyframes pulseTap{
+    0%,100%{transform:translate(-50%,-50%) scale(1);box-shadow:0 20px 60px rgba(214,60,120,.5)}
+    50%{transform:translate(-50%,-50%) scale(1.05);box-shadow:0 20px 80px rgba(214,60,120,.7)}}
+  #tapSensor.show{display:block}
+
   /* ⭐ MODO AUTO */
   html.dleon-auto #personalizacion{display:none !important}
   html.dleon-auto #intro{display:none !important}
@@ -390,6 +411,9 @@
 <div id="momento">🌅 <b id="momentoTexto">—</b></div>
 <div id="loveMsg"><span class="heart">💖</span><span id="loveText">Te amo</span></div>
 
+<!-- ⭐ Aviso tap sensor iOS -->
+<div id="tapSensor">📱 Toca la pantalla para<br>activar el sensor de sacudida</div>
+
 <div id="wm-magica">
   <span>✦ Creado por ✦</span>
   <a href="https://c4rlo53305-lgtm.github.io/Peri/" target="_blank" rel="noopener">Creaciones Mágicas 💛</a>
@@ -415,8 +439,6 @@
 (function(){
 'use strict';
 
-/* ⭐⭐⭐ FIX CRÍTICO: RED DE SEGURIDAD GLOBAL ⭐⭐⭐
-   Cualquier error en el loop principal NO detiene la animación */
 window.addEventListener('error', function(e){
   console.error('💥 Error global:', e.message, e.filename, e.lineno);
 });
@@ -427,9 +449,6 @@ window.addEventListener('unhandledrejection', function(e){
 var isPremium = (localStorage.getItem("peri_premium_activated") === "1");
 console.log("⭐ Premium:", isPremium);
 
-/* ══════════════════════════════════════════════════════════
-   CONFIG
-   ══════════════════════════════════════════════════════════ */
 var CONFIG_PLACEHOLDER = '__DLEON_CONFIG__';
 var configInicial = null;
 var modoAuto = false;
@@ -446,9 +465,6 @@ try{
   }
 }catch(e){ console.warn('Error config:', e); }
 
-/* ══════════════════════════════════════════════════════════
-   DOMINIO
-   ══════════════════════════════════════════════════════════ */
 var OFICIAL = 'c4rlo53305-lgtm.github.io';
 var PERMITIDOS = [OFICIAL, 'www.'+OFICIAL, 'localhost', '127.0.0.1'];
 (function(){
@@ -457,9 +473,6 @@ var PERMITIDOS = [OFICIAL, 'www.'+OFICIAL, 'localhost', '127.0.0.1'];
   if(!ok){ console.warn('Dominio no autorizado'); throw new Error('x'); }
 })();
 
-/* ══════════════════════════════════════════════════════════
-   MARCA DE AGUA
-   ══════════════════════════════════════════════════════════ */
 var LINK_OFICIAL = 'https://c4rlo53305-lgtm.github.io/Peri/';
 var LINK_PLANTILLA = 'https://c4rlo53305-lgtm.github.io/Peri/dleon.html';
 
@@ -477,9 +490,6 @@ function vigilarMarca(){
 vigilarMarca(); setInterval(vigilarMarca, 900);
 try{ new MutationObserver(vigilarMarca).observe(document.documentElement, {childList:true, subtree:true}); }catch(e){}
 
-/* ══════════════════════════════════════════════════════════
-   PERSONALIZACIÓN
-   ══════════════════════════════════════════════════════════ */
 var personalizacion = {
   nombre:'', mensaje:'',
   frases: [
@@ -500,9 +510,6 @@ if(configInicial){
   if(configInicial.nombreMusica) personalizacion.nombreMusica = configInicial.nombreMusica;
 }
 
-/* ══════════════════════════════════════════════════════════
-   UI PREMIUM
-   ══════════════════════════════════════════════════════════ */
 function actualizarUIPremium(){
   var status = document.getElementById('premiumStatus');
   var icon = document.getElementById('premiumIcon');
@@ -552,9 +559,6 @@ function togglePremium(el, feature){
 }
 window.togglePremium = togglePremium;
 
-/* ══════════════════════════════════════════════════════════
-   FRASES
-   ══════════════════════════════════════════════════════════ */
 var frasesTemp = [];
 var maxFrases = 10;
 
@@ -642,7 +646,7 @@ function cargarMusica(input){
   var file = input.files[0];
   if(!file) return;
   if(file.size > 2*1024*1024){
-    alert('Máximo 2MB. Para que el HTML no se vuelva gigante.');
+    alert('Máximo 2MB.');
     return;
   }
   var reader = new FileReader();
@@ -692,9 +696,6 @@ function aplicarPersonalizacion(){
   buildDestellos();
 }
 
-/* ══════════════════════════════════════════════════════════
-   GENERAR HTML PERSONALIZADO
-   ══════════════════════════════════════════════════════════ */
 function construirConfigJSON(){
   return JSON.stringify({
     nombre: personalizacion.nombre || '',
@@ -774,6 +775,9 @@ function obtenerHTMLBase(){
   var mt = clone.querySelector('#momentoTexto');
   if(mt) mt.textContent = '—';
 
+  var ts = clone.querySelector('#tapSensor');
+  if(ts){ ts.classList.remove('show'); ts.style.display = 'none'; }
+
   var title = clone.querySelector('title');
   if(title) title.textContent = 'Diente de León Mágico ✨💖';
 
@@ -793,7 +797,6 @@ function generarHTMLPersonalizado(){
   return html;
 }
 
-/* ⭐⭐⭐ BOTÓN MORADO CON TIMEOUT DE SEGURIDAD ⭐⭐⭐ */
 document.getElementById('btnSharePlantilla').addEventListener('click', async function(){
   var btn = this;
   var spanEl = btn.querySelector('span');
@@ -802,11 +805,10 @@ document.getElementById('btnSharePlantilla').addEventListener('click', async fun
   btn.classList.add('loading');
   spanEl.textContent = 'Generando...';
 
-  /* ⭐ RED DE SEGURIDAD: si algo se atora, resetea a los 8s */
   var safetyTimer = setTimeout(function(){
     btn.classList.remove('loading');
     spanEl.textContent = textoOriginal;
-    console.warn('⚠️ Timeout: botón reseteado por seguridad');
+    console.warn('⚠️ Timeout');
   }, 8000);
 
   try{
@@ -851,7 +853,6 @@ document.getElementById('btnSharePlantilla').addEventListener('click', async fun
       }
     }
 
-    /* Fallback: descargar + WhatsApp */
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
     a.href = url;
@@ -882,9 +883,6 @@ document.getElementById('btnSharePlantilla').addEventListener('click', async fun
   }
 });
 
-/* ══════════════════════════════════════════════════════════
-   FRASES POOL
-   ══════════════════════════════════════════════════════════ */
 var FRASES = [
   'Te amo más que ayer 💕','Eres mi deseo cumplido ✨','Contigo todo es mágico 💖',
   'Mi lugar favorito es a tu lado 🌹','Cada semilla lleva mi amor por ti 💌',
@@ -909,9 +907,6 @@ var wishCount = 0;
 var wcEl = document.getElementById('wc');
 function sumarDeseo(n){ wishCount += (n||1); wcEl.textContent = wishCount; }
 
-/* ══════════════════════════════════════════════════════════
-   MOMENTO DEL DÍA
-   ══════════════════════════════════════════════════════════ */
 var momentoDia = 'dia';
 function detectarMomento(){
   var t = new Date().getHours() + new Date().getMinutes()/60;
@@ -971,15 +966,10 @@ function actualizarMomento(){
   }
 }
 
-/* ══════════════════════════════════════════════════════════
-   MOTOR — REFORZADO
-   ══════════════════════════════════════════════════════════ */
 var canvas = document.getElementById('scene');
 var ctx = null;
-try{
-  ctx = canvas.getContext('2d', {alpha:false});
-}catch(e){ console.error('Canvas context error:', e); }
-if(!ctx){ console.error('❌ No se pudo obtener contexto 2D'); }
+try{ ctx = canvas.getContext('2d', {alpha:false}); }catch(e){}
+if(!ctx){ console.error('❌ No ctx'); }
 
 var W=0,H=0,DPR=1,T=0;
 var HEAD={x:0,y:0,r:100,grow:1};
@@ -1105,58 +1095,67 @@ function spawnHeart(x,y,power){
 }
 
 /* ══════════════════════════════════════════════════════════
-   SENSOR
+   ⭐ SENSOR DE AGITACIÓN — UMBRAL BAJO + DEBUG
    ══════════════════════════════════════════════════════════ */
 var lastShakeTime = 0;
-var SHAKE_COOLDOWN_MS = 200;
 var lastAcc = {x:0,y:0,z:0};
 var hasLastAcc = false;
 var sensorAttached = false;
+var sensorPermission = 'unknown';
 
 function onMotion(e){
-  var ahora = Date.now();
-  var ag = e.accelerationIncludingGravity;
-  if(ag && ag.x !== null && ag.x !== undefined){
-    tiltTargetX = Math.max(-1, Math.min(1, ag.x/9.8));
-    tiltTargetY = Math.max(-1, Math.min(1, ag.y/9.8));
-  }
-  var mag = 0;
-  var acc = e.acceleration;
-  if(acc && acc.x !== null && acc.x !== undefined && 
-     !(acc.x === 0 && acc.y === 0 && acc.z === 0)){
-    mag = Math.sqrt(acc.x*acc.x + acc.y*acc.y + acc.z*acc.z);
-  } else if(ag && ag.x !== null && ag.x !== undefined){
-    if(hasLastAcc){
-      var dx = ag.x - lastAcc.x;
-      var dy = ag.y - lastAcc.y;
-      var dz = ag.z - lastAcc.z;
-      mag = Math.sqrt(dx*dx + dy*dy + dz*dz);
+  try{
+    var ahora = Date.now();
+    var ag = e.accelerationIncludingGravity;
+    if(ag && ag.x !== null && ag.x !== undefined){
+      tiltTargetX = Math.max(-1, Math.min(1, ag.x/9.8));
+      tiltTargetY = Math.max(-1, Math.min(1, ag.y/9.8));
     }
-    lastAcc = {x:ag.x, y:ag.y, z:ag.z};
-    hasLastAcc = true;
-  }
-  if(mag > 8 && (ahora - lastShakeTime) > SHAKE_COOLDOWN_MS){
-    var power = Math.min(1, mag / 25);
-    ejecutarSacudida(power);
-    lastShakeTime = ahora;
+    var mag = 0;
+    var acc = e.acceleration;
+    if(acc && acc.x !== null && acc.x !== undefined && 
+       !(acc.x === 0 && acc.y === 0 && acc.z === 0)){
+      mag = Math.sqrt(acc.x*acc.x + acc.y*acc.y + acc.z*acc.z);
+    } else if(ag && ag.x !== null && ag.x !== undefined){
+      if(hasLastAcc){
+        var dx = ag.x - lastAcc.x;
+        var dy = ag.y - lastAcc.y;
+        var dz = ag.z - lastAcc.z;
+        mag = Math.sqrt(dx*dx + dy*dy + dz*dz);
+      }
+      lastAcc = {x:ag.x, y:ag.y, z:ag.z};
+      hasLastAcc = true;
+    }
+    /* ⭐ UMBRAL BAJO (5) + COOLDOWN 150ms */
+    if(mag > 5 && (ahora - lastShakeTime) > 150){
+      var power = Math.min(1, mag / 20);
+      if(power < 0.3) power = 0.3;
+      ejecutarSacudida(power);
+      lastShakeTime = ahora;
+      console.log('📳 SHAKE mag:', mag.toFixed(1), 'power:', power.toFixed(2));
+    }
+  }catch(err){
+    console.error('Error onMotion:', err);
   }
 }
 
 function ejecutarSacudida(power){
-  var cantidad = Math.round(10 + power*35);
-  var rel = releaseSeeds(cantidad, rnd(-0.6,0.6) + wind, -0.18, power);
-  if(rel <= 0) return;
-  windTarget = 0.7 + power*1.3;
-  sumarDeseo(rel);
-  if(Math.random() < 0.7) mostrarFrase();
-  for(var i=0;i<Math.round(4 + power*6);i++){
-    spawnHeart(HEAD.x+rnd(-HEAD.r,HEAD.r), HEAD.y+rnd(-HEAD.r*0.3,HEAD.r*0.5), 0.9+power);
-  }
-  if(isPremium && personalizacion.premium.fuegos){
-    spawnFuegosArtificiales(HEAD.x, HEAD.y);
-  }
-  if(navigator.vibrate) navigator.vibrate(Math.round(20+power*40));
-  ocultarHint();
+  try{
+    var cantidad = Math.round(10 + power*35);
+    var rel = releaseSeeds(cantidad, rnd(-0.6,0.6) + wind, -0.18, power);
+    if(rel <= 0) return;
+    windTarget = 0.7 + power*1.3;
+    sumarDeseo(rel);
+    if(Math.random() < 0.7) mostrarFrase();
+    for(var i=0;i<Math.round(4 + power*6);i++){
+      spawnHeart(HEAD.x+rnd(-HEAD.r,HEAD.r), HEAD.y+rnd(-HEAD.r*0.3,HEAD.r*0.5), 0.9+power);
+    }
+    if(isPremium && personalizacion.premium.fuegos){
+      spawnFuegosArtificiales(HEAD.x, HEAD.y);
+    }
+    if(navigator.vibrate) navigator.vibrate(Math.round(20+power*40));
+    ocultarHint();
+  }catch(e){ console.error('Error sacudida:', e); }
 }
 
 function onOrientation(e){
@@ -1169,37 +1168,47 @@ function onOrientation(e){
 var motionPermissionAsked = false;
 
 function pedirPermisosSensor(){
-  var needsPerm = typeof DeviceMotionEvent !== 'undefined' &&
-                  typeof DeviceMotionEvent.requestPermission === 'function';
-  if(needsPerm){
-    if(motionPermissionAsked) return;
-    motionPermissionAsked = true;
-    DeviceMotionEvent.requestPermission().then(function(r){
-      if(r === 'granted'){
-        if(!sensorAttached){
-          window.addEventListener('devicemotion', onMotion, {passive:true});
-          sensorAttached = true;
-        }
-      } else { motionPermissionAsked = false; }
-    }).catch(function(){ motionPermissionAsked = false; });
-    if(typeof DeviceOrientationEvent !== 'undefined' &&
-       typeof DeviceOrientationEvent.requestPermission === 'function'){
-      DeviceOrientationEvent.requestPermission().then(function(r){
+  try{
+    var needsPerm = typeof DeviceMotionEvent !== 'undefined' &&
+                    typeof DeviceMotionEvent.requestPermission === 'function';
+    if(needsPerm){
+      if(motionPermissionAsked) return;
+      motionPermissionAsked = true;
+      DeviceMotionEvent.requestPermission().then(function(r){
+        sensorPermission = r;
+        console.log('📱 Permiso sensor:', r);
         if(r === 'granted'){
-          window.addEventListener('deviceorientation', onOrientation, {passive:true});
-        }
-      }).catch(function(){});
+          if(!sensorAttached){
+            window.addEventListener('devicemotion', onMotion, {passive:true});
+            sensorAttached = true;
+            console.log('✅ Sensor conectado');
+          }
+        } else { motionPermissionAsked = false; }
+      }).catch(function(err){ 
+        console.warn('Error pidiendo permiso:', err);
+        motionPermissionAsked = false; 
+      });
+      if(typeof DeviceOrientationEvent !== 'undefined' &&
+         typeof DeviceOrientationEvent.requestPermission === 'function'){
+        DeviceOrientationEvent.requestPermission().then(function(r){
+          if(r === 'granted'){
+            window.addEventListener('deviceorientation', onOrientation, {passive:true});
+          }
+        }).catch(function(){});
+      }
+    } else if(typeof DeviceMotionEvent !== 'undefined'){
+      if(!sensorAttached){
+        window.addEventListener('devicemotion', onMotion, {passive:true});
+        window.addEventListener('deviceorientation', onOrientation, {passive:true});
+        sensorAttached = true;
+        console.log('✅ Sensor conectado (Android)');
+      }
     }
-  } else if(typeof DeviceMotionEvent !== 'undefined'){
-    if(!sensorAttached){
-      window.addEventListener('devicemotion', onMotion, {passive:true});
-      window.addEventListener('deviceorientation', onOrientation, {passive:true});
-      sensorAttached = true;
-    }
-  }
+  }catch(e){ console.error('Error permisos:', e); }
 }
 window.pedirPermisosSensor = pedirPermisosSensor;
 
+/* Conexión automática en Android */
 (function conectarSensorAutomatico(){
   var needsPerm = typeof DeviceMotionEvent !== 'undefined' &&
                   typeof DeviceMotionEvent.requestPermission === 'function';
@@ -1207,12 +1216,10 @@ window.pedirPermisosSensor = pedirPermisosSensor;
     window.addEventListener('devicemotion', onMotion, {passive:true});
     window.addEventListener('deviceorientation', onOrientation, {passive:true});
     sensorAttached = true;
+    console.log('✅ Sensor auto-conectado');
   }
 })();
 
-/* ══════════════════════════════════════════════════════════
-   INTERACCIÓN
-   ══════════════════════════════════════════════════════════ */
 var pressing=false, lastPX=0, lastPY=0;
 function ocultarHint(){
   var h = document.getElementById('hint');
@@ -1299,9 +1306,6 @@ document.getElementById('startBtn').addEventListener('click', function(){
   }
 });
 
-/* ══════════════════════════════════════════════════════════
-   UPDATE
-   ══════════════════════════════════════════════════════════ */
 var tiempoUltimoChequeo = 0;
 function update(dt){
   var k = dt*60;
@@ -1411,9 +1415,6 @@ function update(dt){
   }
 }
 
-/* ══════════════════════════════════════════════════════════
-   DRAW
-   ══════════════════════════════════════════════════════════ */
 function drawSky(){
   var pal = PALETAS[momentoDia] || PALETAS.dia;
   var sky = ctx.createLinearGradient(0,0,0,H);
@@ -1706,7 +1707,6 @@ function drawTinte(){
   ctx.fillRect(0,0,W,H);
 }
 
-/* ⭐⭐⭐ DRAW PRINCIPAL CON TRY/CATCH — NUNCA DEJA EL CANVAS NEGRO ⭐⭐⭐ */
 function draw(){
   if(!ctx) return;
   try{
@@ -1726,12 +1726,8 @@ function draw(){
     drawFuegosArtificiales();
     drawTinte();
   }catch(e){
-    console.error('💥 Error en draw():', e);
-    /* ⭐ FALLBACK: pintar al menos el fondo rosa para no ver negro */
-    try{
-      ctx.fillStyle = '#ffe4ec';
-      ctx.fillRect(0, 0, W, H);
-    }catch(e2){}
+    console.error('💥 Error draw:', e);
+    try{ ctx.fillStyle = '#ffe4ec'; ctx.fillRect(0, 0, W, H); }catch(e2){}
   }
 }
 
@@ -1749,15 +1745,12 @@ function resize(){
     if(ctx) ctx.setTransform(DPR,0,0,DPR,0,0);
     layout();
     buildMotes(); buildClouds(); buildGrass(); buildEstrellas(); buildDestellos();
-    console.log('📐 resize:', W, 'x', H, 'DPR:', DPR);
-  }catch(e){
-    console.error('💥 Error en resize():', e);
-  }
+    console.log('📐 resize:', W, 'x', H);
+  }catch(e){ console.error('💥 Error resize:', e); }
 }
 window.addEventListener('resize', resize);
 window.addEventListener('orientationchange', function(){ setTimeout(resize, 250); });
 
-/* ⭐⭐⭐ LOOP CON TRY/CATCH — NUNCA SE DETIENE ⭐⭐⭐ */
 var lastT = 0;
 function loop(now){
   try{
@@ -1768,15 +1761,10 @@ function loop(now){
     if(dt < 0.001) dt = 0.001;
     update(dt);
     draw();
-  }catch(e){
-    console.error('💥 Error en loop:', e);
-  }
+  }catch(e){ console.error('💥 Error loop:', e); }
   requestAnimationFrame(loop);
 }
 
-/* ══════════════════════════════════════════════════════════
-   ARRANQUE — CON REINTENTOS
-   ══════════════════════════════════════════════════════════ */
 function init(){
   try{
     if(isPremium){
@@ -1786,7 +1774,6 @@ function init(){
     }
     resize();
     buildHead();
-    /* ⭐ FIX: HEAD.grow = 1 en modo auto para que aparezca completo */
     HEAD.grow = modoAuto ? 1 : 0;
     actualizarMomento();
     setInterval(actualizarMomento, 60000);
@@ -1803,14 +1790,48 @@ function init(){
       if(btn) btn.classList.add('show');
       window.__started = true;
 
-      /* ⭐ MÚLTIPLES REINTENTOS DE RESIZE */
+      /* ⭐ ACTIVAR SENSOR AL PRIMER TOQUE */
+      var sensorActivado = false;
+      function activarSensorUnaVez(){
+        if(sensorActivado) return;
+        sensorActivado = true;
+        console.log('🎯 Activando sensor por primer toque');
+        pedirPermisosSensor();
+        if(!sensorAttached){
+          try{
+            window.addEventListener('devicemotion', onMotion, {passive:true});
+            window.addEventListener('deviceorientation', onOrientation, {passive:true});
+            sensorAttached = true;
+          }catch(e){}
+        }
+        var aviso = document.getElementById('tapSensor');
+        if(aviso) aviso.classList.remove('show');
+      }
+      window.addEventListener('touchstart', activarSensorUnaVez, {passive:true});
+      window.addEventListener('click', activarSensorUnaVez, {passive:true});
+      window.addEventListener('pointerdown', activarSensorUnaVez, {passive:true});
+      setTimeout(activarSensorUnaVez, 1000);
+
+      /* ⭐ Mostrar aviso tap sensor en iOS */
+      var esIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+                  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      if(esIOS){
+        setTimeout(function(){
+          if(sensorPermission !== 'granted' && !sensorActivado){
+            var aviso = document.getElementById('tapSensor');
+            if(aviso) aviso.classList.add('show');
+          }
+        }, 1500);
+      }
+
+      /* ⭐ Múltiples reintentos de resize */
       [80, 400, 1200, 2500].forEach(function(ms){
         setTimeout(function(){
           try{ resize(); HEAD.grow = 1; }catch(e){}
         }, ms);
       });
 
-      /* ⭐ MANTENER HEAD.grow=1 en modo auto (evita que se resetee) */
+      /* ⭐ Mantener HEAD.grow=1 en modo auto */
       setInterval(function(){
         if(modoAuto && HEAD.grow < 1) HEAD.grow = 1;
       }, 500);
@@ -1828,20 +1849,16 @@ function init(){
       }, 800);
     }
 
-    /* ⭐ Dibujar una vez inmediatamente antes de arrancar el loop */
-    try{ draw(); }catch(e){ console.error('Primer draw error:', e); }
-
+    try{ draw(); }catch(e){ console.error('Primer draw:', e); }
     requestAnimationFrame(loop);
     setTimeout(ocultarHint, 7000);
-    console.log('✅ Init completo. modoAuto:', modoAuto);
+    console.log('✅ Init. modoAuto:', modoAuto);
   }catch(e){
-    console.error('💥 Error en init():', e);
-    /* Reintentar */
+    console.error('💥 Error init:', e);
     setTimeout(init, 500);
   }
 }
 
-/* ⭐ ARRANCAR */
 if(document.readyState === 'loading'){
   document.addEventListener('DOMContentLoaded', init);
 } else {
