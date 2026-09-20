@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#ffe4ec">
 <title>Diente de León Mágico ✨💖</title>
 
-<!-- ⭐ CONFIG INICIAL — Aquí se inyecta la personalización al compartir -->
+<!-- ⭐ CONFIG INICIAL — Se reemplaza al compartir -->
 <script id="config-inicial" type="application/json">__DLEON_CONFIG__</script>
 
 <style>
@@ -78,14 +78,10 @@
     50%{box-shadow:0 12px 42px rgba(37,211,102,.75),0 4px 0 rgba(0,90,80,.35),inset 0 1px 0 rgba(255,255,255,.4)}}
   @keyframes shineWa{0%{transform:translateX(-120%)}60%,100%{transform:translateX(120%)}}
 
-  /* ⭐ BOTÓN MORADO — Enviar plantilla personalizada */
-  #btnSharePlantilla{
-    position:fixed;
-    right:20px;
+  #btnSharePlantilla{position:fixed;right:20px;
     bottom:calc(env(safe-area-inset-bottom,0px) + 84px);
     display:inline-flex;align-items:center;justify-content:center;gap:9px;
-    border:0;cursor:pointer;
-    padding:13px 22px;border-radius:999px;
+    border:0;cursor:pointer;padding:13px 22px;border-radius:999px;
     font-size:14px;font-weight:900;letter-spacing:.3px;
     color:#fff;font-family:inherit;
     background:linear-gradient(135deg,#c060ff 0%,#8020d0 50%,#5010a0 100%);
@@ -93,35 +89,21 @@
                0 4px 0 rgba(50,10,90,.5),
                inset 0 1px 0 rgba(255,255,255,.35);
     transition:transform .15s ease, box-shadow .2s ease, opacity .3s;
-    z-index:9999;
-    overflow:hidden;
+    z-index:9999;overflow:hidden;
     animation:pulseMorado 2.8s ease-in-out infinite;
-    opacity:0;
-    pointer-events:none}
+    opacity:0;pointer-events:none}
   #btnSharePlantilla.show{opacity:1;pointer-events:auto}
-  #btnSharePlantilla::after{
-    content:'';position:absolute;inset:0;
+  #btnSharePlantilla::after{content:'';position:absolute;inset:0;
     background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);
     transform:translateX(-120%);
-    animation:shineMorado 3.6s ease-in-out infinite;
-    pointer-events:none}
-  #btnSharePlantilla:active{transform:scale(.94);
-    box-shadow:0 6px 16px rgba(140,60,240,.5),
-               inset 0 2px 6px rgba(0,0,0,.3)}
+    animation:shineMorado 3.6s ease-in-out infinite;pointer-events:none}
+  #btnSharePlantilla:active{transform:scale(.94)}
   #btnSharePlantilla svg{width:20px;height:20px;fill:#fff;flex-shrink:0;z-index:1}
   #btnSharePlantilla span{position:relative;z-index:1}
-  @keyframes pulseMorado{
-    0%,100%{box-shadow:0 12px 30px rgba(140,60,240,.55),
-                       0 4px 0 rgba(50,10,90,.5),
-                       inset 0 1px 0 rgba(255,255,255,.35)}
-    50%{box-shadow:0 12px 42px rgba(180,100,255,.85),
-                  0 4px 0 rgba(50,10,90,.5),
-                  inset 0 1px 0 rgba(255,255,255,.35)}}
-  @keyframes shineMorado{
-    0%{transform:translateX(-120%)}
-    60%,100%{transform:translateX(120%)}}
-  #btnSharePlantilla.loading{
-    animation:none;opacity:.75;pointer-events:none}
+  @keyframes pulseMorado{0%,100%{box-shadow:0 12px 30px rgba(140,60,240,.55),0 4px 0 rgba(50,10,90,.5),inset 0 1px 0 rgba(255,255,255,.35)}
+    50%{box-shadow:0 12px 42px rgba(180,100,255,.85),0 4px 0 rgba(50,10,90,.5),inset 0 1px 0 rgba(255,255,255,.35)}}
+  @keyframes shineMorado{0%{transform:translateX(-120%)}60%,100%{transform:translateX(120%)}}
+  #btnSharePlantilla.loading{animation:none;opacity:.75;pointer-events:none}
 
   #loveMsg{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 128px);
     transform:translate(-50%, 8px) scale(.9);
@@ -263,30 +245,21 @@
   #lockModal .btn-close{width:100%;padding:12px;border-radius:999px;border:0;
     background:transparent;color:#9a4a72;font-family:inherit;font-size:13px;
     font-weight:700;cursor:pointer}
-  #tokenModal{position:fixed;inset:0;z-index:100002;
-    background:rgba(0,0,0,.7);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
-    display:none;align-items:center;justify-content:center;padding:20px}
-  #tokenModal.show{display:flex}
-  #tokenModal .box{width:100%;max-width:360px;background:#fff;border-radius:20px;
-    padding:26px 22px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.4);
-    animation:modalIn .35s cubic-bezier(.34,1.4,.64,1)}
-  #tokenModal h3{margin:0 0 8px;font-size:20px;color:#a1235e;font-weight:900}
-  #tokenModal p{margin:0 0 18px;font-size:13.5px;color:#7a2a52;font-weight:600;line-height:1.5}
-  #tokenModal input{width:100%;padding:14px 16px;border-radius:12px;
-    border:2px solid #ffc8de;background:#fff5f9;font-family:ui-monospace,Menlo,monospace;
-    font-size:16px;color:#a1235e;font-weight:700;text-align:center;
-    outline:none;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
-  #tokenModal input:focus{border-color:#e6398a;box-shadow:0 0 0 4px rgba(230,57,138,.12)}
-  #tokenModal .btn-ok{width:100%;padding:14px;border-radius:999px;border:0;
-    cursor:pointer;font-family:inherit;font-size:15px;font-weight:900;color:#fff;
-    background:linear-gradient(135deg,#2ee06e,#25D366);
-    box-shadow:0 10px 28px rgba(37,211,102,.4);margin-bottom:8px}
-  #tokenModal .btn-cancel{width:100%;padding:12px;border-radius:999px;border:0;
-    background:transparent;color:#9a4a72;font-family:inherit;font-size:13px;
-    font-weight:700;cursor:pointer}
-  #tokenModal .msg{margin-top:10px;font-size:12px;font-weight:700;min-height:18px}
-  #tokenModal .msg.ok{color:#0a6a3a}
-  #tokenModal .msg.err{color:#c00}
+
+  /* ══════════════════════════════════════════════════════════
+     ⭐⭐ MODO AUTOMÁTICO — Cuando el HTML trae config embebida
+     ══════════════════════════════════════════════════════════
+     Si el `<html>` tiene la clase `dleon-auto`, se oculta TODO
+     el flujo del personalizador y se muestra directo la escena.
+     Esta clase la aplica el script inline al inicio del body.
+     ══════════════════════════════════════════════════════════ */
+  html.dleon-auto #personalizacion{display:none !important}
+  html.dleon-auto #intro{display:none !important}
+  html.dleon-auto #btnSharePlantilla{opacity:1 !important;pointer-events:auto !important}
+  html.dleon-auto #hint{opacity:1 !important}
+
+  /* En modo editor, el botón morado empieza oculto hasta que se continúe */
+  html.dleon-editor #btnSharePlantilla{opacity:0;pointer-events:none}
 
   @media (max-height:560px){
     #loveMsg{bottom:calc(env(safe-area-inset-bottom,0px) + 108px);font-size:14px;padding:12px 20px}
@@ -301,6 +274,32 @@
 </style>
 </head>
 <body>
+
+<!-- ⭐⭐⭐ SCRIPT CLAVE — Detecta config ANTES de pintar el personalizador ⭐⭐⭐ -->
+<script>
+(function(){
+  try{
+    var cfg = document.getElementById('config-inicial');
+    if(!cfg) { document.documentElement.classList.add('dleon-editor'); return; }
+    var txt = (cfg.textContent || '').trim();
+    if(!txt || txt === '__DLEON_CONFIG__' || txt === '{}' || txt.charAt(0) !== '{'){
+      document.documentElement.classList.add('dleon-editor');
+      return;
+    }
+    var parsed = JSON.parse(txt);
+    if(parsed && (parsed.nombre || parsed.mensaje || 
+       (parsed.frases && parsed.frases.length) || parsed.archivoMusica)){
+      document.documentElement.classList.add('dleon-auto');
+      console.log('✅ Modo AUTO detectado. Personalizador omitido.');
+    } else {
+      document.documentElement.classList.add('dleon-editor');
+    }
+  }catch(e){
+    console.warn('Error detectando config:', e);
+    document.documentElement.classList.add('dleon-editor');
+  }
+})();
+</script>
 
 <canvas id="scene"></canvas>
 
@@ -349,7 +348,7 @@
   <div class="music-upload" id="musicUpload" style="display:none">
     <input type="file" id="fileMusica" accept="audio/*" onchange="cargarMusica(this)">
     <label for="fileMusica"><span class="icon">🎶</span>
-      <strong>Toca para subir tu canción</strong><small>MP3, WAV u OGG (máx. 5MB)</small></label>
+      <strong>Toca para subir tu canción</strong><small>MP3, WAV u OGG (máx. 3MB)</small></label>
     <div class="music-name" id="musicName"></div>
   </div>
   <div class="toggle-row locked" id="rowCorazones">
@@ -366,12 +365,8 @@
   </div>
 
   <div style="height:6px"></div>
-  <button class="btn-premium" id="btnActivarPremium" onclick="abrirTokenModal()">
-    <span class="crown">👑</span>
-    <span id="btnPremiumText">Ya pagué - Activar Premium</span>
-  </button>
-  <a href="https://c4rlo53305-lgtm.github.io/Peri/premium.html" class="btn-premium" target="_blank" rel="noopener" style="margin-top:4px">
-    <span class="crown">💳</span> Comprar Premium
+  <a href="https://c4rlo53305-lgtm.github.io/Peri/premium.html" class="btn-premium" target="_blank" rel="noopener">
+    <span class="crown">💳</span> Hacerme Premium
   </a>
   <button class="btn-continuar" id="btnContinuar" onclick="continuarAApp()">Continuar al Diente de León 💖</button>
   <div style="height:env(safe-area-inset-bottom,0px);min-height:12px"></div>
@@ -382,20 +377,8 @@
     <span class="crown">👑</span>
     <h3>Función Premium</h3>
     <p>Esta función es exclusiva de usuarios Premium.<br>Actívala para desbloquear todos los efectos mágicos.</p>
-    <a href="https://c4rlo53305-lgtm.github.io/Peri/premium.html" target="_blank" rel="noopener" class="btn-go">👑 Comprar Premium</a>
-    <button class="btn-close" onclick="cerrarLockModal()">Ya pagué - Activar con token</button>
+    <a href="https://c4rlo53305-lgtm.github.io/Peri/premium.html" target="_blank" rel="noopener" class="btn-go">👑 Hacerme Premium</a>
     <button class="btn-close" onclick="document.getElementById('lockModal').classList.remove('show')">Cancelar</button>
-  </div>
-</div>
-
-<div id="tokenModal">
-  <div class="box">
-    <h3>🔑 Activar Premium</h3>
-    <p>Ingresa tu código de activación.</p>
-    <input type="text" id="tokenInput" placeholder="PEGA-TU-CODIGO" maxlength="40">
-    <button class="btn-ok" onclick="verificarTokenManualUI()">Activar</button>
-    <button class="btn-cancel" onclick="document.getElementById('tokenModal').classList.remove('show')">Cancelar</button>
-    <div class="msg" id="tokenMsg"></div>
   </div>
 </div>
 
@@ -435,108 +418,29 @@
 'use strict';
 
 /* ══════════════════════════════════════════════════════════
-   ⭐ CONFIG INICIAL — Detectar personalización embebida
+   ⭐ SISTEMA PREMIUM — simple como corarojo
+   ══════════════════════════════════════════════════════════ */
+var isPremium = (localStorage.getItem("peri_premium_activated") === "1");
+console.log("⭐ Premium:", isPremium);
+
+/* ══════════════════════════════════════════════════════════
+   LEER CONFIG INICIAL
    ══════════════════════════════════════════════════════════ */
 var CONFIG_PLACEHOLDER = '__DLEON_CONFIG__';
 var configInicial = null;
+var modoAuto = false;
 
-(function leerConfigInicial(){
-  try{
-    var elCfg = document.getElementById('config-inicial');
-    if(!elCfg) return;
-    var contenido = elCfg.textContent.trim();
-    // Si es el placeholder original o está vacío → sin config
-    if(!contenido || contenido === CONFIG_PLACEHOLDER || contenido === '{}') return;
-    configInicial = JSON.parse(contenido);
-    console.log('✅ Config inicial cargada:', configInicial);
-  }catch(e){
-    console.warn('Error parseando config inicial:', e);
-  }
-})();
-
-/* ══════════════════════════════════════════════════════════
-   SISTEMA PREMIUM
-   ══════════════════════════════════════════════════════════ */
-var SECRET_KEY = 'C4rl0-Cr3ac10n3s-M4g1c4s-2025-XX';
-var STORAGE_KEY = 'dleon_premium_token';
-
-async function firmar(clienteID){
-  try{
-    var enc = new TextEncoder();
-    var key = await crypto.subtle.importKey(
-      'raw', enc.encode(SECRET_KEY),
-      { name:'HMAC', hash:'SHA-256' }, false, ['sign']
-    );
-    var firma = await crypto.subtle.sign('HMAC', key, enc.encode(clienteID));
-    var bytes = Array.from(new Uint8Array(firma));
-    var num = BigInt('0x' + bytes.slice(0,8).map(function(b){
-      return b.toString(16).padStart(2,'0');
-    }).join(''));
-    return num.toString(36).toUpperCase().padStart(10,'0').slice(0,10);
-  }catch(e){ return ''; }
-}
-
-window.generarToken = async function(clienteID){
-  var id = clienteID.toUpperCase().replace(/[^A-Z0-9]/g,'');
-  var f = await firmar(id);
-  var tk = 'DLEON-' + id + '-' + f;
-  console.log('🔑 Token generado para "' + clienteID + '":');
-  console.log(tk);
-  return tk;
-};
-
-async function verificarToken(token){
-  try{
-    var partes = String(token).toUpperCase().trim().split('-');
-    if(partes.length !== 3) return false;
-    if(partes[0] !== 'DLEON') return false;
-    var id = partes[1], recibida = partes[2];
-    if(!id || !recibida) return false;
-    var esperada = await firmar(id);
-    if(!esperada) return false;
-    if(recibida.length !== esperada.length) return false;
-    var diff = 0;
-    for(var i=0;i<recibida.length;i++){
-      diff |= recibida.charCodeAt(i) ^ esperada.charCodeAt(i);
-    }
-    return diff === 0;
-  }catch(e){ return false; }
-}
-
-var esPremium = false;
-
-async function verificarPremiumInicial(){
-  // 1. Config inicial con token (caso del HTML personalizado)
-  if(configInicial && configInicial.token){
-    if(await verificarToken(configInicial.token)){
-      esPremium = true;
-      return;
+try{
+  var elCfg = document.getElementById('config-inicial');
+  if(elCfg){
+    var contenido = (elCfg.textContent || '').trim();
+    if(contenido && contenido !== CONFIG_PLACEHOLDER && contenido !== '{}' && contenido.charAt(0) === '{'){
+      configInicial = JSON.parse(contenido);
+      modoAuto = true;
+      console.log('✅ Config inicial:', configInicial);
     }
   }
-  // 2. URL ?premium=TOKEN
-  try{
-    var params = new URLSearchParams(location.search);
-    var tk = params.get('premium');
-    if(tk){
-      var limpio = tk.trim().toUpperCase();
-      if(await verificarToken(limpio)){
-        try{ localStorage.setItem(STORAGE_KEY, limpio); }catch(e){}
-        try{ history.replaceState({}, '', location.pathname + location.hash); }catch(e){}
-        esPremium = true;
-        return;
-      }
-    }
-  }catch(e){}
-  // 3. localStorage
-  try{
-    var g = localStorage.getItem(STORAGE_KEY);
-    if(g){
-      if(await verificarToken(g)){ esPremium = true; return; }
-      else localStorage.removeItem(STORAGE_KEY);
-    }
-  }catch(e){}
-  esPremium = false;
-}
+}catch(e){ console.warn('Error config:', e); }
 
 /* ══════════════════════════════════════════════════════════
    CANDADO DE DOMINIO
@@ -583,7 +487,7 @@ var personalizacion = {
   nombreMusica: ''
 };
 
-/* ⭐ Aplicar config inicial si existe */
+/* Aplicar config inicial */
 if(configInicial){
   if(configInicial.nombre) personalizacion.nombre = configInicial.nombre;
   if(configInicial.mensaje) personalizacion.mensaje = configInicial.mensaje;
@@ -600,23 +504,16 @@ function actualizarUIPremium(){
   var status = document.getElementById('premiumStatus');
   var icon = document.getElementById('premiumIcon');
   var text = document.getElementById('premiumText');
-  var btnText = document.getElementById('btnPremiumText');
-  var btnActiv = document.getElementById('btnActivarPremium');
+  if(!status) return;
 
-  if(esPremium){
+  if(isPremium){
     status.classList.remove('inactive');
     icon.textContent = '👑';
-    text.textContent = '¡Premium activo!';
-    btnText.textContent = 'Premium Activado ✓';
-    btnActiv.style.opacity = '.6';
-    btnActiv.style.pointerEvents = 'none';
+    text.textContent = '¡Premium activo! Todo desbloqueado';
   } else {
     status.classList.add('inactive');
     icon.textContent = '🔒';
     text.textContent = 'Modo gratuito';
-    btnText.textContent = 'Ya pagué - Activar Premium';
-    btnActiv.style.opacity = '1';
-    btnActiv.style.pointerEvents = 'auto';
   }
 
   ['Destellos','Musica','Corazones','Fuegos','Efecto3D'].forEach(function(n){
@@ -625,7 +522,7 @@ function actualizarUIPremium(){
     var t = document.getElementById('toggle'+n);
     var r = document.getElementById('row'+n);
     if(!t || !r) return;
-    if(esPremium){
+    if(isPremium){
       r.classList.remove('locked');
       t.classList.remove('locked');
       if(personalizacion.premium[f]) t.classList.add('on');
@@ -639,7 +536,7 @@ function actualizarUIPremium(){
 }
 
 function togglePremium(el, feature){
-  if(!esPremium){
+  if(!isPremium){
     document.getElementById('lockModal').classList.add('show');
     return;
   }
@@ -656,47 +553,10 @@ function togglePremium(el, feature){
 }
 window.togglePremium = togglePremium;
 
-function abrirTokenModal(){
-  if(esPremium){ alert('Ya tienes Premium ✓'); return; }
-  document.getElementById('tokenModal').classList.add('show');
-  document.getElementById('tokenInput').value = '';
-  document.getElementById('tokenMsg').textContent = '';
-  setTimeout(function(){ document.getElementById('tokenInput').focus(); }, 100);
-}
-window.abrirTokenModal = abrirTokenModal;
-
 function cerrarLockModal(){
   document.getElementById('lockModal').classList.remove('show');
-  document.getElementById('tokenModal').classList.add('show');
-  setTimeout(function(){ document.getElementById('tokenInput').focus(); }, 100);
 }
 window.cerrarLockModal = cerrarLockModal;
-
-async function verificarTokenManualUI(){
-  var input = document.getElementById('tokenInput');
-  var msg = document.getElementById('tokenMsg');
-  var tk = (input.value || '').toUpperCase().trim();
-  if(!tk){ msg.className = 'msg err'; msg.textContent = 'Ingresa un código'; return; }
-  var ok = await verificarToken(tk);
-  if(ok){
-    try{ localStorage.setItem(STORAGE_KEY, tk); }catch(e){}
-    esPremium = true;
-    msg.className = 'msg ok';
-    msg.textContent = '¡Activado! 🎉';
-    personalizacion.premium.destellos = true;
-    personalizacion.premium.corazones = true;
-    personalizacion.premium.fuegos = true;
-    actualizarUIPremium();
-    setTimeout(function(){
-      document.getElementById('tokenModal').classList.remove('show');
-      buildDestellos();
-    }, 900);
-  } else {
-    msg.className = 'msg err';
-    msg.textContent = 'Código inválido ✗';
-  }
-}
-window.verificarTokenManualUI = verificarTokenManualUI;
 
 /* ══════════════════════════════════════════════════════════
    PERSONALIZACIÓN
@@ -715,32 +575,34 @@ function guardarPersonalizacion(){
 
 function initPersonalizacion(){
   frasesTemp = personalizacion.frases.slice();
+  var pN = document.getElementById('pNombre');
+  var pM = document.getElementById('pMensaje');
+  if(!pN || !pM) return;
 
-  // Prellenar con config inicial
   if(configInicial){
-    if(configInicial.nombre) document.getElementById('pNombre').value = configInicial.nombre;
-    if(configInicial.mensaje) document.getElementById('pMensaje').value = configInicial.mensaje;
-  }
-
-  var g = localStorage.getItem('dleonPersonalizacion');
-  if(g && !configInicial){
-    try{
-      var p = JSON.parse(g);
-      if(p.nombre) document.getElementById('pNombre').value = p.nombre;
-      if(p.mensaje) document.getElementById('pMensaje').value = p.mensaje;
-      if(p.frases && p.frases.length) frasesTemp = p.frases.slice();
-      if(p.premium && esPremium){
-        Object.keys(p.premium).forEach(function(k){ if(p.premium[k]) personalizacion.premium[k]=true; });
-      }
-    }catch(e){}
+    if(configInicial.nombre) pN.value = configInicial.nombre;
+    if(configInicial.mensaje) pM.value = configInicial.mensaje;
+  } else {
+    var g = localStorage.getItem('dleonPersonalizacion');
+    if(g){
+      try{
+        var p = JSON.parse(g);
+        if(p.nombre) pN.value = p.nombre;
+        if(p.mensaje) pM.value = p.mensaje;
+        if(p.frases && p.frases.length) frasesTemp = p.frases.slice();
+        if(p.premium && isPremium){
+          Object.keys(p.premium).forEach(function(k){ if(p.premium[k]) personalizacion.premium[k]=true; });
+        }
+      }catch(e){}
+    }
   }
   renderFrases();
   actualizarUIPremium();
 
-  // Restaurar música si existe
   if(personalizacion.archivoMusica){
-    document.getElementById('audioPlayer').src = personalizacion.archivoMusica;
-    document.getElementById('audioPlayer').volume = 0.4;
+    var audio = document.getElementById('audioPlayer');
+    audio.src = personalizacion.archivoMusica;
+    audio.volume = 0.4;
     if(personalizacion.nombreMusica){
       var n = document.getElementById('musicName');
       n.textContent = '🎵 ' + personalizacion.nombreMusica;
@@ -763,6 +625,7 @@ function initPersonalizacion(){
 
 function renderFrases(){
   var list = document.getElementById('frasesList');
+  if(!list) return;
   list.innerHTML = '';
   for(var i=0;i<frasesTemp.length;i++){
     var item = document.createElement('div');
@@ -773,8 +636,10 @@ function renderFrases(){
     list.appendChild(item);
   }
   var b = document.getElementById('btnAddFrase');
-  b.disabled = frasesTemp.length >= maxFrases;
-  b.textContent = frasesTemp.length >= maxFrases ? 'Máximo 10 frases' : '+ Agregar frase (máx. 10)';
+  if(b){
+    b.disabled = frasesTemp.length >= maxFrases;
+    b.textContent = frasesTemp.length >= maxFrases ? 'Máximo 10 frases' : '+ Agregar frase (máx. 10)';
+  }
 }
 
 function esc(text){
@@ -795,18 +660,20 @@ function actualizarFrase(idx, val){
 }
 window.actualizarFrase = actualizarFrase;
 
-/* ⭐ Cargar música — Convertir a base64 para poder embeberla */
 function cargarMusica(input){
-  if(!esPremium) return;
+  if(!isPremium){
+    document.getElementById('lockModal').classList.add('show');
+    return;
+  }
   var file = input.files[0];
   if(!file) return;
-  if(file.size > 5*1024*1024){
-    alert('La canción es muy grande. Máximo 5MB.\n\nEsto es para que el archivo HTML no se vuelva gigante al enviarlo por WhatsApp.');
+  if(file.size > 3*1024*1024){
+    alert('Máximo 3MB. Para que el HTML no se vuelva gigante al enviarlo por WhatsApp.');
     return;
   }
   var reader = new FileReader();
   reader.onload = function(e){
-    personalizacion.archivoMusica = e.target.result; // data URL base64
+    personalizacion.archivoMusica = e.target.result;
     personalizacion.nombreMusica = file.name;
     var audio = document.getElementById('audioPlayer');
     audio.src = e.target.result;
@@ -815,9 +682,6 @@ function cargarMusica(input){
     n.textContent = '🎵 ' + file.name;
     n.classList.add('show');
     guardarPersonalizacion();
-  };
-  reader.onerror = function(){
-    alert('Error leyendo el archivo. Intenta con otro.');
   };
   reader.readAsDataURL(file);
 }
@@ -850,26 +714,9 @@ function aplicarPersonalizacion(){
 }
 
 /* ══════════════════════════════════════════════════════════
-   ⭐ GENERAR Y ENVIAR PLANTILLA PERSONALIZADA
+   ⭐⭐⭐ GENERAR PLANTILLA PERSONALIZADA ⭐⭐⭐
    ══════════════════════════════════════════════════════════ */
-
-/* Escapar strings para JSON dentro de <script> */
-function escaparParaJSON(str){
-  if(!str) return '';
-  return String(str)
-    .replace(/\\/g, '\\\\')
-    .replace(/"/g, '\\"')
-    .replace(/\n/g, '\\n')
-    .replace(/\r/g, '\\r')
-    .replace(/\t/g, '\\t')
-    .replace(/</g, '\\u003c')
-    .replace(/>/g, '\\u003e');
-}
-
-/* Construir el JSON de configuración */
 function construirConfigJSON(){
-  var token = null;
-  try{ token = localStorage.getItem(STORAGE_KEY); }catch(e){}
   return JSON.stringify({
     nombre: personalizacion.nombre || '',
     mensaje: personalizacion.mensaje || '',
@@ -877,22 +724,26 @@ function construirConfigJSON(){
     premium: personalizacion.premium || {},
     archivoMusica: personalizacion.archivoMusica || null,
     nombreMusica: personalizacion.nombreMusica || '',
-    token: token,
+    isPremium: isPremium,
     fecha: new Date().toISOString()
   }).replace(/</g, '\\u003c').replace(/>/g, '\\u003e');
 }
 
-/* Obtener el HTML base limpio */
+/* 🔧 CLAVE: limpiar el DOM clonado para que el HTML resultante sea el BASE */
 function obtenerHTMLBase(){
-  // Clonar el DOM actual
   var clone = document.documentElement.cloneNode(true);
 
-  // ─── Limpiar estado runtime ───
-  // 1. Resetear config-inicial
-  var cfgEl = clone.querySelector('#config-inicial');
-  if(cfgEl) cfgEl.textContent = CONFIG_PLACEHOLDER;
+  // 1. Resetear clase del <html>
+  clone.classList.remove('dleon-auto');
+  clone.classList.remove('dleon-editor');
 
-  // 2. Resetear personalización a estado visible
+  // 2. Resetear el script config-inicial AL PLACEHOLDER
+  var cfgEl = clone.querySelector('#config-inicial');
+  if(cfgEl){
+    cfgEl.textContent = '__DLEON_CONFIG__';
+  }
+
+  // 3. Resetear personalizador
   var pers = clone.querySelector('#personalizacion');
   if(pers){
     pers.classList.remove('hide');
@@ -901,7 +752,7 @@ function obtenerHTMLBase(){
     pers.style.visibility = '';
   }
 
-  // 3. Resetear intro
+  // 4. Resetear intro
   var intro = clone.querySelector('#intro');
   if(intro){
     intro.classList.remove('hide');
@@ -910,38 +761,38 @@ function obtenerHTMLBase(){
     intro.style.visibility = '';
   }
 
-  // 4. Ocultar botón morado
+  // 5. Ocultar botón morado
   var btnShare = clone.querySelector('#btnSharePlantilla');
   if(btnShare){
     btnShare.classList.remove('show');
     btnShare.classList.remove('loading');
   }
 
-  // 5. Quitar marcas de agua duplicadas
+  // 6. Quitar marcas de agua duplicadas
   var marcas = clone.querySelectorAll('#wm-magica');
   for(var i = 1; i < marcas.length; i++){
     marcas[i].parentNode.removeChild(marcas[i]);
   }
 
-  // 6. Resetear textos del intro a valores por defecto
+  // 7. Resetear intro textos
   var introTitulo = clone.querySelector('#introTitulo');
   if(introTitulo) introTitulo.textContent = 'Un deseo para ti';
   var introTexto = clone.querySelector('#introTexto');
   if(introTexto) introTexto.innerHTML = 'Sacude el teléfono, sopla las semillas y pide un deseo.<br><br>Como un diente de león, mi amor viaja contigo a donde vayas. 🌬️';
 
-  // 7. Resetear contador y mensaje
+  // 8. Resetear contador y mensaje
   var wc = clone.querySelector('#wc');
   if(wc) wc.textContent = '0';
   var loveMsg = clone.querySelector('#loveMsg');
   if(loveMsg) loveMsg.classList.remove('show');
 
-  // 8. Quitar estados de los toggles
+  // 9. Resetear toggles premium
   ['Destellos','Musica','Corazones','Fuegos','Efecto3D'].forEach(function(n){
     var t = clone.querySelector('#toggle'+n);
     if(t) t.classList.remove('on');
   });
 
-  // 9. Resetear el canvas
+  // 10. Resetear canvas
   var cv = clone.querySelector('#scene');
   if(cv){
     cv.removeAttribute('width');
@@ -950,24 +801,22 @@ function obtenerHTMLBase(){
     cv.style.height = '';
   }
 
-  // 10. Resetear el estado del audio
+  // 11. Resetear audio
   var audio = clone.querySelector('#audioPlayer');
   if(audio){
     audio.removeAttribute('src');
-    audio.pause && audio.pause();
+    if(audio.pause) try{ audio.pause(); }catch(e){}
   }
 
-  // 11. Resetear el badge premium
+  // 12. Resetear estado premium
   var premStatus = clone.querySelector('#premiumStatus');
-  if(premStatus){
-    premStatus.classList.add('inactive');
-  }
+  if(premStatus) premStatus.classList.add('inactive');
   var premIcon = clone.querySelector('#premiumIcon');
   if(premIcon) premIcon.textContent = '🔒';
   var premText = clone.querySelector('#premiumText');
   if(premText) premText.textContent = 'Modo gratuito';
 
-  // 12. Resetear campos del form
+  // 13. Resetear inputs
   var pN = clone.querySelector('#pNombre');
   if(pN) pN.value = '';
   var pM = clone.querySelector('#pMensaje');
@@ -977,16 +826,7 @@ function obtenerHTMLBase(){
   var mu = clone.querySelector('#musicUpload');
   if(mu) mu.style.display = 'none';
 
-  // 13. Resetear toggle premium button
-  var btnAct = clone.querySelector('#btnActivarPremium');
-  if(btnAct){
-    btnAct.style.opacity = '1';
-    btnAct.style.pointerEvents = 'auto';
-  }
-  var btnPremText = clone.querySelector('#btnPremiumText');
-  if(btnPremText) btnPremText.textContent = 'Ya pagué - Activar Premium';
-
-  // 14. Resetear frases
+  // 14. Resetear lista de frases
   var frList = clone.querySelector('#frasesList');
   if(frList) frList.innerHTML = '';
 
@@ -995,19 +835,21 @@ function obtenerHTMLBase(){
   if(hint) hint.classList.remove('hide');
 
   // 16. Resetear momento
-  var momentoTexto = clone.querySelector('#momentoTexto');
-  if(momentoTexto) momentoTexto.textContent = '—';
+  var mt = clone.querySelector('#momentoTexto');
+  if(mt) mt.textContent = '—';
+
+  // 17. Resetear título
+  var title = clone.querySelector('title');
+  if(title) title.textContent = 'Diente de León Mágico ✨💖';
 
   return '<!DOCTYPE html>\n' + clone.outerHTML;
 }
 
-/* Generar HTML personalizado final */
 function generarHTMLPersonalizado(){
   var html = obtenerHTMLBase();
   var json = construirConfigJSON();
 
-  // Reemplazar el placeholder
-  // Buscar el texto __DLEON_CONFIG__ (sin importar espacios)
+  // Reemplazar el placeholder por el JSON
   var regex = /(<script id="config-inicial" type="application\/json">)\s*__DLEON_CONFIG__\s*(<\/script>)/;
   if(regex.test(html)){
     html = html.replace(regex, '$1' + json + '$2');
@@ -1020,7 +862,6 @@ function generarHTMLPersonalizado(){
   return html;
 }
 
-/* Botón morado: enviar plantilla */
 document.getElementById('btnSharePlantilla').addEventListener('click', async function(){
   var btn = this;
   var spanEl = btn.querySelector('span');
@@ -1030,10 +871,8 @@ document.getElementById('btnSharePlantilla').addEventListener('click', async fun
   spanEl.textContent = 'Generando...';
 
   try{
-    // Generar HTML
     var htmlFinal = generarHTMLPersonalizado();
 
-    // Nombre del archivo
     var nombreArchivo = 'diente-de-leon';
     if(personalizacion.nombre){
       var nombreLimpio = personalizacion.nombre.toLowerCase()
@@ -1043,14 +882,11 @@ document.getElementById('btnSharePlantilla').addEventListener('click', async fun
     }
     nombreArchivo += '.html';
 
-    // Crear archivo
     var blob = new Blob([htmlFinal], { type: 'text/html;charset=utf-8' });
     var file = new File([blob], nombreArchivo, { type: 'text/html' });
+    console.log('📦 HTML generado:', nombreArchivo, '·', (blob.size/1024/1024).toFixed(2) + 'MB');
 
-    var tamañoMB = (blob.size / 1024 / 1024).toFixed(2);
-    console.log('📦 HTML generado:', nombreArchivo, '·', tamañoMB + 'MB');
-
-    // Verificar si puede compartir archivo
+    // ¿Puede compartir archivos? (Android Chrome, iOS Safari 15+)
     var puedeCompartir = false;
     try{
       puedeCompartir = navigator.canShare && navigator.canShare({ files: [file] });
@@ -1072,12 +908,11 @@ document.getElementById('btnSharePlantilla').addEventListener('click', async fun
           spanEl.textContent = textoOriginal;
           return;
         }
-        // Si falla, continuar al fallback
-        console.warn('Error compartiendo, usando fallback:', err);
+        console.warn('Share falló:', err);
       }
     }
 
-    // Fallback: descargar + WhatsApp con mensaje
+    // Fallback: descargar archivo + abrir WhatsApp
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
     a.href = url;
@@ -1089,9 +924,8 @@ document.getElementById('btnSharePlantilla').addEventListener('click', async fun
 
     var mensaje = '💖✨ Te mando un *Diente de León Mágico* personalizado solo para ti.\n\n' +
                   '📱 *Cómo abrirlo:*\n' +
-                  '1. Te acabo de enviar el archivo *' + nombreArchivo + '*\n' +
-                  '2. Ábrelo con tu navegador\n' +
-                  '3. Sacude tu teléfono y pide un deseo 🌬️\n\n' +
+                  '1. Abre el archivo *' + nombreArchivo + '* que te envié\n' +
+                  '2. Sacude tu teléfono y pide un deseo 🌬️\n\n' +
                   '💫 Hecho con amor.';
     var wa = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(mensaje);
     setTimeout(function(){
@@ -1103,8 +937,8 @@ document.getElementById('btnSharePlantilla').addEventListener('click', async fun
     spanEl.textContent = textoOriginal;
 
   }catch(err){
-    console.error('Error generando plantilla:', err);
-    alert('No se pudo generar la plantilla: ' + err.message);
+    console.error('Error:', err);
+    alert('No se pudo generar: ' + err.message);
     btn.classList.remove('loading');
     spanEl.textContent = textoOriginal;
   }
@@ -1253,7 +1087,7 @@ function buildEstrellas(){
 }
 function buildDestellos(){
   destellos.length = 0;
-  if(!esPremium || !personalizacion.premium.destellos) return;
+  if(!isPremium || !personalizacion.premium.destellos) return;
   var n = Math.round(Math.min(70, W*H/16000));
   for(var i=0;i<n;i++){
     destellos.push({x:Math.random()*W,y:Math.random()*H,r:rnd(0.5,3),a:rnd(0.3,1),
@@ -1262,7 +1096,7 @@ function buildDestellos(){
   }
 }
 function spawnFuegosArtificiales(x,y){
-  if(!esPremium || !personalizacion.premium.fuegos) return;
+  if(!isPremium || !personalizacion.premium.fuegos) return;
   var cols=[[255,200,50],[255,100,150],[100,200,255],[200,100,255],[100,255,150],[255,150,50]];
   var c = cols[(Math.random()*cols.length)|0];
   for(var i=0;i<30;i++){
@@ -1272,7 +1106,7 @@ function spawnFuegosArtificiales(x,y){
   }
 }
 function spawnCorazonLluvia(){
-  if(!esPremium || !personalizacion.premium.corazones) return;
+  if(!isPremium || !personalizacion.premium.corazones) return;
   corazonesLluvia.push({
     x:Math.random()*W, y:-20, vy:rnd(0.8,2),
     vx:rnd(-0.3,0.3), size:rnd(8,18), rot:rnd(-0.3,0.3),
@@ -1376,7 +1210,7 @@ function ejecutarSacudida(power){
   for(var i=0;i<Math.round(4 + power*6);i++){
     spawnHeart(HEAD.x+rnd(-HEAD.r,HEAD.r), HEAD.y+rnd(-HEAD.r*0.3,HEAD.r*0.5), 0.9+power);
   }
-  if(esPremium && personalizacion.premium.fuegos){
+  if(isPremium && personalizacion.premium.fuegos){
     spawnFuegosArtificiales(HEAD.x, HEAD.y);
   }
   if(navigator.vibrate) navigator.vibrate(Math.round(20+power*40));
@@ -1453,13 +1287,12 @@ function blowFrom(px,py,power){
     windTarget = 0.35+power*0.8;
     sumarDeseo(rel);
     if(Math.random()<0.7) spawnHeart(px+rnd(-20,20), py+rnd(-20,20), 0.6);
-    if(esPremium && personalizacion.premium.fuegos && power > 0.4) spawnFuegosArtificiales(px, py);
+    if(isPremium && personalizacion.premium.fuegos && power > 0.4) spawnFuegosArtificiales(px, py);
   }
 }
 canvas.addEventListener('pointerdown', function(e){
   pedirPermisosSensor();
-  // Reproducir música tras primer gesto (iOS)
-  if(esPremium && personalizacion.premium.musica && personalizacion.archivoMusica){
+  if(isPremium && personalizacion.premium.musica && personalizacion.archivoMusica){
     var a = document.getElementById('audioPlayer');
     if(a && a.paused && a.src){
       a.volume = 0.4;
@@ -1490,7 +1323,7 @@ canvas.addEventListener('pointerup', function(){
       spawnHeart(HEAD.x+rnd(-HEAD.r*1.6,HEAD.r*1.6),
                  HEAD.y+rnd(-HEAD.r*1.4,HEAD.r*1.2), 1.2);
     }
-    if(esPremium && personalizacion.premium.fuegos){
+    if(isPremium && personalizacion.premium.fuegos){
       spawnFuegosArtificiales(HEAD.x, HEAD.y);
       setTimeout(function(){ spawnFuegosArtificiales(HEAD.x-50, HEAD.y-30); }, 200);
       setTimeout(function(){ spawnFuegosArtificiales(HEAD.x+50, HEAD.y-30); }, 400);
@@ -1519,8 +1352,7 @@ document.getElementById('startBtn').addEventListener('click', function(){
     var btn = document.getElementById('btnSharePlantilla');
     if(btn) btn.classList.add('show');
   }, 400);
-  // Reproducir música
-  if(esPremium && personalizacion.premium.musica && personalizacion.archivoMusica){
+  if(isPremium && personalizacion.premium.musica && personalizacion.archivoMusica){
     var a = document.getElementById('audioPlayer');
     a.src = personalizacion.archivoMusica;
     a.volume = 0.4;
@@ -1546,7 +1378,7 @@ function update(dt){
   }
   wind += (windTarget-wind)*0.012*k;
   if(HEAD.grow < 1) HEAD.grow = Math.min(1, HEAD.grow+dt*0.85);
-  var par = (esPremium && personalizacion.premium.efecto3D) ? 2.2 : 1;
+  var par = (isPremium && personalizacion.premium.efecto3D) ? 2.2 : 1;
   HEAD.x = W*0.5 + Math.sin(T*0.7)*W*0.012 + tiltX*W*0.06*par;
   HEAD.y = H*0.44 + tiltY*H*0.02*par;
   if(attached.length > 0 && Math.random() < 0.006*k){
@@ -1600,7 +1432,7 @@ function update(dt){
     if(cl.x+cl.r*2 < 0) cl.x = W+cl.r*2;
   }
   for(var e=0;e<estrellas.length;e++) estrellas[e].ph += 0.02*k;
-  if(esPremium && personalizacion.premium.destellos){
+  if(isPremium && personalizacion.premium.destellos){
     for(var dI=0;dI<destellos.length;dI++){
       var de = destellos[dI];
       de.ph += 0.03*k;
@@ -1612,7 +1444,7 @@ function update(dt){
       if(de.y > H+20) de.y = -20;
     }
   }
-  if(esPremium && personalizacion.premium.fuegos){
+  if(isPremium && personalizacion.premium.fuegos){
     for(var f=fuegosArtificiales.length-1;f>=0;f--){
       var fu = fuegosArtificiales[f];
       fu.x += fu.vx*k*0.5;
@@ -1623,7 +1455,7 @@ function update(dt){
       if(fu.life > fu.maxLife) fuegosArtificiales.splice(f,1);
     }
   }
-  if(esPremium && personalizacion.premium.corazones){
+  if(isPremium && personalizacion.premium.corazones){
     if(Math.random() < 0.03*k) spawnCorazonLluvia();
     for(var clI=corazonesLluvia.length-1;clI>=0;clI--){
       var co = corazonesLluvia[clI];
@@ -1641,7 +1473,7 @@ function update(dt){
 }
 
 /* ══════════════════════════════════════════════════════════
-   DIBUJO (idéntico al anterior, sin cambios)
+   DIBUJO
    ══════════════════════════════════════════════════════════ */
 function drawSky(){
   var pal = PALETAS[momentoDia];
@@ -1886,7 +1718,7 @@ function drawSparks(){
   }
 }
 function drawDestellos(){
-  if(!esPremium || !personalizacion.premium.destellos) return;
+  if(!isPremium || !personalizacion.premium.destellos) return;
   ctx.save(); ctx.globalCompositeOperation = 'lighter';
   for(var i=0;i<destellos.length;i++){
     var de = destellos[i];
@@ -1905,7 +1737,7 @@ function drawDestellos(){
   ctx.restore();
 }
 function drawFuegosArtificiales(){
-  if(!esPremium || !personalizacion.premium.fuegos) return;
+  if(!isPremium || !personalizacion.premium.fuegos) return;
   ctx.save(); ctx.globalCompositeOperation = 'lighter';
   for(var i=0;i<fuegosArtificiales.length;i++){
     var fu = fuegosArtificiales[i];
@@ -1923,7 +1755,7 @@ function drawFuegosArtificiales(){
   ctx.restore();
 }
 function drawCorazonesLluvia(){
-  if(!esPremium || !personalizacion.premium.corazones) return;
+  if(!isPremium || !personalizacion.premium.corazones) return;
   for(var i=0;i<corazonesLluvia.length;i++){
     var c = corazonesLluvia[i];
     dibujarCorazon(c.x,c.y,c.size,c.rot,c.a*0.85,c.hue);
@@ -1978,9 +1810,8 @@ function loop(now){
 /* ══════════════════════════════════════════════════════════
    ARRANQUE
    ══════════════════════════════════════════════════════════ */
-async function init(){
-  await verificarPremiumInicial();
-  if(esPremium){
+function init(){
+  if(isPremium){
     personalizacion.premium.destellos = personalizacion.premium.destellos || true;
     personalizacion.premium.corazones = personalizacion.premium.corazones || true;
     personalizacion.premium.fuegos = personalizacion.premium.fuegos || true;
@@ -1992,33 +1823,47 @@ async function init(){
   setInterval(actualizarMomento, 60000);
   initPersonalizacion();
 
-  /* ⭐ Si viene config inicial → saltar directo a la escena */
-  if(configInicial){
-    document.getElementById('personalizacion').classList.add('hide');
-    document.getElementById('personalizacion').style.display = 'none';
-    setTimeout(function(){
-      aplicarPersonalizacion();
-      // Ocultar intro y mostrar escena
-      document.getElementById('intro').classList.add('hide');
-      document.getElementById('intro').style.display = 'none';
-      var btn = document.getElementById('btnSharePlantilla');
-      if(btn) btn.classList.add('show');
-      // Auto-reproducir música si existe (requiere interacción)
-      if(personalizacion.archivoMusica){
-        var a = document.getElementById('audioPlayer');
-        a.src = personalizacion.archivoMusica;
-        a.volume = 0.4;
-        a.play().catch(function(){
-          console.log('Autoplay bloqueado, se reproducirá al primer toque');
-        });
-      }
-      // Bienvenida
-      setTimeout(function(){ mostrarFrase(); }, 500);
-    }, 150);
+  /* ⭐⭐ MODO AUTO — Si es plantilla enviada, saltar TODO y arrancar directo */
+  if(modoAuto){
+    console.log('🚀 Modo AUTO: saltando personalizador');
+    
+    // Ocultar personalizador e intro forzadamente (por si acaso CSS falla)
+    var pers = document.getElementById('personalizacion');
+    if(pers){ pers.style.display = 'none'; pers.classList.add('hide'); }
+    
+    var intro = document.getElementById('intro');
+    if(intro){ intro.style.display = 'none'; intro.classList.add('hide'); }
+    
+    // Aplicar personalización
+    aplicarPersonalizacion();
+    
+    // Mostrar botón morado
+    var btn = document.getElementById('btnSharePlantilla');
+    if(btn) btn.classList.add('show');
+    
+    // Marcar como iniciado
+    window.__started = true;
+    
+    // Reproducir música (puede fallar por autoplay policy)
+    if(personalizacion.archivoMusica){
+      var a = document.getElementById('audioPlayer');
+      a.src = personalizacion.archivoMusica;
+      a.volume = 0.4;
+      a.play().catch(function(){
+        console.log('Autoplay bloqueado, espera al primer toque');
+      });
+    }
+    
+    // Bienvenida
+    setTimeout(function(){ mostrarFrase(); }, 500);
+    setTimeout(function(){ 
+      for(var i=0;i<12;i++) spawnHeart(W/2+rnd(-80,80), H/2+rnd(-60,60), 1.3);
+    }, 800);
+    setTimeout(ocultarHint, 7000);
   }
 
   requestAnimationFrame(loop);
-  setTimeout(ocultarHint, 7000);
+  if(!modoAuto) setTimeout(ocultarHint, 7000);
 }
 
 init();
