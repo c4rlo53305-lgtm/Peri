@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#ffe4ec">
 <title>Diente de León Mágico ✨💖</title>
+
+<!-- ⭐ CONFIG INICIAL — Se reemplaza al compartir la plantilla -->
+<script id="config-inicial" type="application/json">{}</script>
+
 <style>
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;padding:0;height:100%;overflow:hidden;background:#ffe4ec;
@@ -73,6 +77,57 @@
   @keyframes pulseWa{0%,100%{box-shadow:0 12px 34px rgba(18,140,126,.5),0 4px 0 rgba(0,90,80,.35),inset 0 1px 0 rgba(255,255,255,.4)}
     50%{box-shadow:0 12px 42px rgba(37,211,102,.75),0 4px 0 rgba(0,90,80,.35),inset 0 1px 0 rgba(255,255,255,.4)}}
   @keyframes shineWa{0%{transform:translateX(-120%)}60%,100%{transform:translateX(120%)}}
+
+  /* ⭐ BOTÓN MORADO — Enviar plantilla personalizada */
+  #btnSharePlantilla{
+    position:fixed;
+    right:20px;
+    bottom:calc(env(safe-area-inset-bottom,0px) + 84px);
+    display:inline-flex;align-items:center;justify-content:center;gap:9px;
+    border:0;cursor:pointer;
+    padding:13px 22px;border-radius:999px;
+    font-size:14px;font-weight:900;letter-spacing:.3px;
+    color:#fff;font-family:inherit;
+    background:linear-gradient(135deg,#c060ff 0%,#8020d0 50%,#5010a0 100%);
+    box-shadow:0 12px 30px rgba(140,60,240,.55),
+               0 4px 0 rgba(50,10,90,.5),
+               inset 0 1px 0 rgba(255,255,255,.35);
+    transition:transform .15s ease, box-shadow .2s ease;
+    z-index:9999;
+    position:fixed;
+    overflow:hidden;
+    animation:pulseMorado 2.8s ease-in-out infinite;
+    opacity:0;
+    pointer-events:none}
+  #btnSharePlantilla.show{opacity:1;pointer-events:auto}
+  #btnSharePlantilla::after{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);
+    transform:translateX(-120%);
+    animation:shineMorado 3.6s ease-in-out infinite;
+    pointer-events:none}
+  #btnSharePlantilla:active{transform:scale(.94);
+    box-shadow:0 6px 16px rgba(140,60,240,.5),
+               inset 0 2px 6px rgba(0,0,0,.3)}
+  #btnSharePlantilla svg{width:20px;height:20px;fill:#fff;flex-shrink:0;z-index:1}
+  #btnSharePlantilla span{position:relative;z-index:1}
+  @keyframes pulseMorado{
+    0%,100%{box-shadow:0 12px 30px rgba(140,60,240,.55),
+                       0 4px 0 rgba(50,10,90,.5),
+                       inset 0 1px 0 rgba(255,255,255,.35)}
+    50%{box-shadow:0 12px 42px rgba(180,100,255,.85),
+                  0 4px 0 rgba(50,10,90,.5),
+                  inset 0 1px 0 rgba(255,255,255,.35)}}
+  @keyframes shineMorado{
+    0%{transform:translateX(-120%)}
+    60%,100%{transform:translateX(120%)}}
+
+  /* Estado de carga del botón morado */
+  #btnSharePlantilla.loading{
+    animation:none;
+    opacity:.75;
+    pointer-events:none}
+
   #loveMsg{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 128px);
     transform:translate(-50%, 8px) scale(.9);
     background:linear-gradient(135deg,rgba(255,255,255,.96),rgba(255,225,235,.96));
@@ -238,18 +293,11 @@
   #tokenModal .msg.ok{color:#0a6a3a}
   #tokenModal .msg.err{color:#c00}
 
-  /* ⭐ INDICADOR DEBUG SENSOR (se muestra 3 segundos al agitar) */
-  #sensorDebug{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
-    padding:14px 24px;border-radius:14px;background:rgba(0,0,0,.85);
-    color:#80ffa0;font-family:ui-monospace,Menlo,monospace;
-    font-size:14px;font-weight:900;z-index:999999;pointer-events:none;
-    opacity:0;transition:opacity .3s;letter-spacing:1px}
-  #sensorDebug.show{opacity:1}
-
   @media (max-height:560px){
     #loveMsg{bottom:calc(env(safe-area-inset-bottom,0px) + 108px);font-size:14px;padding:12px 20px}
     .hint{top:calc(env(safe-area-inset-top,0px) + 72px);font-size:11.5px;padding:8px 14px}
     .btn-wa{padding:14px 26px;font-size:15px}
+    #btnSharePlantilla{padding:11px 18px;font-size:13px;bottom:calc(env(safe-area-inset-bottom,0px) + 76px)}
     #wm-magica{padding:7px 12px!important;font-size:11.5px!important}
     #wm-magica a{font-size:11.5px!important}
     #wishCount{padding:7px 11px;font-size:11px}
@@ -356,9 +404,6 @@
   </div>
 </div>
 
-<!-- Indicador visual de sacudida detectada -->
-<div id="sensorDebug">📳 ¡SACUDIDA!</div>
-
 <div id="intro">
   <div class="bigHeart">💖</div>
   <h1 id="introTitulo">Un deseo para ti</h1>
@@ -376,6 +421,12 @@
   <a href="https://c4rlo53305-lgtm.github.io/Peri/" target="_blank" rel="noopener">Creaciones Mágicas 💛</a>
 </div>
 
+<!-- ⭐ BOTÓN MORADO — Enviar la plantilla personalizada -->
+<button id="btnSharePlantilla" type="button">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+  <span>Enviar plantilla</span>
+</button>
+
 <div class="bar">
   <button class="btn-wa" id="wa" type="button">
     <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
@@ -390,7 +441,18 @@
 'use strict';
 
 /* ══════════════════════════════════════════════════════════
-   SISTEMA PREMIUM CON HMAC (Web Crypto API)
+   ⭐ LEER CONFIG INICIAL (para plantillas personalizadas)
+   ══════════════════════════════════════════════════════════ */
+var configInicial = null;
+try{
+  var elCfg = document.getElementById('config-inicial');
+  if(elCfg && elCfg.textContent.trim() && elCfg.textContent.trim() !== '{}'){
+    configInicial = JSON.parse(elCfg.textContent.trim());
+  }
+}catch(e){}
+
+/* ══════════════════════════════════════════════════════════
+   SISTEMA PREMIUM CON HMAC
    ══════════════════════════════════════════════════════════ */
 var SECRET_KEY = 'C4rl0-Cr3ac10n3s-M4g1c4s-2025-XX';
 var STORAGE_KEY = 'dleon_premium_token';
@@ -441,7 +503,6 @@ async function verificarToken(token){
 var esPremium = false;
 
 async function verificarPremiumInicial(){
-  // 1. URL ?premium=TOKEN
   try{
     var params = new URLSearchParams(location.search);
     var tk = params.get('premium');
@@ -455,7 +516,6 @@ async function verificarPremiumInicial(){
       }
     }
   }catch(e){}
-  // 2. localStorage
   try{
     var g = localStorage.getItem(STORAGE_KEY);
     if(g){
@@ -509,6 +569,17 @@ var personalizacion = {
   premium: { destellos:false, musica:false, corazones:false, fuegos:false, efecto3D:false },
   archivoMusica: null
 };
+
+/* ⭐ Si viene config inicial, aplicarla */
+if(configInicial){
+  if(configInicial.nombre) personalizacion.nombre = configInicial.nombre;
+  if(configInicial.mensaje) personalizacion.mensaje = configInicial.mensaje;
+  if(configInicial.frases && configInicial.frases.length) personalizacion.frases = configInicial.frases.slice();
+  if(configInicial.premium) personalizacion.premium = Object.assign(personalizacion.premium, configInicial.premium);
+  if(configInicial.token){
+    try{ localStorage.setItem(STORAGE_KEY, configInicial.token); }catch(e){}
+  }
+}
 
 /* ══════════════════════════════════════════════════════════
    UI PREMIUM
@@ -632,8 +703,15 @@ function guardarPersonalizacion(){
 
 function initPersonalizacion(){
   frasesTemp = personalizacion.frases.slice();
+
+  /* ⭐ Si viene config inicial, prellenar inputs */
+  if(configInicial){
+    if(configInicial.nombre) document.getElementById('pNombre').value = configInicial.nombre;
+    if(configInicial.mensaje) document.getElementById('pMensaje').value = configInicial.mensaje;
+  }
+
   var g = localStorage.getItem('dleonPersonalizacion');
-  if(g){
+  if(g && !configInicial){
     try{
       var p = JSON.parse(g);
       if(p.nombre) document.getElementById('pNombre').value = p.nombre;
@@ -713,7 +791,11 @@ function continuarAApp(){
   guardarPersonalizacion();
   aplicarPersonalizacion();
   document.getElementById('personalizacion').classList.add('hide');
-  // ⭐ Pedir permisos de sensor al continuar
+  // Mostrar botón morado cuando la escena está visible
+  setTimeout(function(){
+    var btn = document.getElementById('btnSharePlantilla');
+    if(btn) btn.classList.add('show');
+  }, 800);
   pedirPermisosSensor();
 }
 window.continuarAApp = continuarAApp;
@@ -728,6 +810,133 @@ function aplicarPersonalizacion(){
   if(personalizacion.frases.length > 0) FRASES = personalizacion.frases.slice();
   buildDestellos();
 }
+
+/* ══════════════════════════════════════════════════════════
+   ⭐ ENVIAR PLANTILLA PERSONALIZADA POR WHATSAPP
+   ══════════════════════════════════════════════════════════ */
+var htmlOriginalCache = null;
+
+/* Obtener el HTML original (sin estado runtime) */
+async function obtenerHTMLOriginal(){
+  if(htmlOriginalCache) return htmlOriginalCache;
+  try{
+    var respuesta = await fetch(location.pathname + '?nocache=' + Date.now());
+    htmlOriginalCache = await respuesta.text();
+    return htmlOriginalCache;
+  }catch(e){
+    console.warn('No se pudo obtener HTML original:', e);
+    return null;
+  }
+}
+
+/* Generar HTML personalizado */
+async function generarHTMLPersonalizado(){
+  var original = await obtenerHTMLOriginal();
+  if(!original){
+    // Fallback: usar el HTML actual del DOM (no perfecto pero funciona)
+    original = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  }
+
+  // Construir config a inyectar
+  var config = {
+    nombre: personalizacion.nombre || '',
+    mensaje: personalizacion.mensaje || '',
+    frases: personalizacion.frases || [],
+    premium: personalizacion.premium || {},
+    token: (function(){
+      try{ return localStorage.getItem(STORAGE_KEY) || null; }catch(e){ return null; }
+    })()
+  };
+
+  var jsonStr = JSON.stringify(config).replace(/</g, '\\u003c');
+
+  // Reemplazar el contenido del script config-inicial
+  var regex = /(<script id="config-inicial" type="application\/json">)[\s\S]*?(<\/script>)/;
+  if(regex.test(original)){
+    return original.replace(regex, '$1' + jsonStr + '$2');
+  }
+  // Fallback: insertar antes de </head>
+  return original.replace('</head>',
+    '<script id="config-inicial" type="application/json">' + jsonStr + '<\/script>\n</head>');
+}
+
+/* Botón morado: enviar plantilla */
+document.getElementById('btnSharePlantilla').addEventListener('click', async function(){
+  var btn = this;
+  btn.classList.add('loading');
+  btn.querySelector('span').textContent = 'Generando...';
+
+  try{
+    var htmlFinal = await generarHTMLPersonalizado();
+    var nombreArchivo = 'diente-de-leon';
+    if(personalizacion.nombre){
+      nombreArchivo += '-' + personalizacion.nombre.toLowerCase()
+        .replace(/[^a-z0-9]/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'');
+    }
+    nombreArchivo += '.html';
+
+    // Crear archivo
+    var blob = new Blob([htmlFinal], { type: 'text/html;charset=utf-8' });
+    var file = new File([blob], nombreArchivo, { type: 'text/html' });
+
+    // Verificar si el navegador soporta compartir archivos
+    var puedeCompartirArchivo = false;
+    try{
+      puedeCompartirArchivo = navigator.canShare && navigator.canShare({ files: [file] });
+    }catch(e){}
+
+    if(puedeCompartirArchivo){
+      // ⭐ Compartir el archivo HTML directamente por WhatsApp
+      try{
+        await navigator.share({
+          files: [file],
+          title: 'Diente de León Mágico ✨💖',
+          text: '✨ Te mando un diente de león mágico personalizado. Ábrelo, sacude tu teléfono y pide un deseo 💖'
+        });
+        btn.classList.remove('loading');
+        btn.querySelector('span').textContent = 'Enviar plantilla';
+        return;
+      }catch(err){
+        // El usuario canceló o falló → continuar al fallback
+        if(err && err.name === 'AbortError'){
+          btn.classList.remove('loading');
+          btn.querySelector('span').textContent = 'Enviar plantilla';
+          return;
+        }
+      }
+    }
+
+    // ─── FALLBACK: descargar + abrir WhatsApp con mensaje ───
+    // 1. Descargar el archivo
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = nombreArchivo;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 2000);
+
+    // 2. Abrir WhatsApp con un mensaje explicativo
+    var mensaje = '💖✨ Te mando un *Diente de León Mágico* personalizado para ti.\n\n' +
+                  '📱 *Cómo abrirlo:*\n' +
+                  '1. Abre el archivo que acabo de enviarte: *' + nombreArchivo + '*\n' +
+                  '2. Sacude tu teléfono y pide un deseo 🌬️\n\n' +
+                  '💫 Hecho con amor solo para ti.';
+    var wa = 'https://api.whatsapp.com/send?text=' + encodeURIComponent(mensaje);
+    try{ window.open(wa, '_blank', 'noopener'); }
+    catch(e){ location.href = wa; }
+
+    btn.classList.remove('loading');
+    btn.querySelector('span').textContent = 'Enviar plantilla';
+
+  }catch(err){
+    console.error('Error generando plantilla:', err);
+    alert('No se pudo generar la plantilla. Intenta de nuevo.');
+    btn.classList.remove('loading');
+    btn.querySelector('span').textContent = 'Enviar plantilla';
+  }
+});
 
 /* ══════════════════════════════════════════════════════════
    FRASES
@@ -948,20 +1157,7 @@ function spawnHeart(x,y,power){
 }
 
 /* ══════════════════════════════════════════════════════════
-   ⭐⭐⭐ SENSOR DE AGITACIÓN — VERSIÓN ARREGLADA ⭐⭐⭐
-   ══════════════════════════════════════════════════════════
-   
-   Problema anterior:
-   · Umbral 15 era muy alto → la mayoría de celulares no llega
-   · Requería 2 lecturas consecutivas → muy estricto
-   · No se conectaba correctamente en algunos Android
-   
-   Solución:
-   · Umbral bajo (8) sobre la magnitud del vector de aceleración
-   · Detección directa, sin contadores intermedios
-   · Cooldown 200ms entre sacudidas
-   · Conecta el listener inmediatamente en Android
-   · Usa acceleration (sin gravedad) si está disponible
+   SENSOR DE AGITACIÓN (sin debug visual)
    ══════════════════════════════════════════════════════════ */
 var shakeCooldown = 0;
 var lastShakeTime = 0;
@@ -969,40 +1165,20 @@ var SHAKE_COOLDOWN_MS = 200;
 var lastAcc = {x:0,y:0,z:0};
 var hasLastAcc = false;
 var sensorAttached = false;
-var sensorDebug = document.getElementById('sensorDebug');
-var debugTimer = null;
-
-/* Debug visual: muestra "¡SACUDIDA!" por 1 segundo */
-function mostrarDebug(){
-  if(!sensorDebug) return;
-  sensorDebug.classList.add('show');
-  clearTimeout(debugTimer);
-  debugTimer = setTimeout(function(){
-    sensorDebug.classList.remove('show');
-  }, 1000);
-}
 
 function onMotion(e){
   var ahora = Date.now();
-
-  /* ─── 1. Tilt para parallax (con gravedad) ─── */
   var ag = e.accelerationIncludingGravity;
   if(ag && ag.x !== null && ag.x !== undefined){
     tiltTargetX = Math.max(-1, Math.min(1, ag.x/9.8));
     tiltTargetY = Math.max(-1, Math.min(1, ag.y/9.8));
   }
-
-  /* ─── 2. Detección de sacudida ─── */
   var mag = 0;
-
-  // Opción A: usar acceleration (sin gravedad) si está disponible
   var acc = e.acceleration;
   if(acc && acc.x !== null && acc.x !== undefined && 
      !(acc.x === 0 && acc.y === 0 && acc.z === 0)){
     mag = Math.sqrt(acc.x*acc.x + acc.y*acc.y + acc.z*acc.z);
-  }
-  // Opción B: fallback → delta de accelerationIncludingGravity
-  else if(ag && ag.x !== null && ag.x !== undefined){
+  } else if(ag && ag.x !== null && ag.x !== undefined){
     if(hasLastAcc){
       var dx = ag.x - lastAcc.x;
       var dy = ag.y - lastAcc.y;
@@ -1012,8 +1188,6 @@ function onMotion(e){
     lastAcc = {x:ag.x, y:ag.y, z:ag.z};
     hasLastAcc = true;
   }
-
-  /* ─── 3. Si supera el umbral, ¡sacudida! ─── */
   if(mag > 8 && (ahora - lastShakeTime) > SHAKE_COOLDOWN_MS){
     var power = Math.min(1, mag / 25);
     ejecutarSacudida(power);
@@ -1022,15 +1196,12 @@ function onMotion(e){
 }
 
 function ejecutarSacudida(power){
-  // Libera muchas semillas — que se note el efecto
   var cantidad = Math.round(10 + power*35);
   var rel = releaseSeeds(cantidad, rnd(-0.6,0.6) + wind, -0.18, power);
   if(rel <= 0) return;
-
   windTarget = 0.7 + power*1.3;
   sumarDeseo(rel);
   if(Math.random() < 0.7) mostrarFrase();
-
   for(var i=0;i<Math.round(4 + power*6);i++){
     spawnHeart(HEAD.x+rnd(-HEAD.r,HEAD.r), HEAD.y+rnd(-HEAD.r*0.3,HEAD.r*0.5), 0.9+power);
   }
@@ -1039,7 +1210,6 @@ function ejecutarSacudida(power){
   }
   if(navigator.vibrate) navigator.vibrate(Math.round(20+power*40));
   ocultarHint();
-  mostrarDebug();
 }
 
 function onOrientation(e){
@@ -1050,22 +1220,14 @@ function onOrientation(e){
   }
 }
 
-/* Pedir permisos — en iOS 13+ debe ser desde un gesto del usuario */
 var motionPermissionAsked = false;
 
 function pedirPermisosSensor(){
-  // Detectar iOS
-  var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-              (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-
   var needsPerm = typeof DeviceMotionEvent !== 'undefined' &&
                   typeof DeviceMotionEvent.requestPermission === 'function';
-
   if(needsPerm){
-    // iOS: pedir permiso explícito
     if(motionPermissionAsked) return;
     motionPermissionAsked = true;
-
     DeviceMotionEvent.requestPermission().then(function(r){
       if(r === 'granted'){
         if(!sensorAttached){
@@ -1074,14 +1236,8 @@ function pedirPermisosSensor(){
         }
       } else {
         motionPermissionAsked = false;
-        console.warn('Permiso de movimiento denegado');
       }
-    }).catch(function(err){
-      motionPermissionAsked = false;
-      console.warn('Error pidiendo permiso:', err);
-    });
-
-    // También orientación
+    }).catch(function(){ motionPermissionAsked = false; });
     if(typeof DeviceOrientationEvent !== 'undefined' &&
        typeof DeviceOrientationEvent.requestPermission === 'function'){
       DeviceOrientationEvent.requestPermission().then(function(r){
@@ -1091,7 +1247,6 @@ function pedirPermisosSensor(){
       }).catch(function(){});
     }
   } else if(typeof DeviceMotionEvent !== 'undefined'){
-    // Android y desktop: conectar directo
     if(!sensorAttached){
       window.addEventListener('devicemotion', onMotion, {passive:true});
       window.addEventListener('deviceorientation', onOrientation, {passive:true});
@@ -1101,22 +1256,13 @@ function pedirPermisosSensor(){
 }
 window.pedirPermisosSensor = pedirPermisosSensor;
 
-/* 🔥 CONECTAR SENSOR INMEDIATAMENTE EN ANDROID */
 (function conectarSensorAutomatico(){
-  var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-              (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   var needsPerm = typeof DeviceMotionEvent !== 'undefined' &&
                   typeof DeviceMotionEvent.requestPermission === 'function';
-  // En Android no necesita permiso → conectar ya
   if(!needsPerm && typeof DeviceMotionEvent !== 'undefined' && !sensorAttached){
     window.addEventListener('devicemotion', onMotion, {passive:true});
     window.addEventListener('deviceorientation', onOrientation, {passive:true});
     sensorAttached = true;
-  }
-  // En iOS, conectar el listener de orientation como backup (no requiere gesto)
-  if(needsPerm && typeof DeviceOrientationEvent !== 'undefined' &&
-     typeof DeviceOrientationEvent.requestPermission !== 'function'){
-    window.addEventListener('deviceorientation', onOrientation, {passive:true});
   }
 })();
 
@@ -1185,13 +1331,15 @@ document.getElementById('wa').addEventListener('click', function(){
 });
 
 document.getElementById('startBtn').addEventListener('click', function(){
-  // ⭐ Pedir permisos al iniciar
   pedirPermisosSensor();
   document.getElementById('intro').classList.add('hide');
   setTimeout(function(){ document.getElementById('intro').style.display = 'none'; }, 900);
   setTimeout(function(){ mostrarFrase(); }, 900);
   setTimeout(function(){
     for(var i=0;i<10;i++) spawnHeart(W/2+rnd(-60,60), H/2+rnd(-40,40), 1.3);
+    /* ⭐ Mostrar botón morado */
+    var btn = document.getElementById('btnSharePlantilla');
+    if(btn) btn.classList.add('show');
   }, 400);
   if(esPremium && personalizacion.premium.musica && personalizacion.archivoMusica){
     var a = document.getElementById('audioPlayer');
@@ -1210,28 +1358,22 @@ function update(dt){
   T += dt;
   tiempoUltimoChequeo += dt;
   if(tiempoUltimoChequeo > 30){ tiempoUltimoChequeo = 0; actualizarMomento(); }
-
   tiltX += (tiltTargetX-tiltX)*0.06*k;
   tiltY += (tiltTargetY-tiltY)*0.06*k;
-
   windTimer -= dt;
   if(windTimer <= 0){
     windTarget = rnd(-0.45,0.85) + tiltX*0.4;
     windTimer = rnd(2.5,6.5);
   }
   wind += (windTarget-wind)*0.012*k;
-
   if(HEAD.grow < 1) HEAD.grow = Math.min(1, HEAD.grow+dt*0.85);
-
   var par = (esPremium && personalizacion.premium.efecto3D) ? 2.2 : 1;
   HEAD.x = W*0.5 + Math.sin(T*0.7)*W*0.012 + tiltX*W*0.06*par;
   HEAD.y = H*0.44 + tiltY*H*0.02*par;
-
   if(attached.length > 0 && Math.random() < 0.006*k){
     releaseSeeds(1, wind*0.6, -0.05, 0.15);
   }
   if(shakeCooldown > 0) shakeCooldown -= dt;
-
   for(var i=flying.length-1;i>=0;i--){
     var p = flying[i];
     var drift = wind*1.7 + tiltX*0.6;
@@ -1280,7 +1422,6 @@ function update(dt){
     if(cl.x+cl.r*2 < 0) cl.x = W+cl.r*2;
   }
   for(var e=0;e<estrellas.length;e++) estrellas[e].ph += 0.02*k;
-
   if(esPremium && personalizacion.premium.destellos){
     for(var dI=0;dI<destellos.length;dI++){
       var de = destellos[dI];
@@ -1293,7 +1434,6 @@ function update(dt){
       if(de.y > H+20) de.y = -20;
     }
   }
-
   if(esPremium && personalizacion.premium.fuegos){
     for(var f=fuegosArtificiales.length-1;f>=0;f--){
       var fu = fuegosArtificiales[f];
@@ -1305,7 +1445,6 @@ function update(dt){
       if(fu.life > fu.maxLife) fuegosArtificiales.splice(f,1);
     }
   }
-
   if(esPremium && personalizacion.premium.corazones){
     if(Math.random() < 0.03*k) spawnCorazonLluvia();
     for(var clI=corazonesLluvia.length-1;clI>=0;clI--){
@@ -1316,7 +1455,6 @@ function update(dt){
       if(co.y > H+30) corazonesLluvia.splice(clI,1);
     }
   }
-
   if(attached.length === 0 && flying.length < 45){
     if(regrow < 0) regrow = 2.2;
     regrow -= dt;
@@ -1336,7 +1474,6 @@ function drawSky(){
   }
   ctx.fillStyle = sky;
   ctx.fillRect(0,0,W,H);
-
   if(momentoDia === 'noche'){
     for(var e=0;e<estrellas.length;e++){
       var es = estrellas[e];
@@ -1349,7 +1486,6 @@ function drawSky(){
     }
     ctx.globalAlpha = 1;
   }
-
   var solX = W*(pal.solX - tiltX*0.04);
   var solY = H*(pal.solY + tiltY*0.02);
   var sc = pal.solColor;
@@ -1360,7 +1496,6 @@ function drawSky(){
   sol.addColorStop(1, 'rgba('+sc[0]+','+sc[1]+','+sc[2]+',0)');
   ctx.fillStyle = sol;
   ctx.fillRect(0,0,W,H);
-
   if(pal.solTipo === 'luna'){
     var dr = Math.min(W,H)*0.09;
     var d = ctx.createRadialGradient(solX,solY,0, solX,solY,dr);
@@ -1638,9 +1773,6 @@ function draw(){
   drawTinte();
 }
 
-/* ══════════════════════════════════════════════════════════
-   RESIZE Y BUCLE
-   ══════════════════════════════════════════════════════════ */
 function resize(){
   DPR = Math.min(window.devicePixelRatio || 1, 2);
   W = window.innerWidth; H = window.innerHeight;
@@ -1681,6 +1813,18 @@ async function init(){
   actualizarMomento();
   setInterval(actualizarMomento, 60000);
   initPersonalizacion();
+
+  /* ⭐ Si viene config inicial, saltar directo a la escena */
+  if(configInicial){
+    document.getElementById('personalizacion').classList.add('hide');
+    document.getElementById('personalizacion').style.display = 'none';
+    setTimeout(function(){
+      aplicarPersonalizacion();
+      var btn = document.getElementById('btnSharePlantilla');
+      if(btn) btn.classList.add('show');
+    }, 100);
+  }
+
   requestAnimationFrame(loop);
   setTimeout(ocultarHint, 7000);
 }
