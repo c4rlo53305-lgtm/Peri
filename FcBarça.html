@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<meta name="theme-color" content="#000000">
+<title>🎂 Feliz Cumpleaños 🔵🔴 Barça</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  html, body {
+    margin: 0; height: 100%; background: #000; overflow: hidden;
+    font-family: 'Indie Flower','Bradley Hand','Segoe Script',cursive;
+    touch-action: none;
+    -webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;
+  }
+  canvas { display: block; }
+
+  #start-screen {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at center, #001a33 0%, #000000 100%);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 3000; color: #cdeeff; font-size: 2rem; font-weight: 700;
+    cursor: pointer; transition: opacity 1s ease;
+    text-shadow: 0 0 15px #0099ff; flex-direction: column;
+  }
+  #start-screen.hidden { opacity: 0; pointer-events: none; }
+  .pulse-text { animation: pulse 1.5s infinite alternate; letter-spacing: 0.5px; }
+  @keyframes pulse { 0%{transform:scale(1);opacity:.8;} 100%{transform:scale(1.1);opacity:1;} }
+  .start-heart {
+    margin-top: 18px; width: clamp(100px, 28vmin, 180px); height: auto; display: block;
+    filter: drop-shadow(0 0 14px rgba(0,153,255,.75)) drop-shadow(0 0 36px rgba(0,207,255,.38));
+    animation: startHeartBeat 1.1s ease-in-out infinite;
+  }
+  @keyframes startHeartBeat { 0%,100%{transform:scale(1);} 50%{transform:scale(1.18);} }
+  @media (max-width: 480px) { .start-heart{width:clamp(84px,32vmin,140px);margin-top:12px;} }
+
+  #top-title {
+    position: fixed; top: 20px; left: 0; width: 100%; text-align: center;
+    z-index: 1500; pointer-events: none;
+    font-family: 'Indie Flower','Bradley Hand','Segoe Script',cursive;
+    font-weight: 700; font-size: 2.6rem; letter-spacing: 1px;
+    color: #cdebff;
+    text-shadow: 0 0 10px #004D98, 0 0 22px #A50044, 0 0 34px #EDBB00;
+    filter: drop-shadow(0 0 14px rgba(165, 0, 68, 0.55));
+    animation: titlePulse 1.6s ease-in-out infinite;
+  }
+  @keyframes titlePulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.05);} }
+  @media (max-width: 480px) { #top-title{font-size:1.75rem;top:14px;} }
+
+  #love-letter-btn {
+    position: fixed; bottom: 24px; right: 24px; z-index: 1800;
+    width: 60px; height: 60px; border-radius: 50%; border: none; cursor: pointer;
+    background: linear-gradient(135deg, #004D98, #A50044);
+    box-shadow: 0 0 18px rgba(237, 187, 0, 0.55), 0 4px 14px rgba(0,0,0,0.35);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.55rem; animation: btnBeat 1.8s ease-in-out infinite;
+    transition: transform 0.25s ease;
+  }
+  #love-letter-btn:hover { transform: scale(1.08); }
+  @keyframes btnBeat { 0%,100%{transform:scale(1);} 50%{transform:scale(1.07);} }
+
+  #love-letter-overlay {
+    position: fixed; inset: 0; background: rgba(0, 10, 20, 0.85);
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    z-index: 2500; display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+    padding: 24px; box-sizing: border-box;
+  }
+  #love-letter-overlay.visible { opacity: 1; pointer-events: auto; }
+  #love-letter-card {
+    max-width: 620px; width: 100%; max-height: 82vh; overflow-y: auto;
+    background: linear-gradient(160deg, rgba(0,45,90,0.96), rgba(40,0,25,0.98));
+    border: 1px solid rgba(237,187,0,0.45);
+    border-radius: 22px; padding: 40px 32px;
+    box-shadow: 0 0 40px rgba(165,0,68,0.45), 0 0 80px rgba(0,77,152,0.35);
+    color: #cdeeff;
+    font-family: 'Indie Flower','Bradley Hand','Segoe Script',cursive;
+    transform: translateY(18px) scale(0.96);
+    transition: transform 0.4s ease; position: relative;
+  }
+  #love-letter-overlay.visible #love-letter-card { transform: translateY(0) scale(1); }
+  #love-letter-card h2 {
+    text-align: center; margin: 0 0 22px; font-size: 1.8rem; font-weight: 700;
+    color: #cdeeff;
+    text-shadow: 0 0 10px #004D98, 0 0 18px #A50044, 0 0 26px #EDBB00;
+  }
+  #love-letter-card p {
+    line-height: 1.75; font-size: 1.1rem; margin: 0 0 16px;
+    white-space: pre-line;
+    text-shadow: 0 0 8px rgba(0,153,255,0.2);
+  }
+  #love-letter-close {
+    position: absolute; top: 14px; right: 16px;
+    background: none; border: none; color: #7fd4ff;
+    font-size: 1.35rem; cursor: pointer; line-height: 1; padding: 4px;
+  }
+  #love-letter-close:hover { color: #fff; }
+
+  @media (max-width: 480px) {
+    #love-letter-btn{width:52px;height:52px;font-size:1.3rem;bottom:18px;right:18px;}
+    #love-letter-card{padding:30px 22px;border-radius:18px;}
+    #love-letter-card h2{font-size:1.5rem;}
+    #love-letter-card p{font-size:1rem;}
+  }
+</style>
+</head>
+<body>
+
+<div id="start-screen">
+  <div class="pulse-text">🎂 Toca Aquí-Mi Biker 🎂</div>
+  <img class="start-heart" src="https://raw.githubusercontent.com/Rafael-codex/Imagnes-de-hot-wells/main/start.png" alt="Inicio">
+</div>
+
+<div id="top-title"></div>
+
+<button id="love-letter-btn" aria-label="Leer mensaje">📩</button>
+
+<div id="love-letter-overlay">
+  <div id="love-letter-card">
+    <button id="love-letter-close" aria-label="Cerrar mensaje">✕</button>
+    <h2>🎂 ¡Feliz Cumpleaños! 🔵🔴</h2>
+    <div id="love-letter-body"></div>
+  </div>
+</div>
+
+<canvas id="c"></canvas>
+<audio id="audio" loop></audio>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.148.0/build/three.min.js"></script>
+
+<script>
+const DEFAULTS = {
+  titulo: "🎂 ¡Feliz Cumpleaños! 🎂",
+  mensaje:
+"🎂💕🥳🥳 Hoy es un día muy especial, un día para celebrar la vida, la amistad y todo lo que has 💗🐺 logrado.\n\n" +
+"Quiero que sepas que eres una persona muy importante para mí, alguien que valoro y 😻🫶 aprecio profundamente. 💗💗💗\n\n" +
+"Eres increíble, con un corazón noble 💕🎂 y una sonrisa que ilumina cualquier lugar. Me siento afortunada de tenerte en mi vida.\n\n" +
+"En tu ☺️💗 cumpleaños deseo que tu día esté lleno de amor, alegría y momentos inolvidables.\n\n" +
+"Quiero que sepas que te quiero mucho y que siempre podrás contar conmigo 🤩🤩\n\n" +
+"¡Feliz cumpleaños! Que este día sea 🎂🎂 el inicio de un año maravilloso lleno 🤩😮‍💨🥰 de oportunidades, sueños 🥳😌 cumplidos y nuevas experiencias.\n\n" +
+"Que sigas siendo la persona especial que eres y que nunca pierdas tu esencia.\n\n" +
+"Con todo 💕 mi cariño y sinceridad, te deseo un feliz cumpleaños.\n\n" +
+"Aunque no pueda darte un abrazo o saludarte en persona, quiero que sepas que mi mayor deseo es verte feliz 🥰\n\n" +
+"Espero que recuerdes este día con una 🫟💗 gran sonrisa 😌 y lo disfrutes al máximo 😊 como merece alguien tan especial.\n\n" +
+"FELIZ CUMPLEAÑOS 🎂 🥳 🫶 🎂🎂",
+  frases: [
+    "🎂 Feliz cumpleaños, mi Biker",
+    "🎂 Hoy es tu día especial",
+    "🎂 Que cumplas muchos más",
+    "🎂 Un año más a tu lado",
+    "🔵🔴 Força Barça",
+    "🔵🔴 Visca el Barça",
+    "🔵🔴 Més que un club",
+    "🔵🔴 FC Barcelona",
+    "🔵🔴 Culer de corazón",
+    "🔵🔴 Barça 💙❤️",
+    "🔵🔴 Camp Nou",
+    "🔵🔴 Som-hi Barça",
+    "🔵🔴 Visca Catalunya",
+    "🔵🔴 Barcelonista",
+    "🔵🔴 Blaugrana 💙❤️",
+    "🔵🔴 Força Barça 🎂",
+    "💙❤️ Azulgrana de corazón",
+    "💙❤️ Un detalle azulgrana para ti",
+    "💙❤️ Eres mi persona favorita",
+    "💙❤️ Contigo todo es mejor",
+    "💙❤️ Gracias por existir",
+    "💙❤️ Que este año sea increíble"
+  ],
+  fotos: [
+    "https://raw.githubusercontent.com/Rafael-codex/Imagnes-de-hot-wells/main/img1.png",
+    "https://raw.githubusercontent.com/Rafael-codex/Imagnes-de-hot-wells/main/img2.png",
+    "https://raw.githubusercontent.com/Rafael-codex/Imagnes-de-hot-wells/main/img3.png",
+    "https://raw.githubusercontent.com/Rafael-codex/Imagnes-de-hot-wells/main/img4.png",
+    "https://raw.githubusercontent.com/Rafael-codex/Imagnes-de-hot-wells/main/img5.png",
+    "https://raw.githubusercontent.com/Rafael-codex/Imagnes-de-hot-wells/main/img6.png",
+    "https://raw.githubusercontent.com/Rafael-codex/Imagnes-de-hot-wells/main/img7.png",
+    "https://raw.githubusercontent.com/Rafael-codex/Imagnes-de-hot-wells/main/img8.png"
+  ],
+  musica: "https://raw.githubusercontent.com/Rafael-codex/musicas/main/_teamo%20%20_amor%20_reflexion%20_el%20_ella(MP3).mp3"
+};
+
+const CONFIG = (window.DEDICA && window.DEDICA.merge)
+  ? window.DEDICA.merge(DEFAULTS, window.DEDICA.config)
+  : DEFAULTS;
+</script>
+
+<script>
+document.getElementById('top-title').textContent = CONFIG.titulo;
+
+const letterBody = document.getElementById('love-letter-body');
+(CONFIG.mensaje || DEFAULTS.mensaje).split(/\n\s*\n/).forEach((paragraph) => {
+  const p = document.createElement('p');
+  p.textContent = paragraph.trim();
+  letterBody.appendChild(p);
+});
+
+const startScreen = document.getElementById('start-screen');
+const audio = document.getElementById('audio');
+audio.src = CONFIG.musica;
+audio.preload = 'auto';
+audio.load();
+
+let experienceStarted = false;
+function unlockAudioAndStart() {
+  if (experienceStarted) return;
+  experienceStarted = true;
+  const playPromise = audio.play();
+  if (playPromise && typeof playPromise.catch === 'function') {
+    playPromise.catch(err => console.log("Audio no autoplay:", err));
+  }
+  startScreen.classList.add('hidden');
+}
+startScreen.addEventListener('touchend', (e) => { e.preventDefault(); unlockAudioAndStart(); }, {passive: false});
+startScreen.addEventListener('click', unlockAudioAndStart);
+
+const isMobile = /Android|iPhone|iPad|iPod|Mobi/i.test(navigator.userAgent) || window.innerWidth <= 820;
+const letterBtn = document.getElementById('love-letter-btn');
+const letterOverlay = document.getElementById('love-letter-overlay');
+const letterClose = document.getElementById('love-letter-close');
+function openLetter(){ letterOverlay.classList.add('visible'); }
+function closeLetter(){ letterOverlay.classList.remove('visible'); }
+letterBtn.addEventListener('click', openLetter);
+letterClose.addEventListener('click', closeLetter);
+letterOverlay.addEventListener('click', (e) => { if (e.target === letterOverlay) closeLetter(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeLetter(); });
+
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({canvas, antialias: !isMobile});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2));
+renderer.setSize(innerWidth, innerHeight);
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.1, 5000);
+let targetDist = 400, currentDist = 400;
+let rotX = 0.2, rotY = 0;
+
+function makeDotTexture(){
+  const size = 64;
+  const c = document.createElement('canvas'); c.width = c.height = size;
+  const ctx = c.getContext('2d');
+  const grad = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+  grad.addColorStop(0.0, 'rgba(255,255,255,1)');
+  grad.addColorStop(0.55, 'rgba(255,255,255,1)');
+  grad.addColorStop(0.85, 'rgba(255,255,255,0.55)');
+  grad.addColorStop(1.0, 'rgba(255,255,255,0)');
+  ctx.fillStyle = grad; ctx.fillRect(0, 0, size, size);
+  return new THREE.CanvasTexture(c);
+}
+const dotTexture = makeDotTexture();
+
+/* Estrellas de fondo */
+(function makeStars(count = isMobile ? 1400 : 2200, spread=3000){
+  const g = new THREE.BufferGeometry();
+  const pos = new Float32Array(count * 3);
+  for(let i=0; i<count; i++){
+    const r = spread * (0.3 + Math.random() * 0.7);
+    const th = Math.random() * Math.PI * 2;
+    const ph = Math.acos(2 * Math.random() - 1);
+    pos[i*3+0] = r * Math.sin(ph) * Math.cos(th);
+    pos[i*3+1] = r * Math.cos(ph);
+    pos[i*3+2] = r * Math.sin(ph) * Math.sin(th);
+  }
+  g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  scene.add(new THREE.Points(g, new THREE.PointsMaterial({
+    size: 2.2, sizeAttenuation: false, map: dotTexture,
+    transparent: true, alphaTest: 0.01, depthWrite: false,
+    opacity: 0.9, color: 0xd9ecff
+  })));
+})();
+
+/* ============================================================
+   ESCUDO DEL FC BARCELONA HECHO DE PARTÍCULAS (CENTRO)
+   ============================================================ */
+const CREST_HALF_W = 115;   // ancho del escudo en unidades del mundo
+const CREST_PARTICLES = isMobile ? 9000 : 14000;
+
+function buildCrestParticles(count, halfW){
+  // Canvas para el test de "punto dentro del escudo"
+  const S = 256;
+  const c = document.createElement('canvas');
+  c.width = c.height = S;
+  const g = c.getContext('2d');
+
+  const L = S*0.10, R = S*0.90;
+  const T = S*0.04, B = S*0.96;
+  const midX = (L + R) / 2;
+
+  function shieldPath(){
+    g.beginPath();
+    g.moveTo(L, T + S*0.08);
+    g.quadraticCurveTo(L, T, L + S*0.10, T);
+    g.lineTo(R - S*0.10, T);
+    g.quadraticCurveTo(R, T, R, T + S*0.08);
+    g.lineTo(R, S*0.56);
+    g.quadraticCurveTo(R, B, midX, B);
+    g.quadraticCurveTo(L, B, L, S*0.56);
+    g.closePath();
+  }
+  shieldPath();
+
+  const topB = S * 0.36;         // división entre zona superior e inferior
+  const qw = midX - L;
+  const qh = topB - T;
+  const armW = qw * 0.24;        // grosor de la cruz
+
+  const positions = [];
+  const colors = [];
+
+  // Colores base blaugrana / senyera / cruz
+  const WHITE = [0.95, 0.96, 1.00];
+  const RED   = [0.78, 0.06, 0.18];
+  const YELL  = [0.96, 0.77, 0.02];
+  const BLAU  = [0.00, 0.30, 0.60];
+  const GRANA = [0.65, 0.00, 0.27];
+
+  const stripes = 5;
+  const sw = (R - L) / (stripes * 2 - 1);
+
+  let tries = 0;
+  while (positions.length < count * 3 && tries < count * 40) {
+    tries++;
+    const px = Math.random() * S;
+    const py = Math.random() * S;
+    if (!g.isPointInPath(px, py)) continue;
+
+    let col;
+    if (py < topB) {
+      if (px < midX) {
+        // Cuadrante izquierdo: cruz de San Jorge
+        const isV = Math.abs(px - midX) < armW * 0.55;
+        const isH = Math.abs(py - (T + topB) * 0.5) < armW * 0.55;
+        col = (isV || isH) ? RED : WHITE;
+      } else {
+        // Cuadrante derecho: senyera
+        const bi = Math.floor((py - T) / (qh / 9));
+        col = (bi % 2 === 1) ? RED : YELL;
+      }
+    } else {
+      // Zona blaugrana
+      const si = Math.floor((px - L) / sw);
+      col = (si % 2 === 1) ? GRANA : BLAU;
+    }
+
+    // Pequeña variación de color para efecto "nube"
+    col = col.map(v => Math.max(0, Math.min(1, v + (Math.random() - 0.5) * 0.14)));
+
+    const scale = (halfW * 2) / (R - L);
+    const worldX = (px - midX) * scale;
+    const worldY = ((T + B) * 0.5 - py) * scale;
+
+    positions.push(worldX, worldY, (Math.random() - 0.5) * 8);
+    colors.push(col[0], col[1], col[2]);
+  }
+
+  const geom = new THREE.BufferGeometry();
+  geom.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geom.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+  return geom;
+}
+
+const crestGeom = buildCrestParticles(CREST_PARTICLES, CREST_HALF_W);
+const crestMat = new THREE.PointsMaterial({
+  size: 1.55,
+  sizeAttenuation: true,
+  map: dotTexture,
+  transparent: true,
+  alphaTest: 0.01,
+  depthWrite: false,
+  opacity: 1,
+  vertexColors: true,
+  blending: THREE.AdditiveBlending
+});
+const crestParticles = new THREE.Points(crestGeom, crestMat);
+scene.add(crestParticles);
+
+/* ============================================================
+   ESPIRAL + POLVO + ANILLOS
+   ============================================================ */
+const spiralPoints = [];
+const arms = 4;
+const SPIRAL_COUNT = isMobile ? 4600 : 7000;
+for (let i = 0; i < SPIRAL_COUNT; i++) {
+  const r = Math.random() * 250;
+  const armIndex = Math.floor(Math.random() * arms);
+  const theta = (armIndex * Math.PI * 2 / arms) + (r * 0.02) + (Math.random() * 0.4 - 0.2);
+  spiralPoints.push(new THREE.Vector3(
+    Math.cos(theta) * r,
+    -35 - (r * 0.4) + (Math.random() * 8 - 4),
+    Math.sin(theta) * r
+  ));
+}
+const spiralGeom = new THREE.BufferGeometry().setFromPoints(spiralPoints);
+const spiralMat = new THREE.PointsMaterial({
+  color: 0x66d9ff, size: 2.1, map: dotTexture,
+  transparent: true, alphaTest: 0.01, depthWrite: false,
+  opacity: 1, blending: THREE.AdditiveBlending
+});
+const spiral = new THREE.Points(spiralGeom, spiralMat);
+scene.add(spiral);
+
+const DUST_INNER_R = 150;
+const DUST_OUTER_R = 380;
+const dustPoints = [];
+const DUST_COUNT = isMobile ? 7000 : 14000;
+for (let i = 0; i < DUST_COUNT; i++) {
+  const r = DUST_INNER_R + Math.random() * (DUST_OUTER_R - DUST_INNER_R);
+  const theta = Math.random() * Math.PI * 2;
+  const phi = Math.acos(2 * Math.random() - 1);
+  dustPoints.push(new THREE.Vector3(
+    r * Math.sin(phi) * Math.cos(theta),
+    r * Math.cos(phi),
+    r * Math.sin(phi) * Math.sin(theta)
+  ));
+}
+const dustGeom = new THREE.BufferGeometry().setFromPoints(dustPoints);
+const dustMat = new THREE.PointsMaterial({
+  color: 0xc2e6ff, size: 1.0, map: dotTexture,
+  transparent: true, alphaTest: 0.01, depthWrite: false,
+  opacity: 0.68, blending: THREE.AdditiveBlending
+});
+const dust = new THREE.Points(dustGeom, dustMat);
+scene.add(dust);
+
+function makeGlow(size=768, c1='140,210,255', c2='0,153,255'){
+  const c = document.createElement('canvas'); c.width = c.height = size;
+  const g = c.getContext('2d');
+  const grad = g.createRadialGradient(size/2, size/2, size*0.05, size/2, size/2, size*0.5);
+  grad.addColorStop(0, 'rgba(' + c1 + ',0.88)');
+  grad.addColorStop(0.5, 'rgba(' + c2 + ',0.34)');
+  grad.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = grad; g.fillRect(0, 0, size, size);
+  return new THREE.CanvasTexture(c);
+}
+const glow = new THREE.Sprite(new THREE.SpriteMaterial({
+  map: makeGlow(), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending
+}));
+glow.scale.set(500, 500, 1);
+scene.add(glow);
+
+function ringTexture(size=768){
+  const c = document.createElement('canvas'); c.width = c.height = size;
+  const g = c.getContext('2d'); g.translate(size/2, size/2);
+  const r1 = size*0.35, r2 = size*0.48;
+  const grd = g.createRadialGradient(0, 0, r1*0.6, 0, 0, r2);
+  grd.addColorStop(0.0, 'rgba(240,250,255,1)');
+  grd.addColorStop(0.3, 'rgba(120,190,255,1)');
+  grd.addColorStop(0.7, 'rgba(20,120,220,0.8)');
+  grd.addColorStop(1.0, 'rgba(0,0,0,0)');
+  g.fillStyle = grd;
+  g.beginPath(); g.arc(0,0,r2,0,Math.PI*2); g.arc(0,0,r1,0,Math.PI*2,true); g.closePath(); g.fill();
+  return new THREE.CanvasTexture(c);
+}
+const ring1 = new THREE.Mesh(new THREE.RingGeometry(80, 115, 128),
+  new THREE.MeshBasicMaterial({map: ringTexture(), transparent: true, side: THREE.DoubleSide, opacity: 0.42, blending: THREE.AdditiveBlending}));
+const ring2 = new THREE.Mesh(new THREE.RingGeometry(125, 155, 128),
+  new THREE.MeshBasicMaterial({map: ringTexture(), transparent: true, side: THREE.DoubleSide, opacity: 0.28, blending: THREE.AdditiveBlending}));
+ring1.rotation.x = ring2.rotation.x = Math.PI/2;
+scene.add(ring1); scene.add(ring2);
+
+/* ============================================================
+   TEXTURA DEL ESCUDO (para los sprites flotantes y el halo)
+   ============================================================ */
+function makeBarcaCrestTexture(size = 512){
+  const c = document.createElement('canvas');
+  c.width = size; c.height = size;
+  const g = c.getContext('2d');
+  const L = size * 0.10, R = size * 0.90;
+  const T = size * 0.04, B = size * 0.96;
+  const midX = (L + R) / 2;
+
+  function shieldPath(){
+    g.beginPath();
+    g.moveTo(L, T + size * 0.08);
+    g.quadraticCurveTo(L, T, L + size * 0.10, T);
+    g.lineTo(R - size * 0.10, T);
+    g.quadraticCurveTo(R, T, R, T + size * 0.08);
+    g.lineTo(R, size * 0.56);
+    g.quadraticCurveTo(R, B, midX, B);
+    g.quadraticCurveTo(L, B, L, size * 0.56);
+    g.closePath();
+  }
+
+  g.save();
+  g.shadowColor = 'rgba(0, 130, 235, 0.95)';
+  g.shadowBlur = size * 0.07;
+  shieldPath();
+  g.fillStyle = '#f7fbff';
+  g.fill();
+  g.restore();
+
+  g.save();
+  shieldPath();
+  g.clip();
+
+  const topT = T, topB = size * 0.36;
+  const qw = (R - L) / 2, qh = topB - topT;
+
+  g.fillStyle = '#FFFFFF';
+  g.fillRect(L, topT, qw, qh);
+  g.fillStyle = '#C8102E';
+  const armW = qw * 0.24;
+  g.fillRect(L + qw / 2 - armW / 2, topT, armW, qh);
+  g.fillRect(L, topT + qh / 2 - armW / 2, qw, armW);
+
+  g.fillStyle = '#F5C400';
+  g.fillRect(L + qw, topT, qw, qh);
+  g.fillStyle = '#C8102E';
+  const bandH = qh / 9;
+  for (let i = 0; i < 4; i++) g.fillRect(L + qw, topT + (1 + i * 2) * bandH, qw, bandH);
+
+  const botT = topB, botH = B - topB;
+  g.fillStyle = '#004D98';
+  g.fillRect(L, botT, R - L, botH);
+  g.fillStyle = '#A50044';
+  const stripes = 5, sw = (R - L) / (stripes * 2 - 1);
+  for (let i = 0; i < stripes; i++) g.fillRect(L + (i * 2 + 1) * sw, botT, sw, botH);
+
+  g.restore();
+
+  shieldPath();
+  g.lineWidth = size * 0.022;
+  g.strokeStyle = '#0a2a4a';
+  g.stroke();
+  shieldPath();
+  g.lineWidth = size * 0.010;
+  g.strokeStyle = 'rgba(185, 228, 255, 0.95)';
+  g.stroke();
+
+  const tex = new THREE.CanvasTexture(c);
+  tex.encoding = THREE.sRGBEncoding;
+  tex.anisotropy = 4;
+  return tex;
+}
+
+/* ============================================================
+   TEXTOS FLOTANTES
+   ============================================================ */
+const WORDS = [];
+const baseWords = (Array.isArray(CONFIG.frases) && CONFIG.frases.length) ? CONFIG.frases : DEFAULTS.frases;
+const PHRASE_REPEAT = isMobile ? 6 : 9;
+for (let i = 0; i < PHRASE_REPEAT; i++) WORDS.push(...baseWords);
+
+function makeTextTexture(text, color){
+  const c = document.createElement('canvas'); c.width = 1024; c.height = 128;
+  const ctx = c.getContext('2d'); ctx.clearRect(0,0,c.width,c.height);
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  let fontSize = 50;
+  ctx.font = `700 ${fontSize}px "Indie Flower", cursive`;
+  while (ctx.measureText(text).width > c.width - 50 && fontSize > 26) {
+    fontSize -= 2;
+    ctx.font = `700 ${fontSize}px "Indie Flower", cursive`;
+  }
+  ctx.fillStyle = '#eaf6ff'; ctx.shadowColor = color; ctx.shadowBlur = 25;
+  ctx.fillText(text, c.width/2, c.height/2);
+  const tex = new THREE.CanvasTexture(c);
+  tex.encoding = THREE.sRGBEncoding;
+  return tex;
+}
+const COLORS = [
+  '#1E90FF','#00BFFF','#0099FF','#38BDF8','#87CEEB','#4F8CFF','#2563EB','#ADD8E6','#00CFFF','#3B82F6',
+  '#004D98','#A50044','#EDBB00','#C8102E','#FF3B7F'
+];
+const textGroup = new THREE.Group(); scene.add(textGroup);
+
+document.fonts.ready.then(() => {
+  for(let i=0; i<WORDS.length; i++){
+    const tex = makeTextTexture(WORDS[i], COLORS[i%COLORS.length]);
+    const mat = new THREE.SpriteMaterial({map: tex, transparent: true, depthWrite: false, alphaTest: 0.01});
+    const sp = new THREE.Sprite(mat);
+    sp.scale.set(110, 13.75, 1);
+    const phi = Math.acos(2 * Math.random() - 1), theta = Math.random() * Math.PI * 2;
+    const r = DUST_INNER_R + Math.random() * (DUST_OUTER_R - DUST_INNER_R - 30);
+    sp.position.set(r * Math.sin(phi) * Math.cos(theta), r * Math.cos(phi), r * Math.sin(phi) * Math.sin(theta));
+    sp.userData = {phi, theta, radius: r, speed: 0.001 + Math.random() * 0.001};
+    textGroup.add(sp);
+  }
+});
+
+/* ============================================================
+   FOTOS + ESCUDOS FLOTANDO
+   ============================================================ */
+const photoGroup = new THREE.Group(); scene.add(photoGroup);
+const photoGlowTex = makeGlow(512, '150,210,255', '51,181,255');
+const barcaCrestTex = makeBarcaCrestTexture(512);
+
+function loadTextureRobust(path, onLoaded, onError) {
+  const img = new Image();
+  img.crossOrigin = 'anonymous';
+  img.onload = () => {
+    const tex = new THREE.Texture(img);
+    tex.encoding = THREE.sRGBEncoding;
+    tex.needsUpdate = true;
+    onLoaded(tex, img.naturalWidth || 1, img.naturalHeight || 1);
+  };
+  img.onerror = (e) => { console.warn('No se pudo cargar:', path, e); if (onError) onError(e); };
+  img.src = path;
+}
+
+function addOrbitingGlow(phi, theta, r, speed, baseSize, color1, color2){
+  const tex = (color1 && color2) ? makeGlow(512, color1, color2) : photoGlowTex;
+  const glowMat = new THREE.SpriteMaterial({
+    map: tex, transparent: true, depthWrite: false,
+    opacity: 0.6, blending: THREE.AdditiveBlending
+  });
+  const glowSprite = new THREE.Sprite(glowMat);
+  glowSprite.scale.set(baseSize * 1.6, baseSize * 1.6, 1);
+  glowSprite.position.set(r * Math.sin(phi) * Math.cos(theta), r * Math.cos(phi), r * Math.sin(phi) * Math.sin(theta));
+  glowSprite.renderOrder = -1;
+  glowSprite.userData = {phi, theta, radius: r, speed};
+  photoGroup.add(glowSprite);
+}
+
+const PHOTO_PATHS = (Array.isArray(CONFIG.fotos) && CONFIG.fotos.length) ? CONFIG.fotos : DEFAULTS.fotos;
+const PHOTO_REPEAT = isMobile ? 6 : 10;
+const PHOTO_INSTANCES = [];
+for (let rep = 0; rep < PHOTO_REPEAT; rep++) PHOTO_INSTANCES.push(...PHOTO_PATHS);
+
+PHOTO_INSTANCES.forEach((path) => {
+  const phi = Math.acos(2 * Math.random() - 1);
+  const theta = Math.random() * Math.PI * 2;
+  const r = DUST_INNER_R + Math.random() * (DUST_OUTER_R - DUST_INNER_R - 30);
+  const speed = 0.0007 + Math.random() * 0.0009;
+  const baseSize = isMobile ? 21 : 23;
+
+  addOrbitingGlow(phi, theta, r, speed, baseSize);
+
+  loadTextureRobust(path, (tex, iw, ih) => {
+    const ratio = iw / ih;
+    const mat = new THREE.SpriteMaterial({map: tex, transparent: true, depthWrite: false, opacity: 0.96});
+    const photoSprite = new THREE.Sprite(mat);
+    if (ratio >= 1) photoSprite.scale.set(baseSize * ratio, baseSize, 1);
+    else photoSprite.scale.set(baseSize, baseSize / ratio, 1);
+    photoSprite.position.set(r * Math.sin(phi) * Math.cos(theta), r * Math.cos(phi), r * Math.sin(phi) * Math.sin(theta));
+    photoSprite.userData = {phi, theta, radius: r, speed, isPhoto: true};
+    photoGroup.add(photoSprite);
+  }, () => { console.log('Falló: ' + path); });
+});
+
+/* Escudos del Barça flotando */
+const BARCA_COUNT = isMobile ? 14 : 22;
+for (let i = 0; i < BARCA_COUNT; i++) {
+  const phi = Math.acos(2 * Math.random() - 1);
+  const theta = Math.random() * Math.PI * 2;
+  const r = DUST_INNER_R + Math.random() * (DUST_OUTER_R - DUST_INNER_R - 30);
+  const speed = 0.0006 + Math.random() * 0.0011;
+  const crestSize = (isMobile ? 15 : 17) + Math.random() * 10;
+
+  const gcolors = [
+    ['120,180,255','0,77,152'],
+    ['255,120,180','165,0,68'],
+    ['255,225,140','237,187,0']
+  ];
+  const gc = gcolors[i % gcolors.length];
+  addOrbitingGlow(phi, theta, r, speed, crestSize * 1.2, gc[0], gc[1]);
+
+  const crestMat = new THREE.SpriteMaterial({
+    map: barcaCrestTex, transparent: true, depthWrite: false, opacity: 0.92
+  });
+  const crest = new THREE.Sprite(crestMat);
+  crest.scale.set(crestSize, crestSize, 1);
+  crest.position.set(r * Math.sin(phi) * Math.cos(theta), r * Math.cos(phi), r * Math.sin(phi) * Math.sin(theta));
+  crest.userData = {phi, theta, radius: r, speed, isCrest: true};
+  photoGroup.add(crest);
+}
+
+/* Aura blaugrana detrás del escudo de partículas */
+const bigAura = new THREE.Sprite(new THREE.SpriteMaterial({
+  map: makeGlow(768, '180,40,110', '0,77,152'),
+  transparent: true, depthWrite: false, opacity: 0.55,
+  blending: THREE.AdditiveBlending
+}));
+bigAura.scale.set(420, 420, 1);
+bigAura.position.set(0, 0, -120);
+scene.add(bigAura);
+
+/* Halo suave azul justo detrás del escudo */
+const crestHalo = new THREE.Sprite(new THREE.SpriteMaterial({
+  map: makeGlow(768, '150,210,255', '0,77,152'),
+  transparent: true, depthWrite: false, opacity: 0.45,
+  blending: THREE.AdditiveBlending
+}));
+crestHalo.scale.set(300, 300, 1);
+crestHalo.position.set(0, 0, -40);
+scene.add(crestHalo);
+
+/* ============================================================
+   INTERACCIÓN
+   ============================================================ */
+let isPointerDown = false, isDragging = false;
+let startX = 0, startY = 0;
+let targetRotX = 0.2, targetRotY = 0;
+let velX = 0, velY = 0;
+
+function onDown(e) {
+  isPointerDown = true; isDragging = false; velX = 0; velY = 0;
+  const t = e.touches ? e.touches[0] : e;
+  startX = t.clientX; startY = t.clientY;
+}
+function onMove(e) {
+  if (!isPointerDown) return;
+  if (e.touches && e.touches.length > 1) return;
+  const t = e.touches ? e.touches[0] : e;
+  const dx = t.clientX - startX, dy = t.clientY - startY;
+  if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
+    isDragging = true;
+    const sensX = (Math.PI * 1.5) / innerWidth;
+    const sensY = (Math.PI * 0.8) / innerHeight;
+    velY = -dx * sensX; velX = dy * sensY;
+    targetRotY += velY;
+    targetRotX = Math.max(-1.25, Math.min(1.25, targetRotX + velX));
+    startX = t.clientX; startY = t.clientY;
+  }
+}
+function onUp() { isPointerDown = false; }
+
+const dom = renderer.domElement;
+dom.addEventListener('mousedown', onDown);
+dom.addEventListener('mousemove', onMove);
+window.addEventListener('mouseup', onUp);
+dom.addEventListener('touchstart', onDown, {passive: true});
+dom.addEventListener('touchmove', onMove, {passive: true});
+window.addEventListener('touchend', (e) => {
+  if (!e.touches || e.touches.length === 0) onUp();
+  else {
+    const t = e.touches[0];
+    startX = t.clientX; startY = t.clientY; isDragging = false;
+  }
+}, {passive: true});
+
+addEventListener('wheel', (e) => {
+  targetDist += e.deltaY * 0.25;
+  targetDist = Math.max(180, Math.min(1100, targetDist));
+}, {passive: true});
+
+let pinchDist = null;
+function getPinchDist(touches) {
+  const dx = touches[0].clientX - touches[1].clientX;
+  const dy = touches[0].clientY - touches[1].clientY;
+  return Math.hypot(dx, dy);
+}
+addEventListener('touchstart', (e) => {
+  if (e.touches.length === 2) {
+    pinchDist = getPinchDist(e.touches);
+    isPointerDown = false; isDragging = false;
+  }
+}, {passive: true});
+addEventListener('touchmove', (e) => {
+  if (e.touches.length === 2) {
+    const newDist = getPinchDist(e.touches);
+    if (pinchDist !== null) {
+      const delta = pinchDist - newDist;
+      targetDist += delta * 0.85;
+      targetDist = Math.max(180, Math.min(1100, targetDist));
+    }
+    pinchDist = newDist;
+  } else {
+    if (pinchDist !== null) {
+      pinchDist = null;
+      if (e.touches.length === 1) {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        isPointerDown = true; isDragging = false;
+      }
+    }
+  }
+}, {passive: true});
+addEventListener('touchend', (e) => { if (e.touches.length < 2) pinchDist = null; }, {passive: true});
+
+/* ============================================================
+   LOOP
+   ============================================================ */
+let t = 0;
+const INERTIA_DECAY = 0.88;
+
+function tick(){
+  requestAnimationFrame(tick);
+  t += 0.01;
+
+  if (!isPointerDown) {
+    velX *= INERTIA_DECAY; velY *= INERTIA_DECAY;
+    targetRotX = Math.max(-1.25, Math.min(1.25, targetRotX + velX));
+    targetRotY += velY;
+  }
+  rotX += (targetRotX - rotX) * 0.12;
+  rotY += (targetRotY - rotY) * 0.12;
+
+  ring1.rotation.z += 0.002;
+  ring2.rotation.z -= 0.0015;
+  spiral.rotation.y -= 0.0045;
+  dust.rotation.y += 0.0006;
+
+  glow.scale.set(500 * (1 + Math.sin(t*0.4)*0.03), 500 * (1 + Math.sin(t*0.4)*0.03), 1);
+
+  /* Pulso suave del escudo de partículas */
+  const cs = 1.0 + 0.045 * Math.sin(t * 3.5);
+  crestParticles.scale.set(cs, cs, cs);
+  crestParticles.rotation.y = Math.sin(t * 0.6) * 0.10;
+  crestParticles.rotation.z = Math.sin(t * 0.45) * 0.04;
+  crestMat.opacity = 0.90 + 0.10 * Math.sin(t * 2.4);
+
+  const bigS = 1.0 + 0.06 * Math.sin(t * 2.2);
+  crestHalo.scale.set(300 * bigS, 300 * bigS, 1);
+  crestHalo.material.opacity = 0.38 + 0.12 * (0.5 + 0.5 * Math.sin(t * 2));
+  bigAura.scale.set(420 * (1 + 0.04 * Math.sin(t * 1.5)), 420 * (1 + 0.04 * Math.sin(t * 1.5)), 1);
+
+  textGroup.children.forEach(sp => {
+    sp.material.opacity = 0.8 + 0.2 * Math.sin(t * 2);
+    sp.userData.theta += sp.userData.speed;
+    sp.position.x = sp.userData.radius * Math.sin(sp.userData.phi) * Math.cos(sp.userData.theta);
+    sp.position.z = sp.userData.radius * Math.sin(sp.userData.phi) * Math.sin(sp.userData.theta);
+  });
+
+  photoGroup.children.forEach(sp => {
+    sp.userData.theta += sp.userData.speed;
+    sp.position.x = sp.userData.radius * Math.sin(sp.userData.phi) * Math.cos(sp.userData.theta);
+    sp.position.z = sp.userData.radius * Math.sin(sp.userData.phi) * Math.sin(sp.userData.theta);
+    if (sp.userData.isPhoto) sp.material.opacity = 0.82 + 0.14 * Math.sin(t * 1.6 + sp.userData.radius);
+    else if (sp.userData.isCrest) sp.material.opacity = 0.80 + 0.18 * Math.sin(t * 1.3 + sp.userData.radius);
+  });
+
+  currentDist += (targetDist - currentDist) * 0.06;
+  const camX = currentDist * Math.cos(rotX) * Math.sin(rotY);
+  const camY = currentDist * Math.sin(rotX);
+  const camZ = currentDist * Math.cos(rotX) * Math.cos(rotY);
+  camera.position.set(camX, camY, camZ);
+  camera.lookAt(0, 0, 0);
+
+  renderer.render(scene, camera);
+}
+tick();
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
+</body>
+</html>
