@@ -2,880 +2,608 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#1a0208">
-<title>Una rosa para ti 🌹</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a0812">
+<meta name="format-detection" content="telephone=no">
+<meta name="description" content="Hay algo que necesito decirte.">
+<meta property="og:title" content="Perdóname 💔">
+<meta property="og:description" content="Hay algo que necesito decirte.">
+<meta property="og:type" content="website">
+<title>Perdóname 💔</title>
 <style>
-  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  html,body{height:100%;overflow:hidden;background:#0a0104;font-family:'Poppins',system-ui,sans-serif;color:#fff;overscroll-behavior:none;touch-action:none;user-select:none;-webkit-user-select:none;}
-  #stage{position:fixed;inset:0;overflow:hidden;background:#0a0104}
-  #video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(1.05) contrast(1.03) brightness(.95);z-index:1}
-  #three-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2}
-  .grade{position:absolute;inset:0;pointer-events:none;z-index:3;background:radial-gradient(circle at 50% 42%, rgba(255,90,150,.10), transparent 65%),radial-gradient(circle at 50% 110%, rgba(255,0,80,.22), transparent 60%);mix-blend-mode:screen;}
-  .vignette{position:absolute;inset:0;pointer-events:none;z-index:4;box-shadow:inset 0 0 220px 80px rgba(10,0,5,.85);background:linear-gradient(180deg,rgba(8,0,4,.55) 0%,transparent 20%,transparent 60%,rgba(8,0,4,.6) 100%);}
-  #hud{position:absolute;inset:0;z-index:5;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between;padding:calc(env(safe-area-inset-top) + 14px) 16px calc(env(safe-area-inset-bottom) + 16px);}
-  #badge{align-self:center;text-align:center;padding:9px 22px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.20);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 8px 30px rgba(255,60,120,.22);animation:flotar 5s ease-in-out infinite;opacity:0;transform:translateY(-14px);transition:opacity .8s ease, transform .8s cubic-bezier(.2,.8,.3,1);}
-  #badge.show{opacity:1;transform:translateY(0)}
-  #badge small{display:block;font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;opacity:.72;margin-bottom:1px}
-  #badge strong{display:block;font-family:'Great Vibes',cursive;font-weight:400;font-size:26px;line-height:1.1;color:#ffe9f0;text-shadow:0 0 18px rgba(255,80,140,.9);}
-  #messageWrap{display:flex;flex-direction:column;align-items:center;gap:16px}
-  #message{max-width:90%;text-align:center;font-weight:300;font-size:15px;line-height:1.55;padding:12px 20px;border-radius:20px;background:rgba(20,0,12,.42);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(12px);text-shadow:0 2px 12px rgba(0,0,0,.75);opacity:0;transform:translateY(14px) scale(.97);transition:opacity .8s ease, transform .8s cubic-bezier(.2,.8,.3,1);pointer-events:none;}
-  #message.show{opacity:1;transform:translateY(0) scale(1)}
-  #controls{display:flex;gap:14px;pointer-events:auto;justify-content:center;opacity:0;transform:translateY(20px);transition:opacity .6s ease, transform .6s cubic-bezier(.2,.8,.3,1);}
-  #controls.show{opacity:1;transform:translateY(0)}
-  .btn{width:56px;height:56px;border:none;border-radius:50%;cursor:pointer;display:grid;place-items:center;font-size:22px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(14px);box-shadow:0 8px 26px rgba(0,0,0,.35);transition:transform .16s ease, background .25s ease;color:#fff;font-family:inherit;}
-  .btn:active{transform:scale(.86);background:rgba(255,120,170,.35)}
-  .btn.principal{width:70px;height:70px;font-size:28px;background:linear-gradient(145deg, #ff5c8a, #c8134c);border-color:rgba(255,255,255,.45);box-shadow:0 0 0 0 rgba(255,80,140,.6), 0 12px 32px rgba(200,19,76,.55);animation:latido 1.8s ease-in-out infinite;}
-  @keyframes latido{0%,100%{box-shadow:0 0 0 0 rgba(255,80,140,.5), 0 12px 32px rgba(200,19,76,.5)}50%{box-shadow:0 0 0 16px rgba(255,80,140,0), 0 12px 32px rgba(200,19,76,.5)}}
-  @keyframes flotar{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-  #intro{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:22px;background:radial-gradient(circle at 50% 35%, #4a0d24 0%, #0a0104 75%);transition:opacity .8s ease, visibility .8s;}
-  #intro.oculto{opacity:0;visibility:hidden;pointer-events:none}
-  .tarjeta{width:min(420px,100%);text-align:center;padding:36px 26px 28px;border-radius:28px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(18px);box-shadow:0 24px 70px rgba(0,0,0,.6);}
-  .rosa-icono{font-size:50px;line-height:1;margin-bottom:10px;filter:drop-shadow(0 0 22px rgba(255,70,130,.9));animation:latidoIcono 2.2s ease-in-out infinite;}
-  @keyframes latidoIcono{0%,100%{transform:scale(1) rotate(-4deg)}50%{transform:scale(1.12) rotate(4deg)}}
-  .tarjeta h1{font-family:'Great Vibes',cursive;font-weight:400;font-size:38px;line-height:1.1;margin-bottom:10px;color:#ffe9f0;text-shadow:0 0 26px rgba(255,80,140,.75);}
-  .tarjeta h1 span{color:#ff8fb3}
-  .tarjeta p{font-weight:300;font-size:14px;opacity:.82;line-height:1.6;margin-bottom:24px}
-  .btn-iniciar{width:100%;padding:16px;border:none;border-radius:16px;cursor:pointer;font-family:inherit;font-size:15.5px;font-weight:600;color:#fff;background:linear-gradient(135deg,#ff5c8a,#c8134c);box-shadow:0 14px 34px rgba(200,19,76,.5);transition:transform .16s ease;}
-  .btn-iniciar:active{transform:scale(.96)}
-  .btn-iniciar:disabled{filter:grayscale(.5) brightness(.75);cursor:wait}
-  .aviso{font-size:11px;opacity:.5;margin-top:14px;line-height:1.5}
-  .error{color:#ffb3c6;font-size:12.5px;margin-top:12px;min-height:16px;line-height:1.5}
-  .flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:60;transition:opacity .45s ease}
-  .flash.activo{opacity:.85;transition:opacity .05s ease}
+:root{
+  --rosa:#ff5f8a;
+  --rosa2:#ff9ab5;
+  --dorado:#ffd9a0;
+  --crema:#f7eeee;
+  --noche:#0a0812;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --st:env(safe-area-inset-top,0px);
+  --sb:env(safe-area-inset-bottom,0px);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{height:100%}
+body{
+  height:100%;
+  background:
+    radial-gradient(120% 80% at 50% -10%, #2a1030 0%, transparent 62%),
+    radial-gradient(100% 60% at 50% 112%, #1a0f2e 0%, transparent 62%),
+    var(--noche);
+  color:var(--crema);
+  font-family:Georgia,'Times New Roman',serif;
+  overflow:hidden;
+  overscroll-behavior:none;
+  -webkit-font-smoothing:antialiased;
+}
 
-  /* Overlay grande de "esperando mano" */
-  #esperando{
-    position:absolute;inset:0;z-index:6;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;
-    pointer-events:none;text-align:center;padding:30px;
-    transition:opacity .6s ease;
-    background:radial-gradient(circle at 50% 50%, rgba(0,0,0,.4) 0%, rgba(0,0,0,.7) 100%);
-    backdrop-filter:blur(2px);
-  }
-  #esperando.oculto{opacity:0;visibility:hidden}
-  #esperando .icono{
-    font-size:70px;margin-bottom:16px;
-    animation:palmaPulso 2s ease-in-out infinite;
-    filter:drop-shadow(0 0 22px rgba(255,80,140,.9));
-  }
-  @keyframes palmaPulso{
-    0%,100%{transform:scale(1) translateY(0)}
-    50%{transform:scale(1.15) translateY(-8px)}
-  }
-  #esperando h2{
-    font-family:'Great Vibes',cursive;font-weight:400;font-size:32px;
-    color:#ffe9f0;margin-bottom:8px;text-shadow:0 0 22px rgba(255,80,140,.85);
-  }
-  #esperando p{font-weight:300;font-size:14px;opacity:.85;max-width:320px;line-height:1.6}
-  #esperando .chico{font-size:11.5px;opacity:.55;margin-top:14px;letter-spacing:.05em}
+/* ====== ATMÓSFERA CINEMATOGRÁFICA ====== */
+.bokeh{
+  position:fixed;inset:-20%;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255,95,138,.22), transparent 42%),
+    radial-gradient(circle at 80% 18%, rgba(255,217,160,.14), transparent 46%),
+    radial-gradient(circle at 66% 82%, rgba(140,110,255,.20), transparent 46%),
+    radial-gradient(circle at 12% 86%, rgba(255,95,138,.15), transparent 42%);
+  filter:blur(34px);
+  animation:flotar 20s ease-in-out infinite alternate;
+}
+@keyframes flotar{
+  0%{transform:translate3d(0,0,0) scale(1)}
+  100%{transform:translate3d(-3%,2%,0) scale(1.14)}
+}
+.vineta{
+  position:fixed;inset:0;z-index:9996;pointer-events:none;
+  background:radial-gradient(125% 92% at 50% 50%, transparent 38%, rgba(0,0,0,.78) 100%);
+}
+.grano{
+  position:fixed;inset:-60%;z-index:9997;pointer-events:none;opacity:.055;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grano .7s steps(3) infinite;
+}
+@keyframes grano{
+  0%{transform:translate(0,0)}
+  33%{transform:translate(-2%,1%)}
+  66%{transform:translate(1%,-2%)}
+  100%{transform:translate(0,0)}
+}
 
-  #debug{position:absolute;left:10px;top:10px;z-index:7;font-size:10.5px;font-family:monospace;color:#0f0;background:rgba(0,0,0,.6);padding:6px 10px;border-radius:8px;pointer-events:none;line-height:1.5;opacity:0;transition:opacity .3s;white-space:pre}
-  #debug.show{opacity:1}
+/* ====== CIERRE DE DIARAFRAGMA (transición) ====== */
+.cierre{position:fixed;inset:0;z-index:9999;pointer-events:none;display:flex;flex-direction:column}
+.cierre i{display:block;height:0;background:#000;transition:height .45s var(--ease)}
+.cierre i:last-child{margin-top:auto}
+.cierre.on i{height:50.5vh}
+
+/* ====== ESCENAS ====== */
+.escena{
+  position:fixed;inset:0;z-index:1;
+  display:flex;
+  padding:calc(28px + var(--st)) clamp(20px,5vw,44px) calc(28px + var(--sb));
+  overflow-y:auto;overflow-x:hidden;
+  opacity:0;visibility:hidden;
+  transition:opacity .8s var(--ease), visibility .8s;
+  -webkit-overflow-scrolling:touch;
+}
+.escena.activa{opacity:1;visibility:visible;z-index:5}
+.escena > .zoom{margin:auto;width:100%;max-width:640px;
+  transform:scale(1.14);opacity:.4;
+  transition:transform 1.5s var(--ease), opacity 1.2s var(--ease);}
+.escena.activa > .zoom{transform:scale(1);opacity:1}
+
+/* ====== BOTONES ====== */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  min-height:54px;padding:0 30px;border:0;border-radius:999px;
+  font-family:inherit;font-size:1rem;font-weight:600;letter-spacing:.3px;
+  cursor:pointer;text-decoration:none;
+  transition:transform .35s var(--ease), box-shadow .35s var(--ease), opacity .35s;
+  will-change:transform;
+}
+.btn.principal{
+  background:linear-gradient(135deg,#ff4d80,#ff9a6c);
+  color:#fff;
+  box-shadow:0 12px 34px rgba(255,77,128,.42), 0 0 0 1px rgba(255,255,255,.10) inset;
+}
+.btn.principal:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 18px 44px rgba(255,77,128,.55)}
+.btn.principal:active{transform:scale(.97)}
+.btn.fantasma{
+  background:rgba(255,255,255,.07);
+  color:var(--crema);
+  border:1px solid rgba(255,255,255,.16);
+  backdrop-filter:blur(10px);
+}
+.btn.fantasma:hover{background:rgba(255,255,255,.12)}
+
+/* ====== ESCENA 0 · INTRO ====== */
+.intro{display:flex;flex-direction:column;align-items:center;text-align:center;gap:clamp(28px,6vw,46px)}
+.susurro{
+  font-size:clamp(1.05rem,4.4vw,1.35rem);
+  letter-spacing:.6px;color:rgba(247,238,238,.86);
+  font-style:italic;
+  animation:respirar 4s ease-in-out infinite;
+}
+@keyframes respirar{0%,100%{opacity:.65}50%{opacity:1}}
+.corazon-btn{
+  position:relative;width:clamp(130px,34vw,170px);aspect-ratio:1;
+  border:0;background:transparent;cursor:pointer;
+  display:grid;place-items:center;
+}
+.latido{
+  position:relative;z-index:3;
+  font-size:clamp(62px,17vw,86px);line-height:1;
+  color:#ff4d80;
+  filter:drop-shadow(0 0 26px rgba(255,77,128,.85)) drop-shadow(0 0 60px rgba(255,77,128,.45));
+  animation:latir 1.5s var(--ease) infinite;
+}
+@keyframes latir{
+  0%,100%{transform:scale(1)}
+  14%{transform:scale(1.16)}
+  28%{transform:scale(1)}
+  42%{transform:scale(1.10)}
+  56%{transform:scale(1)}
+}
+.onda{
+  position:absolute;inset:0;border-radius:50%;
+  border:1px solid rgba(255,95,138,.55);
+  animation:onda 3s ease-out infinite;
+}
+.onda.o2{animation-delay:1.5s}
+@keyframes onda{
+  0%{transform:scale(.55);opacity:.9}
+  100%{transform:scale(1.5);opacity:0}
+}
+.pista{
+  font-family:system-ui,-apple-system,sans-serif;
+  font-size:.82rem;letter-spacing:2.4px;text-transform:uppercase;
+  color:rgba(247,238,238,.42);
+}
+.flash{
+  position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:0;
+  background:radial-gradient(circle at 50% 50%, #fff 0%, rgba(255,95,138,.7) 30%, transparent 68%);
+  transition:opacity .55s ease-out;
+}
+.flash.on{opacity:.85;transition:opacity .06s}
+
+/* ====== ESCENA 1 · CARTA ====== */
+.carta-wrap{display:flex;flex-direction:column;gap:26px;align-items:center}
+.papel{
+  position:relative;width:100%;
+  padding:clamp(26px,6vw,44px) clamp(22px,5.4vw,40px);
+  background:linear-gradient(160deg, rgba(255,252,246,.97), rgba(247,238,228,.94));
+  border-radius:20px;
+  color:#3d3226;
+  box-shadow:0 30px 70px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.35) inset;
+  cursor:pointer;
+}
+.papel::before{
+  content:'';position:absolute;inset:0;border-radius:20px;pointer-events:none;
+  background:linear-gradient(120deg, transparent 40%, rgba(255,255,255,.55) 50%, transparent 60%);
+  background-size:250% 100%;animation:brillo 6s linear infinite;opacity:.5;
+}
+@keyframes brillo{0%{background-position:180% 0}100%{background-position:-80% 0}}
+.tipeo{font-size:clamp(.98rem,3.5vw,1.09rem);line-height:1.95;letter-spacing:.2px}
+.tipeo p{min-height:1em}
+.cursor{
+  display:inline-block;width:2px;height:1.05em;background:#c05070;
+  vertical-align:-3px;margin-left:2px;
+  animation:parpadeo .85s steps(1) infinite;
+}
+@keyframes parpadeo{50%{opacity:0}}
+.aparece{animation:subirBtn .7s var(--ease) both}
+@keyframes subirBtn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+/* ====== ESCENA 2 · SOSTENER ====== */
+.hold-wrap{display:flex;flex-direction:column;align-items:center;text-align:center;gap:clamp(26px,6vw,40px)}
+.linea{font-size:clamp(1.02rem,4vw,1.22rem);font-style:italic;color:rgba(247,238,238,.9)}
+.anillo{
+  position:relative;width:clamp(160px,46vw,210px);aspect-ratio:1;
+  display:grid;place-items:center;cursor:pointer;
+  touch-action:none;user-select:none;
+  transition:transform .4s var(--ease);
+}
+.anillo:active{transform:scale(.96)}
+.anillo svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.anillo circle{fill:none;stroke-width:5;stroke-linecap:round}
+.pista-c{stroke:rgba(255,255,255,.10)}
+.prog-c{
+  stroke:#ff4d80;
+  filter:drop-shadow(0 0 8px rgba(255,77,128,.9));
+  transition:stroke-dashoffset .06s linear;
+}
+.corazon-hold{
+  font-size:clamp(46px,13vw,62px);line-height:1;color:#ff4d80;
+  filter:drop-shadow(0 0 20px rgba(255,77,128,.7));
+  transform:scale(calc(.9 + var(--p,0) * .25));
+  transition:transform .12s linear;
+}
+.anillo.listo .corazon-hold{animation:latir 1s var(--ease) infinite}
+.revelado{
+  font-size:clamp(1.15rem,4.6vw,1.5rem);letter-spacing:.5px;
+  color:var(--dorado);
+  opacity:0;transform:translateY(14px) scale(.94);
+  transition:opacity .9s var(--ease), transform .9s var(--ease);
+}
+.revelado.on{opacity:1;transform:none}
+
+/* ====== ESCENA 3 · PREGUNTA ====== */
+.pregun-wrap{display:flex;flex-direction:column;align-items:center;text-align:center;gap:clamp(30px,7vw,48px)}
+.pregunta{
+  font-size:clamp(1.7rem,8vw,2.7rem);font-weight:400;letter-spacing:.5px;
+  line-height:1.25;
+  background:linear-gradient(120deg,#fff,#ffc9d8 45%,#ffd9a0);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 24px rgba(255,95,138,.35));
+}
+.botones{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;align-items:center}
+#no{transition:transform .45s var(--ease), opacity .45s, background .3s}
+.mini{
+  font-family:system-ui,sans-serif;font-size:.86rem;letter-spacing:.8px;
+  color:rgba(247,238,238,.55);min-height:1.3em;
+  transition:opacity .5s;
+}
+
+/* ====== ESCENA 4 · FINAL ====== */
+.final-wrap{display:flex;flex-direction:column;align-items:center;text-align:center;gap:clamp(20px,5vw,30px)}
+.sello{
+  font-size:clamp(46px,13vw,64px);line-height:1;
+  filter:drop-shadow(0 0 28px rgba(255,95,138,.7));
+  animation:latir 1.8s var(--ease) infinite;
+}
+.gracias{
+  font-size:clamp(1.5rem,6.6vw,2.2rem);font-weight:400;
+  background:linear-gradient(120deg,#fff,#ffc9d8 50%,#ffd9a0);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.final-txt{
+  font-size:clamp(1rem,3.8vw,1.15rem);line-height:1.9;
+  color:rgba(247,238,238,.85);font-style:italic;
+}
+.acciones{display:flex;flex-direction:column;gap:13px;width:100%;max-width:340px;margin-top:6px}
+.acciones .btn{width:100%}
+.credito{
+  font-family:system-ui,sans-serif;font-size:.72rem;letter-spacing:1.4px;
+  text-transform:uppercase;color:rgba(247,238,238,.3);margin-top:8px;
+}
+
+/* ====== CORAZONES CAYENDO ====== */
+.caida{
+  position:fixed;top:-8vh;z-index:9995;pointer-events:none;
+  animation:caer linear forwards;
+  will-change:transform;
+}
+@keyframes caer{
+  0%{transform:translateY(0) rotate(0deg);opacity:0}
+  8%{opacity:1}
+  90%{opacity:1}
+  100%{transform:translateY(118vh) rotate(420deg);opacity:0}
+}
+
+/* ====== ACCESIBILIDAD ====== */
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.01ms !important;animation-iteration-count:1 !important;
+    transition-duration:.01ms !important}
+  .escena > .zoom{transform:none;opacity:1}
+}
 </style>
 </head>
 <body>
 
-<div id="stage">
-  <video id="video" playsinline autoplay muted></video>
-  <canvas id="three-canvas"></canvas>
-  <div class="grade"></div>
-  <div class="vignette"></div>
+<div class="bokeh"></div>
 
-  <div id="debug">Estado: iniciando…</div>
+<!-- ESCENA 0 · INTRO -->
+<section class="escena activa" id="s0" aria-label="Introducción">
+  <div class="zoom intro">
+    <p class="susurro">Tengo algo que decirte…</p>
+    <button class="corazon-btn" id="abrir" aria-label="Toca el corazón para abrir">
+      <span class="onda"></span>
+      <span class="onda o2"></span>
+      <span class="latido">❤</span>
+    </button>
+    <p class="pista">Toca el corazón</p>
+  </div>
+</section>
 
-  <div id="hud">
-    <div id="badge">
-      <small>Con amor para</small>
-      <strong id="badgeNombre">Mi amor</strong>
+<!-- ESCENA 1 · CARTA -->
+<section class="escena" id="s1" aria-label="Carta">
+  <div class="zoom carta-wrap">
+    <div class="papel" id="papel" role="article" aria-live="polite">
+      <div class="tipeo" id="tipeo"></div><span class="cursor" id="cursor"></span>
     </div>
-    <div id="messageWrap">
-      <p id="message"></p>
-      <div id="controls">
-        <button class="btn" id="btnReset" title="Regalar de nuevo">↺</button>
-        <button class="btn principal" id="btnPetalos" title="Lluvia de pétalos">🌹</button>
-        <button class="btn" id="btnShot" title="Tomar foto">📸</button>
-      </div>
+    <button class="btn principal" id="btn1" hidden>Hay algo más <span>→</span></button>
+  </div>
+</section>
+
+<!-- ESCENA 2 · SOSTENER -->
+<section class="escena" id="s2" aria-label="Mantén presionado">
+  <div class="zoom hold-wrap">
+    <p class="linea">Antes de que respondas…</p>
+    <div class="anillo" id="anillo" role="button" tabindex="0"
+         aria-label="Mantén presionado el corazón">
+      <svg viewBox="0 0 120 120" aria-hidden="true">
+        <circle class="pista-c" cx="60" cy="60" r="54"></circle>
+        <circle class="prog-c"  cx="60" cy="60" r="54" id="prog"></circle>
+      </svg>
+      <span class="corazon-hold">❤</span>
     </div>
+    <p class="pista" id="pistaHold">Mantén presionado el corazón</p>
+    <p class="revelado" id="revelado">Lo siento de verdad.</p>
   </div>
+</section>
 
-  <!-- Overlay: esperando palma -->
-  <div id="esperando">
-    <div class="icono">🤲</div>
-    <h2>Muéstrame tu palma</h2>
-    <p>Extiende tu mano frente a la cámara con la palma hacia arriba, como si me ofrecieras la rosa.</p>
-    <div class="chico">La rosa crecerá en tu mano cuando te detecte</div>
+<!-- ESCENA 3 · PREGUNTA -->
+<section class="escena" id="s3" aria-label="Pregunta">
+  <div class="zoom pregun-wrap">
+    <h2 class="pregunta">¿Me perdonas?</h2>
+    <div class="botones">
+      <button class="btn principal" id="si">Sí, te perdono</button>
+      <button class="btn fantasma" id="no">No</button>
+    </div>
+    <p class="mini" id="noMini"></p>
   </div>
-</div>
+</section>
 
-<div id="intro">
-  <div class="tarjeta">
-    <div class="rosa-icono">🌹</div>
-    <h1>Una rosa para <span id="nombreIntro">ti</span></h1>
-    <p>Activa la cámara y muéstrame tu palma. La rosa crecerá SOLO cuando te detecte.</p>
-    <button class="btn-iniciar" id="btnStart">Abrir con amor ✨</button>
-    <div class="error" id="error"></div>
-    <div class="aviso">Necesita permiso de cámara · Se ve mejor en el celular</div>
+<!-- ESCENA 4 · FINAL -->
+<section class="escena" id="s4" aria-label="Final">
+  <div class="zoom final-wrap">
+    <div class="sello">💗</div>
+    <h2 class="gracias">Gracias por leerme.</h2>
+    <p class="final-txt">
+      No prometo ser perfecto.<br>
+      Prometo intentarlo mejor, contigo.
+    </p>
+    <div class="acciones">
+      <a class="btn principal" id="waPersonal" target="_blank" rel="noopener">
+        Quiero una plantilla así 💌
+      </a>
+      <button class="btn fantasma" id="replay">Volver a verlo</button>
+    </div>
+    <p class="credito">Plantillas personalizadas por WhatsApp</p>
   </div>
-</div>
+</section>
 
+<!-- CAPAS CINEMATOGRÁFICAS -->
 <div class="flash" id="flash"></div>
-
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1646424915/hands.js" crossorigin="anonymous"></script>
+<div class="cierre" id="cierre"><i></i><i></i></div>
+<div class="vineta"></div>
+<div class="grano"></div>
 
 <script>
-const CONFIG = {
-  para: "Mi amor",
-  de: "Siempre tuyo",
-  mensajeInicial: "Muestra tu palma para que la rosa crezca en tu mano 🌹",
-  mensajeFinal: "Eres la rosa más hermosa de mi jardín ❤️",
-  mostrarDebug: false,
-};
+(function(){
+  'use strict';
 
-const $ = id => document.getElementById(id);
-const video       = $('video');
-const threeCanvas = $('three-canvas');
-const intro       = $('intro');
-const btnStart    = $('btnStart');
-const errorEl     = $('error');
-const flashEl     = $('flash');
-const messageEl   = $('message');
-const controls    = $('controls');
-const badge       = $('badge');
-const debugEl     = $('debug');
-const esperandoEl = $('esperando');
+  /* ========= CONFIG ========= */
+  const NUMERO = '523121052587';
+  const MENSAJE_WA = 'Hola 👋 Vi la plantilla *Perdóname* 💔 y me encantó. Quiero una plantilla personalizada para: ';
+  const $  = s => document.querySelector(s);
+  const $$ = s => Array.from(document.querySelectorAll(s));
+  const dormir = ms => new Promise(r => setTimeout(r, ms));
+  const vibrar = ms => { try { navigator.vibrate && navigator.vibrate(ms); } catch(e){} };
 
-$('badgeNombre').textContent = CONFIG.para;
-$('nombreIntro').textContent = CONFIG.para;
+  $('#waPersonal').href = 'https://wa.me/' + NUMERO + '?text=' + encodeURIComponent(MENSAJE_WA);
 
-const clamp = (v,a,b)=>Math.max(a,Math.min(b,v));
-const lerp  = (a,b,t)=>a+(b-a)*t;
-const easeOutCubic = t => 1 - Math.pow(1-t, 3);
-const easeOutBack  = t => { const c1=1.70158, c3=c1+1; return 1 + c3*Math.pow(t-1,3) + c1*Math.pow(t-1,2); };
-const rand  = (a,b)=>a+Math.random()*(b-a);
-const phase = (p,s,e)=>clamp((p-s)/(e-s), 0, 1);
+  /* ========= NAVEGACIÓN ENTRE ESCENAS ========= */
+  const escenas = $$('.escena');
+  const cierre  = $('#cierre');
+  let actual = 0;
+  let cambiando = false;
 
-function setDebug(txt){
-  debugEl.textContent = txt;
-  if(CONFIG.mostrarDebug) debugEl.classList.add('show');
-}
-
-let W = window.innerWidth, H = window.innerHeight;
-let aspect = W/H;
-const FRUSTUM = 1.6;
-
-/* ---------- Three.js ---------- */
-const renderer = new THREE.WebGLRenderer({ canvas: threeCanvas, alpha:true, antialias:true });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2.5));
-renderer.setSize(W, H);
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.18;
-if(THREE.sRGBEncoding !== undefined) renderer.outputEncoding = THREE.sRGBEncoding;
-
-const scene = new THREE.Scene();
-const camera = new THREE.OrthographicCamera(-FRUSTUM*aspect/2, FRUSTUM*aspect/2, FRUSTUM/2, -FRUSTUM/2, 0.1, 100);
-camera.position.set(0, 0, 5);
-camera.lookAt(0, 0, 0);
-
-scene.add(new THREE.AmbientLight(0xfff0f8, 0.72));
-const keyLight = new THREE.DirectionalLight(0xfff5e8, 1.55);
-keyLight.position.set(2.5, 4, 5); scene.add(keyLight);
-const fillLight = new THREE.DirectionalLight(0xffaacc, 0.55);
-fillLight.position.set(-3, 1.2, 3); scene.add(fillLight);
-const rimLight = new THREE.DirectionalLight(0xff2d66, 1.05);
-rimLight.position.set(-0.5, -1.5, -3); scene.add(rimLight);
-const innerGlow = new THREE.PointLight(0xff5588, 1.0, 3.5, 2);
-innerGlow.position.set(0, 0.95, 0.15); scene.add(innerGlow);
-
-/* ---------- Geometrías ---------- */
-function createPetalGeometry(){
-  const wSeg = 16, hSeg = 22;
-  const verts=[], colors=[], indices=[], uvs=[];
-  for(let j=0;j<=hSeg;j++){
-    const v = j/hSeg;
-    for(let i=0;i<=wSeg;i++){
-      const u = i/wSeg;
-      const widthProfile = Math.sin(v*Math.PI*0.92 + 0.08) * (0.55 + v*0.45);
-      const topRound = v > 0.78 ? Math.sqrt(Math.max(0, 1 - Math.pow((v-0.78)/0.22, 2))) : 1;
-      const x = (u-0.5) * widthProfile * topRound;
-      const y = v;
-      const z = -Math.pow(Math.abs(u-0.5)*2, 2)*0.18 + Math.pow(v, 2)*0.42;
-      verts.push(x, y, z);
-      colors.push(0.68 + v*0.32, 0.04 + v*0.32, 0.14 + v*0.42);
-      uvs.push(u, v);
-    }
+  function ir(n){
+    if (n === actual || cambiando) return;
+    cambiando = true;
+    cierre.classList.add('on');
+    setTimeout(() => {
+      escenas[actual].classList.remove('activa');
+      actual = n;
+      const destino = escenas[actual];
+      destino.classList.add('activa');
+      destino.scrollTop = 0;
+      setTimeout(() => {
+        cierre.classList.remove('on');
+        cambiando = false;
+        if (n === 1) escribirCarta();
+        if (n === 2) resetHold();
+        if (n === 4) lluvia();
+      }, 70);
+    }, 480);
   }
-  for(let j=0;j<hSeg;j++){
-    for(let i=0;i<wSeg;i++){
-      const a = j*(wSeg+1)+i, b = a+1, c = a+wSeg+1, d = c+1;
-      indices.push(a,c,b, b,c,d);
-    }
-  }
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute('position', new THREE.Float32BufferAttribute(verts,3));
-  geo.setAttribute('color',    new THREE.Float32BufferAttribute(colors,3));
-  geo.setAttribute('uv',       new THREE.Float32BufferAttribute(uvs,2));
-  geo.setIndex(indices);
-  geo.computeVertexNormals();
-  return geo;
-}
 
-function createLeafGeometry(){
-  const wSeg = 12, hSeg = 16;
-  const verts=[], colors=[], indices=[], uvs=[];
-  for(let j=0;j<=hSeg;j++){
-    const v = j/hSeg;
-    for(let i=0;i<=wSeg;i++){
-      const u = i/wSeg;
-      const halfW = Math.sin(v*Math.PI) * Math.pow(1-v*0.85, 0.45) * 0.5;
-      const x = (u-0.5) * 2 * halfW;
-      const y = v;
-      const z = Math.pow(v,2)*0.14 - Math.pow(Math.abs(u-0.5)*2,2)*0.14;
-      verts.push(x,y,z);
-      colors.push(0.12 + (1-v)*0.14, 0.38 + (1-v)*0.18, 0.08 + (1-v)*0.06);
-      uvs.push(u,v);
-    }
-  }
-  for(let j=0;j<hSeg;j++){
-    for(let i=0;i<wSeg;i++){
-      const a = j*(wSeg+1)+i, b = a+1, c = a+wSeg+1, d = c+1;
-      indices.push(a,c,b, b,c,d);
-    }
-  }
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute('position', new THREE.Float32BufferAttribute(verts,3));
-  geo.setAttribute('color',    new THREE.Float32BufferAttribute(colors,3));
-  geo.setAttribute('uv',       new THREE.Float32BufferAttribute(uvs,2));
-  geo.setIndex(indices);
-  geo.computeVertexNormals();
-  return geo;
-}
-
-/* ---------- Rosa ---------- */
-const roseGroup = new THREE.Group();
-roseGroup.visible = false; // ← OCULTA hasta que se detecte la palma
-scene.add(roseGroup);
-
-const STEM_HEIGHT = 0.92;
-const stemCurve = new THREE.CatmullRomCurve3([
-  new THREE.Vector3(0, 0, 0),
-  new THREE.Vector3(0.025, STEM_HEIGHT*0.25, 0.018),
-  new THREE.Vector3(-0.018, STEM_HEIGHT*0.5, -0.022),
-  new THREE.Vector3(0.022, STEM_HEIGHT*0.75, 0.016),
-  new THREE.Vector3(0, STEM_HEIGHT, 0),
-]);
-const stemGeo = new THREE.TubeGeometry(stemCurve, 80, 0.016, 14, false);
-const stemMat = new THREE.MeshPhysicalMaterial({ color: 0x2d6b2e, roughness: 0.72, metalness: 0.0, clearcoat: 0.35, clearcoatRoughness: 0.55 });
-const stemMesh = new THREE.Mesh(stemGeo, stemMat);
-roseGroup.add(stemMesh);
-
-const thornMat = new THREE.MeshPhysicalMaterial({ color: 0x1e4a1e, roughness: 0.6, metalness: 0.05 });
-const thorns = [];
-for(let i=0;i<7;i++){
-  const t = 0.12 + i*0.11;
-  const p = stemCurve.getPointAt(t);
-  const tan = stemCurve.getTangentAt(t);
-  const thorn = new THREE.Mesh(new THREE.ConeGeometry(0.012, 0.05, 5), thornMat);
-  thorn.position.copy(p);
-  const perp = new THREE.Vector3(-tan.z, 0, tan.x).normalize();
-  thorn.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0), perp);
-  thorns.push(thorn);
-  roseGroup.add(thorn);
-}
-
-const leafGeo = createLeafGeometry();
-const leafMat = new THREE.MeshPhysicalMaterial({ color: 0x4f8f3a, roughness: 0.62, metalness: 0.0, clearcoat: 0.4, clearcoatRoughness: 0.5, vertexColors: true, side: THREE.DoubleSide, sheen: 0.4, sheenColor: 0x88cc66 });
-const leaves = [];
-[
-  { t: 0.30, angle: 0.6, scale: 0.42 },
-  { t: 0.45, angle: 2.5, scale: 0.46 },
-  { t: 0.60, angle: 4.4, scale: 0.44 },
-  { t: 0.74, angle: 1.6, scale: 0.40 },
-].forEach((cfg) => {
-  const pivot = new THREE.Group();
-  pivot.position.copy(stemCurve.getPointAt(cfg.t));
-  pivot.rotation.y = cfg.angle;
-  const tilt = new THREE.Group();
-  tilt.rotation.z = -0.9; tilt.rotation.x = -0.3;
-  const mesh = new THREE.Mesh(leafGeo, leafMat);
-  mesh.scale.setScalar(cfg.scale);
-  mesh.userData.baseScale = cfg.scale;
-  tilt.add(mesh); pivot.add(tilt); roseGroup.add(pivot);
-  leaves.push(mesh);
-});
-
-const budGeo = new THREE.SphereGeometry(0.06, 20, 16);
-budGeo.scale(1, 1.4, 1);
-const budMat = new THREE.MeshPhysicalMaterial({ color: 0xa81038, roughness: 0.55, metalness: 0.0, clearcoat: 0.5, clearcoatRoughness: 0.4, transparent: true, opacity: 1 });
-const budMesh = new THREE.Mesh(budGeo, budMat);
-budMesh.position.y = STEM_HEIGHT;
-roseGroup.add(budMesh);
-
-const bloomGroup = new THREE.Group();
-roseGroup.add(bloomGroup);
-
-const petalGeo = createPetalGeometry();
-const petalMat = new THREE.MeshPhysicalMaterial({ color: 0xffffff, vertexColors: true, roughness: 0.42, metalness: 0.0, clearcoat: 0.65, clearcoatRoughness: 0.32, sheen: 1.0, sheenColor: 0xff88aa, sheenRoughness: 0.45, side: THREE.DoubleSide });
-const petals = [];
-const layers = [
-  [5,  0.008, 0.010, 0.20, 0.13, 0.00],
-  [6,  0.014, 0.012, 0.38, 0.16, 0.42],
-  [7,  0.022, 0.012, 0.58, 0.20, 0.80],
-  [8,  0.032, 0.008, 0.78, 0.24, 1.20],
-  [9,  0.045, 0.000, 0.98, 0.28, 1.60],
-  [10, 0.058,-0.012, 1.14, 0.32, 2.00],
-  [10, 0.072,-0.024, 1.28, 0.35, 2.40],
-];
-layers.forEach((layer, li) => {
-  const [count, attachR, yBase, phiBase, scale, offset] = layer;
-  for(let i=0;i<count;i++){
-    const theta = (i/count) * Math.PI * 2 + offset;
-    const pivot = new THREE.Group();
-    pivot.rotation.y = -theta;
-    pivot.position.y = STEM_HEIGHT + yBase;
-    bloomGroup.add(pivot);
-    const orient = new THREE.Group();
-    orient.position.set(Math.cos(theta)*attachR, 0, Math.sin(theta)*attachR);
-    const tipDir = new THREE.Vector3(Math.sin(phiBase)*Math.cos(theta), Math.cos(phiBase), Math.sin(phiBase)*Math.sin(theta));
-    const concaveDir = new THREE.Vector3(-Math.cos(phiBase)*Math.cos(theta), Math.sin(phiBase), -Math.cos(phiBase)*Math.sin(theta));
-    const tangentDir = new THREE.Vector3(-Math.sin(theta), 0, Math.cos(theta));
-    orient.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(tangentDir, tipDir, concaveDir));
-    const openGroup = new THREE.Group();
-    openGroup.rotation.x = phiBase;
-    orient.add(openGroup);
-    const mesh = new THREE.Mesh(petalGeo, petalMat);
-    mesh.scale.setScalar(0.001);
-    openGroup.add(mesh);
-    pivot.add(orient);
-    mesh.userData.baseScale = scale;
-    mesh.userData.layerIndex = li;
-    mesh.userData.phiBase = phiBase;
-    mesh.userData.openGroup = openGroup;
-    petals.push(mesh);
-  }
-});
-
-/* ---------- Partículas ---------- */
-function createGlowTexture(){
-  const c = document.createElement('canvas');
-  c.width = c.height = 128;
-  const g = c.getContext('2d');
-  const rg = g.createRadialGradient(64,64,0, 64,64,64);
-  rg.addColorStop(0, 'rgba(255,255,255,1)');
-  rg.addColorStop(0.28, 'rgba(255,210,230,0.75)');
-  rg.addColorStop(0.6, 'rgba(255,110,160,0.28)');
-  rg.addColorStop(1, 'rgba(255,60,120,0)');
-  g.fillStyle = rg; g.fillRect(0,0,128,128);
-  return new THREE.CanvasTexture(c);
-}
-const glowTex = createGlowTexture();
-
-const fallingPetalGroup = new THREE.Group();
-scene.add(fallingPetalGroup);
-const fallingPetals = [];
-function spawnFallingPetal(x, y){
-  const mat = new THREE.MeshPhysicalMaterial({
-    color: new THREE.Color().setHSL(0.95 + rand(-0.03,0.04), 0.75, rand(0.45, 0.62)),
-    roughness: 0.5, metalness: 0.0, side: THREE.DoubleSide, transparent: true, opacity: 1,
-  });
-  const mesh = new THREE.Mesh(petalGeo, mat);
-  mesh.scale.setScalar(rand(0.06, 0.14));
-  mesh.position.set(x, y, rand(-0.2, 0.2));
-  mesh.rotation.set(rand(0,Math.PI*2), rand(0,Math.PI*2), rand(0,Math.PI*2));
-  fallingPetalGroup.add(mesh);
-  fallingPetals.push({ mesh, vx: rand(-0.15, 0.15), vy: -rand(0.25, 0.6), rotV: rand(-0.035, 0.035), life: 0, maxLife: rand(220, 380) });
-}
-
-const sparkleCount = 90;
-const sparkleGeo = new THREE.BufferGeometry();
-const sparklePos = new Float32Array(sparkleCount * 3);
-const sparkleVel = [];
-const sparkleLife = new Float32Array(sparkleCount);
-const sparkleMaxLife = new Float32Array(sparkleCount);
-for(let i=0;i<sparkleCount;i++){
-  sparklePos[i*3]   = rand(-1.5, 1.5);
-  sparklePos[i*3+1] = rand(-0.2, 2.0);
-  sparklePos[i*3+2] = rand(-0.5, 0.5);
-  sparkleVel.push({ vx: rand(-0.005,0.005), vy: rand(0.008,0.03) });
-  sparkleLife[i] = rand(0, 1);
-  sparkleMaxLife[i] = rand(0.6, 1.6);
-}
-sparkleGeo.setAttribute('position', new THREE.BufferAttribute(sparklePos, 3));
-const sparkleMat = new THREE.PointsMaterial({ size: 0.04, map: glowTex, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, color: 0xffd0e2, opacity: 0.9 });
-const sparklePoints = new THREE.Points(sparkleGeo, sparkleMat);
-roseGroup.add(sparklePoints);
-
-const haloMat = new THREE.SpriteMaterial({ map: glowTex, color: 0xff3a78, blending: THREE.AdditiveBlending, depthWrite: false, transparent: true, opacity: 0.55 });
-const halo = new THREE.Sprite(haloMat);
-halo.position.set(0, STEM_HEIGHT + 0.15, -0.4);
-halo.scale.set(1.4, 1.4, 1);
-roseGroup.add(halo);
-
-/* ============================================================
-   ESTADO
-   ============================================================ */
-let active = false;
-let palmDetected = false;       // ← controla si la rosa crece
-let growth = 0;
-let growthSpeed = 0.30;
-let bloomDone = false;
-
-function applyGrowth(p){
-  const stemT = easeOutCubic(phase(p, 0.0, 0.40));
-  stemMesh.scale.y = Math.max(0.001, stemT);
-  thorns.forEach(th => { th.scale.setScalar(stemT); });
-
-  leaves.forEach((leaf, i) => {
-    const d = 0.18 + i * 0.05;
-    const lt = easeOutBack(phase(p, d, d + 0.28));
-    leaf.scale.setScalar(Math.max(0.0001, leaf.userData.baseScale * lt));
+  /* ========= ESCENA 0 · INTRO ========= */
+  const flash = $('#flash');
+  $('#abrir').addEventListener('click', () => {
+    vibrar(24);
+    flash.classList.add('on');
+    setTimeout(() => flash.classList.remove('on'), 90);
+    setTimeout(() => ir(1), 130);
   });
 
-  const budT = easeOutBack(phase(p, 0.30, 0.55));
-  budMesh.scale.setScalar(Math.max(0.0001, budT));
-  budMesh.material.opacity = 1 - phase(p, 0.70, 0.95) * 0.9;
-
-  petals.forEach(petal => {
-    const li = petal.userData.layerIndex;
-    const layerT = li / (layers.length - 1);
-    const d = 0.42 + layerT * 0.42;
-    const pt = easeOutBack(phase(p, d, d + 0.30));
-    petal.scale.setScalar(Math.max(0.0001, petal.userData.baseScale * pt));
-    petal.userData.openGroup.rotation.x = petal.userData.phiBase * (1 - pt);
-  });
-
-  const bloomGlow = phase(p, 0.55, 1.0);
-  haloMat.opacity = 0.25 + bloomGlow * 0.55;
-  innerGlow.intensity = 0.4 + bloomGlow * 1.1;
-
-  if(!bloomDone && p >= 1){
-    bloomDone = true;
-    showMessage(CONFIG.mensajeFinal);
-    haloMat.opacity = 0.9;
-  }
-}
-
-/* ---------- Placement ---------- */
-const targetPos = new THREE.Vector3(0, -0.55, 0);
-let targetScl = 0.75;
-const currentPos = new THREE.Vector3(0, -0.55, 0);
-let currentScl = 0.0;
-let currentRot = 0;
-let targetRot = 0;
-
-function updateRosePlacement(dt){
-  const smooth = 1 - Math.pow(0.001, dt);
-  currentPos.lerp(targetPos, smooth);
-  currentScl = lerp(currentScl, targetScl, smooth);
-  currentRot = lerp(currentRot, targetRot, smooth * 0.6);
-  roseGroup.position.copy(currentPos);
-  roseGroup.scale.setScalar(currentScl);
-  roseGroup.rotation.y = currentRot + Math.sin(performance.now() * 0.0009) * 0.06;
-}
-
-/* ---------- Partículas ---------- */
-let petalSpawnTimer = 0;
-function updateParticles(dt){
-  petalSpawnTimer += dt;
-  if(bloomDone && petalSpawnTimer > 0.5 && fallingPetals.length < 22){
-    petalSpawnTimer = 0;
-    spawnFallingPetal(rand(-0.6, 0.6), 1.6);
-  }
-  for(let i = fallingPetals.length - 1; i >= 0; i--){
-    const p = fallingPetals[i];
-    p.life += dt * 60;
-    p.mesh.position.x += p.vx * dt;
-    p.mesh.position.y += p.vy * dt;
-    p.mesh.rotation.x += p.rotV * dt * 2;
-    p.mesh.rotation.y += p.rotV * dt * 3;
-    p.mesh.material.opacity = clamp(1 - (p.life / p.maxLife - 0.7) / 0.3, 0, 1);
-    if(p.life > p.maxLife || p.mesh.position.y < -1.5){
-      fallingPetalGroup.remove(p.mesh);
-      p.mesh.material.dispose();
-      fallingPetals.splice(i, 1);
-    }
-  }
-  const pos = sparkleGeo.attributes.position.array;
-  for(let i=0;i<sparkleCount;i++){
-    sparkleLife[i] += dt / sparkleMaxLife[i];
-    if(sparkleLife[i] > 1){
-      sparkleLife[i] = 0;
-      sparkleMaxLife[i] = rand(0.6, 1.8);
-      pos[i*3]   = rand(-0.8, 0.8);
-      pos[i*3+1] = rand(-0.15, 0.3) + STEM_HEIGHT;
-      pos[i*3+2] = rand(-0.4, 0.4);
-      sparkleVel[i].vx = rand(-0.006, 0.006);
-      sparkleVel[i].vy = rand(0.01, 0.04);
-    }
-    pos[i*3]   += sparkleVel[i].vx * dt;
-    pos[i*3+1] += sparkleVel[i].vy * dt;
-  }
-  sparkleGeo.attributes.position.needsUpdate = true;
-  sparkleMat.opacity = 0.55 + Math.sin(performance.now() * 0.003) * 0.25;
-}
-
-/* ---------- Render ---------- */
-let lastTime = performance.now();
-function renderLoop(now){
-  requestAnimationFrame(renderLoop);
-  const dt = Math.min(0.05, (now - lastTime) / 1000);
-  lastTime = now;
-
-  if(active){
-    // SOLO crece si la palma fue detectada
-    if(palmDetected && growth < 1){
-      growth = Math.min(1, growth + dt * growthSpeed);
-      applyGrowth(growth);
-    }
-
-    if(palmDetected || bloomDone){
-      updateParticles(dt);
-    }
-
-    if(palmDetected){
-      updateRosePlacement(dt);
-      const pulse = 1 + Math.sin(now * 0.0025) * 0.08;
-      halo.scale.set(1.4 * pulse, 1.4 * pulse, 1);
-      roseGroup.rotation.z = Math.sin(now * 0.0013) * 0.02;
-      innerGlow.intensity = 0.7 + Math.sin(now * 0.0035) * 0.35 + (bloomDone ? 0.7 : 0);
-    }
-  }
-  renderer.render(scene, camera);
-}
-requestAnimationFrame(renderLoop);
-
-/* ============================================================
-   MEDIAPIPE HANDS
-   ============================================================ */
-let handTracker = null;
-let lastPalmSeen = 0;
-let palmJustDetected = false;
-
-/**
- * Comprueba si la mano está en pose de "palma ofrecida":
- *  - Palma abierta (nudillos separados)
- *  - Orientación más horizontal que vertical
- *  - Tamaño suficiente
- */
-function isPalmOpen(lm){
-  // Ancho de palma (índice a meñique)
-  const dx = lm[17].x - lm[5].x;
-  const dy = lm[17].y - lm[5].y;
-  const palmWidth = Math.sqrt(dx*dx + dy*dy);
-
-  // Altura palma (muñeca a base del dedo medio)
-  const vx = lm[9].x - lm[0].x;
-  const vy = lm[9].y - lm[0].y;
-  const palmHeight = Math.sqrt(vx*vx + vy*vy);
-
-  // Mano cerca de la cámara
-  const bigEnough = palmWidth > 0.10 && palmHeight > 0.08;
-
-  // Orientación: preferimos que el eje muñeca→dedo medio sea más horizontal
-  const angle = Math.abs(Math.atan2(vy, vx));
-  const deviation = Math.min(angle, Math.PI - angle);
-  const horizontalEnough = deviation < 1.2; // hasta ~69° de inclinación
-
-  // Palma abierta: dedos extendidos (distancia de puntas al fondo)
-  const fingerTips = [8, 12, 16, 20];
-  let extendedCount = 0;
-  fingerTips.forEach((tip, i) => {
-    const base = [6, 10, 14, 18][i];
-    const tipToBase = Math.hypot(lm[tip].x - lm[base].x, lm[tip].y - lm[base].y);
-    if(tipToBase > 0.04) extendedCount++;
-  });
-  const handOpen = extendedCount >= 3;
-
-  return bigEnough && horizontalEnough && handOpen;
-}
-
-function onHandResults(results){
-  const hasHand = results.multiHandLandmarks && results.multiHandLandmarks.length > 0;
-
-  if(hasHand){
-    const lm = results.multiHandLandmarks[0];
-    const isValid = isPalmOpen(lm);
-
-    if(isValid){
-      lastPalmSeen = performance.now();
-      palmDetected = true;
-
-      // Centro de la palma
-      const idx = [0, 5, 9, 13, 17];
-      let cx = 0, cy = 0;
-      idx.forEach(i => { cx += lm[i].x; cy += lm[i].y; });
-      cx /= idx.length;
-      cy /= idx.length;
-
-      // Ancho de palma para escalar la rosa
-      const dx = lm[17].x - lm[5].x;
-      const dy = lm[17].y - lm[5].y;
-      const palmWidth = Math.sqrt(dx*dx + dy*dy);
-
-      // Cámara trasera: coordenadas directas
-      targetPos.set((cx - 0.5) * FRUSTUM * aspect, (0.5 - cy) * FRUSTUM - 0.15, 0);
-      targetScl = clamp(palmWidth * 5.5, 0.55, 1.3);
-      targetRot = (0.5 - cx) * 0.4;
-
-      // Primera detección: mostrar la rosa y arrancar el crecimiento
-      if(!roseGroup.visible){
-        roseGroup.visible = true;
-        currentScl = 0.001;
-        growth = 0;
-        bloomDone = false;
-        budMesh.material.opacity = 1;
-        applyGrowth(0);
-        showMessage(CONFIG.mensajeInicial);
-        esperandoEl.classList.add('oculto');
-        if(navigator.vibrate) navigator.vibrate(30);
-      }
-      hintEl.classList.remove('show');
-      setDebug(`Palma detectada ✓\nCrecimiento: ${(growth*100).toFixed(0)}%`);
-    } else {
-      // Mano detectada pero NO en pose correcta
-      setDebug('Mano detectada pero abre la palma\nhacia arriba, dedos extendidos');
-      // Si ya estaba creciendo, dejamos la rosa quieta donde está (no la ocultamos)
-    }
-  } else {
-    // Sin mano: 1 s de gracia antes de considerarla perdida
-    if(palmDetected && performance.now() - lastPalmSeen > 1000){
-      palmDetected = false;
-      setDebug('Palma perdida\nVuelve a mostrar tu mano');
-    }
-  }
-}
-
-async function startHandTracking(){
-  if(typeof Hands === 'undefined'){
-    setDebug('MediaPipe no cargó');
-    return null;
-  }
-  try{
-    const hands = new Hands({
-      locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1646424915/${file}`,
-    });
-    hands.setOptions({
-      maxNumHands: 1,
-      modelComplexity: 0,
-      minDetectionConfidence: 0.5,
-      minTrackingConfidence: 0.5,
-    });
-    hands.onResults(onHandResults);
-    return hands;
-  }catch(e){
-    setDebug('Error MediaPipe: ' + e.message);
-    return null;
-  }
-}
-
-async function handLoop(){
-  if(handTracker && video.readyState >= 2){
-    try{ await handTracker.send({ image: video }); }
-    catch(e){ /* silencioso */ }
-  }
-  requestAnimationFrame(handLoop);
-}
-
-/* ============================================================
-   CÁMARA
-   ============================================================ */
-async function startCamera(){
-  if(location.protocol === 'file:'){
-    throw new Error('Estás abriendo el archivo directamente (file://). Súbelo a un sitio HTTPS (Netlify Drop, Vercel, GitHub Pages) para que la cámara funcione.');
-  }
-  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
-    throw new Error('Este navegador no soporta cámara. Prueba Chrome o Safari actualizados.');
-  }
-  const stream = await navigator.mediaDevices.getUserMedia({
-    audio: false,
-    video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } }
-  });
-  video.srcObject = stream;
-  await video.play();
-  video.classList.remove('mirror');
-  return stream;
-}
-
-function showMessage(text){
-  messageEl.classList.remove('show');
-  setTimeout(() => {
-    messageEl.textContent = text;
-    messageEl.classList.add('show');
-  }, 420);
-}
-
-/* ============================================================
-   ARRANQUE
-   ============================================================ */
-btnStart.addEventListener('click', async () => {
-  btnStart.disabled = true;
-  btnStart.textContent = 'Abriendo cámara…';
-  errorEl.textContent = '';
-
-  try{
-    await startCamera();
-    setDebug('Cámara OK · Cargando detección…');
-  }catch(err){
-    console.warn(err);
-    let msg = err.message || 'No pudimos acceder a la cámara.';
-    if(err && err.name === 'NotAllowedError'){
-      msg = 'Permiso denegado. Habilita la cámara en los ajustes del navegador.';
-    } else if(err && err.name === 'NotFoundError'){
-      msg = 'No encontramos ninguna cámara.';
-    }
-    errorEl.textContent = msg;
-    btnStart.disabled = false;
-    btnStart.textContent = 'Reintentar 💫';
-    setDebug('Error: ' + msg);
-    return;
-  }
-
-  try{
-    handTracker = await startHandTracking();
-    if(handTracker){
-      handLoop();
-      setDebug('Detector listo\nMuestra tu palma abierta');
-    } else {
-      setDebug('Sin detección · no se podrá crecer la rosa');
-    }
-  }catch(e){
-    setDebug('Error MediaPipe');
-  }
-
-  intro.classList.add('oculto');
-  active = true;
-  lastTime = performance.now();
-  // La rosa NO crece hasta que se detecte la palma
-  growth = 0;
-  bloomDone = false;
-  palmDetected = false;
-  roseGroup.visible = false;
-  applyGrowth(0);
-
-  setTimeout(() => {
-    badge.classList.add('show');
-    controls.classList.add('show');
-  }, 400);
-});
-
-/* ============================================================
-   BOTONES
-   ============================================================ */
-$('btnReset').addEventListener('click', () => {
-  growth = 0; bloomDone = false;
-  budMesh.material.opacity = 1;
-  applyGrowth(0);
-  // Si no hay palma, ocultamos la rosa de nuevo
-  if(!palmDetected){
-    roseGroup.visible = false;
-    esperandoEl.classList.remove('oculto');
-  }
-  showMessage(CONFIG.mensajeInicial);
-});
-
-$('btnPetalos').addEventListener('click', () => {
-  if(!palmDetected) return;
-  const cx = currentPos.x;
-  const cy = currentPos.y + 0.8;
-  for(let i=0;i<26;i++) spawnFallingPetal(cx + rand(-0.7, 0.7), cy + rand(0, 0.9));
-  if(navigator.vibrate) navigator.vibrate([12, 40, 16]);
-  const mensajes = [
-    "Cada pétalo lleva un 'te quiero' 🌹",
-    "Floreces dondequiera que vas ✨",
-    "Mi flor favorita siempre serás tú 💕",
-    "Esta rosa es tan bonita como tu sonrisa 🌸",
+  /* ========= ESCENA 1 · CARTA ========= */
+  const LINEAS = [
+    'Hola…',
+    '',
+    'No sé cómo empezar esto, así que lo digo simple:',
+    '',
+    'me equivoqué.',
+    '',
+    'No busco excusas. Busco que sepas que me di cuenta, que lo pensé, y que me duele haberte hecho sentir mal.',
+    '',
+    'Tú no te merecías eso.',
+    '',
+    'Y yo no quiero ser la razón de tu silencio.',
+    '',
+    'Así que aquí estoy: sin orgullo, sin prisa, con el corazón en la mano.'
   ];
-  showMessage(mensajes[(Math.random()*mensajes.length)|0]);
-});
 
-$('btnShot').addEventListener('click', () => {
-  flashEl.classList.add('activo');
-  setTimeout(() => flashEl.classList.remove('activo'), 120);
+  let saltar = false, escribiendo = false, cartaLista = false;
+  const tipeoEl = $('#tipeo'), cursorEl = $('#cursor'), papelEl = $('#papel'), btn1 = $('#btn1');
 
-  const scale = 2;
-  const c = document.createElement('canvas');
-  c.width  = Math.floor(W * scale);
-  c.height = Math.floor(H * scale);
-  const cx = c.getContext('2d');
+  async function escribirCarta(){
+    if (escribiendo) return;
+    escribiendo = true; saltar = false; cartaLista = false;
+    tipeoEl.innerHTML = '';
+    cursorEl.style.display = 'inline-block';
+    btn1.hidden = true;
 
-  if(video.videoWidth){
-    const vw = video.videoWidth, vh = video.videoHeight;
-    const s = Math.max(c.width/vw, c.height/vh);
-    const dw = vw*s, dh = vh*s;
-    cx.drawImage(video, (c.width-dw)/2, (c.height-dh)/2, dw, dh);
-  } else {
-    const grd = cx.createRadialGradient(c.width/2, c.height/2, 0, c.width/2, c.height/2, c.width);
-    grd.addColorStop(0, '#4a0d24'); grd.addColorStop(1, '#0a0104');
-    cx.fillStyle = grd; cx.fillRect(0,0,c.width,c.height);
+    for (const linea of LINEAS){
+      if (linea === ''){ tipeoEl.insertAdjacentHTML('beforeend','<p>&nbsp;</p>'); continue; }
+      const p = document.createElement('p');
+      tipeoEl.appendChild(p);
+      for (const ch of linea){
+        p.textContent += ch;
+        if (!saltar) await dormir(ch === ',' ? 110 : ch === '.' ? 230 : 26);
+      }
+      if (!saltar) await dormir(280);
+    }
+    cursorEl.style.display = 'none';
+    cartaLista = true;
+    btn1.hidden = false;
+    btn1.classList.add('aparece');
   }
 
-  renderer.render(scene, camera);
-  cx.drawImage(threeCanvas, 0, 0, c.width, c.height);
+  papelEl.addEventListener('click', async () => {
+    if (cartaLista || escribiendo && saltar) return;
+    saltar = true;
+    while (!cartaLista) await dormir(60);
+  });
 
-  const grad = cx.createLinearGradient(0, c.height*0.55, 0, c.height);
-  grad.addColorStop(0, 'rgba(0,0,0,0)');
-  grad.addColorStop(1, 'rgba(20,0,10,.9)');
-  cx.fillStyle = grad;
-  cx.fillRect(0, c.height*0.55, c.width, c.height*0.45);
+  btn1.addEventListener('click', () => { vibrar(18); ir(2); });
 
-  const pad = 44 * scale;
-  cx.textAlign = 'center';
-  cx.fillStyle = '#ffffff';
-  cx.font = `600 ${Math.round(16*scale)}px Poppins, sans-serif`;
-  cx.shadowColor = 'rgba(255,60,120,.9)';
-  cx.shadowBlur = 22 * scale;
-  cx.fillText(messageEl.textContent || CONFIG.mensajeFinal, c.width/2, c.height - pad - 28*scale);
-  cx.shadowBlur = 0;
-  cx.fillStyle = 'rgba(255,255,255,.78)';
-  cx.font = `300 ${Math.round(11*scale)}px Poppins, sans-serif`;
-  const fecha = new Date().toLocaleDateString('es-ES', { day:'2-digit', month:'long', year:'numeric' });
-  cx.fillText(`Para ${CONFIG.para} · ${fecha} · ${CONFIG.de}`, c.width/2, c.height - pad);
+  /* ========= ESCENA 2 · SOSTENER ========= */
+  const CIRC = 2 * Math.PI * 54;
+  const progEl = $('#prog'), anillo = $('#anillo'),
+        pistaHold = $('#pistaHold'), revelado = $('#revelado');
 
-  c.toBlob(async (blob) => {
-    if(!blob) return;
-    const file = new File([blob], 'rosa-para-ti.png', { type:'image/png' });
-    if(navigator.canShare && navigator.canShare({ files:[file] })){
-      try{ await navigator.share({ files:[file], text:'Una rosa para ti 🌹' }); return; }catch(e){}
+  progEl.style.strokeDasharray = CIRC;
+  progEl.style.strokeDashoffset = CIRC;
+
+  let prog = 0, raf = null, presionando = false, completado = false, ultimo = 0;
+
+  function pintar(){
+    progEl.style.strokeDashoffset = CIRC * (1 - prog);
+    anillo.style.setProperty('--p', prog);
+  }
+
+  function loop(t){
+    const dt = ultimo ? (t - ultimo) / 1000 : 0;
+    ultimo = t;
+    if (presionando) prog = Math.min(1, prog + dt / 2.4);
+    else             prog = Math.max(0, prog - dt / 1.1);
+    pintar();
+
+    if (prog >= 1 && !completado){ completado = true; finalizarHold(); return; }
+    if (prog > 0 || presionando){ raf = requestAnimationFrame(loop); }
+    else { raf = null; ultimo = 0; }
+  }
+
+  function arrancar(){ if (!raf){ ultimo = 0; raf = requestAnimationFrame(loop); } }
+
+  function pressIn(e){
+    if (completado) return;
+    e.preventDefault();
+    presionando = true;
+    arrancar();
+  }
+  function pressOut(){
+    if (completado) return;
+    presionando = false;
+    arrancar();
+  }
+
+  anillo.addEventListener('pointerdown', pressIn);
+  window.addEventListener('pointerup', pressOut);
+  window.addEventListener('pointercancel', pressOut);
+  anillo.addEventListener('keydown', e => { if (e.key === ' ' || e.key === 'Enter') pressIn(e); });
+  anillo.addEventListener('keyup', pressOut);
+
+  function finalizarHold(){
+    presionando = false;
+    anillo.classList.add('listo');
+    anillo.style.pointerEvents = 'none';
+    pistaHold.style.opacity = '.25';
+    revelado.classList.add('on');
+    vibrar([28, 60, 28]);
+    setTimeout(() => ir(3), 2600);
+  }
+
+  function resetHold(){
+    prog = 0; completado = false; presionando = false; raf = null; ultimo = 0;
+    pintar();
+    anillo.classList.remove('listo');
+    anillo.style.pointerEvents = 'auto';
+    pistaHold.style.opacity = '';
+    revelado.classList.remove('on');
+  }
+
+  /* ========= ESCENA 3 · PREGUNTA ========= */
+  const si = $('#si'), no = $('#no'), noMini = $('#noMini');
+  const textosNo = ['No', '¿Segura?', 'Piénsalo…', 'Me duele eso', 'Voy a esperar'];
+  let intentos = 0;
+
+  no.addEventListener('click', () => {
+    intentos++;
+    vibrar(12);
+    const escala = Math.max(0.34, 1 - intentos * 0.17);
+    no.style.transform = 'scale(' + escala + ')';
+    no.style.opacity = Math.max(0.14, 1 - intentos * 0.2);
+    si.style.transform = 'scale(' + Math.min(1.18, 1 + intentos * 0.04) + ')';
+
+    if (intentos < textosNo.length) no.textContent = textosNo[intentos];
+
+    if (intentos >= 4){
+      no.style.display = 'none';
+      noMini.textContent = 'Voy a esperar lo que haga falta. 🤍';
+      si.style.transform = 'scale(1.12)';
+      vibrar(40);
     }
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url; a.download = 'rosa-para-ti.png';
-    document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 8000);
-  }, 'image/png');
-});
+  });
 
-/* ============================================================
-   RESIZE
-   ============================================================ */
-function onResize(){
-  W = window.innerWidth; H = window.innerHeight;
-  aspect = W/H;
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2.5));
-  renderer.setSize(W, H);
-  camera.left   = -FRUSTUM * aspect / 2;
-  camera.right  =  FRUSTUM * aspect / 2;
-  camera.top    =  FRUSTUM / 2;
-  camera.bottom = -FRUSTUM / 2;
-  camera.updateProjectionMatrix();
-}
-window.addEventListener('resize', onResize);
-window.addEventListener('orientationchange', () => setTimeout(onResize, 250));
+  si.addEventListener('click', () => {
+    vibrar([22, 40, 22]);
+    flash.classList.add('on');
+    setTimeout(() => flash.classList.remove('on'), 90);
+    setTimeout(() => ir(4), 140);
+  });
 
-document.addEventListener('visibilitychange', () => {
-  if(document.hidden){ active = false; }
-  else if(!intro.classList.contains('oculto') === false){ active = true; lastTime = performance.now(); }
-});
+  /* ========= ESCENA 4 · FINAL ========= */
+  let lluviaOn = false;
+  const EMOJIS = ['💗','💖','💕','🤍','✨','🌸'];
 
-window.addEventListener('beforeunload', () => {
-  if(video.srcObject) video.srcObject.getTracks().forEach(t => t.stop());
-});
+  function lluvia(){
+    if (lluviaOn) return;
+    lluviaOn = true;
+    setInterval(() => {
+      const d = document.createElement('div');
+      d.className = 'caida';
+      d.textContent = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
+      d.style.left = Math.random() * 100 + 'vw';
+      d.style.fontSize = (14 + Math.random() * 22) + 'px';
+      d.style.animationDuration = (4.5 + Math.random() * 3.5) + 's';
+      document.body.appendChild(d);
+      setTimeout(() => d.remove(), 8200);
+    }, 230);
+  }
 
-applyGrowth(0);
+  /* ========= REINICIO ========= */
+  $('#replay').addEventListener('click', () => {
+    vibrar(18);
+    // reset carta
+    escribiendo = false; saltar = false; cartaLista = false;
+    tipeoEl.innerHTML = ''; cursorEl.style.display = 'inline-block';
+    btn1.hidden = true; btn1.classList.remove('aparece');
+    // reset pregunta
+    intentos = 0;
+    no.style.display = ''; no.textContent = 'No';
+    no.style.transform = ''; no.style.opacity = '';
+    si.style.transform = ''; noMini.textContent = '';
+    // reset hold
+    resetHold();
+    ir(0);
+  });
+
+  /* ========= PAUSA SI PIERDE FOCO ========= */
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && presionando) pressOut();
+  });
+
+})();
 </script>
 </body>
 </html>
